@@ -30,13 +30,13 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-STACKSIZE = 0x1000;
-HEAP_SIZE = 0x8000;
+STACKSIZE = 0x8000;
+HEAP_SIZE = 0x1000;
 
 MEMORY
 {
     FLASH_HDR (RX)  : ORIGIN = 0x01000000, LENGTH = 0x7FF
-    FLASH     (RX)  : ORIGIN = 0x01000800, LENGTH = 0x80000
+    FLASH     (RX)  : ORIGIN = 0x01080000, LENGTH = 0x80000
     SRAM      (RWX) : ORIGIN = 0x20000000, LENGTH = 0x00040000
 }
 
@@ -56,7 +56,7 @@ SECTIONS {
     } > REGION_HDR
 
     PROVIDE (_resetVecs_base_address =
-        DEFINED(_resetVecs_base_address) ? _resetVecs_base_address : 0x01000800);
+        DEFINED(_resetVecs_base_address) ? _resetVecs_base_address : 0x01080000);
 
     .resetVecs (_resetVecs_base_address) : AT (_resetVecs_base_address) {
         KEEP (*(.resetVecs))
