@@ -1,6 +1,6 @@
 %%{
 /*
- * Copyright (c) 2018-2019 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2020 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,6 +41,8 @@
     if (instances.length == 0) return;
     let countDef    = Watchdog.defaultInstanceName + "COUNT";
     let Common      = system.getScript("/ti/drivers/Common.js");
+
+    let declarations = Common.genBoardDeclarations(instances);
 %%}
 
 /*
@@ -81,10 +83,11 @@ const Watchdog_Config Watchdog_config[`countDef`] = {
     /* `inst.$name` */
     {
         .fxnTablePtr = &WatchdogCC32XX_fxnTable,
-        .object      = &watchdogCC32XXObjects[`i`],
-        .hwAttrs     = &watchdogCC32XXHWAttrs[`i`]
+        .object      = &watchdogCC32XXObjects[`inst.$name`],
+        .hwAttrs     = &watchdogCC32XXHWAttrs[`inst.$name`]
     }
 % }
 };
 
+`declarations`
 const uint_least8_t Watchdog_count = `countDef`;

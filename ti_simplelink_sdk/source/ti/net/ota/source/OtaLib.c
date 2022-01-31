@@ -107,7 +107,7 @@ int16_t OTA_set(OTA_option option, int32_t optionLen, uint8_t *pOptionVal, int32
             break;
 
         case EXTLIB_OTA_SET_OPT_FILE_SERVER_URL:
-             strcpy(pOtaLib->FileUrlBuf, (char *)pOptionVal);
+             strcpy((char *)pOtaLib->FileUrlBuf, (char *)pOptionVal);
              pOtaLib->OtaServerInfo.SecuredConnection = OTA_SERVER_SECURED;
              break;
 
@@ -264,7 +264,7 @@ int16_t OTA_run()
             pOtaLib->State = OTA_STATE_CONNECT_FILE_SERVER;
 #else
             /* serverInfo and vendorDir must be init before running OTA */
-            if ((pOtaLib->OtaServerInfo.ServerName[0] == 0) /*|| (pOtaLib->VendorDir[0] == 0)*/)
+            if /*(*/(pOtaLib->OtaServerInfo.ServerName[0] == 0) /*|| (pOtaLib->VendorDir[0] == 0))*/
             {
                 return OTA_RUN_ERROR_NO_SERVER_NO_VENDOR;
             }

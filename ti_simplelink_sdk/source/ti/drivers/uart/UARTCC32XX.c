@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2019, Texas Instruments Incorporated
+ * Copyright (c) 2014-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -442,6 +442,11 @@ UART_Handle UARTCC32XX_open(UART_Handle handle, UART_Params *params)
     object->state.txEnabled      = false;
     object->txPin                = (uint16_t)-1;
     object->rtsPin               = (uint16_t)-1;
+
+    object->writeSem             = NULL;
+    object->readSem              = NULL;
+    object->hwiHandle            = NULL;
+    object->timeoutClk           = NULL;
 
     RingBuf_construct(&object->ringBuffer, hwAttrs->ringBufPtr,
         hwAttrs->ringBufSize);
@@ -1113,6 +1118,8 @@ static int readTaskBlocking(UART_Handle handle)
     unsigned char             *buffer = object->readBuf;
 
     object->state.bufTimeout = false;
+    object->state.callCallback = false;
+
     /*
      * It is possible for the object->timeoutClk and the callback function to
      * have posted the object->readSem Semaphore from the previous UART_read

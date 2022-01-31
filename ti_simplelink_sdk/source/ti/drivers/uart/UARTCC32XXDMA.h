@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2019, Texas Instruments Incorporated
+ * Copyright (c) 2014-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,13 @@
  *
  *  # Flow Control #
  *  To enable Flow Control, the RTS and CTS pins must be assigned in the
- *  ::UARTCC32XX_HWAttrsV1.
+ *  ::UARTCC32XXDMA_HWAttrsV1.
+ *
+ *  # Not Supported Functionality #
+ *  The CC32XX UART DMA driver only supports the following in polling mode,
+ *  where DMA is not used:
+ *    - ::UART_ECHO_ON
+ *    - ::UART_RETURN_NEWLINE
  *
  *  ============================================================================
  */

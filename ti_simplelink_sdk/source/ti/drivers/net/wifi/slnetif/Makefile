@@ -2,9 +2,10 @@
 include ../../../../../../imports.mak
 
 # Find subdirectories
-RELEASE-CCS-SUBDIRS    = $(wildcard ./ccs/Release/.)
-RELEASE-GCC-SUBDIRS    = $(wildcard ./gcc/Release/.)
-RELEASE-IAR-SUBDIRS    = $(wildcard ./iar/Release/.)
+RELEASE-CCS-SUBDIRS     = $(wildcard ./ccs/Release/.)
+RELEASE-GCC-SUBDIRS     = $(wildcard ./gcc/Release/.)
+RELEASE-IAR-SUBDIRS     = $(wildcard ./iar/Release/.)
+RELEASE-TICLANG-SUBDIRS = $(wildcard ./ticlang/Release/.)
 
 RELEASE-SUBDIRS =
 ifneq ($(CCS_ARMCOMPILER),)
@@ -15,6 +16,9 @@ ifneq ($(GCC_ARMCOMPILER),)
 endif
 ifneq ($(IAR_ARMCOMPILER),)
 	RELEASE-SUBDIRS += $(RELEASE-IAR-SUBDIRS)
+endif
+ifneq ($(TICLANG_ARMCOMPILER),)
+	RELEASE-SUBDIRS += $(RELEASE-TICLANG-SUBDIRS)
 endif
 
 .PHONY: release $(RELEASE-SUBDIRS)

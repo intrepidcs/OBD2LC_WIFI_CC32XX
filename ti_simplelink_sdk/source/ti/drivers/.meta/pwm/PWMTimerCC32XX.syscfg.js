@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2020 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,12 +40,7 @@
 /* get Common /ti/drivers utility functions */
 let Common = system.getScript("/ti/drivers/Common.js");
 
-/*
- *  ======== pwmPins ========
- *  Pins in a 64-pin QFN package that can configured as PWM signals.  (See
- *  the CC3200 TRM chapter on I/O Pads and Pin Multiplexing).
- */
-let pwmPins = ["1", "2", "17", "19", "21", "64"];
+let convertPinName = Common.cc32xxPackage2DevicePin;
 
 /*
  *  ======== devSpecific ========
@@ -76,7 +71,7 @@ function _getPinResources(inst)
     let pin;
 
     if (inst.timer) {
-       pin = "P" + inst.timer.pwmPin.$solution.packagePinName.padStart("0", 2);
+       pin = "P" + convertPinName(inst.timer.pwmPin.$solution.packagePinName);
 
        if (inst.$hardware && inst.$hardware.displayName) {
             pin += ", " + inst.$hardware.displayName;
@@ -127,33 +122,7 @@ function pinmuxRequirements(inst)
  */
 function filterHardware(component)
 {
-    for (let sig in component.signals) {
-        let type = component.signals[sig].type;
-        if (Common.typeMatches(type, ["PWM"])) {
-            let devicePin = component.signals[sig].devicePin;
-            if (devicePin) {
-                if (isValidPwmPin(devicePin.name)) {
-                    return (true);
-                }
-            }
-        }
-    }
-
-    return (false);
-}
-
-/*
- *  ======== isValidPwmPin ========
- *  Verify pin can support PWM
- */
-function isValidPwmPin(devicePin)
-{
-    for (let i = 0; i < pwmPins.length; i++) {
-        if (devicePin == pwmPins[i]) {
-            return (true);
-        }
-    }
-    return (false);
+    return (Common.findSignalTypes(component, ["PWM"]));
 }
 
 /*
@@ -165,6 +134,10 @@ function isValidPwmPin(devicePin)
  */
 function extend(base)
 {
+    /* display which driver implementation can be used */
+    base = Common.addImplementationConfig(base, "PWM", null,
+        [{name: "PWMTimerCC32XX"}], null);
+
     /* merge and overwrite base module attributes */
     let result = Object.assign({}, base, devSpecific);
 

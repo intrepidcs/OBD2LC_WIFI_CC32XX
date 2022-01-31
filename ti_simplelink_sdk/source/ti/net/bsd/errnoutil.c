@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018, Texas Instruments Incorporated
+ * Copyright (c) 2017-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -84,6 +84,11 @@ int ErrnoUtil_set(int32_t Errno)
         Errno = EFAULT;
         break;
 #endif
+#if ENODEV != SLNETERR_BSD_ENODEV
+    case SLNETERR_BSD_ENODEV:
+        Errno = ENODEV;
+        break;
+#endif
 #if EINVAL != SLNETERR_BSD_EINVAL
     case SLNETERR_BSD_EINVAL:
         Errno = EINVAL;
@@ -164,6 +169,26 @@ int ErrnoUtil_set(int32_t Errno)
         Errno = ECONNREFUSED;
         break;
 #endif
+#if ENOTSOCK != SLNETERR_BSD_ENOTSOCK
+    case SLNETERR_BSD_ENOTSOCK:
+        Errno = ENOTSOCK;
+        break;
+#endif
+#if EDOM != SLNETERR_BSD_EDOM
+    case SLNETERR_BSD_EDOM:
+        Errno = EDOM;
+        break;
+#endif
+#if ENOSPC != SLNETERR_BSD_ENOSPC
+    case SLNETERR_BSD_ENOSPC:
+        Errno = ENOSPC;
+        break;
+#endif
+#if EALREADY != SLNETERR_BSD_EALREADY
+    case SLNETERR_BSD_EALREADY:
+        Errno = EALREADY;
+        break;
+#endif
     /* The cases below are propriety driver errors, which can
      * be returned by the SimpleLink Driver, in various cases of failure.
      * Each is mapped to the corresponding BSD error.
@@ -185,6 +210,9 @@ int ErrnoUtil_set(int32_t Errno)
         break;
     case SLNETERR_RET_CODE_COULDNT_FIND_RESOURCE:
         Errno = EBADF;
+        break;
+    case SLNETERR_RET_CODE_NO_INIT:
+        Errno = ENODEV;
         break;
     default:
      /* Do nothing ..

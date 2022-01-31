@@ -86,7 +86,7 @@ extern "C" {
 /* Set/Get  Opt flags  */
 #define ISHEADER                                    (0x1)
 #define ISREQUEST                                   (0x2)
-
+#define ISRESPONSE                                  (0x4)
 /* Redirect locationParser flag
    Location value have different host */
 #define HOST_CHANGED                                (0x8)
@@ -131,6 +131,13 @@ extern "C" {
     struct Req_HField *Next;
  }Req_HField;
 
+ typedef struct Res_HField
+ {
+    char *Value;
+    char *CustomName;
+    struct Res_HField *Next;
+ }Res_HField;
+
 
  /* HTTP Client  Control Block */
  typedef struct HTTPClient_CB {
@@ -154,6 +161,8 @@ extern "C" {
     Req_HField * reqHField;
     /* Persistent request header fields */
     Req_HField * reqHFieldPers;
+    /* Persistent response custom header */
+    Res_HField * resHFieldPers;
     /* Array of pointers of the response headers */
     char * responseHeaderMap[HTTPClient_MAX_RESPONSE_HEADER_FILEDS];
     /* Buffer for storing response values */

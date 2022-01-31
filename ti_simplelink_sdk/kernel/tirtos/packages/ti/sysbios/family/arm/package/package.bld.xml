@@ -41,6 +41,7 @@
         <file name="Settings.xml"/>
         <file name="MPU.xml"/>
         <file name="MPU_link.xdt"/>
+        <file name="AsmMacros.h"/>
         <file name="package/package.cfg.xdc.inc"/>
     </release>
     </releases>

@@ -1,10 +1,10 @@
 /*
- *  Copyright 2019 by Texas Instruments Incorporated.
+ *  Copyright 2020 by Texas Instruments Incorporated.
  *
  */
 
 /*
- * Copyright (c) 2018-2019, Texas Instruments Incorporated
+ * Copyright (c) 2018-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,19 +39,11 @@
  *  ======== M33F.xdc ========
  *  Cortex M33 with floating point unit, little endian thumb2 (ELF)
  */
-metaonly module M33F inherits ti.targets.arm.elf.IArm {
+metaonly module M33F inherits ti.targets.arm.clang.ITarget {
     override readonly config string name        = "M33F";
     override readonly config string suffix      = "m33f";
     override readonly config string isa         = "v8M";
-    override readonly config string rts         = "ti.targets.arm.rtsarm";
     override config string platform   = "ti.platforms.cortexM:MTL1_VSOC:1";
-    override config String stdInclude = "ti/targets/arm/clang/std.h";
-
-    override readonly config xdc.bld.ITarget.Model model = {
-        endian: "little",
-        codeModel: "thumb2",
-        shortEnums: true
-    };
 
     override readonly config xdc.bld.ITarget2.Command cc = {
         cmd:  "tiarmclang -c",
@@ -67,74 +59,9 @@ metaonly module M33F inherits ti.targets.arm.elf.IArm {
         cmd:  "tiarmclang",
         opts: "-mcpu=cortex-m33 -mfloat-abi=hard -mfpu=fpv5-sp-d16"
     };
-
-    override readonly config xdc.bld.ITarget2.Command ar = {
-        cmd:  "tiarmar -c",
-        opts: "-q"
-    };
-
-    /*!
-     *  ======== ccOpts ========
-     *  User configurable compiler options.
-     */
-    override config xdc.bld.ITarget2.Options ccOpts = {
-        prefix: "",
-        suffix: ""
-    };
-
-    /*!
-     *  ======== ccConfigOpts ========
-     *  User configurable compiler options for the generated config C file.
-     */
-    override config xdc.bld.ITarget2.Options ccConfigOpts = {
-        prefix: "$(ccOpts.prefix)",
-        suffix: "$(ccOpts.suffix)"
-    };
-
-    /*!
-     *  ======== asmOpts ========
-     *  User configurable assembler options.
-     */
-    override config xdc.bld.ITarget2.Options asmOpts = {
-        prefix: "",
-        suffix: ""
-    };
-
-    /*!
-     *  ======== lnkOpts ========
-     *  Linker options
-     */
-    override config xdc.bld.ITarget2.Options lnkOpts = {
-        prefix: "-Wl,-q -Wl,-u,_c_int00",
-        suffix: "-Wl,-w -Wl,-c -Wl,-m,$(XDCCFGDIR)/$@.map -l $(rootDir)/lib/generic/libc.a"
-    };
-
-    override readonly config xdc.bld.ITarget2.Command vers = {
-        cmd:  "tiarmclang",
-        opts: "--version"
-    };
-
-    override config string includeOpts = "";
-
-    /*
-     *  ======== profiles ========
-     */
-    override config xdc.bld.ITarget.OptionSet profiles[string] = [
-        ["debug", {
-            compileOpts: {
-                copts: "-gdwarf-3",
-                defs:  "-D_DEBUG_=1"
-            }
-        }],
-        ["release", {
-            compileOpts: {
-                copts: "-gdwarf-3 -Oz"
-            }
-        }]
-    ];
 }
 /*
- *  @(#) ti.targets.arm.clang; 1, 0, 0,0; 8-9-2019 17:15:15; /db/ztree/library/trees/xdctargets/xdctargets-v00/src/ xlibrary
+ *  @(#) ti.targets.arm.clang; 1, 0, 0,; 6-12-2020 15:20:08; /db/ztree/library/trees/xdctargets/xdctargets-w18/src/ xlibrary
 
  */
 

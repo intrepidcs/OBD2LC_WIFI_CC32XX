@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2020 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,6 +59,7 @@ let family = Common.device2Family(system.deviceData, "RTOS");
 let rtosConfig = [
     {
         name: "name",
+        displayName: "Name",
         default: "TI-RTOS",
         options: [
             {name: "NoRTOS"},
@@ -94,6 +95,14 @@ function modules(inst)
         reqs = [];
     }
 
+    if (inst.name == "FreeRTOS") {
+        reqs.push({
+            name: "FreeRTOS",
+            moduleName: "/ti/drivers/FreeRTOS",
+            hidden: true
+        });
+    }
+
     return (reqs);
 }
 
@@ -117,10 +126,10 @@ function moduleInstances(inst)
 
     if (_timerConflict(inst.name)) {
         var timer = Reservation.getTimerInstParams(inst.timerID);
-        timer.args.owner = inst.name;
-        timer.args.purpose = "Needed to support function timeouts";
-        timer.args.$name = "RTOS_Timer0";
-        timer.hidden = false; // issue: set to true when PMUX-1197 is fixed
+        timer.requiredArgs.owner = inst.name;
+        timer.requiredArgs.purpose = "Needed to support function timeouts";
+        timer.requiredArgs.$name = "RTOS_Timer0";
+        timer.hidden = true;
         timer.collapsed = true; /* don't auto expand resource properties */
         reservations.push(timer);
     }
@@ -151,7 +160,6 @@ function updateConfigs(inst, ui)
  *  ------   ----        ------     --------  ----------
  *  LPRF     RTC         RTC           -      GP Timers
  *  CC32XX   SysTick     SysTick    SysTick   GP Timers
- *  MSP432P  Timer_A(*)  Timer_A(*) SysTick   Timer_A, Timer_32
  *  MSP432E  GP Timer(*) Systick    SysTick   GP Timers
  */
 function _timerConflict(rtosName)
@@ -159,12 +167,6 @@ function _timerConflict(rtosName)
     /* if MPS432E */
     if (family == "MSP432E4") {
         if (rtosName == "TI-RTOS") {
-            return (true);
-        }
-    }
-    /* if MPS432* */
-    else if (family == "MSP432") {
-        if (rtosName == "TI-RTOS" || rtosName == "NoRTOS") {
             return (true);
         }
     }
@@ -195,6 +197,8 @@ exports = {
 
     /* tooltip in GUI */
     description: "RTOS Resource Manager",
+
+    alwaysShowLongDescription : true,
 
     /* Intro splash in GUI */
     longDescription: "The RTOS module reserves device resources that"

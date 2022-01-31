@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019, Texas Instruments Incorporated
+ * Copyright (c) 2017-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,6 +58,7 @@ usage. Supported use cases include:
      -# \ref SlNetIf    - Controls standard stack/interface options and capabilities
      -# \ref SlNetUtils - Provides sockets related commands and configuration
      -# \ref SlNetErr   - Provide BSD and proprietary errors
+     -# \ref SlNetConn  - Managing and monitoring network connections
 
 In addition, SlNetSock provides a standard BSD API, built atop the
 SlNet* APIs.  The BSD headers are placed in ti/net/bsd directory,
@@ -101,8 +102,12 @@ interface.  Some are mandatory, others are optional (but recommended).
   - \ref SlNetIf_Config_t.sockSendTo            "sockSendTo"
   - \ref SlNetIf_Config_t.ifGetIPAddr           "ifGetIPAddr"
   - \ref SlNetIf_Config_t.ifGetConnectionStatus "ifGetConnectionStatus"
+  - \ref SlNetIf_Config_t.ifCreateContext       "ifCreateContext"
+  - \ref SlNetIf_Config_t.ifDeleteContext       "ifDeleteContext"
 
  - The non-mandatory API's set:
+  - \ref SlNetIf_Config_t.connEnable            "connEnable"
+  - \ref SlNetIf_Config_t.connDisable           "connDisable"
   - \ref SlNetIf_Config_t.sockShutdown          "sockShutdown"
   - \ref SlNetIf_Config_t.sockAccept            "sockAccept"
   - \ref SlNetIf_Config_t.sockBind              "sockBind"
@@ -114,8 +119,8 @@ interface.  Some are mandatory, others are optional (but recommended).
   - \ref SlNetIf_Config_t.sockSend              "sockSend"
   - \ref SlNetIf_Config_t.sockstartSec          "sockstartSec"
   - \ref SlNetIf_Config_t.utilGetHostByName     "utilGetHostByName"
+  - \ref SlNetIf_Config_t.utilPing              "utilPing"
   - \ref SlNetIf_Config_t.ifLoadSecObj          "ifLoadSecOjb"
-  - \ref SlNetIf_Config_t.ifCreateContext       "ifCreateContext"
 
 
   \note The list of API's and more data can be found in ::SlNetIf_Config_t structure in SlNetIf module \n \n
@@ -132,6 +137,8 @@ interface.  Some are mandatory, others are optional (but recommended).
  \code
  SlNetIfConfig SlNetIfConfigWiFi =
  {
+    slNetIfWifi_connEnable,          // Callback function connEnable in slnetif module
+    slNetIfWifi_connDisable,         // Callback function connDisable in slnetif module
     SlNetIfWifi_socket,              // Callback function sockCreate in slnetif module
     SlNetIfWifi_close,               // Callback function sockClose in slnetif module
     NULL,                            // Callback function sockShutdown in slnetif module
@@ -150,10 +157,12 @@ interface.  Some are mandatory, others are optional (but recommended).
     SlNetIfWifi_sendTo,              // Callback function sockSendTo in slnetif module
     SlNetIfWifi_sockstartSec,        // Callback function sockstartSec in slnetif module
     SlNetIfWifi_getHostByName,       // Callback function utilGetHostByName in slnetif module
+    SlNetIfWifi_ping,                // Callback function utilPing in slnetif module
     SlNetIfWifi_getIPAddr,           // Callback function ifGetIPAddr in slnetif module
     SlNetIfWifi_getConnectionStatus, // Callback function ifGetConnectionStatus in slnetif module
     SlNetIfWifi_loadSecObj,          // Callback function ifLoadSecObj in slnetif module
-    NULL                             // Callback function ifCreateContext in slnetif module
+    SlNetIfWifi_CreateContext,       // Callback function ifCreateContext in slnetif module
+    SlNetIfWifi_DeleteContext,       // Callback function ifDeleteContext in slnetif module
  };
  \endcode
 
@@ -162,8 +171,6 @@ interface.  Some are mandatory, others are optional (but recommended).
  - sockShutdown
  - sockGetPeerName
  - sockGetLocalName
- - utilGetHostByName
- - ifCreateContext
 
  \subsection    porting_step3   Step 3 - Adding the interface to your application/service
 
@@ -239,9 +246,14 @@ extern "C" {
 #define SLNETSOCK_SOCK_BRIDGE                                               (7)
 #define SLNETSOCK_SOCK_ROUTER                                               (8)
 
-/* Define some BSD protocol constants.  */
+/*
+ * Define some BSD protocol constants. Note, these values should match the BSD
+ * defined values, e.g. IPPROTO_ICMP
+ */
+#define SLNETSOCK_PROTO_ICMP                                                (1)   /**< ICMP Raw Socket                 */
 #define SLNETSOCK_PROTO_TCP                                                 (6)   /**< TCP Raw Socket                  */
 #define SLNETSOCK_PROTO_UDP                                                 (17)  /**< UDP Raw Socket                  */
+#define SLNETSOCK_PROTO_ICMPV6                                              (58)  /**< ICMPV6 Raw Socket               */
 #define SLNETSOCK_PROTO_RAW                                                 (255) /**< Raw Socket                      */
 #define SLNETSOCK_PROTO_SECURE                                              (100) /**< Secured Socket Layer (SSL,TLS)  */
 
@@ -261,7 +273,9 @@ extern "C" {
 
 /* socket level options (SLNETSOCK_LVL_SOCKET) */
 #define SLNETSOCK_OPSOCK_RCV_BUF                                            (8)   /**< Setting TCP receive buffer size (window size) - This options takes SlNetSock_Winsize_t struct as parameter                 */
+#define SLNETSOCK_OPSOCK_SND_BUF                                            (202) /**< Sets or gets the maximum socket send buffer in bytes. - This option takes an int as a parameter                            */
 #define SLNETSOCK_OPSOCK_RCV_TIMEO                                          (20)  /**< Enable receive timeout - This options takes SlNetSock_Timeval_t struct as parameter                                        */
+#define SLNETSOCK_OPSOCK_SND_TIMEO                                          (21)  /**< Enable send timeout - This options takes SlNetSock_Timeval_t struct as parameter                                           */
 #define SLNETSOCK_OPSOCK_KEEPALIVE                                          (9)   /**< Connections are kept alive with periodic messages - This options takes SlNetSock_Keepalive_t struct as parameter           */
 #define SLNETSOCK_OPSOCK_KEEPALIVE_TIME                                     (37)  /**< keepalive time out - This options takes <b>uint32_t</b> as parameter                                                       */
 #define SLNETSOCK_OPSOCK_LINGER                                             (13)  /**< Socket lingers on close pending remaining send/receive packets - This options takes SlNetSock_linger_t struct as parameter */
@@ -270,6 +284,8 @@ extern "C" {
 #define SLNETSOCK_OPSOCK_ERROR                                              (58)  /**< Socket level error code                                                                                                    */
 #define SLNETSOCK_OPSOCK_SLNETSOCKSD                                        (59)  /**< Used by the BSD layer in order to retrieve the slnetsock sd                                                                */
 #define SLNETSOCK_OPSOCK_BROADCAST                                          (200) /**< Enable/disable broadcast signals - This option takes SlNetSock_Broadcast_t struct as parameters                            */
+#define SLNETSOCK_OPSOCK_REUSEADDR                                          (201) /**< Enable/disable allowing reuse of local addresses for bind calls - This option takes an int as a parameter                  */
+#define SLNETSOCK_OPSOCK_REUSEPORT                                          (203) /**< Enable/disable multiple sockets to be bound to an identical socket address. - This option takes an int as a parameter      */
 
 /* IP level options (SLNETSOCK_LVL_IP) */
 #define SLNETSOCK_OPIP_MULTICAST_TTL                                        (61)  /**< Specify the TTL value to use for outgoing multicast packet. - This options takes <b>uint8_t</b> as parameter                                                      */
@@ -433,6 +449,8 @@ typedef enum
 
 /*!
     \brief Internet address
+    
+    Used to store an IPv4 address in network byte order.
 */
 typedef struct SlNetSock_InAddr_t
 {
@@ -459,6 +477,8 @@ typedef struct SlNetSock_InAddr_t
 
 /*!
     \brief IpV6 or Ipv6 EUI64
+    
+    Used to store an IPv6 address in network byte order.
 */
 typedef struct SlNetSock_In6Addr_t
 {
@@ -626,8 +646,9 @@ typedef struct SlNetSock_linger_t
 } SlNetSock_linger_t;
 
 /*!
-    \brief      The @c SlNetSock_Timeval_t structure is used in
-                #SLNETSOCK_OPSOCK_RCV_TIMEO socket level option
+    \brief      The @c SlNetSock_Timeval_t structure is used in the
+                #SLNETSOCK_OPSOCK_RCV_TIMEO and #SLNETSOCK_OPSOCK_SND_TIMEO
+                socket level options
 
     \remarks    Note that @c SlNetSock_Timeval_t is intentionally defined
                 to be equivalent to the POSIX-defined <tt>struct
@@ -654,11 +675,11 @@ typedef struct SlNetSock_Addr_t
 */
 typedef struct SlNetSock_AddrIn6_t
 {
-    uint16_t            sin6_family;     /**< SLNETSOCK_AF_INET6             */
-    uint16_t            sin6_port;       /**< Transport layer port.          */
-    uint32_t            sin6_flowinfo;   /**< IPv6 flow information.         */
-    SlNetSock_In6Addr_t sin6_addr;       /**< IPv6 address.                  */
-    uint32_t            sin6_scope_id;   /**< set of interfaces for a scope. */
+    uint16_t            sin6_family;     /**< SLNETSOCK_AF_INET6                         */
+    uint16_t            sin6_port;       /**< Transport layer port (network byte order). */
+    uint32_t            sin6_flowinfo;   /**< IPv6 flow information.                     */
+    SlNetSock_In6Addr_t sin6_addr;       /**< IPv6 address (network byte order).         */
+    uint32_t            sin6_scope_id;   /**< set of interfaces for a scope.             */
 } SlNetSock_AddrIn6_t;
 
 /*!
@@ -666,10 +687,10 @@ typedef struct SlNetSock_AddrIn6_t
 */
 typedef struct SlNetSock_AddrIn_t
 {
-    uint16_t           sin_family;       /**< Internet Protocol (AF_INET). */
-    uint16_t           sin_port;         /**< Address port (16 bits).      */
-    SlNetSock_InAddr_t sin_addr;         /**< Internet address (32 bits).  */
-    int8_t             sin_zero[8];      /**< Not used.                    */
+    uint16_t           sin_family;       /**< Internet Protocol (AF_INET).                     */
+    uint16_t           sin_port;         /**< Address port (network byte order).               */
+    SlNetSock_InAddr_t sin_addr;         /**< Internet address (32 bits, network byte order).  */
+    int8_t             sin_zero[8];      /**< Not used.                                        */
 } SlNetSock_AddrIn_t;
 
 /* ss_family + pad must be large enough to hold max of
@@ -865,17 +886,18 @@ int32_t SlNetSock_shutdown(int16_t sd, int16_t how);
     connections, creates a new connected socket, and returns a new file
     descriptor referring to that socket.
 
-    The newly created socket is not in the listening state. The
-    original socket sd is unaffected by this call.
+    Therefore, the newly created socket that is returned is in the connected state. The
+    state of the original socket sd is unaffected by this call.
 
     The argument sd is a socket that has been created with
     SlNetSock_create(), bound to a local address with
     SlNetSock_bind(), and is listening for connections after a
     SlNetSock_listen().
 
-    The argument \c addr is a pointer to a sockaddr structure. This
-    structure is filled in with the address of the peer socket, as
-    known to the communications layer.
+    The argument \c addr is a pointer to a socket address structure. This
+    structure is filled in with the family, address, and port of the peer socket, as
+    known to the communications layer. The address and port are written in
+    network byte order.
 
     The exact format of the address returned \c addr is determined by the socket's address family.
 
@@ -884,19 +906,18 @@ int32_t SlNetSock_shutdown(int16_t sd, int16_t how);
     contain the actual length (in bytes) of the address returned.
 
     \param[in]  sd              Socket descriptor (handle)
-    \param[out] addr            The argument addr is a pointer
-                                to a sockaddr structure. This
-                                structure is filled in with the
-                                address of the peer socket, as
-                                known to the communications
-                                layer. The exact format of the
-                                address returned addr is
-                                determined by the socket's
-                                address\n
-                                sockaddr:\n - code for the
-                                address format.\n -
-                                socket address, the length
-                                depends on the code format
+    \param[out] addr            Pointer to a protocol specific
+                                socket address struct. Upon return, the
+                                struct will be filled in with the family,
+                                address and port information of the peer
+                                socket, as known to the communications
+                                layer (the address and port are stored in
+                                network byte order).
+                                The struct's type and
+                                address format are
+                                dependent on the protocol:
+                                \n IPv4: SlNetSock_AddrIn_t
+                                \n IPv6: SlNetSock_AddrIn6_t
     \param[out] addrlen         The addrlen argument is a value-result
                                 argument: it should initially contain the
                                 size of the structure pointed to by addr
@@ -908,6 +929,8 @@ int32_t SlNetSock_shutdown(int16_t sd, int16_t how);
 
     \slnetsock_init_precondition
 
+    \sa                         SlNetSock_AddrIn_t
+    \sa                         SlNetSock_AddrIn6_t
     \sa                         SlNetSock_create()
     \sa                         SlNetSock_bind()
     \sa                         SlNetSock_listen()
@@ -918,8 +941,8 @@ int16_t SlNetSock_accept(int16_t sd, SlNetSock_Addr_t *addr, SlNetSocklen_t *add
 /*!
     \brief Assign a name to a socket
 
-    This SlNetSock_bind function gives the socket the local address
-    addr.  addr is addrlen bytes long.
+    This SlNetSock_bind function assigns the address specified by \c addr to the
+    socket referred to by \c sd. \c addr is addrlen bytes long.
 
     Traditionally, this is called when a socket is created with
     socket, it exists in a name space (address family) but has no name
@@ -929,17 +952,25 @@ int16_t SlNetSock_accept(int16_t sd, SlNetSock_Addr_t *addr, SlNetSocklen_t *add
     socket may receive connections.
 
     \param[in] sd               Socket descriptor (handle)
-    \param[in] addr             Specifies the destination
-                                addrs\n sockaddr:\n - code for
-                                the address format.\n - socket address,
-                                the length depends on the code
-                                format
+    \param[in] addr             Pointer to a protocol specific
+                                socket address struct, which
+                                specifies the address that the socket specified
+                                by sd should be bound to.
+                                The struct's type and
+                                address format are
+                                dependent on the protocol:
+                                \n IPv4: SlNetSock_AddrIn_t
+                                \n IPv6: SlNetSock_AddrIn6_t\n
+                                The IP address and port information should be
+                                stored into the struct in network byte order.
     \param[in] addrlen          Contains the size of the structure pointed to by addr
 
     \return                     Zero on success, or negative error code on failure
 
     \slnetsock_init_precondition
 
+    \sa                         SlNetSock_AddrIn_t
+    \sa                         SlNetSock_AddrIn6_t
     \sa                         SlNetSock_create()
     \sa                         SlNetSock_accept()
     \sa                         SlNetSock_listen()
@@ -966,6 +997,10 @@ int32_t SlNetSock_bind(int16_t sd, const SlNetSock_Addr_t *addr, int16_t addrlen
 
     \remark     The \c backlog parameter defines the maximum length the queue of
                 pending connections may grow to.
+
+    \note       A \c backlog value of 0 \b may or \b may \b not allow
+                connections. This is determined by the interface's underlying
+                socket implementation.
 
     \sa                         SlNetSock_create()
     \sa                         SlNetSock_accept()
@@ -995,11 +1030,17 @@ int32_t SlNetSock_listen(int16_t sd, int16_t backlog);
     the communications space of the socket.
 
     \param[in] sd               Socket descriptor (handle)
-    \param[in] addr             Specifies the destination addr\n
-                                sockaddr:\n - code for the
-                                address format.\n -
-                                socket address, the length
-                                depends on the code format
+    \param[in] addr             Pointer to a protocol specific
+                                socket address struct, which
+                                specifies the destination address and port
+                                to connect to.
+                                The struct's type and
+                                address format are
+                                dependent on the protocol:
+                                \n IPv4: SlNetSock_AddrIn_t
+                                \n IPv6: SlNetSock_AddrIn6_t\n
+                                The IP address and port information should be
+                                stored into the struct in network byte order.
     \param[in] addrlen          Contains the size of the structure pointed
                                 to by addr
 
@@ -1010,6 +1051,8 @@ int32_t SlNetSock_listen(int16_t sd, int16_t backlog);
 
     \slnetsock_init_precondition
 
+    \sa                         SlNetSock_AddrIn_t
+    \sa                         SlNetSock_AddrIn6_t
     \sa                         SlNetSock_create()
 */
 int32_t SlNetSock_connect(int16_t sd, const SlNetSock_Addr_t *addr, SlNetSocklen_t addrlen);
@@ -1017,17 +1060,21 @@ int32_t SlNetSock_connect(int16_t sd, const SlNetSock_Addr_t *addr, SlNetSocklen
 /*!
     \brief Return address info about the remote side of the connection
 
-    Returns a struct SlNetSock_AddrIn_t
-    filled with information about the peer device that is connected
-    on the other side of the socket descriptor.
+    Fills in the supplied socket address struct 
+    with the address and port information of the specified socket's peer.
 
     \param[in]  sd              Socket descriptor (handle)
-    \param[out] addr            returns the struct addr\n
-                                SlNetSockAddrIn filled with information
-                                about the peer device:\n - code for the
-                                address format.\n -
-                                socket address, the length
-                                depends on the code format
+    \param[out] addr            Pointer to a protocol
+                                specific socket address struct. Upon return,
+                                the struct will be filled in with the family,
+                                address, and port information
+                                of the specified socket's peer (the address and port
+                                are stored in network byte order).
+                                The struct's type and
+                                and address format are
+                                dependent on the protocol:
+                                \n IPv4: SlNetSock_AddrIn_t
+                                \n IPv6: SlNetSock_AddrIn6_t
     \param[out] addrlen         Contains the size of the structure pointed
                                 to by addr
 
@@ -1035,6 +1082,8 @@ int32_t SlNetSock_connect(int16_t sd, const SlNetSock_Addr_t *addr, SlNetSocklen
 
     \slnetsock_init_precondition
 
+    \sa                         SlNetSock_AddrIn_t
+    \sa                         SlNetSock_AddrIn6_t
     \sa                         SlNetSock_accept()
     \sa                         SlNetSock_connect()
 */
@@ -1047,19 +1096,17 @@ int32_t SlNetSock_getPeerName(int16_t sd, SlNetSock_Addr_t *addr, SlNetSocklen_t
     Returns the local address info of the socket descriptor.
 
     \param[in]  sd              Socket descriptor (handle)
-    \param[out] addr            The argument addr is a pointer
-                                to a SlNetSock_Addr_t structure. This
-                                structure is filled in with the
-                                address of the peer socket, as
-                                known to the communications
-                                layer. The exact format of the
-                                address returned addr is
-                                determined by the socket's
-                                address\n
-                                SlNetSock_Addr_t:\n - code for the
-                                address format.\n -
-                                socket address, the length
-                                depends on the code format
+    \param[out] addr            Pointer to a protocol
+                                specific socket address struct. Upon return,
+                                the struct will be filled in with the family,
+                                address, and port information
+                                of the specified socket (the address and port
+                                are stored in network byte order).
+                                The struct's type and
+                                address format are
+                                dependent on the protocol:
+                                \n IPv4: SlNetSock_AddrIn_t
+                                \n IPv6: SlNetSock_AddrIn6_t
     \param[out] addrlen         The addrlen argument is a value-result
                                 argument: it should initially contain the
                                 size of the structure pointed to by addr
@@ -1072,6 +1119,8 @@ int32_t SlNetSock_getPeerName(int16_t sd, SlNetSock_Addr_t *addr, SlNetSocklen_t
                 will be truncated and \c addrlen will contain the
                 actual size of the socket address.
 
+    \sa         SlNetSock_AddrIn_t
+    \sa         SlNetSock_AddrIn6_t
     \sa         SlNetSock_create()
     \sa         SlNetSock_bind()
 */
@@ -1543,15 +1592,22 @@ int32_t SlNetSock_recv(int16_t sd, void *buf, uint32_t len, uint32_t flags);
     \param[in]  flags           Specifies the type of message
                                 reception. On this version, this parameter is not
                                 supported
-    \param[in]  from            Pointer to an address structure
-                                indicating the source
-                                address.\n sockaddr:\n - code
-                                for the address format.\n - socket address,
-                                the length depends on the code
-                                format
-    \param[in]  fromlen         Source address structure
-                                size. This parameter MUST be set to the size of the structure pointed to by addr.
-
+    \param[out] from            (optional) Pointer to a protocol specific
+                                socket address struct. If non-NULL, upon return,
+                                the struct will be filled in with the address
+                                information of the sending socket (the address
+                                and port are stored in network byte order).
+                                The struct's type and
+                                address format are
+                                dependent on the protocol:
+                                \n IPv4: SlNetSock_AddrIn_t
+                                \n IPv6: SlNetSock_AddrIn6_t
+    \param[in]  fromlen         (optional) If from is non-NULL, this argument is required
+                                and is a value-result argument. Before the call,
+                                it should be initialized to the size of the
+                                buffer associated with from. Upon return,
+                                fromlen is updated to contain the actual size of
+                                the source address struct pointed to by from.
 
     \return                     Return the number of bytes received,
                                 or a negative value if an error occurred.\n
@@ -1615,13 +1671,20 @@ int32_t SlNetSock_send(int16_t sd, const void *buf, uint32_t len, uint32_t flags
     \param[in] flags            Specifies the type of message
                                 transmission. On this version, this parameter is not
                                 supported
-    \param[in] to               Pointer to an address structure
-                                indicating the destination
-                                address.\n sockaddr:\n - code
-                                for the address format.\n - socket address,
-                                the length depends on the code
-                                format
-    \param[in] tolen            Destination address structure size
+
+    \param[in] to               Pointer to a protocol specific
+                                socket address struct, which
+                                specifies the destination address and port
+                                to send to.
+                                The struct's type and
+                                address format are
+                                dependent on the protocol:
+                                \n IPv4: SlNetSock_AddrIn_t
+                                \n IPv6: SlNetSock_AddrIn6_t\n
+                                The IP address and port information should be
+                                stored into the struct in network byte order.
+    \param[in] tolen            Contains the size of the structure pointed
+                                to by the to parameter
 
     \return                     Return the number of bytes sent,
                                 or a negative value if an error occurred.\n

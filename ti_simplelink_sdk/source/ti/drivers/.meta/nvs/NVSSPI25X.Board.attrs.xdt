@@ -1,6 +1,6 @@
 %%{
 /*
- * Copyright (c) 2018 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2020 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -119,8 +119,14 @@ static const NVSSPI25X_HWAttrs nvsSPI25XHWAttrs[`localInstances.length`] = {
     % if (inst.externalFlash.spiFlashDevice.manager == "NVS") {
         /* NVS opens SPI */
         .spiHandle = NULL,
+        % let spiIndex;
+        % if (inst.externalFlash.spiFlashDevice.slaveSelectManager == "NVS") {
+        %     spiIndex = inst.externalFlash.spiFlashDevice.sharedSpiInstance.$name;
+        % } else {
+        %     spiIndex = inst.externalFlash.spiFlashDevice.spiInstance.$name;
+        % }
         /* SPI driver index */
-        .spiIndex = `inst.externalFlash.spiFlashDevice.slaveSelectManager == "NVS" ? inst.externalFlash.spiFlashDevice.sharedSpiInstance.$name : inst.externalFlash.spiFlashDevice.spiInstance.$name`,
+        .spiIndex = `spiIndex`,
         .spiBitRate = `inst.externalFlash.spiFlashDevice.bitRate`,
     % }
     % else {

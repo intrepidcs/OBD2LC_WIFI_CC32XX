@@ -11,5 +11,6 @@ package/package_ti.sysbios.syncs.c
 SyncSem.c
 SyncSwi.c
 SyncEvent.c
+lib/debug/ti.sysbios.syncs.am4
 lib/debug/ti.sysbios.syncs.am4g
 lib/debug/ti.sysbios.syncs.arm4

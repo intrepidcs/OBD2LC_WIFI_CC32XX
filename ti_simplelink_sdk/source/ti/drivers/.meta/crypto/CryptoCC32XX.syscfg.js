@@ -37,6 +37,9 @@
 
 "use strict";
 
+/* get Common /ti/drivers utility functions */
+let Common = system.getScript("/ti/drivers/Common.js");
+
 /*
  *  ======== devSpecific ========
  *  Device-specific extensions to be added to base Crypto configuration
@@ -55,7 +58,12 @@ let devSpecific = {
  *  This function is invoked by the generic Crypto module to
  *  allow us to augment and override as needed.
  */
-function extend(base) {
+function extend(base)
+{
+    /* display which driver implementation can be used */
+    base = Common.addImplementationConfig(base, "Crypto", null,
+        [{name: "CryptoCC32XX"}], null);
+
     return Object.assign({}, base, devSpecific);
 }
 

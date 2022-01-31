@@ -1,6 +1,6 @@
 %%{
 /*
- * Copyright (c) 2019 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2019-2020 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,15 +47,23 @@
 
     if (instances.length == 0) return;
 
+    /* get Common /ti/drivers utility functions */
+    let Common = system.getScript("/ti/drivers/Common.js");
+
+    let declarations = Common.genBoardDeclarations(instances);
+
+    /* CONFIG_XXXCOUNT string, derived from defaultInstanceName */
+    let countDef = LED.defaultInstanceName + "COUNT";
 %%}
 /*
  *  =============================== LED ===============================
  */
 #include <ti/drivers/apps/LED.h>
 
-LED_Object LEDObjects[`instances.length`];
+#define `countDef` `instances.length`
+LED_Object LEDObjects[`countDef`];
 
-static const LED_HWAttrs LEDHWAttrs[`instances.length`] = {
+static const LED_HWAttrs LEDHWAttrs[`countDef`] = {
 % for (let i = 0; i < instances.length; i++) {
     % let inst = instances[i];
     % let devPin;
@@ -73,7 +81,7 @@ static const LED_HWAttrs LEDHWAttrs[`instances.length`] = {
 % }
 };
 
-const LED_Config LED_config[`instances.length`] = {
+const LED_Config LED_config[`countDef`] = {
 % for (let i = 0; i < instances.length; i++) {
 %     let inst = instances[i];
     /* `inst.$name` */
@@ -89,4 +97,5 @@ const LED_Config LED_config[`instances.length`] = {
 % }
 };
 
-const uint_least8_t LED_count = `instances.length`;
+`declarations`
+const uint_least8_t LED_count = `countDef`;

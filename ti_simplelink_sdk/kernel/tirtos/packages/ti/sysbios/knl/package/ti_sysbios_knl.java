@@ -2,7 +2,7 @@
  *  Do not modify this file; it is automatically 
  *  generated and any modifications will be overwritten.
  *
- * @(#) xdc-H25
+ * @(#) xdc-I11
  */
 import java.util.*;
 import org.mozilla.javascript.*;
@@ -11,7 +11,7 @@ import xdc.services.spec.Session;
 
 public class ti_sysbios_knl
 {
-    static final String VERS = "@(#) xdc-H25\n";
+    static final String VERS = "@(#) xdc-I11\n";
 
     static final Proto.Elm $$T_Bool = Proto.Elm.newBool();
     static final Proto.Elm $$T_Num = Proto.Elm.newNum();
@@ -3051,11 +3051,13 @@ public class ti_sysbios_knl
         sb.append("}\n");
         sb.append("pkg.build.libraries = [\n");
             sb.append("'lib/debug/ti.sysbios.knl.aem4',\n");
+            sb.append("'lib/debug/ti.sysbios.knl.am4',\n");
             sb.append("'lib/debug/ti.sysbios.knl.am4g',\n");
             sb.append("'lib/debug/ti.sysbios.knl.arm4',\n");
         sb.append("];\n");
         sb.append("pkg.build.libDesc = [\n");
             sb.append("['lib/debug/ti.sysbios.knl.aem4', {target: 'ti.targets.arm.elf.M4', suffix: 'em4'}],\n");
+            sb.append("['lib/debug/ti.sysbios.knl.am4', {target: 'ti.targets.arm.clang.M4', suffix: 'm4'}],\n");
             sb.append("['lib/debug/ti.sysbios.knl.am4g', {target: 'gnu.targets.arm.M4', suffix: 'm4g'}],\n");
             sb.append("['lib/debug/ti.sysbios.knl.arm4', {target: 'iar.targets.arm.M4', suffix: 'rm4'}],\n");
         sb.append("];\n");

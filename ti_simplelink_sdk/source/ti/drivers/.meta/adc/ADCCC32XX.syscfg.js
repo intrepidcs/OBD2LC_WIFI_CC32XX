@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2020 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,6 +36,10 @@
  */
 
 "use strict";
+
+/* get ti/drivers common utility functions */
+let Common = system.getScript("/ti/drivers/Common.js");
+let convertPinName = Common.cc32xxPackage2DevicePin;
 
 /*
  *  ======== devSpecific ========
@@ -104,7 +108,7 @@ function pinmuxRequirements(inst)
 function _getPinResources(inst)
 {
 
-    let pin = "P" + inst.adc.adcPin.$solution.packagePinName;
+    let pin = "P" + convertPinName(inst.adc.adcPin.$solution.packagePinName);
 
     if (inst.$hardware && inst.$hardware.displayName) {
         pin += ", " + inst.$hardware.displayName;
@@ -122,6 +126,10 @@ function _getPinResources(inst)
  */
 function extend(base)
 {
+    /* display which driver implementation can be used */
+    base = Common.addImplementationConfig(base, "ADC", null,
+        [{name: "ADCCC32XX"}], null);
+
     /* merge and overwrite base module attributes */
     let result = Object.assign({}, base, devSpecific);
 

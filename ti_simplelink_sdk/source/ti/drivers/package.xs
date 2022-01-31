@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2018, Texas Instruments Incorporated
+ * Copyright (c) 2015-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,15 +66,6 @@ function getLibs()
     }
     else if (Program.cpu.deviceName.match(/MSP432E4.*/)) {
         driverString = "_msp432e4";
-    }
-    else if (Program.cpu.deviceName.match(/MSP432P4.1.I/)) {
-        driverString = "_msp432p4x1xi";
-    }
-    else if (Program.cpu.deviceName.match(/MSP432P4.1.T/)) {
-        driverString = "_msp432p4x1xt";
-    }
-    else if (Program.cpu.deviceName.match(/MSP432P401/)) {
-        driverString = "_msp432p401x";
     }
     else {
         throw ("Driver not found for this device " + Program.cpu.deviceName +

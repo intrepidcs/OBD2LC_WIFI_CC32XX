@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018, Texas Instruments Incorporated
+ * Copyright (c) 2017-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -1530,4 +1530,58 @@ int32_t SlNetUtil_inetPton(int16_t addrFamily, const char *strAddr, void *binary
     }
     /* Conversion success - return 1 for success                             */
     return 1;
+}
+
+//*****************************************************************************
+//
+// SlNetUtil_ping - Performs a ping
+//
+//*****************************************************************************
+uint32_t SlNetUtil_ping(const SlNetSock_Addr_t *addr, SlNetSocklen_t addrLen,
+        uint32_t attempts, uint16_t timeout, uint16_t interval,
+        uint16_t packetSize, uint32_t ifBitmap, int16_t flags)
+{
+    SlNetIf_t *netIf;
+    uint32_t retVal;
+
+    /* When ifBitmap is 0, that means automatic selection of all interfaces
+       is required, enable all bits in ifBitmap                              */
+    if (0 == ifBitmap)
+    {
+        ifBitmap = ~ifBitmap;
+    }
+
+    do
+    {
+        /* Search for the highest priority interface according to the
+           ifBitmap and the queryFlags                                       */
+        netIf = SlNetIf_queryIf(ifBitmap, SLNETIF_QUERY_IF_STATE_BIT |
+                SLNETIF_QUERY_IF_CONNECTION_STATUS_BIT);
+
+        /* Check if the function returned NULL or the requested interface
+           exists                                                            */
+        if ( (NULL == netIf) || (NULL == (netIf->ifConf)->utilPing) )
+        {
+            /* Interface doesn't exists, return error                        */
+            return (0);
+        }
+        else
+        {
+            /* Disable ifID bit from the ifBitmap after finding the netIf    */
+            ifBitmap &= ~(netIf->ifID);
+
+            /* Interface exists, ping IP address                             */
+            retVal = (netIf->ifConf)->utilPing(netIf->ifContext, addr, addrLen,
+                    attempts, timeout, interval, packetSize, flags);
+
+            /* Check retVal for successfull ping                             */
+            if (retVal > 0)
+            {
+                /* Return success                                            */
+                return (retVal);
+            }
+        }
+    } while (ifBitmap > 0);
+
+    return (retVal);
 }

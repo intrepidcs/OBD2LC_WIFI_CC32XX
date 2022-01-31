@@ -33,6 +33,8 @@
 #ifndef __SL_NET_H__
 #define __SL_NET_H__
 
+#include <stdint.h>
+
 #ifdef    __cplusplus
 extern "C" {
 #endif

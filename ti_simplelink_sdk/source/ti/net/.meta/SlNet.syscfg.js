@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2019-2020 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,10 +37,15 @@
 
 "use strict";
 
+let Common = system.getScript("/ti/utils/Common.js");
+
 /* global vars */
 
 /* Sysconfig string specifying the current device ID */
 let deviceId = system.deviceData.deviceId;
+let deviceFamily = Common.device2Family(system.deviceData);
+
+const maxPriority = 15;
 
 /* used in the networkIfFxnList config object */
 let cc32xxFunctionList = [
@@ -104,21 +109,13 @@ function modules(inst)
         });
     }
 
-    return (modules);
-}
+    modules.push({
+        name: "getLibs",
+        displayName: "GetLibs",
+        moduleName: "/ti/utils/runtime/GetLibs"
+    });
 
-/*
- *  ======== onChange_enableSecureSocks ========
- */
-function onChange_enableSecureSocks(inst, ui)
-{
-    if(inst.enableSecureSocks) {
-        ui.secObjs.hidden = false;
-    }
-    else {
-        ui.secObjs.hidden = true;
-        inst.secObjs = 0;
-    }
+    return (modules);
 }
 
 /*
@@ -131,6 +128,8 @@ function onChange_networkIfFxnList(inst, ui)
         ui.ifName.hidden = true;
         ui.customFuncList.readOnly = true;
         ui.customFuncList.hidden = true;
+        ui.importNIMU.hidden = false;
+        ui.importNIMU.readOnly = false;
         inst.customFuncList = defval.customFuncList;
         inst.ifName = "eth0";
     }
@@ -139,6 +138,9 @@ function onChange_networkIfFxnList(inst, ui)
         ui.ifName.hidden = false;
         ui.customFuncList.readOnly = true;
         ui.customFuncList.hidden = true;
+        ui.importNIMU.hidden = true;
+        ui.importNIMU.readOnly = true;
+        inst.importNIMU = false;
         inst.customFuncList = defval.customFuncList;
         inst.ifName = "wlan0";
     }
@@ -147,6 +149,9 @@ function onChange_networkIfFxnList(inst, ui)
         ui.ifName.hidden = false;
         ui.customFuncList.readOnly = false;
         ui.customFuncList.hidden = false;
+        ui.importNIMU.hidden = true;
+        ui.importNIMU.readOnly = true;
+        inst.importNIMU = false;
     }
 }
 
@@ -161,23 +166,60 @@ function validate(inst, vo, getRef)
 {
     /* config.id */
     let id = inst.id;
-    if (id < 1 || id > 16) {
+    if (id < 1 || id > 16)
+    {
         vo["id"].errors.push("Invalid interface ID. Must be 1-16.");
     }
 
     let instances = inst.$module.$instances;
-    for(let i = 0; i < instances.length; i++) {
-        if(instances[i].id == id && instances[i].$name != inst.$name) {
+    for(let i = 0; i < instances.length; i++)
+    {
+        if(instances[i].id == id && instances[i].$name != inst.$name)
+        {
             vo["id"].errors.push(instances[i].$name + " is already using this interface ID");
+        }
+
+        /* SlNet Ifs must have a unique NIMU inst */
+        if(inst.importNIMU)
+        {
+            let NIMU = inst.NIMU.$name;
+            if(instances[i].importNIMU &&
+               instances[i].NIMU.$name == NIMU &&
+               instances[i].$name != inst.$name)
+            {
+                let ref = system.getReference(instances[i]);
+                /*
+                 * This error should really be pushed to "NIMU", but in syscfg
+                 * v1.4.0_1234 there is a bug with pushing errors to a
+                 * sharedModuleInstance.
+                 *
+                 * We should change this to push to "NIMU" when the SimpleLink
+                 * SDKs move to syscfg 1.5.x
+                 */
+                vo["networkIfFxnList"].errors.push(ref + " is already using " +
+                                                  "this NDK Interface");
+            }
+        }
+
+        if(inst.networkIfFxnList == "NDK" &&
+           inst.importNIMU == false &&
+           instances[i].networkIfFxnList == "NDK" &&
+           instances[i].importNIMU == false &&
+           instances[i].$name != inst.$name)
+        {
+            let ref = system.getReference(instances[i]);
+            vo["networkIfFxnList"].errors.push(ref + " is already using NDK without Import NDK Interface");
         }
     }
 
     /* config.priority */
-    if (inst.priority < 1 || inst.priority > 15) {
+    if (inst.priority < 1 || inst.priority > maxPriority)
+    {
         vo["priority"].errors.push("Invalid interface priority. Must be 1-15.");
     }
 
-    if (inst.networkIfFxnList == "Custom" && !inst.customFuncList) {
+    if (inst.networkIfFxnList == "Custom" && !inst.customFuncList)
+    {
         vo["customFuncList"].errors.push("A custom function list must be specified");
     }
 }
@@ -186,8 +228,17 @@ function validate(inst, vo, getRef)
  *  ======== longDescription ========
  *  Intro splash on GUI
  */
-let longDescription =
-    "High level NS configuration.";
+let longDescription = `
+The Socket Layer IP Network module (SlNet) allows you to manage
+instances of IP network stacks using a consistent, cross-platform API.
+Some example use cases include:
+
+* CC3XXX (WiFi) using its network processor-based stack
+* MSP432E4 (wired ethernet) using the NDK stack
+
+Using the SlNet API enables you to create portable applications that
+support all of these environments.
+`;
 
 
 /*
@@ -206,19 +257,54 @@ let config_instance = [
 Choose from a list of supported function lists on your device or use a custom
 one
 
-[More ...](/ns/ConfigDoc.html#ti_net_SlNet_networkIfFxnList)`,
+[More ...](/ns/configdocs/${deviceFamily}/ConfigDoc.html#ti_net_SlNet_networkIfFxnList)`,
         documentation: `
-This setting is equivalent to setting the ifConf argument in
-[SlNetIf_add](html/group__SlNetIf.html#gae09651b941726526788a932498d2d250).
+This setting is used to determine the \`ifConf\` argument in
+[**SlNetIf_add()**](/ns/html/group__SlNetIf.html#gae09651b941726526788a932498d2d250).
 `
     },
     {
+        name: "importNIMU",
+        displayName: "Import NDK Interface",
+        hidden: deviceId.match(/CC32.*/) ? true : false,
+        readOnly: deviceId.match(/CC32.*/) ? true : false,
+        default: false,
+        description: "Select this if you want a NDK Interface to be " +
+                     "brought in for you",
+        longDescription: `
+Selecting this option will automatically pull in a NDK Interface for you. Other
+wise you will be responsible for adding a NDK Interface. Furthermore, if this
+option is not selected you will be limited to only one SlNet instance using the
+NDK as its Function List.
+
+[More ...](/ns/configdocs/${deviceFamily}/ConfigDoc.html#ti_net_SlNet_importNIMU)`,
+        documentation: `
+[documentation here]
+`
+    },
+    {
+        name: "ndkInterface",
+        displayName: "",
+        config: []
+    },
+    {
         name: "customFuncList",
-        displayName: "Custom Function List",
+        displayName: "Custom Network Interface Symbol",
         default: defval.customFuncList,
         hidden: true,
         readOnly: true,
-        description: 'C struct specifying the function list to use'
+        description: 'User symbol specifying a SlNetIf-compliant network interface',
+        longDescription: `
+A SlNetIf-compliant network interface symbol for this interface instance.
+
+This config param is only available if the "Network Interface Function List" is set to
+"Custom".
+
+[More ...](/ns/configdocs/${deviceFamily}/ConfigDoc.html#ti_net_SlNet_customFuncList)`,
+        documentation: `
+This setting is equivalent to setting the \`ifConf\` argument in
+[**SlNetIf_add()**](/ns/html/group__SlNetIf.html#gae09651b941726526788a932498d2d250).
+`
     },
     {
         name: "id",
@@ -226,15 +312,15 @@ This setting is equivalent to setting the ifConf argument in
         default: 1,
         description: "SLNETIF_ID_? value",
         longDescription: `
-Specifies the interface which needs to be added.
+Specifies the interface ID for this interface instance.
 
-The values of the interface identifier is defined with the prefix SLNETIF_ID_
-which is defined in slnetif.h
+The value of the interface identifier is defined with the prefix \`SLNETIF_ID_\`
+which is defined in **slnetif.h**.
 
-[More ...](/ns/ConfigDoc.html#ti_net_SlNet_id)`,
+[More ...](/ns/configdocs/${deviceFamily}/ConfigDoc.html#ti_net_SlNet_id)`,
         documentation: `
-This setting is equivalent to setting the ifID argument in
-[SlNetIf_add](html/group__SlNetIf.html#gae09651b941726526788a932498d2d250).
+This setting is equivalent to setting the \`ifID\` argument in
+[**SlNetIf_add()**](/ns/html/group__SlNetIf.html#gae09651b941726526788a932498d2d250).
 `
     },
     {
@@ -245,13 +331,13 @@ This setting is equivalent to setting the ifID argument in
         readOnly: deviceId.match(/CC32.*/) ? false : true,
         description: 'Specifies the name for this interface"',
         longDescription: `
-Specifies the name of the interface. Note: Can be set to NULL, but when set
-to NULL cannot be used with SlNetIf_getIDByName.
+Specifies the name of the interface. Note: Can be set to \`NULL\`, but when set
+to \`NULL\` cannot be used with **SlNetIf_getIDByName()**.
 
-[More ...](/ns/ConfigDoc.html#ti_net_SlNet_ifName)`,
+[More ...](/ns/configdocs/${deviceFamily}/ConfigDoc.html#ti_net_SlNet_ifName)`,
         documentation: `
-This setting is equivalent to setting the ifName argument in
-[SlNetIf_add](html/group__SlNetIf.html#gae09651b941726526788a932498d2d250).
+This setting is equivalent to setting the \`ifName\` argument in
+[**SlNetIf_add()**](/ns/html/group__SlNetIf.html#gae09651b941726526788a932498d2d250).
 `
     },
     {
@@ -261,12 +347,12 @@ This setting is equivalent to setting the ifName argument in
         description: 'Specifies the priority of the interface.',
         longDescription: `
 Specifies the priority of the interface (In ascending order). Note: maximum
-priority is 15
+priority is ${maxPriority}.
 
-[More ...](/ns/ConfigDoc.html#ti_net_SlNet_priority)`,
+[More ...](/ns/configdocs/${deviceFamily}/ConfigDoc.html#ti_net_SlNet_priority)`,
         documentation: `
-This setting is equivalent to setting the priority argument in
-[SlNetIf_add](html/group__SlNetIf.html#gae09651b941726526788a932498d2d250).
+This setting is equivalent to setting the \`priority\` argument in
+[**SlNetIf_add()**](/ns/html/group__SlNetIf.html#gae09651b941726526788a932498d2d250).
 `
     },
     {
@@ -274,57 +360,78 @@ This setting is equivalent to setting the priority argument in
         displayName: "Enable Secure Sockets",
         description: 'Enable secure sockets',
         default: true,
-        onChange: onChange_enableSecureSocks,
         hidden: deviceId.match(/CC32.*/) ? true : false,
         readOnly: deviceId.match(/CC32.*/) ? true : false,
         longDescription: `
 Enable secure sockets on this interface. You cannot add secure objects without
 this option being selected.
 
-[More ...](/ns/ConfigDoc.html#ti_net_SlNet_enableSecureSocks)`
-    },
-    /*
-     * The following menu item is a bit of a hack to support submodules of tls
-     * objects. Preferably we would like these submodules to work like the
-     * overall modules with "add" and "remove" buttons to create more instances
-     * This functionality is blocked on PMUX-1423.
-     */
-    {
-        name: "secObjs",
-        displayName: "Secure Objects",
-        description: "Number of secure objects this app requires",
-        hidden: deviceId.match(/CC32.*/) ? true : false,
-        readOnly: deviceId.match(/CC32.*/) ? true : false,
-        longDescription: `
-The number of secure objects you would like to create and associate with this
-interface`,
-        default: 0,
+[More ...](/ns/configdocs/${deviceFamily}/ConfigDoc.html#ti_net_SlNet_enableSecureSocks)`,
+    documentation: `
+Selecting this option will display the Secure Object adder interface in the
+SysConfig GUI. If you are using the NDK it will also change the \`ifConf\`
+argument in
+[**SlNetIf_add()**](/ns/html/group__SlNetIf.html#gae09651b941726526788a932498d2d250).
+to the NDK's secure function list.
+`
     }
 ];
-
 
 /*
  *  ======== moduleInstances ========
  */
 function moduleInstances(inst)
 {
-    let result = [];
+    let modules = [];
 
-    /* Create a Sequence instance for each of the unique sequencers. */
-    let secObjs = inst.secObjs;
-    for (let i = 0; i < secObjs; i++) {
-        let secObjName = "CONFIG_SECOBJ_" + i;
-        result.push({
-            name: secObjName,
-            displayName: "Secure Object " + i,
-            moduleName: "/ti/net/SecObj",
-            args: {
-                $name: secObjName
+    if(inst.enableSecureSocks == true)
+    {
+        modules.push(
+            {
+                name: "SECOBJ",
+                displayName: "Secure Objects",
+                moduleName: "/ti/net/SecObj",
+                collapsed: false,
+                /*
+                 * The following options allow the useArray feature to be
+                 * backwards compatible with older *.syscfg scripts based on
+                 * versions of NS that did not use the useArray feature.
+                 */
+                legacyMigrationOptions: {
+                    lengthConfigName: "secObjs",
+                    instanceNameMapping: "CONFIG_SECOBJ_`index`"
+                },
+                useArray: true
             }
-        });
+        );
     }
 
-    return (result);
+    return modules;
+}
+
+/*
+ *  ======== sharedModuleInstances ========
+ */
+function sharedModuleInstances(inst)
+{
+    let modules = [];
+
+    if(inst.networkIfFxnList == "NDK" && inst.importNIMU == true)
+    {
+        modules.push(
+            {
+                name: "NIMU",
+                displayName: "NDK Interface",
+                moduleName: "/ti/ndk/NIMU",
+                description: "The NDK Interface to use for this SlNet Interface",
+                collapsed: false,
+                hidden: false,
+                group: "ndkInterface"
+            }
+        );
+    }
+
+    return modules;
 }
 
 
@@ -333,19 +440,16 @@ function moduleInstances(inst)
  *  Module definition object
  */
 let base = {
-    displayName: "Network Interfaces",
-    description: "SlNet configuration",
+    displayName: "SlNet",
+    description: "Socket Layer IP Network System Configuration",
     defaultInstanceName: "CONFIG_SLNET_",
     longDescription: longDescription,
     config: config_instance,
     moduleInstances: moduleInstances,
+    sharedModuleInstances: sharedModuleInstances,
     modules: modules,
     validate: validate,
-    /*
-     * maxInstances must match the value of SLNETIF_MAX_IF in NS
-     * If a non-32xx device limit to 1 interface until NDK-431 is resolved.
-     */
-    maxInstances: deviceId.match(/CC32.*/) ? 16 : 1,
+    maxInstances: 16,
     templates: {
         /* contribute NS libraries to linker command file */
         "/ti/utils/build/GenLibs.cmd.xdt"   :

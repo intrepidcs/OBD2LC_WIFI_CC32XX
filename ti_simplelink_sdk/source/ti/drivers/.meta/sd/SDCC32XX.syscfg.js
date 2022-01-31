@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2020 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,7 +43,8 @@ let intPriority = Common.newIntPri()[0];
 intPriority.name = "interruptPriority";
 intPriority.displayName = "Interrupt Priority";
 intPriority.description = "SDHost Interrupt Priority";
-intPriority.hidden = true;
+
+let convertPinName = Common.cc32xxPackage2DevicePin;
 
 /*
  *  ======== devSpecific ========
@@ -67,6 +68,25 @@ let devSpecific = {
                 { name: "SD Host" }
             ],
             onChange: interfaceChange
+        },
+        {
+            name: "sdImplementation",
+            displayName: "SD Implementation",
+            default: "SDHostCC32XX",
+            options: [{name: "SDHostCC32XX"}, {name: "SDSPI"}],
+            readOnly: true,
+            description: "Displays SD delegates available for the " +
+                system.deviceData.deviceId + " device and the Interface Type.",
+            longDescription: "Displays SD delegates available for the " +
+                system.deviceData.deviceId + " device and the " +
+                "__Interface Type__.\n\n" + `
+Since there is only one delegate for each Interface Type, it is a read-only
+value that cannot be changed. Please refer to the
+[__TI-Drivers implementation matrix__][0] for all available drivers and
+documentation.
+
+[0]: /drivers/doxygen/html/index.html#drivers
+`
         },
         intPriority
     ],
@@ -93,10 +113,10 @@ let devSpecific = {
 function _getPinResources(inst)
 {
     let pin;
-    let mod = system.getScript("/ti/drivers/SPI.syscfg.js");
 
     if (inst.interfaceType === "SD SPI") {
         if (inst.spiInstance) {
+            let mod = system.getScript("/ti/drivers/SPI.syscfg.js");
             pin = mod._getPinResources(inst.spiInstance);
         }
 
@@ -107,9 +127,9 @@ function _getPinResources(inst)
     }
     else {
         if (inst.sdHost) {
-            let clkPin = "P" + inst.sdHost.clkPin.$solution.packagePinName.padStart(2, "0");
-            let cmdPin = "P" + inst.sdHost.cmdPin.$solution.packagePinName.padStart(2, "0");
-            let dataPin = "P" + inst.sdHost.dataPin.$solution.packagePinName.padStart(2, "0");
+            let clkPin = "P" + convertPinName(inst.sdHost.clkPin.$solution.packagePinName);
+            let cmdPin = "P" + convertPinName(inst.sdHost.cmdPin.$solution.packagePinName);
+            let dataPin = "P" + convertPinName(inst.sdHost.dataPin.$solution.packagePinName);
 
             pin = "\nDATA: " + dataPin + " \nCMD: "
                 + cmdPin + "\nCLK: " + clkPin;
@@ -205,10 +225,12 @@ function interfaceChange(inst, ui)
     if (inst.interfaceType === "SD Host") {
         ui.interruptPriority.hidden = false;
         ui.clockRate.hidden = false;
+        inst.sdImplementation = inst.$module.$configByName.sdImplementation.default;
     }
     else {
         ui.interruptPriority.hidden = true;
         ui.clockRate.hidden = true;
+        inst.sdImplementation = "SDSPI";
     }
 
     if (inst.$hardware) {
@@ -257,6 +279,7 @@ function extend(base)
 
     /* concatenate device-specific configs */
     result.config = base.config.concat(devSpecific.config);
+    result.templates = Object.assign({}, base.templates, devSpecific.templates);
 
     return (result);
 }

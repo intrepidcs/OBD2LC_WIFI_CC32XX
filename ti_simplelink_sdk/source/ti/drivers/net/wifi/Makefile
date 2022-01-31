@@ -2,18 +2,23 @@
 include ../../../../../imports.mak
 
 # Find subdirectories
-RELEASE-CCS-SUBDIRS   = $(wildcard ./ccs/rtos/.)
-RELEASE-GCC-SUBDIRS   = $(wildcard ./gcc/rtos/.)
-RELEASE-IAR-SUBDIRS   = $(wildcard ./iar/rtos/.)
-RELEASE-CCS-SUBDIRS   += $(wildcard ./ccs/nortos/.)
-RELEASE-GCC-SUBDIRS   += $(wildcard ./gcc/nortos/.)
-RELEASE-IAR-SUBDIRS   += $(wildcard ./iar/nortos/.)
+RELEASE-CCS-SUBDIRS       = $(wildcard ./ccs/rtos/.)
+RELEASE-TICLANG-SUBDIRS   = $(wildcard ./ticlang/rtos/.)
+RELEASE-GCC-SUBDIRS       = $(wildcard ./gcc/rtos/.)
+RELEASE-IAR-SUBDIRS       = $(wildcard ./iar/rtos/.)
+RELEASE-CCS-SUBDIRS      += $(wildcard ./ccs/nortos/.)
+RELEASE-TICLANG-SUBDIRS  += $(wildcard ./ticlang/nortos/.)
+RELEASE-GCC-SUBDIRS      += $(wildcard ./gcc/nortos/.)
+RELEASE-IAR-SUBDIRS      += $(wildcard ./iar/nortos/.)
 
 
 
 RELEASE-SUBDIRS =
 ifneq ($(CCS_ARMCOMPILER),)
 	RELEASE-SUBDIRS += $(RELEASE-CCS-SUBDIRS)
+endif
+ifneq ($(TICLANG_ARMCOMPILER),)
+	RELEASE-SUBDIRS += $(RELEASE-TICLANG-SUBDIRS)
 endif
 ifneq ($(GCC_ARMCOMPILER),)
 	RELEASE-SUBDIRS += $(RELEASE-GCC-SUBDIRS)

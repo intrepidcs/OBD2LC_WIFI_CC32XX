@@ -8,5 +8,6 @@ lib/debug/ti.sysbios.utils.aem4
 package/package_ti.sysbios.utils.c
 Load.c
 Load_CPU.c
+lib/debug/ti.sysbios.utils.am4
 lib/debug/ti.sysbios.utils.am4g
 lib/debug/ti.sysbios.utils.arm4

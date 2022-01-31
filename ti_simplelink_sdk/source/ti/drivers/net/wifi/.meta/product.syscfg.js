@@ -46,7 +46,10 @@ let topModules = [
         displayName: "SimpleLink Wifi",
         description: description,
         modules: [
-            "/ti/drivers/net/wifi/SimpleLinkWifi"
+            "/ti/drivers/net/wifi/SimpleLinkWifi",
+            "/ti/drivers/net/wifi/ota",
+            "/ti/drivers/net/wifi/net_utils",
+            "/ti/drivers/net/wifi/atcmd"
         ]
     }
 ];

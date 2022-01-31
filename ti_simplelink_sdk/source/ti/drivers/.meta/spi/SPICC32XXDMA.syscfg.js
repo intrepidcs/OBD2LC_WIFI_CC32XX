@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2020 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,6 +39,7 @@
 
 /* get Common /ti/drivers utility functions */
 let Common = system.getScript("/ti/drivers/Common.js");
+let convertPinName = Common.cc32xxPackage2DevicePin;
 
 let intPriority = Common.newIntPri()[0];
 intPriority.name = "dmaInterruptPriority";
@@ -57,6 +58,28 @@ let devSpecific = {
                 + "word SPI transfers",
             default: false
         },
+        {
+            name: "ssControl",
+            displayName: "SS Control",
+            description: "The Slave Select (SS) line can be controlled by the"
+                + " driver (SW) or the hardware (HW). Only applicable in"
+                + " 4 pin mode.",
+            longDescription: "In HW mode the SPI HW will control the SS line"
+                + " automatically to follow the frame format specified. In"
+                + " some cases it may be desirable for the SS to stay asserted"
+                + " for the entire transfer regardless of the format used."
+                + " In SW mode the driver will assert the SS before the"
+                + " transfer starts and de-assert the SS when the transfer"
+                + " completes.",
+            options : [
+                /* Implementation note: the board template uses the names
+                 * of these options directly */
+                {name : "HW"},
+                {name : "SW"}
+            ],
+            default: "HW",
+            hidden: true
+        },
         intPriority
     ],
 
@@ -71,7 +94,9 @@ let devSpecific = {
         }],
 
         /* bring in DMA and Power modules */
-        modules: Common.autoForceModules(["Board", "Power", "DMA"])
+        modules: Common.autoForceModules(["Board", "Power", "DMA"]),
+
+        moduleInstances : moduleInstances
     },
 
     /* override generic requirements with  device-specific reqs (if any) */
@@ -88,6 +113,52 @@ let devSpecific = {
 };
 
 /*
+ *  ======== onChangeSsOptions ========
+ *  onChange callback function for mode config
+ *  We selectively hide or show the ssControl option
+ *
+ *  param inst  - Instance containing the config that changed
+ *  param ui    - The User Interface object
+ *
+ */
+function onChangeSsOptions(inst, ui)
+{
+    if (inst.mode === "Three Pin") {
+        /* Set three pin mode to SW control */
+        inst.ssControl = "SW";
+        ui.ssControl.hidden = true;
+    }
+    else {
+        ui.ssControl.hidden = false;
+    }
+}
+
+/*
+ *  ======== moduleInstances ========
+ */
+function moduleInstances(modStatic)
+{
+    let instance = [
+        {
+            name: "networkProcessorSPI",
+            displayName: "Network Processor SPI",
+            moduleName: "/ti/drivers/spi/SPICC32XXNWP",
+            hidden: true,
+            collapsed: true,
+            args : {
+                "$name" : "CONFIG_NWP_SPI"
+            }
+        }
+    ];
+
+    if (modStatic.includeNWP === true) {
+        return (instance);
+    }
+
+    return [];
+}
+
+/*
  *  ======== _getPinResources ========
  */
 function _getPinResources(inst)
@@ -100,20 +171,20 @@ function _getPinResources(inst)
 
     if (inst.spi) {
         if (inst.spi.mosiPin) {
-            mosi = inst.spi.mosiPin.$solution.packagePinName.padStart(2, "0");
+            mosi = "P" + convertPinName(inst.spi.mosiPin.$solution.packagePinName);
         }
         if (inst.spi.misoPin) {
-            miso = inst.spi.misoPin.$solution.packagePinName.padStart(2, "0");
+            miso = "P" + convertPinName(inst.spi.misoPin.$solution.packagePinName);
         }
 
         pin = "\nMOSI: " + mosi + "\nMISO: " + miso;
 
         if (inst.spi.sclkPin) {
-            sclk = inst.spi.sclkPin.$solution.packagePinName.padStart(2, "0");
+            sclk = "P" + convertPinName(inst.spi.sclkPin.$solution.packagePinName);
             pin += "\nSCLK: " + sclk;
         }
         if (inst.spi.ssPin) {
-            ss = inst.spi.ssPin.$solution.packagePinName.padStart(2, "0");
+            ss = "P" + convertPinName(inst.spi.ssPin.$solution.packagePinName);
             pin += "\nSS: " + ss;
         }
 
@@ -253,12 +324,25 @@ function pinmuxRequirements(inst)
  */
 function extend(base)
 {
+    /* display which driver implementation can be used */
+    devSpecific = Common.addImplementationConfig(devSpecific, "SPI", null,
+        [{name: "SPICC32XXDMA"}], null);
+
     /* merge and overwrite base module attributes */
     let result = Object.assign({}, base, devSpecific);
 
     /* concatenate device-specific configs */
     result.config = base.config.concat(devSpecific.config);
 
+    /* add our onChange function to the mode config */
+    for(let i = 0; i < result.config.length; i++)
+    {
+        if(result.config[i].name == "mode")
+        {
+            result.config[i].onChange = onChangeSsOptions;
+            break;
+        }
+    }
     return (result);
 }
 

@@ -1,10 +1,10 @@
 /*
- *  Copyright 2019 by Texas Instruments Incorporated.
+ *  Copyright 2020 by Texas Instruments Incorporated.
  *
  */
 
 /*
- * Copyright (c) 2018-2019, Texas Instruments Incorporated
+ * Copyright (c) 2018-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -49,14 +49,15 @@ requires ti.targets.arm.elf;
  *
  */
 package ti.targets.arm.clang [1,0,0] {
+    module M0;
+    module M3;
+    module M4;
+    module M4F;
     module M33;
     module M33F;
-    module M4F;
-    module M4;
-    module M3;
 }
 /*
- *  @(#) ti.targets.arm.clang; 1, 0, 0,0; 8-9-2019 17:15:15; /db/ztree/library/trees/xdctargets/xdctargets-v00/src/ xlibrary
+ *  @(#) ti.targets.arm.clang; 1, 0, 0,; 6-12-2020 15:20:08; /db/ztree/library/trees/xdctargets/xdctargets-w18/src/ xlibrary
 
  */
 

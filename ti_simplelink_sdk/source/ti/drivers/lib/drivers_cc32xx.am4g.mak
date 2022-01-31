@@ -3,7 +3,7 @@
 #  package.bld.  Any modifications to this file will be 
 #  overwritten whenever makefiles are re-generated.
 #
-#  target compatibility key = gnu.targets.arm.M4{1,0,7.2,1
+#  target compatibility key = gnu.targets.arm.M4{1,0,9.2,1
 #
 ifeq (,$(MK_NOGENDEPS))
 -include package/lib/lib/drivers_cc32xx/package/package_ti.drivers.om4g.dep
@@ -15,7 +15,7 @@ package/lib/lib/drivers_cc32xx/package/package_ti.drivers.om4g: package/package_
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/package/package_ti.drivers.om4g: export LD_LIBRARY_PATH=
@@ -25,10 +25,60 @@ package/lib/lib/drivers_cc32xx/package/package_ti.drivers.sm4g: package/package_
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/package/package_ti.drivers.sm4g: export LD_LIBRARY_PATH=
+
+ifeq (,$(MK_NOGENDEPS))
+-include package/lib/lib/drivers_cc32xx/ADC.om4g.dep
+package/lib/lib/drivers_cc32xx/ADC.om4g.dep: ;
+endif
+
+package/lib/lib/drivers_cc32xx/ADC.om4g: | .interfaces
+package/lib/lib/drivers_cc32xx/ADC.om4g: ADC.c lib/drivers_cc32xx.am4g.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clm4g $< ...
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/ADC.om4g: export LD_LIBRARY_PATH=
+
+package/lib/lib/drivers_cc32xx/ADC.sm4g: | .interfaces
+package/lib/lib/drivers_cc32xx/ADC.sm4g: ADC.c lib/drivers_cc32xx.am4g.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clm4g -S $< ...
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/ADC.sm4g: export LD_LIBRARY_PATH=
+
+ifeq (,$(MK_NOGENDEPS))
+-include package/lib/lib/drivers_cc32xx/I2C.om4g.dep
+package/lib/lib/drivers_cc32xx/I2C.om4g.dep: ;
+endif
+
+package/lib/lib/drivers_cc32xx/I2C.om4g: | .interfaces
+package/lib/lib/drivers_cc32xx/I2C.om4g: I2C.c lib/drivers_cc32xx.am4g.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clm4g $< ...
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/I2C.om4g: export LD_LIBRARY_PATH=
+
+package/lib/lib/drivers_cc32xx/I2C.sm4g: | .interfaces
+package/lib/lib/drivers_cc32xx/I2C.sm4g: I2C.c lib/drivers_cc32xx.am4g.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clm4g -S $< ...
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/I2C.sm4g: export LD_LIBRARY_PATH=
 
 ifeq (,$(MK_NOGENDEPS))
 -include package/lib/lib/drivers_cc32xx/NVS.om4g.dep
@@ -40,7 +90,7 @@ package/lib/lib/drivers_cc32xx/NVS.om4g: NVS.c lib/drivers_cc32xx.am4g.mak
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/NVS.om4g: export LD_LIBRARY_PATH=
@@ -50,7 +100,7 @@ package/lib/lib/drivers_cc32xx/NVS.sm4g: NVS.c lib/drivers_cc32xx.am4g.mak
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/NVS.sm4g: export LD_LIBRARY_PATH=
@@ -65,7 +115,7 @@ package/lib/lib/drivers_cc32xx/./nvs/NVSRAM.om4g: ./nvs/NVSRAM.c lib/drivers_cc3
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./nvs/NVSRAM.om4g: export LD_LIBRARY_PATH=
@@ -75,7 +125,7 @@ package/lib/lib/drivers_cc32xx/./nvs/NVSRAM.sm4g: ./nvs/NVSRAM.c lib/drivers_cc3
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./nvs/NVSRAM.sm4g: export LD_LIBRARY_PATH=
@@ -90,7 +140,7 @@ package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.om4g: ./nvs/NVSSPI25X.c lib/drive
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.om4g: export LD_LIBRARY_PATH=
@@ -100,10 +150,35 @@ package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.sm4g: ./nvs/NVSSPI25X.c lib/drive
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.sm4g: export LD_LIBRARY_PATH=
+
+ifeq (,$(MK_NOGENDEPS))
+-include package/lib/lib/drivers_cc32xx/PWM.om4g.dep
+package/lib/lib/drivers_cc32xx/PWM.om4g.dep: ;
+endif
+
+package/lib/lib/drivers_cc32xx/PWM.om4g: | .interfaces
+package/lib/lib/drivers_cc32xx/PWM.om4g: PWM.c lib/drivers_cc32xx.am4g.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clm4g $< ...
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/PWM.om4g: export LD_LIBRARY_PATH=
+
+package/lib/lib/drivers_cc32xx/PWM.sm4g: | .interfaces
+package/lib/lib/drivers_cc32xx/PWM.sm4g: PWM.c lib/drivers_cc32xx.am4g.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clm4g -S $< ...
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/PWM.sm4g: export LD_LIBRARY_PATH=
 
 ifeq (,$(MK_NOGENDEPS))
 -include package/lib/lib/drivers_cc32xx/SD.om4g.dep
@@ -115,7 +190,7 @@ package/lib/lib/drivers_cc32xx/SD.om4g: SD.c lib/drivers_cc32xx.am4g.mak
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/SD.om4g: export LD_LIBRARY_PATH=
@@ -125,7 +200,7 @@ package/lib/lib/drivers_cc32xx/SD.sm4g: SD.c lib/drivers_cc32xx.am4g.mak
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/SD.sm4g: export LD_LIBRARY_PATH=
@@ -140,7 +215,7 @@ package/lib/lib/drivers_cc32xx/./sd/SDSPI.om4g: ./sd/SDSPI.c lib/drivers_cc32xx.
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./sd/SDSPI.om4g: export LD_LIBRARY_PATH=
@@ -150,7 +225,7 @@ package/lib/lib/drivers_cc32xx/./sd/SDSPI.sm4g: ./sd/SDSPI.c lib/drivers_cc32xx.
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./sd/SDSPI.sm4g: export LD_LIBRARY_PATH=
@@ -165,7 +240,7 @@ package/lib/lib/drivers_cc32xx/SDFatFS.om4g: SDFatFS.c lib/drivers_cc32xx.am4g.m
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/SDFatFS.om4g: export LD_LIBRARY_PATH=
@@ -175,10 +250,135 @@ package/lib/lib/drivers_cc32xx/SDFatFS.sm4g: SDFatFS.c lib/drivers_cc32xx.am4g.m
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/SDFatFS.sm4g: export LD_LIBRARY_PATH=
+
+ifeq (,$(MK_NOGENDEPS))
+-include package/lib/lib/drivers_cc32xx/SPI.om4g.dep
+package/lib/lib/drivers_cc32xx/SPI.om4g.dep: ;
+endif
+
+package/lib/lib/drivers_cc32xx/SPI.om4g: | .interfaces
+package/lib/lib/drivers_cc32xx/SPI.om4g: SPI.c lib/drivers_cc32xx.am4g.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clm4g $< ...
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/SPI.om4g: export LD_LIBRARY_PATH=
+
+package/lib/lib/drivers_cc32xx/SPI.sm4g: | .interfaces
+package/lib/lib/drivers_cc32xx/SPI.sm4g: SPI.c lib/drivers_cc32xx.am4g.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clm4g -S $< ...
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/SPI.sm4g: export LD_LIBRARY_PATH=
+
+ifeq (,$(MK_NOGENDEPS))
+-include package/lib/lib/drivers_cc32xx/Timer.om4g.dep
+package/lib/lib/drivers_cc32xx/Timer.om4g.dep: ;
+endif
+
+package/lib/lib/drivers_cc32xx/Timer.om4g: | .interfaces
+package/lib/lib/drivers_cc32xx/Timer.om4g: Timer.c lib/drivers_cc32xx.am4g.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clm4g $< ...
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/Timer.om4g: export LD_LIBRARY_PATH=
+
+package/lib/lib/drivers_cc32xx/Timer.sm4g: | .interfaces
+package/lib/lib/drivers_cc32xx/Timer.sm4g: Timer.c lib/drivers_cc32xx.am4g.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clm4g -S $< ...
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/Timer.sm4g: export LD_LIBRARY_PATH=
+
+ifeq (,$(MK_NOGENDEPS))
+-include package/lib/lib/drivers_cc32xx/UART.om4g.dep
+package/lib/lib/drivers_cc32xx/UART.om4g.dep: ;
+endif
+
+package/lib/lib/drivers_cc32xx/UART.om4g: | .interfaces
+package/lib/lib/drivers_cc32xx/UART.om4g: UART.c lib/drivers_cc32xx.am4g.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clm4g $< ...
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/UART.om4g: export LD_LIBRARY_PATH=
+
+package/lib/lib/drivers_cc32xx/UART.sm4g: | .interfaces
+package/lib/lib/drivers_cc32xx/UART.sm4g: UART.c lib/drivers_cc32xx.am4g.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clm4g -S $< ...
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/UART.sm4g: export LD_LIBRARY_PATH=
+
+ifeq (,$(MK_NOGENDEPS))
+-include package/lib/lib/drivers_cc32xx/UART2.om4g.dep
+package/lib/lib/drivers_cc32xx/UART2.om4g.dep: ;
+endif
+
+package/lib/lib/drivers_cc32xx/UART2.om4g: | .interfaces
+package/lib/lib/drivers_cc32xx/UART2.om4g: UART2.c lib/drivers_cc32xx.am4g.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clm4g $< ...
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/UART2.om4g: export LD_LIBRARY_PATH=
+
+package/lib/lib/drivers_cc32xx/UART2.sm4g: | .interfaces
+package/lib/lib/drivers_cc32xx/UART2.sm4g: UART2.c lib/drivers_cc32xx.am4g.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clm4g -S $< ...
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/UART2.sm4g: export LD_LIBRARY_PATH=
+
+ifeq (,$(MK_NOGENDEPS))
+-include package/lib/lib/drivers_cc32xx/Watchdog.om4g.dep
+package/lib/lib/drivers_cc32xx/Watchdog.om4g.dep: ;
+endif
+
+package/lib/lib/drivers_cc32xx/Watchdog.om4g: | .interfaces
+package/lib/lib/drivers_cc32xx/Watchdog.om4g: Watchdog.c lib/drivers_cc32xx.am4g.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clm4g $< ...
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/Watchdog.om4g: export LD_LIBRARY_PATH=
+
+package/lib/lib/drivers_cc32xx/Watchdog.sm4g: | .interfaces
+package/lib/lib/drivers_cc32xx/Watchdog.sm4g: Watchdog.c lib/drivers_cc32xx.am4g.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clm4g -S $< ...
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/Watchdog.sm4g: export LD_LIBRARY_PATH=
 
 ifeq (,$(MK_NOGENDEPS))
 -include package/lib/lib/drivers_cc32xx/./utils/List.om4g.dep
@@ -190,7 +390,7 @@ package/lib/lib/drivers_cc32xx/./utils/List.om4g: ./utils/List.c lib/drivers_cc3
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./utils/List.om4g: export LD_LIBRARY_PATH=
@@ -200,7 +400,7 @@ package/lib/lib/drivers_cc32xx/./utils/List.sm4g: ./utils/List.c lib/drivers_cc3
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./utils/List.sm4g: export LD_LIBRARY_PATH=
@@ -215,7 +415,7 @@ package/lib/lib/drivers_cc32xx/./utils/RingBuf.om4g: ./utils/RingBuf.c lib/drive
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./utils/RingBuf.om4g: export LD_LIBRARY_PATH=
@@ -225,7 +425,7 @@ package/lib/lib/drivers_cc32xx/./utils/RingBuf.sm4g: ./utils/RingBuf.c lib/drive
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./utils/RingBuf.sm4g: export LD_LIBRARY_PATH=
@@ -240,7 +440,7 @@ package/lib/lib/drivers_cc32xx/./utils/Random.om4g: ./utils/Random.c lib/drivers
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./utils/Random.om4g: export LD_LIBRARY_PATH=
@@ -250,7 +450,7 @@ package/lib/lib/drivers_cc32xx/./utils/Random.sm4g: ./utils/Random.c lib/drivers
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./utils/Random.sm4g: export LD_LIBRARY_PATH=
@@ -265,7 +465,7 @@ package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.om4g: ./utils/StructRingBuf
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.om4g: export LD_LIBRARY_PATH=
@@ -275,7 +475,7 @@ package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.sm4g: ./utils/StructRingBuf
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.sm4g: export LD_LIBRARY_PATH=
@@ -290,7 +490,7 @@ package/lib/lib/drivers_cc32xx/./apps/LED.om4g: ./apps/LED.c lib/drivers_cc32xx.
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./apps/LED.om4g: export LD_LIBRARY_PATH=
@@ -300,7 +500,7 @@ package/lib/lib/drivers_cc32xx/./apps/LED.sm4g: ./apps/LED.c lib/drivers_cc32xx.
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./apps/LED.sm4g: export LD_LIBRARY_PATH=
@@ -315,7 +515,7 @@ package/lib/lib/drivers_cc32xx/./apps/Button.om4g: ./apps/Button.c lib/drivers_c
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./apps/Button.om4g: export LD_LIBRARY_PATH=
@@ -325,35 +525,10 @@ package/lib/lib/drivers_cc32xx/./apps/Button.sm4g: ./apps/Button.c lib/drivers_c
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./apps/Button.sm4g: export LD_LIBRARY_PATH=
-
-ifeq (,$(MK_NOGENDEPS))
--include package/lib/lib/drivers_cc32xx/ADC.om4g.dep
-package/lib/lib/drivers_cc32xx/ADC.om4g.dep: ;
-endif
-
-package/lib/lib/drivers_cc32xx/ADC.om4g: | .interfaces
-package/lib/lib/drivers_cc32xx/ADC.om4g: ADC.c lib/drivers_cc32xx.am4g.mak
-	@$(RM) $@.dep
-	$(RM) $@
-	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
-	-@$(FIXDEP) $@.dep $@.dep
-	
-package/lib/lib/drivers_cc32xx/ADC.om4g: export LD_LIBRARY_PATH=
-
-package/lib/lib/drivers_cc32xx/ADC.sm4g: | .interfaces
-package/lib/lib/drivers_cc32xx/ADC.sm4g: ADC.c lib/drivers_cc32xx.am4g.mak
-	@$(RM) $@.dep
-	$(RM) $@
-	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
-	-@$(FIXDEP) $@.dep $@.dep
-	
-package/lib/lib/drivers_cc32xx/ADC.sm4g: export LD_LIBRARY_PATH=
 
 ifeq (,$(MK_NOGENDEPS))
 -include package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.om4g.dep
@@ -365,7 +540,7 @@ package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.om4g: ./adc/ADCCC32XX.c lib/drive
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.om4g: export LD_LIBRARY_PATH=
@@ -375,7 +550,7 @@ package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.sm4g: ./adc/ADCCC32XX.c lib/drive
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.sm4g: export LD_LIBRARY_PATH=
@@ -390,7 +565,7 @@ package/lib/lib/drivers_cc32xx/Camera.om4g: Camera.c lib/drivers_cc32xx.am4g.mak
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/Camera.om4g: export LD_LIBRARY_PATH=
@@ -400,7 +575,7 @@ package/lib/lib/drivers_cc32xx/Camera.sm4g: Camera.c lib/drivers_cc32xx.am4g.mak
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/Camera.sm4g: export LD_LIBRARY_PATH=
@@ -415,7 +590,7 @@ package/lib/lib/drivers_cc32xx/./camera/CameraCC32XXDMA.om4g: ./camera/CameraCC3
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./camera/CameraCC32XXDMA.om4g: export LD_LIBRARY_PATH=
@@ -425,7 +600,7 @@ package/lib/lib/drivers_cc32xx/./camera/CameraCC32XXDMA.sm4g: ./camera/CameraCC3
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./camera/CameraCC32XXDMA.sm4g: export LD_LIBRARY_PATH=
@@ -440,7 +615,7 @@ package/lib/lib/drivers_cc32xx/Capture.om4g: Capture.c lib/drivers_cc32xx.am4g.m
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/Capture.om4g: export LD_LIBRARY_PATH=
@@ -450,7 +625,7 @@ package/lib/lib/drivers_cc32xx/Capture.sm4g: Capture.c lib/drivers_cc32xx.am4g.m
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/Capture.sm4g: export LD_LIBRARY_PATH=
@@ -465,7 +640,7 @@ package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.om4g: ./capture/CaptureCC
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.om4g: export LD_LIBRARY_PATH=
@@ -475,7 +650,7 @@ package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.sm4g: ./capture/CaptureCC
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.sm4g: export LD_LIBRARY_PATH=
@@ -490,7 +665,7 @@ package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.om4g: ./crypto/CryptoCC32XX
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.om4g: export LD_LIBRARY_PATH=
@@ -500,7 +675,7 @@ package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.sm4g: ./crypto/CryptoCC32XX
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.sm4g: export LD_LIBRARY_PATH=
@@ -515,7 +690,7 @@ package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.om4g: ./cryptouti
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.om4g: export LD_LIBRARY_PATH=
@@ -525,7 +700,7 @@ package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.sm4g: ./cryptouti
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.sm4g: export LD_LIBRARY_PATH=
@@ -540,7 +715,7 @@ package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.om4g: ./dma/UDMACC32XX.c lib/dri
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.om4g: export LD_LIBRARY_PATH=
@@ -550,7 +725,7 @@ package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.sm4g: ./dma/UDMACC32XX.c lib/dri
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.sm4g: export LD_LIBRARY_PATH=
@@ -565,7 +740,7 @@ package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.om4g: ./gpio/GPIOCC32XX.c lib/d
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.om4g: export LD_LIBRARY_PATH=
@@ -575,35 +750,10 @@ package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.sm4g: ./gpio/GPIOCC32XX.c lib/d
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.sm4g: export LD_LIBRARY_PATH=
-
-ifeq (,$(MK_NOGENDEPS))
--include package/lib/lib/drivers_cc32xx/I2C.om4g.dep
-package/lib/lib/drivers_cc32xx/I2C.om4g.dep: ;
-endif
-
-package/lib/lib/drivers_cc32xx/I2C.om4g: | .interfaces
-package/lib/lib/drivers_cc32xx/I2C.om4g: I2C.c lib/drivers_cc32xx.am4g.mak
-	@$(RM) $@.dep
-	$(RM) $@
-	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
-	-@$(FIXDEP) $@.dep $@.dep
-	
-package/lib/lib/drivers_cc32xx/I2C.om4g: export LD_LIBRARY_PATH=
-
-package/lib/lib/drivers_cc32xx/I2C.sm4g: | .interfaces
-package/lib/lib/drivers_cc32xx/I2C.sm4g: I2C.c lib/drivers_cc32xx.am4g.mak
-	@$(RM) $@.dep
-	$(RM) $@
-	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
-	-@$(FIXDEP) $@.dep $@.dep
-	
-package/lib/lib/drivers_cc32xx/I2C.sm4g: export LD_LIBRARY_PATH=
 
 ifeq (,$(MK_NOGENDEPS))
 -include package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.om4g.dep
@@ -615,7 +765,7 @@ package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.om4g: ./i2c/I2CCC32XX.c lib/drive
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.om4g: export LD_LIBRARY_PATH=
@@ -625,7 +775,7 @@ package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.sm4g: ./i2c/I2CCC32XX.c lib/drive
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.sm4g: export LD_LIBRARY_PATH=
@@ -640,7 +790,7 @@ package/lib/lib/drivers_cc32xx/I2S.om4g: I2S.c lib/drivers_cc32xx.am4g.mak
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/I2S.om4g: export LD_LIBRARY_PATH=
@@ -650,7 +800,7 @@ package/lib/lib/drivers_cc32xx/I2S.sm4g: I2S.c lib/drivers_cc32xx.am4g.mak
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/I2S.sm4g: export LD_LIBRARY_PATH=
@@ -665,7 +815,7 @@ package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.om4g: ./i2s/I2SCC32XX.c lib/drive
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.om4g: export LD_LIBRARY_PATH=
@@ -675,10 +825,60 @@ package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.sm4g: ./i2s/I2SCC32XX.c lib/drive
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.sm4g: export LD_LIBRARY_PATH=
+
+ifeq (,$(MK_NOGENDEPS))
+-include package/lib/lib/drivers_cc32xx/ITM.om4g.dep
+package/lib/lib/drivers_cc32xx/ITM.om4g.dep: ;
+endif
+
+package/lib/lib/drivers_cc32xx/ITM.om4g: | .interfaces
+package/lib/lib/drivers_cc32xx/ITM.om4g: ITM.c lib/drivers_cc32xx.am4g.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clm4g $< ...
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/ITM.om4g: export LD_LIBRARY_PATH=
+
+package/lib/lib/drivers_cc32xx/ITM.sm4g: | .interfaces
+package/lib/lib/drivers_cc32xx/ITM.sm4g: ITM.c lib/drivers_cc32xx.am4g.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clm4g -S $< ...
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/ITM.sm4g: export LD_LIBRARY_PATH=
+
+ifeq (,$(MK_NOGENDEPS))
+-include package/lib/lib/drivers_cc32xx/./itm/ITMCC32XX.om4g.dep
+package/lib/lib/drivers_cc32xx/./itm/ITMCC32XX.om4g.dep: ;
+endif
+
+package/lib/lib/drivers_cc32xx/./itm/ITMCC32XX.om4g: | .interfaces
+package/lib/lib/drivers_cc32xx/./itm/ITMCC32XX.om4g: ./itm/ITMCC32XX.c lib/drivers_cc32xx.am4g.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clm4g $< ...
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/./itm/ITMCC32XX.om4g: export LD_LIBRARY_PATH=
+
+package/lib/lib/drivers_cc32xx/./itm/ITMCC32XX.sm4g: | .interfaces
+package/lib/lib/drivers_cc32xx/./itm/ITMCC32XX.sm4g: ./itm/ITMCC32XX.c lib/drivers_cc32xx.am4g.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clm4g -S $< ...
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/./itm/ITMCC32XX.sm4g: export LD_LIBRARY_PATH=
 
 ifeq (,$(MK_NOGENDEPS))
 -include package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.om4g.dep
@@ -690,7 +890,7 @@ package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.om4g: ./power/PowerCC32XX.c l
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.om4g: export LD_LIBRARY_PATH=
@@ -700,7 +900,7 @@ package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.sm4g: ./power/PowerCC32XX.c l
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.sm4g: export LD_LIBRARY_PATH=
@@ -715,35 +915,10 @@ package/lib/lib/drivers_cc32xx/./power/PowerCC32XX_asm.om4g: ./power/PowerCC32XX
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) asmm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -x assembler-with-cpp  -Wa,-mcpu=cortex-m4 -Wa,-mthumb  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1   $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -x assembler-with-cpp  -mcpu=cortex-m4 -mthumb  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1   $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX_asm.om4g: export LD_LIBRARY_PATH=
-
-ifeq (,$(MK_NOGENDEPS))
--include package/lib/lib/drivers_cc32xx/PWM.om4g.dep
-package/lib/lib/drivers_cc32xx/PWM.om4g.dep: ;
-endif
-
-package/lib/lib/drivers_cc32xx/PWM.om4g: | .interfaces
-package/lib/lib/drivers_cc32xx/PWM.om4g: PWM.c lib/drivers_cc32xx.am4g.mak
-	@$(RM) $@.dep
-	$(RM) $@
-	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
-	-@$(FIXDEP) $@.dep $@.dep
-	
-package/lib/lib/drivers_cc32xx/PWM.om4g: export LD_LIBRARY_PATH=
-
-package/lib/lib/drivers_cc32xx/PWM.sm4g: | .interfaces
-package/lib/lib/drivers_cc32xx/PWM.sm4g: PWM.c lib/drivers_cc32xx.am4g.mak
-	@$(RM) $@.dep
-	$(RM) $@
-	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
-	-@$(FIXDEP) $@.dep $@.dep
-	
-package/lib/lib/drivers_cc32xx/PWM.sm4g: export LD_LIBRARY_PATH=
 
 ifeq (,$(MK_NOGENDEPS))
 -include package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.om4g.dep
@@ -755,7 +930,7 @@ package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.om4g: ./pwm/PWMTimerCC32XX.c
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.om4g: export LD_LIBRARY_PATH=
@@ -765,7 +940,7 @@ package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.sm4g: ./pwm/PWMTimerCC32XX.c
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.sm4g: export LD_LIBRARY_PATH=
@@ -780,7 +955,7 @@ package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.om4g: ./sd/SDHostCC32XX.c lib/d
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.om4g: export LD_LIBRARY_PATH=
@@ -790,35 +965,10 @@ package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.sm4g: ./sd/SDHostCC32XX.c lib/d
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.sm4g: export LD_LIBRARY_PATH=
-
-ifeq (,$(MK_NOGENDEPS))
--include package/lib/lib/drivers_cc32xx/SPI.om4g.dep
-package/lib/lib/drivers_cc32xx/SPI.om4g.dep: ;
-endif
-
-package/lib/lib/drivers_cc32xx/SPI.om4g: | .interfaces
-package/lib/lib/drivers_cc32xx/SPI.om4g: SPI.c lib/drivers_cc32xx.am4g.mak
-	@$(RM) $@.dep
-	$(RM) $@
-	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
-	-@$(FIXDEP) $@.dep $@.dep
-	
-package/lib/lib/drivers_cc32xx/SPI.om4g: export LD_LIBRARY_PATH=
-
-package/lib/lib/drivers_cc32xx/SPI.sm4g: | .interfaces
-package/lib/lib/drivers_cc32xx/SPI.sm4g: SPI.c lib/drivers_cc32xx.am4g.mak
-	@$(RM) $@.dep
-	$(RM) $@
-	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
-	-@$(FIXDEP) $@.dep $@.dep
-	
-package/lib/lib/drivers_cc32xx/SPI.sm4g: export LD_LIBRARY_PATH=
 
 ifeq (,$(MK_NOGENDEPS))
 -include package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.om4g.dep
@@ -830,7 +980,7 @@ package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.om4g: ./spi/SPICC32XXDMA.c lib
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.om4g: export LD_LIBRARY_PATH=
@@ -840,35 +990,10 @@ package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.sm4g: ./spi/SPICC32XXDMA.c lib
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.sm4g: export LD_LIBRARY_PATH=
-
-ifeq (,$(MK_NOGENDEPS))
--include package/lib/lib/drivers_cc32xx/Timer.om4g.dep
-package/lib/lib/drivers_cc32xx/Timer.om4g.dep: ;
-endif
-
-package/lib/lib/drivers_cc32xx/Timer.om4g: | .interfaces
-package/lib/lib/drivers_cc32xx/Timer.om4g: Timer.c lib/drivers_cc32xx.am4g.mak
-	@$(RM) $@.dep
-	$(RM) $@
-	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
-	-@$(FIXDEP) $@.dep $@.dep
-	
-package/lib/lib/drivers_cc32xx/Timer.om4g: export LD_LIBRARY_PATH=
-
-package/lib/lib/drivers_cc32xx/Timer.sm4g: | .interfaces
-package/lib/lib/drivers_cc32xx/Timer.sm4g: Timer.c lib/drivers_cc32xx.am4g.mak
-	@$(RM) $@.dep
-	$(RM) $@
-	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
-	-@$(FIXDEP) $@.dep $@.dep
-	
-package/lib/lib/drivers_cc32xx/Timer.sm4g: export LD_LIBRARY_PATH=
 
 ifeq (,$(MK_NOGENDEPS))
 -include package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.om4g.dep
@@ -880,7 +1005,7 @@ package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.om4g: ./timer/TimerCC32XX.c l
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.om4g: export LD_LIBRARY_PATH=
@@ -890,35 +1015,35 @@ package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.sm4g: ./timer/TimerCC32XX.c l
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.sm4g: export LD_LIBRARY_PATH=
 
 ifeq (,$(MK_NOGENDEPS))
--include package/lib/lib/drivers_cc32xx/UART.om4g.dep
-package/lib/lib/drivers_cc32xx/UART.om4g.dep: ;
+-include package/lib/lib/drivers_cc32xx/./uart2/UART2CC32XX.om4g.dep
+package/lib/lib/drivers_cc32xx/./uart2/UART2CC32XX.om4g.dep: ;
 endif
 
-package/lib/lib/drivers_cc32xx/UART.om4g: | .interfaces
-package/lib/lib/drivers_cc32xx/UART.om4g: UART.c lib/drivers_cc32xx.am4g.mak
+package/lib/lib/drivers_cc32xx/./uart2/UART2CC32XX.om4g: | .interfaces
+package/lib/lib/drivers_cc32xx/./uart2/UART2CC32XX.om4g: ./uart2/UART2CC32XX.c lib/drivers_cc32xx.am4g.mak
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
-package/lib/lib/drivers_cc32xx/UART.om4g: export LD_LIBRARY_PATH=
+package/lib/lib/drivers_cc32xx/./uart2/UART2CC32XX.om4g: export LD_LIBRARY_PATH=
 
-package/lib/lib/drivers_cc32xx/UART.sm4g: | .interfaces
-package/lib/lib/drivers_cc32xx/UART.sm4g: UART.c lib/drivers_cc32xx.am4g.mak
+package/lib/lib/drivers_cc32xx/./uart2/UART2CC32XX.sm4g: | .interfaces
+package/lib/lib/drivers_cc32xx/./uart2/UART2CC32XX.sm4g: ./uart2/UART2CC32XX.c lib/drivers_cc32xx.am4g.mak
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
-package/lib/lib/drivers_cc32xx/UART.sm4g: export LD_LIBRARY_PATH=
+package/lib/lib/drivers_cc32xx/./uart2/UART2CC32XX.sm4g: export LD_LIBRARY_PATH=
 
 ifeq (,$(MK_NOGENDEPS))
 -include package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.om4g.dep
@@ -930,7 +1055,7 @@ package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.om4g: ./uart/UARTCC32XX.c lib/d
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.om4g: export LD_LIBRARY_PATH=
@@ -940,7 +1065,7 @@ package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.sm4g: ./uart/UARTCC32XX.c lib/d
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.sm4g: export LD_LIBRARY_PATH=
@@ -955,7 +1080,7 @@ package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.om4g: ./uart/UARTCC32XXDMA.c
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.om4g: export LD_LIBRARY_PATH=
@@ -965,35 +1090,10 @@ package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.sm4g: ./uart/UARTCC32XXDMA.c
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.sm4g: export LD_LIBRARY_PATH=
-
-ifeq (,$(MK_NOGENDEPS))
--include package/lib/lib/drivers_cc32xx/Watchdog.om4g.dep
-package/lib/lib/drivers_cc32xx/Watchdog.om4g.dep: ;
-endif
-
-package/lib/lib/drivers_cc32xx/Watchdog.om4g: | .interfaces
-package/lib/lib/drivers_cc32xx/Watchdog.om4g: Watchdog.c lib/drivers_cc32xx.am4g.mak
-	@$(RM) $@.dep
-	$(RM) $@
-	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
-	-@$(FIXDEP) $@.dep $@.dep
-	
-package/lib/lib/drivers_cc32xx/Watchdog.om4g: export LD_LIBRARY_PATH=
-
-package/lib/lib/drivers_cc32xx/Watchdog.sm4g: | .interfaces
-package/lib/lib/drivers_cc32xx/Watchdog.sm4g: Watchdog.c lib/drivers_cc32xx.am4g.mak
-	@$(RM) $@.dep
-	$(RM) $@
-	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
-	-@$(FIXDEP) $@.dep $@.dep
-	
-package/lib/lib/drivers_cc32xx/Watchdog.sm4g: export LD_LIBRARY_PATH=
 
 ifeq (,$(MK_NOGENDEPS))
 -include package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.om4g.dep
@@ -1005,7 +1105,7 @@ package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.om4g: ./watchdog/Watchd
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c  -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.om4g: export LD_LIBRARY_PATH=
@@ -1015,26 +1115,33 @@ package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.sm4g: ./watchdog/Watchd
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clm4g -S $< ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_7_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-gcc -c -MD -MF $@.dep -x c -S -Wunused -Wunknown-pragmas -ffunction-sections -fdata-sections  -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -mabi=aapcs -g -Dfar= -D__DYNAMIC_REENT__  -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=gnu/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_9_2_1  -O2   -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -fno-isolate-erroneous-paths-dereference  -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include/newlib-nano -I/vagrant/Q3_SDK_01/sdk_root/kernel/tirtos/packages/gnu/targets/arm//libs/install-native/arm-none-eabi/include -o $@ $<
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.sm4g: export LD_LIBRARY_PATH=
 
 clean,m4g ::
 	-$(RM) package/lib/lib/drivers_cc32xx/package/package_ti.drivers.om4g
+	-$(RM) package/lib/lib/drivers_cc32xx/ADC.om4g
+	-$(RM) package/lib/lib/drivers_cc32xx/I2C.om4g
 	-$(RM) package/lib/lib/drivers_cc32xx/NVS.om4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./nvs/NVSRAM.om4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.om4g
+	-$(RM) package/lib/lib/drivers_cc32xx/PWM.om4g
 	-$(RM) package/lib/lib/drivers_cc32xx/SD.om4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./sd/SDSPI.om4g
 	-$(RM) package/lib/lib/drivers_cc32xx/SDFatFS.om4g
+	-$(RM) package/lib/lib/drivers_cc32xx/SPI.om4g
+	-$(RM) package/lib/lib/drivers_cc32xx/Timer.om4g
+	-$(RM) package/lib/lib/drivers_cc32xx/UART.om4g
+	-$(RM) package/lib/lib/drivers_cc32xx/UART2.om4g
+	-$(RM) package/lib/lib/drivers_cc32xx/Watchdog.om4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./utils/List.om4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./utils/RingBuf.om4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./utils/Random.om4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.om4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./apps/LED.om4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./apps/Button.om4g
-	-$(RM) package/lib/lib/drivers_cc32xx/ADC.om4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.om4g
 	-$(RM) package/lib/lib/drivers_cc32xx/Camera.om4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./camera/CameraCC32XXDMA.om4g
@@ -1044,38 +1151,42 @@ clean,m4g ::
 	-$(RM) package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.om4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.om4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.om4g
-	-$(RM) package/lib/lib/drivers_cc32xx/I2C.om4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.om4g
 	-$(RM) package/lib/lib/drivers_cc32xx/I2S.om4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.om4g
+	-$(RM) package/lib/lib/drivers_cc32xx/ITM.om4g
+	-$(RM) package/lib/lib/drivers_cc32xx/./itm/ITMCC32XX.om4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.om4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./power/PowerCC32XX_asm.om4g
-	-$(RM) package/lib/lib/drivers_cc32xx/PWM.om4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.om4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.om4g
-	-$(RM) package/lib/lib/drivers_cc32xx/SPI.om4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.om4g
-	-$(RM) package/lib/lib/drivers_cc32xx/Timer.om4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.om4g
-	-$(RM) package/lib/lib/drivers_cc32xx/UART.om4g
+	-$(RM) package/lib/lib/drivers_cc32xx/./uart2/UART2CC32XX.om4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.om4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.om4g
-	-$(RM) package/lib/lib/drivers_cc32xx/Watchdog.om4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.om4g
 	-$(RM) package/lib/lib/drivers_cc32xx/package/package_ti.drivers.sm4g
+	-$(RM) package/lib/lib/drivers_cc32xx/ADC.sm4g
+	-$(RM) package/lib/lib/drivers_cc32xx/I2C.sm4g
 	-$(RM) package/lib/lib/drivers_cc32xx/NVS.sm4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./nvs/NVSRAM.sm4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.sm4g
+	-$(RM) package/lib/lib/drivers_cc32xx/PWM.sm4g
 	-$(RM) package/lib/lib/drivers_cc32xx/SD.sm4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./sd/SDSPI.sm4g
 	-$(RM) package/lib/lib/drivers_cc32xx/SDFatFS.sm4g
+	-$(RM) package/lib/lib/drivers_cc32xx/SPI.sm4g
+	-$(RM) package/lib/lib/drivers_cc32xx/Timer.sm4g
+	-$(RM) package/lib/lib/drivers_cc32xx/UART.sm4g
+	-$(RM) package/lib/lib/drivers_cc32xx/UART2.sm4g
+	-$(RM) package/lib/lib/drivers_cc32xx/Watchdog.sm4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./utils/List.sm4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./utils/RingBuf.sm4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./utils/Random.sm4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.sm4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./apps/LED.sm4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./apps/Button.sm4g
-	-$(RM) package/lib/lib/drivers_cc32xx/ADC.sm4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.sm4g
 	-$(RM) package/lib/lib/drivers_cc32xx/Camera.sm4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./camera/CameraCC32XXDMA.sm4g
@@ -1085,25 +1196,22 @@ clean,m4g ::
 	-$(RM) package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.sm4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.sm4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.sm4g
-	-$(RM) package/lib/lib/drivers_cc32xx/I2C.sm4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.sm4g
 	-$(RM) package/lib/lib/drivers_cc32xx/I2S.sm4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.sm4g
+	-$(RM) package/lib/lib/drivers_cc32xx/ITM.sm4g
+	-$(RM) package/lib/lib/drivers_cc32xx/./itm/ITMCC32XX.sm4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.sm4g
-	-$(RM) package/lib/lib/drivers_cc32xx/PWM.sm4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.sm4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.sm4g
-	-$(RM) package/lib/lib/drivers_cc32xx/SPI.sm4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.sm4g
-	-$(RM) package/lib/lib/drivers_cc32xx/Timer.sm4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.sm4g
-	-$(RM) package/lib/lib/drivers_cc32xx/UART.sm4g
+	-$(RM) package/lib/lib/drivers_cc32xx/./uart2/UART2CC32XX.sm4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.sm4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.sm4g
-	-$(RM) package/lib/lib/drivers_cc32xx/Watchdog.sm4g
 	-$(RM) package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.sm4g
 
-lib/drivers_cc32xx.am4g: package/lib/lib/drivers_cc32xx/package/package_ti.drivers.om4g package/lib/lib/drivers_cc32xx/NVS.om4g package/lib/lib/drivers_cc32xx/./nvs/NVSRAM.om4g package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.om4g package/lib/lib/drivers_cc32xx/SD.om4g package/lib/lib/drivers_cc32xx/./sd/SDSPI.om4g package/lib/lib/drivers_cc32xx/SDFatFS.om4g package/lib/lib/drivers_cc32xx/./utils/List.om4g package/lib/lib/drivers_cc32xx/./utils/RingBuf.om4g package/lib/lib/drivers_cc32xx/./utils/Random.om4g package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.om4g package/lib/lib/drivers_cc32xx/./apps/LED.om4g package/lib/lib/drivers_cc32xx/./apps/Button.om4g package/lib/lib/drivers_cc32xx/ADC.om4g package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.om4g package/lib/lib/drivers_cc32xx/Camera.om4g package/lib/lib/drivers_cc32xx/./camera/CameraCC32XXDMA.om4g package/lib/lib/drivers_cc32xx/Capture.om4g package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.om4g package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.om4g package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.om4g package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.om4g package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.om4g package/lib/lib/drivers_cc32xx/I2C.om4g package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.om4g package/lib/lib/drivers_cc32xx/I2S.om4g package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.om4g package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.om4g package/lib/lib/drivers_cc32xx/./power/PowerCC32XX_asm.om4g package/lib/lib/drivers_cc32xx/PWM.om4g package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.om4g package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.om4g package/lib/lib/drivers_cc32xx/SPI.om4g package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.om4g package/lib/lib/drivers_cc32xx/Timer.om4g package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.om4g package/lib/lib/drivers_cc32xx/UART.om4g package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.om4g package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.om4g package/lib/lib/drivers_cc32xx/Watchdog.om4g package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.om4g lib/drivers_cc32xx.am4g.mak
+lib/drivers_cc32xx.am4g: package/lib/lib/drivers_cc32xx/package/package_ti.drivers.om4g package/lib/lib/drivers_cc32xx/ADC.om4g package/lib/lib/drivers_cc32xx/I2C.om4g package/lib/lib/drivers_cc32xx/NVS.om4g package/lib/lib/drivers_cc32xx/./nvs/NVSRAM.om4g package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.om4g package/lib/lib/drivers_cc32xx/PWM.om4g package/lib/lib/drivers_cc32xx/SD.om4g package/lib/lib/drivers_cc32xx/./sd/SDSPI.om4g package/lib/lib/drivers_cc32xx/SDFatFS.om4g package/lib/lib/drivers_cc32xx/SPI.om4g package/lib/lib/drivers_cc32xx/Timer.om4g package/lib/lib/drivers_cc32xx/UART.om4g package/lib/lib/drivers_cc32xx/UART2.om4g package/lib/lib/drivers_cc32xx/Watchdog.om4g package/lib/lib/drivers_cc32xx/./utils/List.om4g package/lib/lib/drivers_cc32xx/./utils/RingBuf.om4g package/lib/lib/drivers_cc32xx/./utils/Random.om4g package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.om4g package/lib/lib/drivers_cc32xx/./apps/LED.om4g package/lib/lib/drivers_cc32xx/./apps/Button.om4g package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.om4g package/lib/lib/drivers_cc32xx/Camera.om4g package/lib/lib/drivers_cc32xx/./camera/CameraCC32XXDMA.om4g package/lib/lib/drivers_cc32xx/Capture.om4g package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.om4g package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.om4g package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.om4g package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.om4g package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.om4g package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.om4g package/lib/lib/drivers_cc32xx/I2S.om4g package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.om4g package/lib/lib/drivers_cc32xx/ITM.om4g package/lib/lib/drivers_cc32xx/./itm/ITMCC32XX.om4g package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.om4g package/lib/lib/drivers_cc32xx/./power/PowerCC32XX_asm.om4g package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.om4g package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.om4g package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.om4g package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.om4g package/lib/lib/drivers_cc32xx/./uart2/UART2CC32XX.om4g package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.om4g package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.om4g package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.om4g lib/drivers_cc32xx.am4g.mak
 
 clean::
 	-$(RM) lib/drivers_cc32xx.am4g.mak

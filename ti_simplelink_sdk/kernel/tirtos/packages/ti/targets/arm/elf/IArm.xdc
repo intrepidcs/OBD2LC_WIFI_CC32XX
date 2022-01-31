@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019 by Texas Instruments Incorporated.
+ *  Copyright 2020 by Texas Instruments Incorporated.
  *
  */
 
@@ -196,7 +196,7 @@ metaonly interface IArm inherits ti.targets.ITarget {
     override config String binaryParser = "xdc.targets.omf.Elf";
 }
 /*
- *  @(#) ti.targets.arm.elf; 1, 0, 0,0; 8-9-2019 17:15:05; /db/ztree/library/trees/xdctargets/xdctargets-v00/src/ xlibrary
+ *  @(#) ti.targets.arm.elf; 1, 0, 0,; 6-12-2020 15:19:58; /db/ztree/library/trees/xdctargets/xdctargets-w18/src/ xlibrary
 
  */
 

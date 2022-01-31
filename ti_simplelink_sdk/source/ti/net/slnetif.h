@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019, Texas Instruments Incorporated
+ * Copyright (c) 2017-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -109,6 +109,16 @@ typedef enum
     SLNETIF_IPV6_ADDR_GLOBAL = 2
 } SlNetIfAddressType_e;
 
+/*!
+    \brief Events type enum to be used in event handler function
+*/
+typedef enum
+{
+    SLNETIF_DISCONNECT = 0,
+    SLNETIF_MAC_CONNECT = 1,
+    SLNETIF_IP_AQUIRED = 2
+} SlNetIfEventId_e;
+
 /* Address config return values that can be retrieved in get ip address function */
 #define SLNETIF_ADDR_CFG_UNKNOWN   (0)
 #define SLNETIF_ADDR_CFG_DHCP      (1)
@@ -148,6 +158,12 @@ typedef enum
 /*****************************************************************************/
 
 /*!
+    \brief Interface call back function prototype.
+           This function is called when an event occurs.
+*/
+typedef int32_t (*SlNetIf_Event_t)(SlNetIfEventId_e status, uint16_t ifID , void* pData);
+
+/*!
     \brief SlNetIf_Config_t structure contains all the function callbacks that are expected to be filled by the relevant network stack interface \n
            Each interface has different capabilities, so not all the API's must be supported therefore an API's can be defined as:
            - <b>Mandatory API's</b>     - must be supported by the interface in order to be part of SlNetSock layer
@@ -159,6 +175,10 @@ typedef enum
 */
 typedef struct SlNetIf_Config_t
 {
+    /* connection related API's */
+    int32_t (*connEnable)        (void *ifContext);                                                                                  /*!< \b Optional API (required only when using SlNetConn) \n The actual implementation of the interface for ::SlNetConn_start  */
+    int16_t (*connDisable)       (void *ifContext);                                                                                  /*!< \b Optional API (required only when using SlNetConn) \n The actual implementation of the interface for ::SlNetConn_stop  */
+
     /* socket related API's */
     int16_t (*sockCreate)        (void *ifContext, int16_t domain, int16_t type, int16_t protocol, void **sdContext);                /*!< \b Mandatory API \n The actual implementation of the interface for ::SlNetSock_create           */
     int32_t (*sockClose)         (int16_t sd, void *sdContext);                                                                      /*!< \b Mandatory API \n The actual implementation of the interface for ::SlNetSock_close            */
@@ -180,13 +200,14 @@ typedef struct SlNetIf_Config_t
 
     /* util related API's */
     int32_t (*utilGetHostByName) (void *ifContext, char *name, const uint16_t nameLen, uint32_t *ipAddr, uint16_t *ipAddrLen, const uint8_t family);  /*!< \b Non-Mandatory API \n The actual implementation of the interface for ::SlNetUtil_getHostByName */
+    uint32_t (*utilPing)         (void *ifContext, const SlNetSock_Addr_t *addr, SlNetSocklen_t addrLen, uint32_t attempts, uint16_t timeout, uint16_t interval, uint16_t packetSize, int16_t flags);  /*!< \b Non-Mandatory API (required when using SlNetConn) \n The actual implementation of the interface for ::SlNetUtil_ping */
 
     /* if related API's */
     int32_t (*ifGetIPAddr)           (void *ifContext, SlNetIfAddressType_e addrType, uint16_t *addrConfig, uint32_t *ipAddr);                      /*!< \b Mandatory API \n The actual implementation of the interface for ::SlNetIf_getIPAddr           */
     int32_t (*ifGetConnectionStatus) (void *ifContext);                                                                                             /*!< \b Mandatory API \n The actual implementation of the interface for ::SlNetIf_getConnectionStatus */
     int32_t (*ifLoadSecObj)          (void *ifContext, uint16_t objType, char *objName, int16_t objNameLen, uint8_t *objBuff, int16_t objBuffLen);  /*!< \b Non-Mandatory API \n The actual implementation of the interface for ::SlNetIf_loadSecObj      */
-    int32_t (*ifCreateContext)       (uint16_t ifID, const char *ifName, void **ifContext);                                                         /*!< \b Non-Mandatory API \n The actual implementation of the interface for ::SlNetIf_add             */
-
+    int32_t (*ifCreateContext)       (uint16_t ifID, const char *ifName, void **ifContext, SlNetIf_Event_t ifCallback);                             /*!< \b Mandatory API \n The actual implementation of the interface for ::SlNetIf_add   */
+    int32_t (*ifDeleteContext)       (uint16_t ifID, void **ifContext);                                                                             /*!< \b Mandatory API  */
 } SlNetIf_Config_t;
 
 
@@ -496,7 +517,7 @@ int32_t SlNetIf_getConnectionStatus(uint16_t ifID);
 /*!
     \brief Get IP Address of specific interface
 
-    The SlNetIf_getIPAddr function retrieve the IP address of a specific
+    The SlNetIf_getIPAddr function retrieves the IP address of a specific
     interface according to the Address Type, IPv4, IPv6 LOCAL
     or IPv6 GLOBAL.
 
@@ -516,7 +537,7 @@ int32_t SlNetIf_getConnectionStatus(uint16_t ifID);
                                           - #SLNETIF_ADDR_CFG_STATIC
                                           - #SLNETIF_ADDR_CFG_STATELESS
                                           - #SLNETIF_ADDR_CFG_STATEFUL
-    \param[out] ipAddr        IP Address according to the Address Type
+    \param[out] ipAddr        IP Address according to the Address Type (network byte order)
 
     \return                   Zero on success, or negative error code on failure
 
@@ -615,6 +636,25 @@ int32_t SlNetIf_getIPAddr(uint16_t ifID, SlNetIfAddressType_e addrType, uint16_t
 
 */
 int32_t SlNetIf_loadSecObj(uint16_t objType, char *objName, int16_t objNameLen, uint8_t *objBuff, int16_t objBuffLen, uint32_t ifBitmap);
+
+/*!
+    \brief Register node to If events list
+
+    SlNetIf_registerEventHandler() adds node to If events list.
+    Allows libraries and applications to get information by call back from their interface.
+
+    \param[in] EventCallback          function call back (pointer)
+*/
+int32_t SlNetIf_registerEventHandler(SlNetIf_Event_t EventCallback);
+
+/*!
+    \brief Unegister node to If events list
+
+    SlNetIf_registerEventHandler() removes node from If events list.
+
+    \param[in] EventCallback          function call back (pointer)
+*/
+int32_t SlNetIf_unregisterEventHandler(SlNetIf_Event_t EventCallback);
 
 /*!
 

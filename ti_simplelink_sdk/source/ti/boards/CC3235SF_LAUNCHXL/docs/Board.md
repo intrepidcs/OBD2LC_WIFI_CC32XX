@@ -55,8 +55,8 @@ The following BoosterPack(s) are used with some driver examples.
           |:--------------:|:----------------:|
           | __`3V3`__      | __`3V3`__        |
           | __`GND`__      | __`GND`__        |
-          | __`P08/CMD`__  | __`SD_DET*`__    |
-          | __`P07/CLK`__  | __`SPI_MOSI`__   |
+          | __`P08/CMD`__  | __`SPI_MOSI`__   |
+          | __`P07/CLK`__  | __`SPI_CLK`__    |
           | __`P06/DATA`__ | __`SPI_MISO`__   |
 
   * The LCD's SPI slave select and power pins are not compatible with this
@@ -71,7 +71,7 @@ The following BoosterPack(s) are used with some driver examples.
           | __`3V3`__ | __`LCD_PWR`__    |
           | __`P03`__ | __`LCD_CS`__     |
 
-#### [__BOOSTXL-BASSENSORS BoosterPack__][boostxl-bassensors]
+#### [__BP-BASSENSORSMKII BoosterPack__][bp-bassensorsmkii]
 
   * The OPT3001's interrupt pin is not compatible with this LaunchPad. Use one
     of the following modification(s) to enable the OPT3001's usage with the
@@ -85,12 +85,19 @@ The following BoosterPack(s) are used with some driver examples.
 
 ## Reset Behavior
 
-By default, the application is not retained after a power reset.
+By default, the application is not retained after a power reset. To enable
+retention of the application for debug purposes, the application should
+add the following pre-defined symbol: `__SF_DEBUG__`. This will place a header,
+`Board_debugHeader`, into flash. This header is defined in the SysConfig
+generated ti_drivers_config.c file.
 
+>__Note:__ The user should ensure the `Board_debugHeader` is erased if
+retention of the application is no longer desired. The ti_drivers_config.c file
+will erase the `Board_debugHeader` if `__SF_NODEBUG__` is defined.
 
 
 [device]: http://www.ti.com/product/CC3235SF
 [launchpad]: http://www.ti.com/tool/LAUNCHXL-CC3235SF
 [boostxl-sharp128]: http://www.ti.com/tool/boostxl-sharp128
-[boostxl-bassensors]: http://www.ti.com/tool/BOOSTXL-BASSENSORS
+[bp-bassensorsmkii]: http://www.ti.com/tool/bp-bassensorsmkii
 [cc3200audboost]: http://www.ti.com/tool/cc3200audboost

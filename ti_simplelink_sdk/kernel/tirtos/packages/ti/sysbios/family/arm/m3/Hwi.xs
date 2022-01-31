@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019, Texas Instruments Incorporated
+ * Copyright (c) 2015-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -173,6 +173,12 @@ if (xdc.om.$name == "cfg") {
             resetVectorAddress : 0x0,           /* placed low in flash */
             vectorTableAddress : 0x20000000,
         },
+        "CC26.1.*": {
+            numInterrupts : 16 + 38,            /* supports 54 interrupts */
+            numPriorities : 8,
+            resetVectorAddress : 0x0,           /* placed low in flash */
+            vectorTableAddress : 0x20000000,
+        },
         "CC26.*": {
             numInterrupts : 16 + 34,            /* supports 50 interrupts */
             numPriorities : 8,
@@ -190,6 +196,16 @@ if (xdc.om.$name == "cfg") {
             numPriorities : 8,
             resetVectorAddress : 0x01000800,
             vectorTableAddress : 0x20000000,
+        },
+        /*
+         * CC32XX vector table placement must be done in the linker.cmd file.
+         * Hwi.placeVectorTables config parameter must be 'false'!
+         */
+        "CC32XX": {
+            numInterrupts : 16 + 179,
+            numPriorities : 8,
+            resetVectorAddress : 0x0,
+            vectorTableAddress : 0x0,
         }
     }
 
@@ -209,6 +225,7 @@ if (xdc.om.$name == "cfg") {
     deviceTable["OMAP5430"]      = deviceTable["OMAP4430"];
     deviceTable["Vayu"]          = deviceTable["OMAP4430"];
     deviceTable["DRA7XX"]        = deviceTable["OMAP4430"];
+    deviceTable["CC13.1.*"]      = deviceTable["CC26.1.*"];
     deviceTable["CC13.2.*"]      = deviceTable["CC26.2.*"];
     deviceTable["CC13.*"]        = deviceTable["CC26.*"];
     deviceTable["CC3235S"]       = deviceTable["CC3200"];
@@ -318,13 +335,6 @@ function module$meta$init()
     Program.sectMap[".bootVecs"] = new Program.SectionSpec();
     Program.sectMap[".bootVecs"].type = "DSECT";
 
-    if (!Program.build.target.$name.match(/gnu/)) {
-        /* create our .vecs & .resetVecs SectionSpecs */
-        Program.sectMap[".resetVecs"] = new Program.SectionSpec();
-        Program.sectMap[".vecs"] = new Program.SectionSpec();
-        Program.sectMap[".vecs"].type = "NOLOAD";
-    }
-
     /*
      * Initialize meta-only Hwi object array
      */
@@ -411,6 +421,13 @@ function module$use()
     }
     else {
         Memory = xdc.useModule('xdc.runtime.Memory');
+    }
+
+    if (Hwi.placeVectorTables && !Program.build.target.$name.match(/gnu/)) {
+        /* create our .vecs & .resetVecs SectionSpecs */
+        Program.sectMap[".resetVecs"] = new Program.SectionSpec();
+        Program.sectMap[".vecs"] = new Program.SectionSpec();
+        Program.sectMap[".vecs"].type = "NOLOAD";
     }
 
     if (Hwi.dispatcherSwiSupport == undefined) {
@@ -630,7 +647,7 @@ function module$static$init(mod, params)
     /*
      * Non GNU targets have to deal with legacy config files
      */
-    if (!Program.build.target.$name.match(/gnu/)) {
+    if (Hwi.placeVectorTables && !Program.build.target.$name.match(/gnu/)) {
 
         /*
          * Some legacy config files explicitly place the vector table sections
@@ -678,7 +695,13 @@ function module$static$init(mod, params)
         Startup.firstFxns.$add(Hwi.initNVIC);
     }
 
-    mod.vectorTableBase = Hwi.vectorTableAddress;
+    if ((Hwi.vectorTableAddress != Hwi.resetVectorAddress) ||
+            (Hwi.placeVectorTables == false)) {
+        mod.vectorTableBase = $externPtr('ti_sysbios_family_arm_m3_Hwi_ramVectors[0]');
+    }
+    else {
+        mod.vectorTableBase = Hwi.vectorTableAddress;
+    }
 
     if (Hwi.vectorTableAddress > 0x3fffc000) {
         Hwi.$logError("Vector Table must be placed at or below 0x3FFFFC00",
@@ -838,6 +861,10 @@ function addHookSet(hookSet)
  */
 function module$validate()
 {
+    if (Hwi.placeVectorTables && Program.cpu.deviceName == "CC32XX") {
+        Hwi.$logError("Hwi.placeVectorTables must be 'false' for CC32XX.", Hwi, "placeVectorTables");
+    }
+
     /* validate all "created" instances */
     for (var i = 0; i < Hwi.$instances.length; i++) {
         instance_validate(Hwi.$instances[i]);
@@ -919,7 +946,7 @@ function viewScanDispatchTable(data, viewLevel)
             var alreadyScanned = false;
             /* skip Hwis that are already known to ROV */
             for (var j in rawView.instStates) {
-                rawInstance = rawView.instStates[j];
+                var rawInstance = rawView.instStates[j];
                 if (Number(rawInstance.$addr) == Number(hwiHandle.elem)) {
                     alreadyScanned = true;
                     break;
@@ -1058,9 +1085,9 @@ function viewFillBasicInfo(view, obj)
 
     var pri = viewGetPriority(view, this, Math.abs(obj.intNum));
 
-    mask = numPriTable[hwiModCfg.NUM_PRIORITIES].mask;
+    var mask = numPriTable[hwiModCfg.NUM_PRIORITIES].mask;
 
-    shift = numPriTable[hwiModCfg.NUM_PRIORITIES].shift;
+    var shift = numPriTable[hwiModCfg.NUM_PRIORITIES].shift;
 
     view.priority = pri;
 
@@ -1847,7 +1874,7 @@ function viewInitVectorTable(view)
 
     var vtor = Number(this.VTOR);
 
-    vectorTable = Program.fetchArray({type: 'xdc.rov.support.ScalarStructs.S_UInt', isScalar: true}, vtor, numInts, false);
+    var vectorTable = Program.fetchArray({type: 'xdc.rov.support.ScalarStructs.S_UInt', isScalar: true}, vtor, numInts, false);
 
     try {
         var rawView = Program.scanRawView('ti.sysbios.family.arm.m3.Hwi');

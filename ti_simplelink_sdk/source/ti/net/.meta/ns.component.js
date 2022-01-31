@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2019-2020 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,7 +47,12 @@ let topModules = [
         displayName: displayName,
         description: description,
         modules: [
-            "/ti/net/SlNet"
+            "/ti/net/SlNet",
+            "/ti/net/HTTPClient",
+            "/ti/net/HTTPServer",
+            "/ti/net/MQTT",
+            "/ti/net/SlNetConn",
+            "/ti/net/SNTP"
         ]
     }
 ];

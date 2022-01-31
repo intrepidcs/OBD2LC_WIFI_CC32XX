@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018, Texas Instruments Incorporated
+ * Copyright (c) 2017-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,8 +36,10 @@
 #include <errno.h>
 
 #include <ti/net/bsd/sys/socket.h>
+#include <ti/net/bsd/arpa/inet.h>
 #include <ti/net/bsd/errnoutil.h>
 #include <ti/net/slnetsock.h>
+#include <ti/net/slnetutils.h>
 #include <ti/net/slneterr.h>
 
 /* The implementation assumes the various SLNETSOCK_MSG_ flags passed
@@ -159,6 +161,18 @@ int getsockname(int fd, struct sockaddr *addr, socklen_t *addrlen)
 
 int setsockopt(int fd, int level, int optname, const void *optval, socklen_t optlen)
 {
+    const struct linger *tempLinger;
+
+    /* Negative l_linger values are not allowed */
+    if (optname == SO_LINGER && level == SOL_SOCKET)
+    {
+        tempLinger = optval;
+        if (tempLinger->l_linger < 0)
+        {
+            return ErrnoUtil_set(SLNETERR_BSD_EDOM);
+        }
+    }
+
     int RetVal = (int)SlNetSock_setOpt((int16_t)fd, level, optname, (void *)optval, optlen);
     return ErrnoUtil_set(RetVal);
 }
@@ -203,8 +217,16 @@ ssize_t recv(int fd, void *pBuf, size_t Len, int flags)
     /* Note, we assume here (and validated above!) that BSD flag
      * values matched the SLNETSOCK flag values.  So we can blindly
      * pass BSD flags into this SlNetSock call.
+     *
+     * Note on cast from size_t to uint32_t - this cast is OK for the ILP32 data
+     * model, as both size_t and uint32_t are 32 bit unsigned integers in that
+     * case. However, for 64 bit data models (e.g. LP64), size_t will be a
+     * 64 bit unsigned integer, while uint32_t remains 32 bits in size. This
+     * difference will result in data loss due to truncation, if the user calls
+     * recv() with a value of Len greater than the max value for uint32_t.
+     * (tracked by NS-308)
      */
-    RetVal = (ssize_t)SlNetSock_recv((int16_t)fd, pBuf, (int16_t)Len, flags);
+    RetVal = (ssize_t)SlNetSock_recv((int16_t)fd, pBuf, (uint32_t)Len, flags);
     return (ssize_t)(ErrnoUtil_set(RetVal));
 }
 
@@ -220,6 +242,15 @@ ssize_t recvfrom(int fd, void *buf, size_t Len, int flags, struct sockaddr *from
     /* Note, we assume here (and validated above!) that BSD flag
      * values matched the SLNETSOCK flag values.  So we can blindly
      * pass BSD flags into this SlNetSock call.
+     *
+     * Note: there is an implicit cast from size_t to uint32_t here for the Len
+     * parameter - this case is OK for the ILP32 data
+     * model, as both size_t and uint32_t are 32 bit unsigned integers in that
+     * case. However, for 64 bit data models (e.g. LP64), size_t will be a
+     * 64 bit unsigned integer, while uint32_t remains 32 bits in size. This
+     * difference will result in data loss due to truncation, if the user calls
+     * recvfrom() with a value of Len greater than the max value for uint32_t.
+     * (tracked by NS-308)
      */
     RetVal = (ssize_t)SlNetSock_recvFrom((int16_t)fd, buf, Len, flags,
             (SlNetSock_Addr_t *)from, fromlen);
@@ -238,6 +269,15 @@ ssize_t send(int fd, const void *pBuf, size_t Len, int flags)
     /* Note, we assume here (and validated above!) that BSD flag
      * values matched the SLNETSOCK flag values.  So we can blindly
      * pass BSD flags into this SlNetSock call.
+     *
+     * Note: there is an implicit cast from size_t to uint32_t here for the Len
+     * parameter - this case is OK for the ILP32 data
+     * model, as both size_t and uint32_t are 32 bit unsigned integers in that
+     * case. However, for 64 bit data models (e.g. LP64), size_t will be a
+     * 64 bit unsigned integer, while uint32_t remains 32 bits in size. This
+     * difference will result in data loss due to truncation, if the user calls
+     * send() with a value of Len greater than the max value for uint32_t.
+     * (tracked by NS-308)
      */
     RetVal = (ssize_t)SlNetSock_send((int16_t)fd, pBuf, Len, flags);
     return (ssize_t)(ErrnoUtil_set(RetVal));
@@ -255,8 +295,65 @@ ssize_t sendto(int fd, const void *pBuf, size_t Len, int flags, const struct soc
     /* Note, we assume here (and validated above!) that BSD flag
      * values matched the SLNETSOCK flag values.  So we can blindly
      * pass BSD flags into this SlNetSock call.
+     *
+     * Note on cast from size_t to uint32_t - this cast is OK for the ILP32 data
+     * model, as both size_t and uint32_t are 32 bit unsigned integers in that
+     * case. However, for 64 bit data models (e.g. LP64), size_t will be a
+     * 64 bit unsigned integer, while uint32_t remains 32 bits in size. This
+     * difference will result in data loss due to truncation, if the user calls
+     * sendto() with a value of Len greater than the max value for uint32_t.
+     * (tracked by NS-308)
      */
-    RetVal = (ssize_t)SlNetSock_sendTo((int16_t)fd, pBuf, (int16_t)Len, flags,
+    RetVal = (ssize_t)SlNetSock_sendTo((int16_t)fd, pBuf, (uint32_t)Len, flags,
             (const SlNetSock_Addr_t *)to, tolen);
     return (ssize_t)(ErrnoUtil_set(RetVal));
+}
+
+/*******************************************************************************/
+/*  inet_pton */
+/*******************************************************************************/
+
+int inet_pton(int af, const char *src, void *dst)
+{
+    int ret;
+
+    /* This check is already performed in SlNetUtil_inetPton(), but we do it
+     * here because af is an int16_t argument there. This way we can ensure af
+     * will not be truncated once it gets to SlNetUtil_inetPton().
+     */
+    if(af != AF_INET && af != AF_INET6)
+    {
+        ret = ErrnoUtil_set(SLNETERR_BSD_EAFNOSUPPORT);
+    }
+    else
+    {
+        ret = SlNetUtil_inetPton(af, src, dst);
+    }
+
+    return ret;
+}
+
+/*******************************************************************************/
+/*  inet_ntop */
+/*******************************************************************************/
+
+const char *inet_ntop(int af, const void *src, char *dst, socklen_t size)
+{
+    const char *ret;
+
+    if(af != AF_INET && af != AF_INET6)
+    {
+        ErrnoUtil_set(SLNETERR_BSD_EAFNOSUPPORT);
+        ret = NULL;
+    }
+    else
+    {
+        ret = SlNetUtil_inetNtop(af, src, dst, size);
+        if(ret == NULL)
+        {
+            ErrnoUtil_set(SLNETERR_BSD_ENOSPC);
+        }
+    }
+
+    return ret;
 }

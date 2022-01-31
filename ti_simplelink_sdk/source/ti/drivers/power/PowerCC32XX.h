@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019, Texas Instruments Incorporated
+ * Copyright (c) 2015-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -331,6 +331,14 @@ typedef struct {
      *  @brief  Number of pins to be parked during LPDS
      */
     uint32_t numPins;
+    /*!
+     *  @brief  Latency to reserve for entry to and exit from LPDS, in
+     *  microseconds
+     *
+     *  This value is used by the power policy when determining whether to
+     *  enter LPDS, versus a lighter sleep state with a lower latency.
+     */
+    uint32_t latencyForLPDS;
 } PowerCC32XX_ConfigV1;
 
 /*!

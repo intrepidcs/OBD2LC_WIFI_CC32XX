@@ -1,6 +1,6 @@
 %%{
 /*
- * Copyright (c) 2018-2019 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2020 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,17 +38,13 @@
 
     /* PIN module passed in args[] */
     let PIN = args[0];
-
     let instances = PIN.$instances;
 %%}
 /*
  *  ======== PIN ========
  */
-
-/* Includes */
 #include <ti/drivers/PIN.h>
 
-/* Externs */
 extern const PIN_Config BoardGpioInitTable[];
 % if (instances.length > 0) {
 
@@ -71,7 +67,8 @@ extern const PIN_Config BoardGpioInitTable[];
     % if (comment != "") {
 `comment`
     % }
-#define `inst.$name`    `PIN.getIOIDValue(inst)`
+#define `inst.$name`                   `PIN.getIOIDValue(inst)`
     %
 % }
+#define CONFIG_TI_DRIVERS_PIN_COUNT    `instances.length`
 % }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019, Texas Instruments Incorporated
+ * Copyright (c) 2017-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,7 @@
 
 #include <stddef.h>
 
-#include "slnetsock.h"
+#include <ti/net/slnetsock.h>
 
 #ifdef    __cplusplus
 extern "C" {
@@ -412,6 +412,43 @@ const char *SlNetUtil_inetNtop(int16_t addrFamily, const void *binaryAddr, char 
     \endcode
 */
 int32_t SlNetUtil_inetPton(int16_t addrFamily, const char *strAddr, void *binaryAddr);
+
+/*!
+    \brief Performs a ping
+
+    This functions is used to perform a ping request and check its response.
+
+    \remarks    SlNetUtil_ping() may not support pinging some addresses
+                (e.g. loopback), and in those cases, this API will return 0.
+
+    \param[in]  addr            Pointer to an address structure indicating the
+                                destination address
+    \param[in]  addrLen         Destination address structure size
+    \param[in]  attempts        Specifies the number of ping request attempts.
+    \param[in]  timeout         Specifies the timeout to wait for a ping
+                                response
+    \param[in]  interval        Specifies the interval between subsequent ping
+                                attempts
+    \param[in]  packetSize      Ping packet size in bytes including ICMP header,
+                                therefore must be greater than 8
+    \param[in]  ifBitmap        Specifies the interface in which the ping will
+                                be performed according to priority. Value 0 is
+                                used in order to choose automatic interfaces
+                                selection according to the priority interface
+                                list. Value can be a combination of interfaces
+                                by OR'ing multiple interfaces bit identifiers
+                                (SLNETIF_ID_ defined in slnetif.h)
+                                Note: interface identifier bit must be
+                                configured prior to this using SlNetIf_add().
+    \param[in]  flags           Reserved
+
+    \return                    The number of successful packets, 0 on failure
+
+    \slnetutil_init_precondition
+*/
+uint32_t SlNetUtil_ping(const SlNetSock_Addr_t *addr, SlNetSocklen_t addrLen,
+        uint32_t attempts, uint16_t timeout, uint16_t interval,
+        uint16_t packetSize, uint32_t ifBitmap, int16_t flags);
 
 /*!
 

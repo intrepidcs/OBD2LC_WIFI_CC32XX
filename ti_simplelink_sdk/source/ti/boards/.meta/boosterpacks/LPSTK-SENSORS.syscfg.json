@@ -88,7 +88,7 @@
                 "I2C": {
                     "link": "LPSTK_I2C"
                 },
-                "INTERRUPT": {
+                "ALERT": {
                     "type": "SENSOR_INT",
                     "displayName": "OPT3001 Interrupt",
                     "description": "OPT3001 interrupt pin",
@@ -97,8 +97,7 @@
                         "INTERRUPT": {
                             "type": "DIN",
                             "settings": {
-                                "interruptTrigger": "Rising Edge",
-                                "callbackFunction": "NULL"
+                                "pull": "Pull Up"
                             },
                             "connection": 25
                         }
@@ -107,30 +106,29 @@
             }
         },
 
-        "HDC2010": {
-            "type": "HDC2010",
-            "displayName": "HDC2010 Humidity & Temperature Sensor",
+        "HDC2080": {
+            "type": "HDC2080",
+            "displayName": "HDC2080 Humidity & Temperature Sensor",
             "description": "Ultra-low-power, digital humidity sensor with temperature sensor in WCSP",
-            "longDescription": "The [__HDC2010__](http://www.ti.com/product/HDC2010) is an integrated humidity and temperature sensor that provides high accuracy measurements with very low power consumption, in an ultra-compact Wafer Level Chip Scale Package.",
+            "longDescription": "The [__HDC2080__](http://www.ti.com/product/HDC2080) is an integrated humidity and temperature sensor that provides high accuracy measurements with very low power consumption, in a smal DFN package.",
             "settings": {
-                "address":  64,  /* 0x40 */
+                "address":  65,  /* 0x41 */
                 "maxSpeed": 400  /* 400 kbit/s */
             },
             "subComponents": {
                 "I2C": {
                     "link": "LPSTK_I2C"
                 },
-                "INTERRUPT": {
+                "ALERT": {
                     "type": "SENSOR_INT",
-                    "displayName": "HDC2010 Interrupt",
-                    "description": "HDC1010 interrupt pin",
-                    "longDescription": "HDC2010 interrupt pin",
+                    "displayName": "HDC2080 Interrupt",
+                    "description": "HDC20180 interrupt pin",
+                    "longDescription": "HDC2080 interrupt pin",
                     "signals": {
                         "INTERRUPT": {
                             "type": "DIN",
                             "settings": {
-                                "interruptTrigger": "Rising Edge",
-                                "callbackFunction": "NULL"
+                                "pull": "None"
                             },
                             "connection": 23
                         }
@@ -169,6 +167,21 @@
                     "longDescription": "ADXL362 Accelerometer SPI chip select",
                     "definition"  : "/ti/boards/components/spiSelect.json",
                     "connections" : { "SS": 18 }
+                },
+                "ACC_INT1": {
+                    "type": "SENSOR_INT",
+                    "displayName": "ADXL362 Interrupt 1",
+                    "description": "ADXL362 interrupt 1 pin",
+                    "longDescription": "ADXL362 interrupt 1 pin ",
+                    "signals": {
+                        "INTERRUPT": {
+                            "type": "DIN",
+                            "settings": {
+                                "pull": "None"
+                            },
+                            "connection": 28
+                        }
+                    }
                 }
             }
         }

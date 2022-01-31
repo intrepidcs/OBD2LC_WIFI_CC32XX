@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2020 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -97,9 +97,15 @@ function filterHardware(component) {
  *  ======== onHardwareChanged ========
  */
 function onHardwareChanged(inst, ui) {
-    /* Default to max size of spi flash if specified */
-    if (inst.$hardware.settings && inst.$hardware.settings.capacity) {
-        inst.regionSize = inst.$hardware.settings.capacity;
+    if (inst.$hardware) {
+        /* Default to max size of spi flash if specified */
+        if (inst.$hardware.settings && inst.$hardware.settings.capacity) {
+            inst.regionSize = inst.$hardware.settings.capacity;
+        }
+    }
+    else {
+        /* restore to default regionSize */
+        inst.regionSize = inst.$module.$configByName.regionSize.default;
     }
 }
 

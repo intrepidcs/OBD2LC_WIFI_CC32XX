@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019, Texas Instruments Incorporated
+ * Copyright (c) 2019-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -381,11 +381,11 @@ void I2S_startRead(I2S_Handle handle) {
             object->updateDataReadFxn((uintptr_t)handle);
             MAP_I2SRxFIFOEnable(I2S_BASE, object->udmaArbLength, object->noOfInputs);
 
-            /* Enable I2S_INT_RDATA | I2S_INT_ROVRN | I2S_INT_RLAST */
+            /* Enable I2S_INT_RDMA | I2S_INT_ROVRN | I2S_INT_RLAST */
             /* Note: we do not activate the I2S_STS_RDMAERR flag (uDMA's responsibility) */
-            HWREG(APPS_CONFIG_BASE + APPS_CONFIG_O_DMA_DONE_INT_MASK_CLR ) |= (((I2S_INT_RDATA | I2S_INT_ROVRN | I2S_INT_RLAST) &0xC0000000) >> 20);
-            HWREG(I2S_BASE + MCASP_O_EVTCTLR) |= (((I2S_INT_RDATA | I2S_INT_ROVRN | I2S_INT_RLAST) >> 16) & 0xFF);
-            object->activatedFlag |= I2S_STS_RLAST | I2S_STS_ROVERN | I2S_STS_RDATA;
+            HWREG(APPS_CONFIG_BASE + APPS_CONFIG_O_DMA_DONE_INT_MASK_CLR ) |= (((I2S_INT_RDMA | I2S_INT_ROVRN | I2S_INT_RLAST) &0xC0000000) >> 20);
+            HWREG(I2S_BASE + MCASP_O_EVTCTLR) |= (((I2S_INT_RDMA | I2S_INT_ROVRN | I2S_INT_RLAST) >> 16) & 0xFF);
+            object->activatedFlag |= I2S_STS_RLAST | I2S_STS_ROVERN | I2S_STS_RDMA;
         }
         HwiP_restore(key);
 
@@ -428,11 +428,11 @@ void I2S_startWrite(I2S_Handle handle) {
             object->updateDataWriteFxn((uintptr_t)handle);
             MAP_I2STxFIFOEnable(I2S_BASE, object->udmaArbLength, object->noOfOutputs);
 
-            /* Enable I2S_INT_XDATA | I2S_INT_XLAST | I2S_INT_XUNDRN */
+            /* Enable I2S_INT_XDMA | I2S_INT_XLAST | I2S_INT_XUNDRN */
             /* Note: we do not activate the I2S_STS_XDMAERR flag (uDMA's responsibility) */
-            HWREG(APPS_CONFIG_BASE + APPS_CONFIG_O_DMA_DONE_INT_MASK_CLR ) |= (((I2S_INT_XDATA | I2S_INT_XLAST | I2S_INT_XUNDRN) &0xC0000000) >> 20);
-            HWREG(I2S_BASE + MCASP_O_EVTCTLX) |= ((I2S_INT_XDATA | I2S_INT_XLAST | I2S_INT_XUNDRN) & 0xFF);
-            object->activatedFlag |= I2S_STS_XLAST | I2S_STS_XUNDRN | I2S_STS_XDATA;
+            HWREG(APPS_CONFIG_BASE + APPS_CONFIG_O_DMA_DONE_INT_MASK_CLR ) |= (((I2S_INT_XDMA | I2S_INT_XLAST | I2S_INT_XUNDRN) &0xC0000000) >> 20);
+            HWREG(I2S_BASE + MCASP_O_EVTCTLX) |= ((I2S_INT_XDMA | I2S_INT_XLAST | I2S_INT_XUNDRN) & 0xFF);
+            object->activatedFlag |= I2S_STS_XLAST | I2S_STS_XUNDRN | I2S_STS_XDMA;
         }
         HwiP_restore(key);
 
@@ -466,11 +466,11 @@ void I2S_stopRead(I2S_Handle handle) {
         }
         else {
 
-            MAP_I2SIntDisable(I2S_BASE, I2S_INT_RDATA | I2S_INT_ROVRN );
+            MAP_I2SIntDisable(I2S_BASE, I2S_INT_RDMA | I2S_INT_ROVRN );
 
             uintptr_t key = HwiP_disable();
             /* Keep activatedFlag to be modified from somewhere else */
-            object->activatedFlag &= ~(I2S_STS_RDATA | I2S_STS_ROVERN);
+            object->activatedFlag &= ~(I2S_STS_RDMA  | I2S_STS_ROVERN);
             HwiP_restore(key);
 
             if(SD0->interfaceConfig == I2S_SD0_INPUT) {
@@ -504,11 +504,11 @@ void I2S_stopWrite(I2S_Handle handle) {
         }
         else {
 
-            MAP_I2SIntDisable(I2S_BASE, I2S_INT_XDATA | I2S_INT_XUNDRN);
+            MAP_I2SIntDisable(I2S_BASE, I2S_INT_XDMA | I2S_INT_XUNDRN);
 
             uintptr_t key = HwiP_disable();
             /* Keep activatedFlag to be modified from somewhere else */
-            object->activatedFlag &= ~(I2S_STS_XDATA | I2S_STS_XUNDRN);
+            object->activatedFlag &= ~(I2S_STS_XDMA | I2S_STS_XUNDRN);
             HwiP_restore(key);
 
             if(SD0->interfaceConfig == I2S_SD0_OUTPUT) {
@@ -565,12 +565,12 @@ static void I2S_hwiIntFxn(uintptr_t arg) {
 
 
     /* Normal work */
-    if((interruptStatus & (uint32_t)(I2S_STS_RLAST | I2S_STS_RDATA)) != 0U)
+    if((interruptStatus & (uint32_t)(I2S_STS_RLAST | I2S_STS_RDATA | I2S_STS_RDMA)) != 0U)
     {
         object->updateDataReadFxn(arg);
     }
 
-    if((interruptStatus & (uint32_t)(I2S_STS_XLAST | I2S_STS_XDATA)) != 0U)
+    if((interruptStatus & (uint32_t)(I2S_STS_XLAST | I2S_STS_XDATA | I2S_STS_XDMA)) != 0U)
     {
         object->updateDataWriteFxn(arg);
     }
@@ -656,8 +656,8 @@ static void updateDataReadDMA(uintptr_t arg) {
             SD0 = &object->dataInterfaceSD0;
             SD1 = &object->dataInterfaceSD1;
 
-            MAP_I2SIntDisable(I2S_BASE, I2S_INT_RLAST | I2S_INT_RDATA | I2S_INT_ROVRN);
-            object->activatedFlag &=  ~(I2S_STS_RLAST | I2S_STS_RDATA | I2S_STS_ROVERN);
+            MAP_I2SIntDisable(I2S_BASE, I2S_INT_RLAST | I2S_INT_RDMA | I2S_INT_ROVRN);
+            object->activatedFlag &=  ~(I2S_STS_RLAST | I2S_STS_RDMA | I2S_STS_ROVERN);
 
             MAP_I2SRxFIFODisable(I2S_BASE);
 
@@ -716,8 +716,8 @@ static void updateDataWriteDMA(uintptr_t arg) {
             SD0 = &object->dataInterfaceSD0;
             SD1 = &object->dataInterfaceSD1;
 
-            MAP_I2SIntDisable(I2S_BASE, I2S_INT_XDATA | I2S_INT_XUNDRN | I2S_INT_XLAST);
-            object->activatedFlag &=  ~(I2S_STS_XDATA | I2S_STS_XUNDRN | I2S_STS_XLAST);
+            MAP_I2SIntDisable(I2S_BASE, I2S_INT_XDMA | I2S_INT_XUNDRN | I2S_INT_XLAST);
+            object->activatedFlag &=  ~(I2S_STS_XDMA | I2S_STS_XUNDRN | I2S_STS_XLAST);
 
             MAP_I2STxFIFODisable(I2S_BASE);
 
@@ -753,7 +753,7 @@ static void handleDMATransaction(I2S_Handle      handle,
         /* This transaction is finished */
         interface->activeTransfer = (I2S_Transaction*)List_next(&transactionFinished->queueElement);
 
-        transactionFinished->untransferredBytes = transactionFinished->bufSize - (transLength * (object->memorySlotLength / BYTE_LENGTH));
+        transactionFinished->untransferredBytes = transactionFinished->bufSize - transLength;
         transactionFinished->numberOfCompletions ++;
         transactionFinished->bytesTransferred = 0;
 
@@ -1097,7 +1097,7 @@ static bool initObject(I2S_Handle handle, I2S_Params *params) {
     }
 
     object->errorCallback = params->errorCallback;
-    if((object->errorCallback == NULL)) {
+    if(object->errorCallback == NULL) {
         retVal = (bool)false;
     }
 

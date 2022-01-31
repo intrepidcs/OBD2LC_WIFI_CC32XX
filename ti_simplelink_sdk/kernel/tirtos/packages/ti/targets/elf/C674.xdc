@@ -49,7 +49,7 @@ metaonly module C674 inherits ITarget {
         ti.targets.elf.C64P.bitsPerChar;
 }
 /*
- *  @(#) ti.targets.elf; 1, 0, 0,0; 8-9-2019 17:15:10; /db/ztree/library/trees/xdctargets/xdctargets-v00/src/ xlibrary
+ *  @(#) ti.targets.elf; 1, 0, 0,; 6-12-2020 15:20:04; /db/ztree/library/trees/xdctargets/xdctargets-w18/src/ xlibrary
 
  */
 

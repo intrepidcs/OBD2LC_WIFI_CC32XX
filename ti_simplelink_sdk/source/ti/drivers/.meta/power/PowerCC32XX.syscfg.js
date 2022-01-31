@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2020 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,9 +56,9 @@ In addition to this static setting, the Power Policy can be dynamically
 enabled and disabled at runtime, via the [Power_enablePolicy()][1] and
 [Power_disablePolicy()][2] functions, respectively.
 
-[1]: /tidrivers/docs/tidrivers/doxygen/html/_power_8h.html#ti_drivers_Power_Examples_enable
+[1]: /drivers/doxygen/html/_power_8h.html#ti_drivers_Power_Examples_enable
 "Enabling power policy"
-[2]: /tidrivers/docs/tidrivers/doxygen/html/_power_8h.html#ti_drivers_Power_Examples_disable
+[2]: /drivers/doxygen/html/_power_8h.html#ti_drivers_Power_Examples_disable
 "Disabling power policy"
 `,
         onChange    : onChangeEnablePolicy,
@@ -329,6 +329,24 @@ to their previous (non-parked) states.
         ]
     },
     {
+        name        : "latencyForLPDS",
+        displayName : "Latency for LPDS",
+        description : "The latency to reserve for entry to and exit from LPDS"
+          + " (in units of microseconds).",
+        longDescription:`
+There is a latency for the device to transtion into the LPDS sleep state, and to
+wake from LPDS to resume activity. The Power policy will check the available time
+before next scheduled work, versus the latency reserved for the LPDS transition,
+to determine if LPDS can be entered. The actual transtion latency will depend upon
+overall device state (e.g. if the NWP is active or not), as well as execution of
+notification functions that are registered with the Power driver.  The default
+value of 20 milliseconds is chosen as a safe default for all device variants, with
+margin for execution of software notification functions.  This latency value can
+be changed (tuned) to meet specific application requirements.
+`,
+        default     : 20000
+    },
+    {
         name         : "ioRetentionShutdown",
         displayName  : "IO Retention Shutdown",
         description  : "IO groups to be retained during Shutdown",
@@ -465,7 +483,7 @@ function modulesInstances(inst)
 
 /*
  *  ======== getClockFrequencies ========
- *  Return the value of the CC26XX main CPU clock frequency
+ *  Return the value of the CC32XX main CPU clock frequency
  */
 function getClockFrequencies(clock)
 {
@@ -529,6 +547,10 @@ function validate(inst, vo)
  */
 function extend(base)
 {
+    /* display which driver implementation can be used */
+    devSpecific = Common.addImplementationConfig(devSpecific, "Power", null,
+        [{name: "PowerCC32XX"}], null);
+
     return (Object.assign({}, base, devSpecific));
 }
 
@@ -538,5 +560,6 @@ function extend(base)
  */
 exports = {
     /* required function, called by base ADCBuf module */
-    extend: extend
+    extend: extend,
+    getClockFrequencies: getClockFrequencies
 };

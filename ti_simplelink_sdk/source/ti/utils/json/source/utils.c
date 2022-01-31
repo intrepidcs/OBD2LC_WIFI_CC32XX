@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2018, Texas Instruments Incorporated
+ * Copyright (c) 2014-2019, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -848,6 +848,11 @@ json_rc_T FindPropertyByPropertyPath(
                                   hash,
                                   ARRAY_INDEX__NONE,
                                   expanding_array_behavior));
+            if(NULL == (*found_property))
+            {
+                return (JSON_RC__VALUE_IS_NULL);
+            }
+
             if(rc < JSON_RC__RECOVERABLE_ERROR__MINIMUM_VALUE)
             {
                 return (rc);
@@ -894,6 +899,12 @@ json_rc_T FindPropertyByPropertyPath(
                                   hash,
                                   (uint16_t)array_index_32,
                                   expanding_array_behavior));
+
+            if(NULL == (*found_array_start))
+            {
+                return (JSON_RC__VALUE_IS_NULL);
+            }
+
             if((rc == JSON_RC__INDEX_FAR_BEYOND_ARRAY_END)
                || ((rc > JSON_RC__RECOVERABLE_ERROR__MINIMUM_VALUE)  &&
                    (array_index_32 >= (*found_array_start)->membersCount)))
@@ -924,6 +935,10 @@ json_rc_T FindPropertyByPropertyPath(
 
                 if(IsIntermediateSubsegment (&input_text))
                 {
+                    if(NULL == (*found_property))
+                    {
+                        return (JSON_RC__VALUE_IS_NULL);
+                    }
                     UpdateBestCaseRc (&rc,
                                       IncreaseNestingAccordingToEntry (&
                                                                        parser_nesting,

@@ -2161,7 +2161,7 @@ int32_t MQTTClientCore_initLib(const MQTTClientCore_LibCfg_t *lib_cfg_local)
 {
     if (NULL == lib_cfg_local)
     {
-
+        return -1;
     }
     if (ModuleState_InitDone == MQTTClientCore_clLibState)
     {

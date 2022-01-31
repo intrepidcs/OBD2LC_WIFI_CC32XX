@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2019-2020 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,6 +39,8 @@
 
 /* get Common /ti/drivers utility functions */
 let Common = system.getScript("/ti/drivers/Common.js");
+
+let convertPinName = Common.cc32xxPackage2DevicePin;
 
 /*
  *  ======== devSpecific ========
@@ -88,27 +90,27 @@ function _getPinResources(inst)
     if (inst.i2s) {
 
         if (inst.i2s.SCKPin) {
-            sckPin = "P" + inst.i2s.SCKPin.$solution.packagePinName.padStart(2, "0");
+            sckPin = "P" + convertPinName(inst.i2s.SCKPin.$solution.packagePinName);
             pin = "\nSCK: " + sckPin;
         }
 
         if (inst.i2s.SCKXPin) {
-            sckxPin = "P" + inst.i2s.SCKXPin.$solution.packagePinName.padStart(2, "0");
+            sckxPin = "P" + convertPinName(inst.i2s.SCKXPin.$solution.packagePinName);
             pin += "\nSCKX: " + sckxPin;
         }
 
         if (inst.i2s.WSPin) {
-            wsPin = "P" + inst.i2s.WSPin.$solution.packagePinName.padStart(2, "0");
+            wsPin = "P" + convertPinName(inst.i2s.WSPin.$solution.packagePinName);
             pin += "\nWS: " + wsPin;
         }
 
         if (inst.i2s.SD0Pin) {
-            sd0Pin = "P" + inst.i2s.SD0Pin.$solution.packagePinName.padStart(2, "0");
+            sd0Pin = "P" + convertPinName(inst.i2s.SD0Pin.$solution.packagePinName);
             pin += "\nSD0: " + sd0Pin;
         }
 
         if (inst.i2s.SD1Pin) {
-            sd1Pin = "P" + inst.i2s.SD1Pin.$solution.packagePinName.padStart(2, "0");
+            sd1Pin = "P" + convertPinName(inst.i2s.SD1Pin.$solution.packagePinName);
             pin += "\nSD1: " + sd1Pin;
         }
 
@@ -239,6 +241,10 @@ function pinmuxRequirements(inst)
  */
 function extend(base)
 {
+    /* display which driver implementation can be used */
+    base = Common.addImplementationConfig(base, "I2S", null,
+        [{name: "I2SCC32XX"}], null);
+
     /* overwrite base module attributes */
     let result = Object.assign({}, base, devSpecific);
 

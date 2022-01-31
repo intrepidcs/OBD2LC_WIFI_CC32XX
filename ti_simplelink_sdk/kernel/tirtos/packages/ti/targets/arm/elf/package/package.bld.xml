@@ -5,12 +5,15 @@
         <interface name="IArm"/>
         <interface name="IR4"/>
         <interface name="IR5"/>
+        <interface name="IM0"/>
         <interface name="IM3"/>
         <interface name="IM4"/>
         <module name="Arm9"/>
+        <module name="M0"/>
         <module name="M3"/>
         <module name="M4"/>
         <module name="M4F"/>
+        <module name="R4F"/>
         <module name="R4Ft"/>
         <module name="R5F"/>
         <module name="R5Ft"/>

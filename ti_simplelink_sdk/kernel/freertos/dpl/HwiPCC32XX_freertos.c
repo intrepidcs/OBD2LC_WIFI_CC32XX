@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017, Texas Instruments Incorporated
+ * Copyright (c) 2015-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,15 +30,11 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 /*
- *  ======== HwiP_freertos.c ========
- *  TODO is this the correct license?
- *
- *  Writing an RTOS safe ISR for FreeRTOS is very dependent on the
- *  microcontroller and tool chain port of FreeRTOS being used. Refer to
- *  the documentation page and demo application for the RTOS port being used.
+ *  ======== HwiPCC32XX_freertos.c ========
  */
 
 #include <stdbool.h>
+#include <stdlib.h>
 #include <ti/drivers/dpl/HwiP.h>
 #include <FreeRTOS.h>
 #include <task.h>
@@ -46,88 +42,34 @@
 
 /* Driver lib includes */
 #include <ti/devices/cc32xx/inc/hw_types.h>
+#include <ti/devices/cc32xx/driverlib/cpu.h>
 #include <ti/devices/cc32xx/driverlib/interrupt.h>
 #include <ti/devices/cc32xx/driverlib/rom.h>
 #include <ti/devices/cc32xx/driverlib/rom_map.h>
 
-#define MAX_INTERRUPTS 256
-
+#define MAX_INTERRUPTS 195
+#define INT_PRI_LEVEL6 0x000000C0
+#define INT_PRI_LEVEL7 0x000000E0
 
 /* Masks off all bits but the VECTACTIVE bits in the ICSR register. */
 #define portVECTACTIVE_MASK  (0xFFUL)
 
-/*
- *  ======== HwiP_DispatchEntry ========
- */
-typedef struct HwiP_DispatchEntry {
-    HwiP_Fxn entry;
+/* forward declarations */
+void HwiP_destruct(HwiP_Struct *handle);
+uintptr_t HwiP_disable(void);
+void HwiP_dispatch(void);
+void HwiP_restore(uintptr_t key);
+
+/* Unused interrupt reserved for SwiP */
+int HwiP_swiPIntNum = 128;
+
+typedef struct HwiP_Obj {
+    uint32_t intNum;
+    HwiP_Fxn fxn;
     uintptr_t arg;
-} HwiP_DispatchEntry;
+} HwiP_Obj;
 
-HwiP_DispatchEntry HwiP_dispatchTable[MAX_INTERRUPTS] = {{(HwiP_Fxn)0, 0}};
-
-/*
- *  ======== HwiP_disable ========
- */
-uintptr_t HwiP_disable(void)
-{
-    uintptr_t key;
-
-    /*
-     *  If we're not in ISR context, use the FreeRTOS macro, since
-     *  it handles nesting.
-     */
-    if ((portNVIC_INT_CTRL_REG & portVECTACTIVE_MASK) == 0) {
-        /* Cannot be called from an ISR! */
-        portENTER_CRITICAL();
-        key = 0;
-    }
-    else {
-#ifdef __TI_COMPILER_VERSION__
-        key = _set_interrupt_priority(configMAX_SYSCALL_INTERRUPT_PRIORITY);
-#else
-#if defined(__IAR_SYSTEMS_ICC__)
-        asm volatile (
-#else /* !__IAR_SYSTEMS_ICC__ */
-            __asm__ __volatile__ (
-#endif
-                "mrs %0, basepri\n\t"
-                "msr basepri, %1"
-                : "=&r" (key)
-                : "r" (configMAX_SYSCALL_INTERRUPT_PRIORITY)
-                );
-#endif
-    }
-
-    return (key);
-}
-
-/*
- *  ======== HwiP_restore ========
- */
-void HwiP_restore(uintptr_t key)
-{
-    if ((portNVIC_INT_CTRL_REG & portVECTACTIVE_MASK) == 0) {
-        /* Cannot be called from an ISR! */
-        portEXIT_CRITICAL();
-    }
-    else {
-#ifdef __TI_COMPILER_VERSION__
-        _set_interrupt_priority(key);
-#else
-#if defined(__IAR_SYSTEMS_ICC__)
-        asm volatile (
-#else /* !__IAR_SYSTEMS_ICC__ */
-            __asm__ __volatile__ (
-#endif
-                "msr basepri, %0"
-                :: "r" (key)
-                );
-#endif
-    }
-}
-
-#ifndef xdc_target__isaCompatible_28
+static HwiP_Obj* HwiP_dispatchTable[MAX_INTERRUPTS] = { 0 };
 
 typedef struct HwiP_NVIC {
     uint32_t RES_00;
@@ -213,7 +155,77 @@ static volatile HwiP_NVIC *HwiP_nvic = (HwiP_NVIC *)0xE000E000;
 void HwiP_clearInterrupt(int interruptNum)
 {
     // TODO: Should driverlib functions be prefixed with MAP_?
-    IntPendClear((unsigned long)interruptNum);
+    IntPendClear((uint32_t)interruptNum);
+}
+
+/*
+ *  ======== HwiP_construct ========
+ */
+HwiP_Handle HwiP_construct(HwiP_Struct *handle, int interruptNum,
+    HwiP_Fxn hwiFxn, HwiP_Params *params)
+{
+    HwiP_Params defaultParams;
+    HwiP_Obj *obj = (HwiP_Obj *)handle;
+
+    if (handle != NULL) {
+        if (params == NULL) {
+            params = &defaultParams;
+            HwiP_Params_init(&defaultParams);
+        }
+
+        if ((params->priority & 0xFF) == 0xFF) {
+            /* SwiP_freertos.c uses INT_PRI_LEVEL7 as its scheduler */
+            params->priority = INT_PRI_LEVEL6;
+        }
+
+        if (interruptNum != HwiP_swiPIntNum &&
+            params->priority == INT_PRI_LEVEL7) {
+            handle = NULL;
+        }
+        else {
+            HwiP_dispatchTable[interruptNum] = obj;
+            obj->fxn = hwiFxn;
+            obj->arg = params->arg;
+            obj->intNum = (uint32_t)interruptNum;
+
+            IntRegister((uint32_t)interruptNum, HwiP_dispatch);
+            IntPrioritySet((uint32_t)interruptNum, (uint8_t)params->priority);
+
+            if (params->enableInt) {
+                IntEnable((uint32_t)interruptNum);
+            }
+        }
+    }
+
+    return ((HwiP_Handle)handle);
+}
+
+/*
+ *  ======== HwiP_create ========
+ */
+HwiP_Handle HwiP_create(int interruptNum, HwiP_Fxn hwiFxn, HwiP_Params *params)
+{
+    HwiP_Handle handle;
+    HwiP_Handle retHandle;
+
+    handle = (HwiP_Handle)malloc(sizeof(HwiP_Obj));
+
+    /*
+     * Even though HwiP_construct will check handle for NULL and not do
+     * anything, we should check it here so that we can know afterwards
+     * that construct failed with non-NULL pointer and that we need to
+     * free the handle.
+     */
+    if (handle != NULL) {
+        retHandle = HwiP_construct((HwiP_Struct *)handle, interruptNum, hwiFxn,
+                                   params);
+        if (retHandle == NULL) {
+            free(handle);
+            handle = NULL;
+        }
+    }
+
+    return (handle);
 }
 
 /*
@@ -221,8 +233,56 @@ void HwiP_clearInterrupt(int interruptNum)
  */
 void HwiP_delete(HwiP_Handle handle)
 {
-    IntDisable((int)handle);
-    IntUnregister((int)handle);
+    HwiP_destruct((HwiP_Struct *)handle);
+
+    free(handle);
+}
+
+/*
+ *  ======== HwiP_destruct ========
+ */
+void HwiP_destruct(HwiP_Struct *handle)
+{
+    HwiP_Obj *obj = (HwiP_Obj *)handle;
+
+    IntDisable(obj->intNum);
+    IntUnregister(obj->intNum);
+}
+
+/*
+ *  ======== HwiP_disable ========
+ */
+uintptr_t HwiP_disable(void)
+{
+    uintptr_t key;
+
+    /*
+     *  If we're not in ISR context, use the FreeRTOS macro, since
+     *  it handles nesting.
+     */
+    if ((portNVIC_INT_CTRL_REG & portVECTACTIVE_MASK) == 0) {
+        /* Cannot be called from an ISR! */
+        portENTER_CRITICAL();
+        key = 0;
+    }
+    else {
+#ifdef __TI_COMPILER_VERSION__
+        key = _set_interrupt_priority(configMAX_SYSCALL_INTERRUPT_PRIORITY);
+#else
+#if defined(__IAR_SYSTEMS_ICC__)
+        asm volatile (
+#else /* !__IAR_SYSTEMS_ICC__ */
+            __asm__ __volatile__ (
+#endif
+                "mrs %0, basepri\n\t"
+                "msr basepri, %1"
+                : "=&r" (key)
+                : "r" (configMAX_SYSCALL_INTERRUPT_PRIORITY)
+                );
+#endif
+    }
+
+    return (key);
 }
 
 /*
@@ -230,7 +290,7 @@ void HwiP_delete(HwiP_Handle handle)
  */
 void HwiP_disableInterrupt(int interruptNum)
 {
-    IntDisable(interruptNum);
+    IntDisable((uint32_t)interruptNum);
 }
 
 /*
@@ -238,14 +298,10 @@ void HwiP_disableInterrupt(int interruptNum)
  */
 void HwiP_dispatch(void)
 {
-    uint32_t intNum;
-    HwiP_DispatchEntry hwi;
-
-    /* Determine which interrupt has fired */
-    intNum = HwiP_nvic->ICSR & 0x000000ff;
-    hwi = HwiP_dispatchTable[intNum];
-    if (hwi.entry) {
-        (hwi.entry)(hwi.arg);
+    uint32_t intNum = (HwiP_nvic->ICSR & 0x000000ff);
+    HwiP_Obj* obj = HwiP_dispatchTable[intNum];
+    if (obj) {
+        (obj->fxn)(obj->arg);
         taskYIELD();
     }
 }
@@ -256,34 +312,6 @@ void HwiP_dispatch(void)
 void HwiP_enableInterrupt(int interruptNum)
 {
     IntEnable(interruptNum);
-}
-
-/*
- *  ======== HwiP_create ========
- */
-HwiP_Handle HwiP_create(int interruptNum,
-                        HwiP_Fxn hwiFxn,
-                        HwiP_Params *params)
-{
-    HwiP_Params defaultParams;
-
-    if (params == NULL) {
-        params = &defaultParams;
-        HwiP_Params_init(&defaultParams);
-    }
-
-    HwiP_dispatchTable[interruptNum].entry = hwiFxn;
-    HwiP_dispatchTable[interruptNum].arg = params->arg;
-
-    // TODO: Should driverlib functions be prefixed with MAP_?
-    IntRegister(interruptNum, (void(*)(void))HwiP_dispatch);
-    IntPrioritySet(interruptNum, params->priority);
-
-    if (params->enableInt) {
-        IntEnable(interruptNum);
-    }
-
-    return ((HwiP_Handle)interruptNum);
 }
 
 /*
@@ -305,13 +333,41 @@ bool HwiP_inISR(void)
 }
 
 /*
+ *  ======== HwiP_inSwi ========
+ */
+bool HwiP_inSwi(void)
+{
+    uint32_t intNum  = portNVIC_INT_CTRL_REG & portVECTACTIVE_MASK;
+    if (intNum == HwiP_swiPIntNum) {
+        /* Currently in a Swi */
+        return (true);
+    }
+
+    return (false);
+}
+
+/*
+ *  ======== HwiP_interruptsEnabled ========
+ */
+bool HwiP_interruptsEnabled(void)
+{
+    unsigned long basePri;
+
+    basePri = CPUbasepriGet();
+
+    return (basePri == 0L);
+}
+
+/*
  *  ======== HwiP_Params_init ========
  */
 void HwiP_Params_init(HwiP_Params *params)
 {
-    params->arg = 0;
-    params->priority = ~0;
-    params->enableInt = true;
+    if (params != NULL) {
+        params->arg = 0;
+        params->priority = (~0);
+        params->enableInt = true;
+    }
 }
 
 /*
@@ -319,7 +375,7 @@ void HwiP_Params_init(HwiP_Params *params)
  */
 void HwiP_plug(int interruptNum, void *fxn)
 {
-    IntRegister(interruptNum, (void(*)(void))fxn);
+    IntRegister((uint32_t)interruptNum, (void(*)(void))fxn);
 }
 
 /*
@@ -333,21 +389,52 @@ void HwiP_post(int interruptNum)
 }
 
 /*
+ *  ======== HwiP_restore ========
+ */
+void HwiP_restore(uintptr_t key)
+{
+    if ((portNVIC_INT_CTRL_REG & portVECTACTIVE_MASK) == 0) {
+        /* Cannot be called from an ISR! */
+        portEXIT_CRITICAL();
+    }
+    else {
+#ifdef __TI_COMPILER_VERSION__
+        _set_interrupt_priority(key);
+#else
+#if defined(__IAR_SYSTEMS_ICC__)
+        asm volatile (
+#else /* !__IAR_SYSTEMS_ICC__ */
+            __asm__ __volatile__ (
+#endif
+                "msr basepri, %0"
+                :: "r" (key)
+                );
+#endif
+    }
+}
+
+/*
  *  ======== HwiP_setFunc ========
  */
 void HwiP_setFunc(HwiP_Handle hwiP, HwiP_Fxn fxn, uintptr_t arg)
 {
-    int interruptNum = (int)hwiP;
+    HwiP_Obj *obj = (HwiP_Obj *)hwiP;
 
     uintptr_t key = HwiP_disable();
 
-    HwiP_dispatchTable[interruptNum].entry = fxn;
-    HwiP_dispatchTable[interruptNum].arg = arg;
+    obj->fxn = fxn;
+    obj->arg = arg;
 
     HwiP_restore(key);
 }
 
-#endif
+/*
+ * ======== HwiP_setPri ========
+ */
+void HwiP_setPriority(int interruptNum, uint32_t priority)
+{
+    IntPrioritySet((uint32_t)interruptNum, (uint8_t)priority);
+}
 
 #if (configSUPPORT_STATIC_ALLOCATION == 1)
 /*
@@ -355,6 +442,6 @@ void HwiP_setFunc(HwiP_Handle hwiP, HwiP_Fxn fxn, uintptr_t arg)
  */
 size_t HwiP_staticObjectSize(void)
 {
-    return (4);
+    return (sizeof(HwiP_Obj));
 }
 #endif

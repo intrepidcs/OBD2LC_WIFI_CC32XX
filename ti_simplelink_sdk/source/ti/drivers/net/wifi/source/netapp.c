@@ -670,9 +670,9 @@ _i16 sl_NetAppDnsGetHostByService(_i8        *pServiceName,    /* string contain
 
     ObjIdx = _SlDrvProtectAsyncRespSetting((_u8*)&AsyncRsp, GETHOSYBYSERVICE_ID, SL_MAX_SOCKETS);
 
-    if (MAX_CONCURRENT_ACTIONS == ObjIdx)
+    if (ObjIdx < 0)
     {
-        return SL_POOL_IS_EMPTY;
+        return ObjIdx;
     }
     
     if (SL_AF_INET6 == Family)  

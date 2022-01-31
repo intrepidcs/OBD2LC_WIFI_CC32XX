@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2020 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,6 +44,8 @@ let intPriority = Common.newIntPri()[0];
 intPriority.name = "interruptPriority";
 intPriority.displayName = "Interrupt Priority";
 
+let convertPinName = Common.cc32xxPackage2DevicePin;
+
 /*
  *  ======== devSpecific ========
  *  Device-specific extensions to be added to base Capture configuration
@@ -71,7 +73,7 @@ function _getPinResources(inst)
     let pin;
 
     if (inst.timer) {
-        pin = "P" + inst.timer.capturePin.$solution.packagePinName.padStart(2, "0");
+        pin = "P" + convertPinName(inst.timer.capturePin.$solution.packagePinName);
 
         if (inst.$hardware && inst.$hardware.displayName) {
             pin += ", " + inst.$hardware.displayName;
@@ -114,6 +116,10 @@ function pinmuxRequirements(inst)
  */
 function extend(base)
 {
+    /* display which driver implementation can be used */
+    base = Common.addImplementationConfig(base, "Capture", null,
+        [{name: "CaptureCC32XX"}], null);
+
     /* merge and overwrite base module attributes */
     let result = Object.assign({}, base, devSpecific);
 

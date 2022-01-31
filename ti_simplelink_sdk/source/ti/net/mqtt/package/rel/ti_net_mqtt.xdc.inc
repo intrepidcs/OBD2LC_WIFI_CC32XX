@@ -26,6 +26,8 @@ server/server_pkts.c
 server/server_plug.c
 server/server_util.c
 lib/ccs/m4/mqtt_release.a
+lib/ticlang/m4/mqtt_debug.a
+lib/ticlang/m4/mqtt_release.a
 lib/gcc/m4/mqtt_debug.a
 lib/gcc/m4/mqtt_release.a
 lib/iar/m4/mqtt_debug.a

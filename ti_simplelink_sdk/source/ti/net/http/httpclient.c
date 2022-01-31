@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019, Texas Instruments Incorporated
+ * Copyright (c) 2015-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -326,7 +326,6 @@ static inline bool getCliState(HTTPClient_CB *cli, uint32_t flag)
  *  ======== stringcasecmp ========
  *  Compare two strings ignoring case.
  */
-
 static int16_t stringcasecmp (const char *s1, const char *s2)
 {
     const unsigned char *p1 = (const unsigned char *) s1;
@@ -580,7 +579,6 @@ static int16_t readRawResponseBody(HTTPClient_CB *cli, char *body, uint32_t len)
  *  ======== redirect ========
  *  redirect handler
  */
-
 static int16_t redirect(HTTPClient_CB *cli, int16_t status, const char *method)
 {
 
@@ -713,45 +711,35 @@ static void skipWhiteSpace(char **str)
  */
 static int8_t resHeaderNameToHash(const char *name)
 {
-    uint8_t i,nameLen;
-    uint32_t sum = 0;
-    char tempName[MAX_HEADER_LEN + 1] = {0};
+    uint8_t i, nameLen;
+    uint32_t sum = MAX_HEADER_LEN;
 
     nameLen = strlen (name);
     if (nameLen > MAX_HEADER_LEN)
     {
         return(HEADER_NOT_SUPPORTED);
     }
-    strcpy(tempName,name);
-    for(i = 0;i < nameLen;i++)
+
+    for (i = 0; i < nameLen; i++)
     {
-        if((name[i]>='A') && (name[i]<'Z'))
+        if ((name[i]>='A') && (name[i]<'Z'))
         {
-          /* Switch upper case to lower case */
-          tempName[i] = name[i]|0x60;
+            /* Count uppercase as lowercase */
+            sum += name[i] | 0x20;
+        }
+        else
+        {
+            sum += name[i];
         }
     }
 
-    /* Sum the ascii values of the header names */
-    for (i = 0; i < nameLen; i++)
-    {
-        sum += tempName[i];
-    }
-
-    /* Sum the rest of the length until we get to the maximum length */
-    for (; i < MAX_HEADER_LEN; i++)
-    {
-        sum++;
-    }
-
-    sum+=nameLen;
-
     sum = sum % MAX_HASH_TABLE_SIZE;
 
-    if(sum == 52 && tempName[0] == 'l')
+    if (sum == 52 && ((name[0] == 'l') || (name[0] == 'L')))
     {
         sum--;
     }
+
     return HeadersHashTable[sum];
 }
 
@@ -776,17 +764,26 @@ static int16_t countChar(const char *str, char c)
 
 /*
  *  ======== clearResponseValues ========
- *  Clears the buffer and the Map which stores the response values.
+ *  Clears the buffer and the Map which stores the response values,
+ *  in addition clear the pointers of custom response header.
  */
 
 static void clearResponseValues(HTTPClient_CB *cli)
 {
+    Res_HField * current;
     if ((cli->responseHFieldValue != NULL) && (cli->responseHFieldIterator != cli->responseHFieldValue))
     {
         memset(cli->responseHFieldValue,0,HTTPClient_RES_HFIELD_BUFFER_SIZE);
         memset(cli->responseHeaderMap,0,sizeof(uint32_t) * HTTPClient_MAX_RESPONSE_HEADER_FILEDS);
         cli->responseHFieldIterator = cli->responseHFieldValue;
         cli->responseHFieldFreeSize = HTTPClient_RES_HFIELD_BUFFER_SIZE;
+    }
+    /* Clear custom response header data pointer */
+    current = cli->resHFieldPers;
+    while(current != NULL)
+    {
+        current->Value = NULL;
+        current = current->Next;
     }
 }
 
@@ -912,6 +909,29 @@ static void clearReqHeaders(HTTPClient_CB *cli, bool persistent)
     else
     {
         cli->reqHField = NULL;
+    }
+}
+
+/*
+ *  ======== clearResHeaders ========
+ *  Clears one of the persistent custom header list according to the persistent parameter
+ *  (right now support only persistent custom response header)
+ */
+static void clearResHeaders(HTTPClient_CB *cli, bool persistent)
+{
+    Res_HField * customResponseHeaderNode = cli->resHFieldPers;
+    Res_HField * customResponseHeaderNodeNext;
+    if (persistent)
+    {
+        /* Free persistent custom response header  */
+        while(customResponseHeaderNode != NULL)
+        {
+            customResponseHeaderNodeNext = customResponseHeaderNode->Next;
+            free(customResponseHeaderNode->CustomName);
+            free(customResponseHeaderNode);
+            customResponseHeaderNode = customResponseHeaderNodeNext;
+        }
+        cli->resHFieldPers = NULL;
     }
 }
 
@@ -1074,14 +1094,42 @@ static int16_t readResponseHeader(HTTPClient_CB *cli, char *header, uint8_t *mor
             return(CONTINUE_AND_PULL);
         }
     }
-return(0);
+    return(0);
 }
+
+/*
+ *  ======== searchCustomResponseHeaderNode ========
+ *  Searches a specific resHeader by header name, if found return its pointer else NULL.
+ */
+static Res_HField * searchCustomResponseHeaderNode(HTTPClient_CB *cli, const char* headerName)
+{
+    Res_HField *head;
+    head = cli->resHFieldPers;
+
+    /* Header cannot be null terminator! */
+    if(headerName == NULL || (*headerName) == '\0')
+    {
+        return (NULL);
+    }
+
+    while (head != NULL)
+    {
+        /* in case of match */
+        if (!(stringcasecmp(head->CustomName,headerName)))
+        {
+            return(head);
+        }
+        head = head->Next;
+    }
+
+    return(NULL);
+}
+
 
 /*
  *  ======== manageResponseHeaders ========
  *  Manage response Headers-Fields
  */
-
 static int16_t manageResponseHeaders(HTTPClient_CB *cli, uint8_t *flags)
 {
     int16_t ret;
@@ -1093,6 +1141,7 @@ static int16_t manageResponseHeaders(HTTPClient_CB *cli, uint8_t *flags)
     int8_t resNum;
     uint32_t recvBuf = 0;
     char errorStr[] = "HTTPClient_ERESPONSEVALUEBUFSMALL";
+    Res_HField * customResponseHeaderNode;
 
     do
     {
@@ -1135,6 +1184,35 @@ static int16_t manageResponseHeaders(HTTPClient_CB *cli, uint8_t *flags)
                 *flags |= INCOMPLETE_LOCATION;
             }
 
+            /* Taking care of custom response header */
+            customResponseHeaderNode = searchCustomResponseHeaderNode(cli, tmpPtr);
+
+            if(customResponseHeaderNode != NULL)
+            {
+                value = delim + 1;
+                skipWhiteSpace(&value);
+                if (statusFlag & INCOMPLETE_VALUE)
+                {
+                    if ((strlen(errorStr) + 1) < cli->responseHFieldFreeSize)
+                    {
+                        memcpy(cli->responseHFieldIterator,errorStr,strlen(errorStr) + 1);
+                        customResponseHeaderNode->Value = cli->responseHFieldIterator;
+                        cli->responseHFieldIterator += (strlen(errorStr) + 1);
+                        cli->responseHFieldFreeSize -= (strlen(errorStr) + 1);
+                    }
+                }
+                else
+                {
+                    if ((strlen(value) + 1) < cli->responseHFieldFreeSize)
+                    {
+                        memcpy(cli->responseHFieldIterator,value,strlen(value) + 1);
+                        customResponseHeaderNode->Value = cli->responseHFieldIterator;
+                        cli->responseHFieldIterator += (strlen(value) + 1);
+                        cli->responseHFieldFreeSize -= (strlen(value) + 1);
+                    }
+                }
+            }
+            /* Taking care of legacy response header */
             resNum = resHeaderNameToHash(tmpPtr);
             if (resNum == HEADER_NOT_SUPPORTED)
             {
@@ -1266,7 +1344,7 @@ static int16_t createSecAttribs(HTTPClient_extSecParams *exSecParams, SlNetSockS
     {
         if (exSecParams->rootCa != NULL)
         {
-            ret = SlNetSock_secAttribSet(secAttribHdl, SLNETSOCK_SEC_ATTRIB_PEER_ROOT_CA,(char *)exSecParams->rootCa, strlen(exSecParams->rootCa));
+            ret = SlNetSock_secAttribSet(secAttribHdl, SLNETSOCK_SEC_ATTRIB_PEER_ROOT_CA,(char *)exSecParams->rootCa, strlen(exSecParams->rootCa) + 1);
             if (ret < 0)
             {
                 goto error;
@@ -1274,7 +1352,7 @@ static int16_t createSecAttribs(HTTPClient_extSecParams *exSecParams, SlNetSockS
         }
         if (exSecParams->privateKey != NULL)
         {
-            ret = SlNetSock_secAttribSet(secAttribHdl, SLNETSOCK_SEC_ATTRIB_PRIVATE_KEY, (char *)exSecParams->privateKey, strlen(exSecParams->privateKey));
+            ret = SlNetSock_secAttribSet(secAttribHdl, SLNETSOCK_SEC_ATTRIB_PRIVATE_KEY, (char *)exSecParams->privateKey, strlen(exSecParams->privateKey) + 1);
             if (ret < 0)
             {
                 goto error;
@@ -1282,7 +1360,7 @@ static int16_t createSecAttribs(HTTPClient_extSecParams *exSecParams, SlNetSockS
         }
         if (exSecParams->clientCert != NULL)
         {
-            ret = SlNetSock_secAttribSet(secAttribHdl, SLNETSOCK_SEC_ATTRIB_LOCAL_CERT, (char *)exSecParams->clientCert, strlen(exSecParams->clientCert));
+            ret = SlNetSock_secAttribSet(secAttribHdl, SLNETSOCK_SEC_ATTRIB_LOCAL_CERT, (char *)exSecParams->clientCert, strlen(exSecParams->clientCert) + 1);
             if (ret < 0)
             {
                 goto error;
@@ -1324,7 +1402,12 @@ static int16_t sprsend(HTTPClient_CB *cli, uint8_t flags, const char *fmt, ...)
         len = vsnprintf(sendBuf, HTTPClient_BUF_LEN,fmt, ap);
         va_end(ap);
     }
-    if (len > HTTPClient_BUF_LEN)
+
+    if (len < 0)
+    {
+        return (HTTPClient_EINTERNAL);
+    }
+    else if (len > HTTPClient_BUF_LEN)
     {
         return (HTTPClient_ESENDBUFSMALL);
     }
@@ -1333,7 +1416,10 @@ static int16_t sprsend(HTTPClient_CB *cli, uint8_t flags, const char *fmt, ...)
     if ((len < freeBytes) && (!(flags & SENDBUF)))
     {
         /* Buffer the data */
-        memcpy(cli->validBufEnd,sendBuf,len);
+        if (len > 0)
+        {
+            memcpy(cli->validBufEnd,sendBuf,len);
+        }
         cli->validBufEnd += len;
     }
     else
@@ -1361,7 +1447,10 @@ static int16_t sprsend(HTTPClient_CB *cli, uint8_t flags, const char *fmt, ...)
             return(HTTPClient_ESENDERROR);
         }
         cli->validBufStart = cli->buf;
-        memcpy(cli->validBufStart,sendBuf,len);
+        if (len > 0)
+        {
+            memcpy(cli->validBufStart,sendBuf,len);
+        }
         cli->validBufEnd = cli->validBufStart + len;
     }
 
@@ -1651,7 +1740,7 @@ static int16_t parseURI(const char *uri, uint16_t *portOutput,char *domainOutput
 }
 
 /*
- *  ======== initialize ========
+ *  ======== initializeCB ========
  */
 static void initializeCB(HTTPClient_CB *cli)
 {
@@ -1762,6 +1851,8 @@ int16_t HTTPClient_destroy(HTTPClient_Handle client)
     clearReqHeaders(cli,false);
     /* Clear persistent request headers */
     clearReqHeaders(cli,true);
+    /* Clear persistent custom response headers */
+    clearResHeaders(cli, true);
     free(cli->responseHFieldValue);
     free(cli);
     return(0);
@@ -1965,7 +2056,7 @@ int16_t HTTPClient_connect(HTTPClient_Handle client, const char *hostName, HTTPC
             }
             memcpy(domainPtr, domainBuff, (strlen(domainBuff) + 1));
             retVal = SlNetSock_secAttribSet(secAttribs, SLNETSOCK_SEC_ATTRIB_DOMAIN_NAME,
-                                            domainPtr, strlen(domainPtr));
+                                            domainPtr, strlen(domainPtr) + 1);
             if (retVal < 0)
             {
                 free(domainPtr);
@@ -2021,9 +2112,8 @@ int16_t HTTPClient_sendRequest(HTTPClient_Handle client, const char *method,cons
 }
 
 /*
- *  ======== HTTPClient_sendRequest ========
+ *  ======== sendRequest ========
  */
-
 static int16_t sendRequest(HTTPClient_CB *cli, const char *method,const char *requestURI, const char *body, uint32_t bodyLen, uint32_t flags)
 {
     int16_t ret;
@@ -2492,22 +2582,76 @@ int16_t HTTPClient_setHeaderByName(HTTPClient_Handle client, uint32_t option, co
     HTTPClient_CB *cli = (HTTPClient_CB *)client;
     uint8_t intFlags = 0;
     Req_HField *node;
+    Res_HField *responseCustomNode;
     uint32_t headerType = 0;
 
     if ((cli == NULL) || (name == NULL))
     {
-        return(HTTPClient_ENULLPOINTER);
+        return (HTTPClient_ENULLPOINTER);
     }
 
     /* Check if option is a request header */
-    if ((option & HTTPClient_REQUEST_HEADER_MASK) == 0)
+    if((option & HTTPClient_REQUEST_HEADER_MASK) != 0)
+    {
+        intFlags |= ISREQUEST;
+    }
+    /* Check if option is a response custom header */
+    else if((option & HTTPClient_CUSTOM_RESPONSE_HEADER))
+    {
+        intFlags |= ISRESPONSE;
+    }
+    /* Not a valid option */
+    else
     {
         return (HTTPClient_EWRONGAPIPARAMETER);
     }
 
-    /* TODO: do we need to deal with custom response headers? */
+    if(intFlags & ISRESPONSE)
+    {
+        /* Validation checks - on custom response header 'value' and 'len' should not be valued!*/
+        if((value != NULL) || (len != 0))
+        {
+            return (HTTPClient_EWRONGAPIPARAMETER);
+        }
+        /* Add to custom response header list if it doesn't already exist */
+        else if (searchCustomResponseHeaderNode(cli, name) == NULL)
+        {
+            responseCustomNode = (Res_HField *)malloc(sizeof(Res_HField));
+            if (responseCustomNode != NULL)
+            {
+                responseCustomNode->CustomName = (char *)malloc(strlen(name) + 1);
+                if(responseCustomNode->CustomName != NULL)
+                {
+                    /* Retrieve custom name */
+                    memcpy(responseCustomNode->CustomName, name, (strlen(name)));
+                    responseCustomNode->CustomName[strlen(name)] = '\0';
+                    /* Push the custom-response-header to the start of the linked list */
+                    if (cli->resHFieldPers == NULL)
+                    {
+                        cli->resHFieldPers = responseCustomNode;
+                        responseCustomNode->Next = NULL;
+                    }
+                    else
+                    {
+                        responseCustomNode->Next = cli->resHFieldPers;
+                        cli->resHFieldPers = responseCustomNode;
+                    }
+                }
+                else
+                {
+                    free(responseCustomNode);
+                    return (HTTPClient_EREQUESTHEADERALLOCFAILED);
+                }
+            }
+            else
+            {
+                return (HTTPClient_EREQUESTHEADERALLOCFAILED);
+            }
+        }
+        return (0);
+    }
+
     intFlags |= ISHEADER;
-    intFlags |= ISREQUEST;
 
     headerType = (flags & HTTPClient_HFIELD_PERSISTENT) ?
             HTTPClient_HFIELD_PERSISTENT:HTTPClient_HFIELD_NOT_PERSISTENT;
@@ -2617,6 +2761,69 @@ int16_t HTTPClient_getHeader(HTTPClient_Handle client, uint32_t option, void *va
         }
     }
     return (HTTPClient_EWRONGAPIPARAMETER);
+}
+
+int16_t HTTPClient_getHeaderByName(HTTPClient_Handle client, uint32_t option, const char* name, void *value, uint32_t *len ,uint32_t flags)
+{
+    HTTPClient_CB *cli = (HTTPClient_CB *)client;
+    uint8_t intFlags = 0;
+    Res_HField * customResponseHeaderNode;
+    int16_t retVal = 0;
+
+    if ((value == NULL) || (len == NULL) || (cli == NULL) || (name == NULL))
+    {
+        retVal = HTTPClient_ENULLPOINTER;
+    }
+    else
+    {
+        /* Check if option is a response custom header */
+        if((option & HTTPClient_CUSTOM_RESPONSE_HEADER) )
+        {
+            intFlags |= ISRESPONSE;
+        }
+
+        /* Right now only custom response header is supported */
+        if(intFlags & ISRESPONSE)
+        {
+            customResponseHeaderNode = searchCustomResponseHeaderNode(cli, name);
+            if(customResponseHeaderNode != NULL)
+            {
+                if(customResponseHeaderNode->Value == NULL) {
+                    *len = 0;
+                }
+                else if((*len) > (strlen(customResponseHeaderNode->Value) + 1))
+                {
+                    memcpy((char *)value, customResponseHeaderNode->Value, strlen(customResponseHeaderNode->Value) + 1);
+                    *len = strlen(customResponseHeaderNode->Value);
+                }
+                else
+                {
+                    retVal = HTTPClient_EGETCUSOMHEADERBUFSMALL;
+                }
+            }
+            else
+            {
+                retVal = HTTPClient_ENOHEADERNAMEDASINSERTED;
+            }
+        }
+        else
+        {
+            retVal = HTTPClient_EWRONGAPIPARAMETER;
+        }
+    }
+    return (retVal);
+}
+
+const char* HTTPClient_headerIdToName(uint32_t id)
+{
+    if (id < HTTPClient_MAX_NUMBER_OF_HEADER_FIELDS)
+    {
+        return (headerFieldStr[id]);
+    }
+    else
+    {
+        return (NULL);
+    }
 }
 
 /*

@@ -1,6 +1,6 @@
 %%{
 /*
- * Copyright (c) 2019 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2019-2020 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,6 +44,9 @@
     /* get ti/drivers common utility functions */
     let Common = system.getScript("/ti/drivers/Common.js");
 
+    let declarations = Common.genBoardDeclarations(instances);
+    let convertPinName = Common.cc32xxPackage2DevicePin;
+
     /* CONFIG_XXXCOUNT string, derived from defaultInstanceName */
     let countDef = I2S.defaultInstanceName + "COUNT";
 %%}
@@ -74,30 +77,26 @@ const I2SCC32XX_HWAttrs i2sCC32XXHWAttrs[`countDef`] = {
     % let i2s = inst.i2s;
     %
     % /* aclkPin cannot be unactivated */
-    % let aclkPin = i2s.SCKPin.$solution.packagePinName;
-    % if (aclkPin.length == 1) {aclkPin = "0" + aclkPin;}
+    % let aclkPin = convertPinName(i2s.SCKPin.$solution.packagePinName);
     % aclkPin = "I2SCC32XX_PIN_" + aclkPin + "_SCK";
     %
     % /* aclkxPin might be unactivated */
     % let aclkxPin = "I2SCC32XX_PIN_UNUSED";
     % let aclkxPinActivated = (inst.enableSCKX == true)? true : false;
     % if(aclkxPinActivated) {
-    %     aclkxPin = i2s.SCKXPin.$solution.packagePinName;
-    %     if (aclkxPin.length == 1) {aclkxPin = "0" + aclkxPin;}
+    %     aclkxPin = convertPinName(i2s.SCKXPin.$solution.packagePinName);
     %     aclkxPin = "I2SCC32XX_PIN_" +  aclkxPin + "_SCKX";
     % }
     %
     % /* afsxPin cannot be unactivated */
-    % let afsxPin = i2s.WSPin.$solution.packagePinName;
-    % if (afsxPin.length == 1) {afsxPin = "0" + afsxPin;}
+    % let afsxPin = convertPinName(i2s.WSPin.$solution.packagePinName);
     % afsxPin = "I2SCC32XX_PIN_" + afsxPin + "_WS";
     %
     % /* axr0Pin might be unactivated */
     % let axr0Pin = "I2SCC32XX_PIN_UNUSED";
     % let axr0PinActivated = (inst.sd0DataDirection != "Disabled")? true : false;
     % if(axr0PinActivated) {
-    %     axr0Pin = i2s.SD0Pin.$solution.packagePinName;
-    %     if (axr0Pin.length == 1) {axr0Pin = "0" + axr0Pin;}
+    %     axr0Pin = convertPinName(i2s.SD0Pin.$solution.packagePinName);
     %     axr0Pin = "I2SCC32XX_PIN_" +  axr0Pin + "_SD0";
     % }
     %
@@ -105,8 +104,7 @@ const I2SCC32XX_HWAttrs i2sCC32XXHWAttrs[`countDef`] = {
     % let axr1Pin = "I2SCC32XX_PIN_UNUSED";
     % let axr1PinActivated = (inst.sd1DataDirection != "Disabled")? true : false;
     % if(axr1PinActivated) {
-    %     axr1Pin = i2s.SD1Pin.$solution.packagePinName;
-    %     if (axr1Pin.length == 1) {axr1Pin = "0" + axr1Pin;}
+    %     axr1Pin = convertPinName(i2s.SD1Pin.$solution.packagePinName);
     %     axr1Pin = "I2SCC32XX_PIN_" +  axr1Pin + "_SD1";
     % }
     %
@@ -164,4 +162,5 @@ const I2S_Config I2S_config[`countDef`] = {
 % }
 };
 
+`declarations`
 const uint_least8_t I2S_count = `countDef`;

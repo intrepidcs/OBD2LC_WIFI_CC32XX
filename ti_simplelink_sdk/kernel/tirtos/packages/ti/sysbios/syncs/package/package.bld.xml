@@ -23,6 +23,11 @@
         <srcFile name="package/lib/lib/debug/ti.sysbios.syncs/SyncSem.oem4.dep" src="SyncSem.c"/>
         <srcFile name="package/lib/lib/debug/ti.sysbios.syncs/SyncSwi.oem4.dep" src="SyncSwi.c"/>
         <srcFile name="package/lib/lib/debug/ti.sysbios.syncs/SyncEvent.oem4.dep" src="SyncEvent.c"/>
+        <srcFile name="lib/debug/ti.sysbios.syncs.am4.mak" src="package.bld"/>
+        <srcFile name="package/lib/lib/debug/ti.sysbios.syncs/package/package_ti.sysbios.syncs.om4.dep" src="package/package_ti.sysbios.syncs.c"/>
+        <srcFile name="package/lib/lib/debug/ti.sysbios.syncs/SyncSem.om4.dep" src="SyncSem.c"/>
+        <srcFile name="package/lib/lib/debug/ti.sysbios.syncs/SyncSwi.om4.dep" src="SyncSwi.c"/>
+        <srcFile name="package/lib/lib/debug/ti.sysbios.syncs/SyncEvent.om4.dep" src="SyncEvent.c"/>
         <srcFile name="lib/debug/ti.sysbios.syncs.am4g.mak" src="package.bld"/>
         <srcFile name="package/lib/lib/debug/ti.sysbios.syncs/package/package_ti.sysbios.syncs.om4g.dep" src="package/package_ti.sysbios.syncs.c"/>
         <srcFile name="package/lib/lib/debug/ti.sysbios.syncs/SyncSem.om4g.dep" src="SyncSem.c"/>
@@ -37,12 +42,28 @@
     </makefiles>
     <targets>
         <target name="ti.targets.arm.elf.M4"
-            version="ti.targets.arm.elf.M4{1,0,18.12,3"
-            rawVersion="18.12.3"
+            version="ti.targets.arm.elf.M4{1,0,20.2,1"
+            rawVersion="20.2.1"
             platform="ti.platforms.tiva:TM4C1294NCPDT:1"
             isa="v7M4"
             suffix="em4"
-            rootDir="/db/vendors/ti/arm/18.12.3.LTS/Linux"
+            rootDir="/scratch/xlibrary/.conan/data/ticodegen/20.2.1.LTS-0/library-msp/ga/package/be241241e9d4718e5bab4eb33935bbb69606bb0c"
+            os="undefined"
+            rts="ti.targets.arm.rtsarm">
+            <model endian="little"
+                codeModel="thumb2"
+                dataModel="undefined"/>
+        </target>
+        <target name="ti.targets.arm.clang.M4"
+            version="ti.targets.arm.clang.M4{1,0,1.0,0"
+            rawVersion="TI Arm Clang Compiler 1.0.0+STSTarget: arm-ti-none-eabi
+Thread model: posix
+InstalledDir: /scratch/xlibrary/.conan/data/tiarmllvm/1.0.0.STS-0/library-msp/ga/package/be241241e9d4718e5bab4eb33935bbb69606bb0c/bin
+"
+            platform="ti.platforms.tiva:TM4C1294NCPDT:1"
+            isa="v7M4"
+            suffix="m4"
+            rootDir="/scratch/xlibrary/.conan/data/tiarmllvm/1.0.0.STS-0/library-msp/ga/package/be241241e9d4718e5bab4eb33935bbb69606bb0c"
             os="undefined"
             rts="ti.targets.arm.rtsarm">
             <model endian="little"
@@ -50,12 +71,12 @@
                 dataModel="undefined"/>
         </target>
         <target name="gnu.targets.arm.M4"
-            version="gnu.targets.arm.M4{1,0,7.2,1"
-            rawVersion="7.2.1"
+            version="gnu.targets.arm.M4{1,0,9.2,1"
+            rawVersion="9.2.1"
             platform="ti.platforms.tiva:TM4C1294NCPDT"
             isa="v7M4"
             suffix="m4g"
-            rootDir="/db/vendors/linaro/gcc-arm-none-eabi-7-2017-q4-major"
+            rootDir="/scratch/xlibrary/.conan/data/arm-none-eabi-gcc/9.2019.q4.major-0/library-msp/ga/package/44fcf6b9a7fb86b2586303e3db40189d3b511830"
             os="undefined"
             rts="gnu.targets.arm.rtsv7M">
             <model endian="little"
@@ -63,12 +84,12 @@
                 dataModel="undefined"/>
         </target>
         <target name="iar.targets.arm.M4"
-            version="iar.targets.arm.M4{1,0,8.32,2"
-            rawVersion="8.32.2.178"
+            version="iar.targets.arm.M4{1,0,8.50,1"
+            rawVersion="8.50.1.245"
             platform="ti.platforms.tiva:TM4C1294NCPDT:1"
             isa="v7M4"
             suffix="rm4"
-            rootDir="/db/vendors/iar/arm/8.32.2/Linux"
+            rootDir="/scratch/xlibrary/.conan/data/iarcodegen/8.50.1.245-0/library-msp/ga/package/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9"
             os="undefined"
             rts="iar.targets.arm.rts">
             <model endian="little"
@@ -81,6 +102,10 @@
         pname="lib/debug/ti.sysbios.syncs.aem4"
         profile="debug"
         target="ti.targets.arm.elf.M4"/>
+    <library name="lib/debug/ti.sysbios.syncs"
+        pname="lib/debug/ti.sysbios.syncs.am4"
+        profile="debug"
+        target="ti.targets.arm.clang.M4"/>
     <library name="lib/debug/ti.sysbios.syncs"
         pname="lib/debug/ti.sysbios.syncs.am4g"
         profile="debug"
@@ -114,6 +139,7 @@
         <file name="SyncSem.c"/>
         <file name="SyncSwi.c"/>
         <file name="SyncEvent.c"/>
+        <file name="lib/debug/ti.sysbios.syncs.am4"/>
         <file name="lib/debug/ti.sysbios.syncs.am4g"/>
         <file name="lib/debug/ti.sysbios.syncs.arm4"/>
     </release>

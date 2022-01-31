@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2020 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,6 +37,10 @@
 
 "use strict";
 
+/* get ti/drivers common utility functions */
+let Common = system.getScript("/ti/drivers/Common.js");
+let convertPinName = Common.cc32xxPackage2DevicePin;
+
 /*
  *  ======== devSpecific ========
  *  Device-specific extensions to be added to base GPIO configuration
@@ -72,7 +76,7 @@ function _getPinResources(inst)
     let pin;
 
     if (inst.gpioPin) {
-        pin = "P" + inst.gpioPin.$solution.packagePinName.padStart(2, "0");
+        pin = "P" + convertPinName(inst.gpioPin.$solution.packagePinName);
 
         if (inst.$hardware && inst.$hardware.displayName) {
             pin += ", " + inst.$hardware.displayName;
@@ -91,6 +95,10 @@ function _getPinResources(inst)
  */
 function extend(base)
 {
+    /* display which driver implementation can be used */ 
+    base = Common.addImplementationConfig(base, "GPIO", null,
+        [{name: "GPIOCC32XX"}], null);
+
     /* overwrite base module attributes */
     let result = Object.assign({}, base, devSpecific);
 

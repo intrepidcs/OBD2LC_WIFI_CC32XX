@@ -1,6 +1,6 @@
 %%{
 /*
- * Copyright (c) 2018-2019 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2020 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -79,38 +79,59 @@
 
     /* get ti/drivers common utility functions */
     let Common = system.getScript("/ti/drivers/Common.js");
+
+    let declarations = Common.genBoardDeclarations(instances);
+    let convertPinName = Common.cc32xxPackage2DevicePin;
+
+    let countDef = SD.defaultInstanceName + "COUNT";
+    let SDFatFSCount = SD.defaultInstanceName + "FATFS_COUNT";
+    let SDHostCount = SD.defaultInstanceName + "HOST_COUNT";
+    let SDSPICount = SD.defaultInstanceName + "SPI_COUNT";
+
+    /* Determine includes and count definitions needed */
+    let includes = [], defines = [];
+    includes.push("#include <ti/drivers/SD.h>");
+    defines.push("#define " + countDef + " " + instances.length);
+
+    if (fatIndex > 0) {
+        includes.push("#include <ti/drivers/SDFatFS.h>");
+        defines.push("#define " + SDFatFSCount + " " + fatIndex);
+    }
+    if (sdSPICount > 0) {
+        includes.push("#include <ti/drivers/sd/SDSPI.h>");
+        defines.push("#define " + SDSPICount + " " + sdSPICount);
+    }
+    if (hostCount > 0) {
+        includes.push("#include <ti/drivers/sd/SDHostCC32XX.h>");
+        includes.push("#include <ti/devices/cc32xx/inc/hw_ints.h>");
+        includes.push("#include <ti/devices/cc32xx/inc/hw_memmap.h>");
+        defines.push("#define " + SDHostCount + " " + hostCount);
+    }
+
+    /* Form single string delimited with newlines */
+    defines = defines.join("\n");
+    includes = includes.join("\n");
+
 %%}
 /*
  *  =============================== SD ===============================
  */
-#include <ti/drivers/SD.h>
+`includes`
+
+`defines`
+
+% if (fatIndex > 0) {
+SDFatFS_Object sdfatfsObjects[`SDFatFSCount`];
+% }
 % if (hostCount > 0) {
-#include <ti/drivers/sd/SDHostCC32XX.h>
+SDHostCC32XX_Object sdhostObjects[`SDHostCount`];
 % }
 % if (sdSPICount > 0) {
-#include <ti/drivers/sd/SDSPI.h>
-% }
-% if (fatIndex > 0) {
-#include <ti/drivers/SDFatFS.h>
-% }
-
-% if (hostCount > 0) {
-#include <ti/devices/cc32xx/inc/hw_ints.h>
-% }
-#include <ti/devices/cc32xx/inc/hw_memmap.h>
-
-% if (fatIndex > 0) {
-SDFatFS_Object sdfatfsObjects[`fatIndex`];
-% }
-% if (hostCount > 0) {
-SDHostCC32XX_Object sdhostObjects[`hostCount`];
-% }
-% if (sdSPICount > 0) {
-SDSPI_Object sdspiObjects[`sdSPICount`];
+SDSPI_Object sdspiObjects[`SDSPICount`];
 % }
 % if (fatIndex > 0) {
 
-const SDFatFS_Config SDFatFS_config[`fatIndex`] = {
+const SDFatFS_Config SDFatFS_config[`SDFatFSCount`] = {
 % for (let i = 0; i < fatIndex; i++) {
     % let inst = instances[i];
     /* `inst.$name` */
@@ -120,11 +141,11 @@ const SDFatFS_Config SDFatFS_config[`fatIndex`] = {
 % }
 };
 
-const uint_least8_t SDFatFS_count = `fatIndex`;
+const uint_least8_t SDFatFS_count = `SDFatFSCount`;
 % } // if (fatIndex > 0)
 % if (hostCount > 0) {
 
-const SDHostCC32XX_HWAttrsV1 sdhostHWattrs[`hostCount`] = {
+const SDHostCC32XX_HWAttrsV1 sdhostHWattrs[`SDHostCount`] = {
 % let i = 0;
 % while (i < hostCount) {
     % if (instances[i].interfaceType != "SD Host") {
@@ -134,9 +155,9 @@ const SDHostCC32XX_HWAttrsV1 sdhostHWattrs[`hostCount`] = {
     % let inst = instances[i];
     % i++;
     % let sdHost = inst.sdHost;
-    % let clkPin = sdHost.clkPin.$solution.packagePinName.padStart(2, "0");
-    % let cmdPin = sdHost.cmdPin.$solution.packagePinName.padStart(2, "0");
-    % let dataPin = sdHost.dataPin.$solution.packagePinName.padStart(2, "0");
+    % let clkPin = convertPinName(sdHost.clkPin.$solution.packagePinName);
+    % let cmdPin = convertPinName(sdHost.cmdPin.$solution.packagePinName);
+    % let dataPin = convertPinName(sdHost.dataPin.$solution.packagePinName);
     % let rdmach = sdHost.dmaRxChannel.$solution.devicePinName.substring(7); /* UDMA_CHXX */
     % let tdmach = sdHost.dmaTxChannel.$solution.devicePinName.substring(7); /* UDMA_CHXX */
     /* `inst.$name` */
@@ -160,7 +181,7 @@ const SDHostCC32XX_HWAttrsV1 sdhostHWattrs[`hostCount`] = {
 % } // if (hostCount > 0)
 % if (sdSPICount > 0) {
 
-const SDSPI_HWAttrs sdspiHWattrs[`sdSPICount`] = {
+const SDSPI_HWAttrs sdspiHWattrs[`SDSPICount`] = {
 % let i = 0;
 % while (i < sdSPICount) {
     % if (instances[i].interfaceType != "SD SPI") {
@@ -202,4 +223,5 @@ const SD_Config SD_config[`instances.length`] = {
 % }
 };
 
-const uint_least8_t SD_count = `instances.length`;
+`declarations`
+const uint_least8_t SD_count = `countDef`;

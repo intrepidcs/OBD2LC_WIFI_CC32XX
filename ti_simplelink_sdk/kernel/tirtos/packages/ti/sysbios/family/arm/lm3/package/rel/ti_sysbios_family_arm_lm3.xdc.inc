@@ -9,5 +9,6 @@ lib/debug/ti.sysbios.family.arm.lm3.aem4
 package/package_ti.sysbios.family.arm.lm3.c
 Timer.c
 TimestampProvider.c
+lib/debug/ti.sysbios.family.arm.lm3.am4
 lib/debug/ti.sysbios.family.arm.lm3.am4g
 lib/debug/ti.sysbios.family.arm.lm3.arm4

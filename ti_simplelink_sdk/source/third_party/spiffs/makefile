@@ -5,6 +5,7 @@ include $(SIMPLELINK_SDK_INSTALL_DIR)/imports.mak
 CCS_LIB_DIRS = $(wildcard lib/ccs/*)
 GCC_LIB_DIRS = $(wildcard lib/gcc/*)
 IAR_LIB_DIRS = $(wildcard lib/iar/*)
+TICLANG_LIB_DIRS = $(wildcard lib/ticlang/*)
 
 LIB_DIRS =
 ifneq ($(CCS_ARMCOMPILER),)
@@ -17,6 +18,10 @@ endif
 
 ifneq ($(IAR_ARMCOMPILER),)
 	LIB_DIRS += $(IAR_LIB_DIRS)
+endif
+
+ifneq ($(TICLANG_ARMCOMPILER),)
+	LIB_DIRS += $(TICLANG_LIB_DIRS)
 endif
 
 .PHONY: build-libs $(LIB_DIRS)

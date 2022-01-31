@@ -37,6 +37,9 @@
 
 "use strict";
 
+/* get Common /ti/drivers utility functions */
+let Common = system.getScript("/ti/drivers/Common.js");
+
 /*
  *  ======== devSpecific ========
  *  Device-specific extensions to be added to base Timer configuration
@@ -84,6 +87,10 @@ function pinmuxRequirements(inst)
  */
 function extend(base)
 {
+    /* display which driver implementation can be used */
+    base = Common.addImplementationConfig(base, "Timer", null,
+        [{name: "TimerCC32XX"}], null);
+
     /* merge and overwrite base module attributes */
     let result = Object.assign({}, base, devSpecific);
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017, Texas Instruments Incorporated
+ * Copyright (c) 2015-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -222,7 +222,7 @@ uint_fast32_t Power_getTransitionLatency(uint_fast16_t sleepState,
         latency = PowerCC32XX_RESUMETIMELPDS;
     }
     else {
-        latency = PowerCC32XX_TOTALTIMELPDS;
+        latency = PowerCC32XX_config.latencyForLPDS;
     }
 
     return (latency);

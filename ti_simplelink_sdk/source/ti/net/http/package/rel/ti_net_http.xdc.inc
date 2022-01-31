@@ -18,6 +18,10 @@ httpserver_send.c
 httpserver_sleep.c
 lib/ccs/m4/httpclient_release.a
 lib/ccs/m4/httpserver_release.a
+lib/ticlang/m4/httpclient_debug.a
+lib/ticlang/m4/httpserver_debug.a
+lib/ticlang/m4/httpclient_release.a
+lib/ticlang/m4/httpserver_release.a
 lib/gcc/m4/httpclient_debug.a
 lib/gcc/m4/httpserver_debug.a
 lib/gcc/m4/httpclient_release.a

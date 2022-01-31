@@ -3,7 +3,7 @@
 //
 // Startup code for use with IAR's Embedded Workbench
 //
-// Copyright (C) 2016-2017 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2016-2020 Texas Instruments Incorporated - http://www.ti.com/
 //
 //
 //  Redistribution and use in source and binary forms, with or without
@@ -50,6 +50,10 @@
 #include <ti/devices/cc32xx/driverlib/rom_map.h>
 #include <ti/devices/cc32xx/driverlib/prcm.h>
 
+#include <FreeRTOSConfig.h>
+
+/* IAR includes */
+#include <intrinsics.h>
 
 //*****************************************************************************
 //
@@ -115,15 +119,19 @@ unsigned long ramVectors[195] @ ".noinit";
 
 //*****************************************************************************
 //
-// This function is called by __iar_program_start() early in the boot sequence.
 // Copy the first 16 vectors from the read-only/reset table to the runtime
 // RAM table. Fill the remaining vectors with a stub. This vector table will
 // be updated at runtime.
 //
 //*****************************************************************************
-int __low_level_init(void)
+int localProgramStart(void)
 {
     int i;
+
+    /* Disable interrupts */
+    __set_BASEPRI( configMAX_SYSCALL_INTERRUPT_PRIORITY );
+    __DSB();
+    __ISB();
 
     /* Copy from reset vector table into RAM vector table */
     memcpy(ramVectors, __vector_table, 16*4);
@@ -135,17 +143,35 @@ int __low_level_init(void)
 
     MAP_IntVTableBaseSet((unsigned long)&ramVectors[0]);
 
-    /* Enable Processor */
-    MAP_IntMasterEnable();
-    MAP_IntEnable(FAULT_SYSTICK);
-
     /*==================================*/
     /* Choose if segment initialization */
     /* should be done or not.           */
     /* Return: 0 to omit seg_init       */
     /*         1 to run seg_init        */
     /*==================================*/
-    return 1;
+    return (1);
+}
+
+/*
+ * This function is called by __iar_program_start() early in the boot sequence.
+ */
+int __low_level_init(void)
+{
+    /*
+     *  Initialize the stack pointer and branch to localProgramStart().
+     *  Some debuggers do not load the stack pointer from the reset vector.
+     *  This code ensures that the stack pointer is initialized.
+     *  The first entry of the vector table is the address of the stack.
+     */
+    __asm(
+        "    mov32 r0, __vector_table\n"
+        "    ldr r0, [r0]\n"
+        "    mov sp, r0\n"
+        "    b localProgramStart"
+    );
+
+    /* Will never get here */
+    return (1);
 }
 
 //*****************************************************************************
