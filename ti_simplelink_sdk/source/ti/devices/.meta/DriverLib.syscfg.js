@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2019-2020 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -69,7 +69,27 @@ function getAttrs(deviceId, part)
 {
     var result = {};
 
-    if (deviceId.match(/CC13.2/)) {
+    if (deviceId.match(/CC13.1/)) {
+        result.deviceDir  = "cc13x1_cc26x1";
+        result.deviceGroup = "LPRF";
+        result.deviceDefine = "DeviceFamily_CC13X1";
+    }
+    else if (deviceId.match(/CC26.1/)) {
+        result.deviceDir = "cc13x1_cc26x1";
+        result.deviceGroup = "LPRF";
+        result.deviceDefine = "DeviceFamily_CC26X1";
+    }
+    else if (deviceId.match(/CC13.2..F6/)) {
+        result.deviceDir  = "cc13x2f6_cc26x2f6";
+        result.deviceGroup = "LPRF";
+        result.deviceDefine = "DeviceFamily_CC13X2F6";
+    }
+    else if (deviceId.match(/CC26.2..F6/)) {
+        result.deviceDir = "cc13x2f6_cc26x2f6";
+        result.deviceGroup = "LPRF";
+        result.deviceDefine = "DeviceFamily_CC26X2F6";
+    }
+    else if (deviceId.match(/CC13.2/)) {
         result.deviceDir  = "cc13x2_cc26x2";
         result.deviceGroup = "LPRF";
         result.deviceDefine = "DeviceFamily_CC13X2";
@@ -109,20 +129,10 @@ function getAttrs(deviceId, part)
             result.deviceDefine = "DeviceFamily_MSP432E401Y";
         }
     }
-    else if (deviceId.match(/MSP432P4.1.I/) || deviceId.match(/MSP432P4111/)) {
-        result.deviceDir = "msp432p4xx";
-        result.deviceGroup = "MSP";
-        result.deviceDefine = "DeviceFamily_MSP432P4x1xI";
-    }
-    else if (deviceId.match(/MSP432P4.1.T/)) { /* issue: remove, not suported? */
-        result.deviceDir = "msp432p4xx";
-        result.deviceGroup = "MSP";
-        result.deviceDefine = "DeviceFamily_MSP432P4x1xT";
-    }
-    else if (deviceId.match(/MSP432P401/)) {
-        result.deviceDir = "msp432p4xx";
-        result.deviceGroup = "MSP";
-        result.deviceDefine = "DeviceFamily_MSP432P401x";
+    else if (deviceId.match(/dragon/)) {
+        result.deviceDir = "mtxx";
+        result.deviceGroup = "MTXX";
+        result.deviceDefine = "DeviceFamily_MTL";
     }
     else {
         result.deviceDir = "";
@@ -133,51 +143,52 @@ function getAttrs(deviceId, part)
     return (result);
 }
 
-/*
- *  ======== getLibs ========
- */
-function getLibs(mod)
-{
-    /* get device and compiler toolchain from SysConfig */
-    let devId     = system.deviceData.deviceId;
-    let GenLibs   = system.getScript("/ti/utils/build/GenLibs");
-    let tcDir     = GenLibs.getToolchainDir();
+// /*
+//  *  ======== getLibs ========
+//  */
+// function getLibs(mod)
+// {
+//     /* get device and compiler toolchain from SysConfig */
+//     let devId     = system.deviceData.deviceId;
+//     let GenLibs   = system.getScript("/ti/utils/build/GenLibs");
+//     let tcDir     = GenLibs.getToolchainDir();
 
-    /* compute device and toolchain-specific driverlib path */
-    let templates = {
-        LPRF: "ti/devices/{devDir}/driverlib/bin/{tcDir}/driverlib.lib",
-        WIFI: "ti/devices/{devDir}/driverlib/{tcDir}/Release/driverlib.a",
-        TIVA: "ti/devices/{devDir}/driverlib/lib/{tcDir}/m4f/{devDir}_driverlib.a",
-        MSP:  "ti/devices/{devDir}/driverlib/{tcDir}/{devDir}_driverlib.lib"
-    };
+//     /* compute device and toolchain-specific driverlib path */
+//     let templates = {
+//         LPRF: "ti/devices/{devDir}/driverlib/bin/{tcDir}/driverlib.lib",
+//         WIFI: "ti/devices/{devDir}/driverlib/{tcDir}/Release/driverlib.a",
+//         TIVA: "ti/devices/{devDir}/driverlib/lib/{tcDir}/m4f/{devDir}_driverlib.a",
+//         MSP:  "ti/devices/{devDir}/driverlib/{tcDir}/{devDir}_driverlib.lib",
+//         MTXX: ""
+//     };
 
-    let lib;
-    if (mod.$static.path != "") {
-        lib = mod.$static.path;
-    }
-    else {
-        let attrs = getAttrs(devId);
-        var template = templates[attrs.deviceGroup];
-        if (template == null) {
-            throw Error("device ID '" + devId
-                + "' isn't from a supported group: '"
-                + attrs.deviceGroup + "'" );
-        }
-        lib = template
-            .replace("{tcDir}",   tcDir)
-            .replace(/{devDir}/g, attrs.deviceDir);
-    }
+//     let lib;
+//     if (mod.$static.path != "") {
+//         lib = mod.$static.path;
+//     }
+//     else {
+//         let attrs = getAttrs(devId);
+//         var template = templates[attrs.deviceGroup];
+//         if (template == null) {
+//             throw Error("device ID '" + devId
+//                 + "' isn't from a supported group: '"
+//                 + attrs.deviceGroup + "'" );
+//         }
+//         lib = template
+//             .replace("{tcDir}",   tcDir)
+//             .replace(/{devDir}/g, attrs.deviceDir);
+//     }
 
-    /* create a GenLibs input argument */
-    var libGroup = {
-        name: "/ti/devices/driverlib",
-        vers: "1.0.0.0",
-        deps: [],
-        libs: [lib]
-    };
+//     /* create a GenLibs input argument */
+//     var libGroup = {
+//         name: "/ti/devices/driverlib",
+//         vers: "1.0.0.0",
+//         deps: [],
+//         libs: [lib]
+//     };
 
-    return (libGroup);
-}
+//     return (libGroup);
+// }
 
 /*
  *  ======== exports ========
@@ -186,11 +197,20 @@ exports = {
     staticOnly   : true,
     displayName  : "DriverLib",
 
-    templates    : {
-        /* support library option generation for linker */
-        "/ti/utils/build/GenLibs.cmd.xdt":
-            {modName: "/ti/devices/DriverLib", getLibs: getLibs}
-    },
+    /*
+     * The below code has been commented out in order to disable driverlib
+     * contributions to genlibs. MCPISWTOOLS-500 is adding genlibs support to
+     * ex_gen and placing its generated cmd file BEFORE the kernel on the link
+     * line. This will cause problems with agama devices as they need driverlib
+     * to be linked AFTER the kernel. The solution, for now, is to have ex_gen
+     * continue to get driverlib from board.js (placing it after the kernel)
+     * and remove driverlib contributions to genlibs.
+     */
+    // templates    : {
+    //     /* support library option generation for linker */
+    //     "/ti/utils/build/GenLibs.cmd.xdt":
+    //         {modName: "/ti/devices/DriverLib", getLibs: getLibs}
+    // },
 
     /* enable end-user to override computed library path */
     moduleStatic : {

@@ -118,7 +118,7 @@ void* sl_Task(void* pEntry)
 #if _SL_INCLUDE_FUNC(sl_Start)
 _i16 sl_Start(const void* pIfHdl, _i8*  pDevName, const P_INIT_CALLBACK pInitCallBack)
 {
-    _u8 ObjIdx = MAX_CONCURRENT_ACTIONS;
+    _i16 ObjIdx = MAX_CONCURRENT_ACTIONS;
     InitComplete_t  AsyncRsp;
     int ret = 0;    // added for releasePoolObj
 
@@ -151,9 +151,9 @@ _i16 sl_Start(const void* pIfHdl, _i8*  pDevName, const P_INIT_CALLBACK pInitCal
 
     ObjIdx = _SlDrvProtectAsyncRespSetting((_u8 *)&AsyncRsp, START_STOP_ID, SL_MAX_SOCKETS);
 
-    if (MAX_CONCURRENT_ACTIONS == ObjIdx)
+    if (ObjIdx < 0)
     {
-        return SL_POOL_IS_EMPTY;
+        return ObjIdx;
     }
 
     if( g_pCB->FD >= (_SlFd_t)0)
@@ -282,7 +282,7 @@ _i16 sl_Stop(const _u16 Timeout)
     _i16 RetVal=0;
     _SlStopMsg_u      Msg;
     _BasicResponse_t  AsyncRsp;
-    _u8 ObjIdx = MAX_CONCURRENT_ACTIONS;
+    _i16 ObjIdx = MAX_CONCURRENT_ACTIONS;
     _u8 ReleasePoolObject = FALSE;
     _u8 IsProvInProgress = FALSE;
 
@@ -306,9 +306,9 @@ _i16 sl_Stop(const _u16 Timeout)
         if (!IsProvInProgress)
         {
             ObjIdx = _SlDrvProtectAsyncRespSetting((_u8 *)&AsyncRsp, START_STOP_ID, SL_MAX_SOCKETS);
-            if (MAX_CONCURRENT_ACTIONS == ObjIdx)
+            if (ObjIdx < 0)
             {
-              return SL_POOL_IS_EMPTY;
+                return ObjIdx;
             }
 
             ReleasePoolObject = TRUE;
@@ -367,9 +367,12 @@ _i16 sl_Stop(const _u16 Timeout)
     }
 #endif    
 
-    /* Lock during stopping the interface */
-    SL_DRV_OBJ_LOCK_FOREVER(&GlobalLockObj);
-
+    /* Lock during stopping the interface only if reset is not required (if reset requires it 
+     means GlobalLockObj is already deleted and interface operations cannot be performed) */
+    if (!SL_IS_RESTART_REQUIRED)
+    {
+        SL_DRV_OBJ_LOCK_FOREVER(&GlobalLockObj);
+    }
     sl_IfRegIntHdlr(NULL, NULL);
     sl_DeviceDisable();
     RetVal = sl_IfClose(g_pCB->FD);
@@ -380,9 +383,14 @@ _i16 sl_Stop(const _u16 Timeout)
     SL_UNSET_DEVICE_STOP_IN_PROGRESS;
 
     /* clear the device started flag */
-    SL_UNSET_DEVICE_STARTED;
+    SL_UNSET_DEVICE_STARTED; 
 
-    SL_DRV_OBJ_UNLOCK(&GlobalLockObj);
+    if (!SL_IS_RESTART_REQUIRED)
+    {
+        SL_DRV_OBJ_UNLOCK(&GlobalLockObj);
+    }
+    /* Clear the restart device flag  */
+    SL_UNSET_RESTART_REQUIRED;
 
     return RetVal;
 }

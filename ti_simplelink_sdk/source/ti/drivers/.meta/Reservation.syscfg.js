@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019, Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2020, Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -112,11 +112,6 @@ function getTimerInstParams(timerId)
     };
 
     switch (family) {
-        case "MSP432": {
-            timerArgs.resourceType = "TIMER_A";
-            timerArgs.resourceName = "Timer_A";
-            break;
-        }
         case "MSP432E4":
         case "CC32XX": {
             timerArgs.resourceType = "Timer";
@@ -136,10 +131,10 @@ function getTimerInstParams(timerId)
     timerArgs.resourceName += String(timerId);
 
     let timerRes = {
-        name       : "timer" + timerId,
-        moduleName : "/ti/drivers/Reservation",
-        args       : timerArgs,
-        hidden     : true /* hides the configuration in the client's view */
+        name         : "timer" + timerId,
+        moduleName   : "/ti/drivers/Reservation",
+        requiredArgs : timerArgs,
+        hidden       : true /* hides the configuration in the client's view */
     };
 
     return (timerRes);

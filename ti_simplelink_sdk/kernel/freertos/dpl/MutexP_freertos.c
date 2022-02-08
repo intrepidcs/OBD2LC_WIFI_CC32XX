@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017, Texas Instruments Incorporated
+ * Copyright (c) 2015-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,6 +39,19 @@
 #include <semphr.h>
 #include <queue.h>
 
+/*
+ *  ======== MutexP_construct ========
+ */
+MutexP_Handle MutexP_construct(MutexP_Struct *handle, MutexP_Params *params)
+{
+    SemaphoreHandle_t sem = NULL;
+
+#if (configSUPPORT_STATIC_ALLOCATION == 1)
+    sem = xSemaphoreCreateRecursiveMutexStatic((StaticSemaphore_t *)handle);
+#endif
+
+    return ((MutexP_Handle)sem);
+}
 
 /*
  *  ======== MutexP_create ========
@@ -64,6 +77,13 @@ MutexP_Handle MutexP_create(MutexP_Params *params)
 void MutexP_delete(MutexP_Handle handle)
 {
     vSemaphoreDelete((SemaphoreHandle_t)handle);
+}
+
+/*
+ *  ======== MutexP_destruct ========
+ */
+void MutexP_destruct(MutexP_Struct *mutP)
+{
 }
 
 /*

@@ -3,7 +3,7 @@
 #  package.bld.  Any modifications to this file will be 
 #  overwritten whenever makefiles are re-generated.
 #
-#  target compatibility key = ti.targets.arm.elf.M4{1,0,18.12,3
+#  target compatibility key = ti.targets.arm.elf.M4{1,0,20.2,1
 #
 ifeq (,$(MK_NOGENDEPS))
 -include package/lib/lib/drivers_cc32xx/package/package_ti.drivers.oem4.dep
@@ -15,8 +15,8 @@ package/lib/lib/drivers_cc32xx/package/package_ti.drivers.oem4: package/package_
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/package -fr=./package/lib/lib/drivers_cc32xx/package -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/package -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/package -fr=./package/lib/lib/drivers_cc32xx/package
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/package -fr=./package/lib/lib/drivers_cc32xx/package -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/package -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/package -fr=./package/lib/lib/drivers_cc32xx/package
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/package/package_ti.drivers.oem4: export C_DIR=
@@ -27,12 +27,70 @@ package/lib/lib/drivers_cc32xx/package/package_ti.drivers.sem4: package/package_
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/package -fr=./package/lib/lib/drivers_cc32xx/package -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/package -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/package -fr=./package/lib/lib/drivers_cc32xx/package
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/package -fr=./package/lib/lib/drivers_cc32xx/package -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/package -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/package -fr=./package/lib/lib/drivers_cc32xx/package
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/package/package_ti.drivers.sem4: export C_DIR=
 package/lib/lib/drivers_cc32xx/package/package_ti.drivers.sem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
+
+ifeq (,$(MK_NOGENDEPS))
+-include package/lib/lib/drivers_cc32xx/ADC.oem4.dep
+package/lib/lib/drivers_cc32xx/ADC.oem4.dep: ;
+endif
+
+package/lib/lib/drivers_cc32xx/ADC.oem4: | .interfaces
+package/lib/lib/drivers_cc32xx/ADC.oem4: ADC.c lib/drivers_cc32xx.aem4.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clem4 $< ...
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/ADC.oem4: export C_DIR=
+package/lib/lib/drivers_cc32xx/ADC.oem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
+
+package/lib/lib/drivers_cc32xx/ADC.sem4: | .interfaces
+package/lib/lib/drivers_cc32xx/ADC.sem4: ADC.c lib/drivers_cc32xx.aem4.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clem4 -n $< ...
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/ADC.sem4: export C_DIR=
+package/lib/lib/drivers_cc32xx/ADC.sem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
+
+ifeq (,$(MK_NOGENDEPS))
+-include package/lib/lib/drivers_cc32xx/I2C.oem4.dep
+package/lib/lib/drivers_cc32xx/I2C.oem4.dep: ;
+endif
+
+package/lib/lib/drivers_cc32xx/I2C.oem4: | .interfaces
+package/lib/lib/drivers_cc32xx/I2C.oem4: I2C.c lib/drivers_cc32xx.aem4.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clem4 $< ...
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/I2C.oem4: export C_DIR=
+package/lib/lib/drivers_cc32xx/I2C.oem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
+
+package/lib/lib/drivers_cc32xx/I2C.sem4: | .interfaces
+package/lib/lib/drivers_cc32xx/I2C.sem4: I2C.c lib/drivers_cc32xx.aem4.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clem4 -n $< ...
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/I2C.sem4: export C_DIR=
+package/lib/lib/drivers_cc32xx/I2C.sem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
 
 ifeq (,$(MK_NOGENDEPS))
 -include package/lib/lib/drivers_cc32xx/NVS.oem4.dep
@@ -44,8 +102,8 @@ package/lib/lib/drivers_cc32xx/NVS.oem4: NVS.c lib/drivers_cc32xx.aem4.mak
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/NVS.oem4: export C_DIR=
@@ -56,8 +114,8 @@ package/lib/lib/drivers_cc32xx/NVS.sem4: NVS.c lib/drivers_cc32xx.aem4.mak
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/NVS.sem4: export C_DIR=
@@ -73,8 +131,8 @@ package/lib/lib/drivers_cc32xx/./nvs/NVSRAM.oem4: ./nvs/NVSRAM.c lib/drivers_cc3
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./nvs -fr=./package/lib/lib/drivers_cc32xx/./nvs -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./nvs -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./nvs -fr=./package/lib/lib/drivers_cc32xx/./nvs
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./nvs -fr=./package/lib/lib/drivers_cc32xx/./nvs -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./nvs -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./nvs -fr=./package/lib/lib/drivers_cc32xx/./nvs
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./nvs/NVSRAM.oem4: export C_DIR=
@@ -85,8 +143,8 @@ package/lib/lib/drivers_cc32xx/./nvs/NVSRAM.sem4: ./nvs/NVSRAM.c lib/drivers_cc3
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./nvs -fr=./package/lib/lib/drivers_cc32xx/./nvs -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./nvs -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./nvs -fr=./package/lib/lib/drivers_cc32xx/./nvs
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./nvs -fr=./package/lib/lib/drivers_cc32xx/./nvs -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./nvs -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./nvs -fr=./package/lib/lib/drivers_cc32xx/./nvs
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./nvs/NVSRAM.sem4: export C_DIR=
@@ -102,8 +160,8 @@ package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.oem4: ./nvs/NVSSPI25X.c lib/drive
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./nvs -fr=./package/lib/lib/drivers_cc32xx/./nvs -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./nvs -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./nvs -fr=./package/lib/lib/drivers_cc32xx/./nvs
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./nvs -fr=./package/lib/lib/drivers_cc32xx/./nvs -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./nvs -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./nvs -fr=./package/lib/lib/drivers_cc32xx/./nvs
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.oem4: export C_DIR=
@@ -114,12 +172,41 @@ package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.sem4: ./nvs/NVSSPI25X.c lib/drive
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./nvs -fr=./package/lib/lib/drivers_cc32xx/./nvs -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./nvs -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./nvs -fr=./package/lib/lib/drivers_cc32xx/./nvs
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./nvs -fr=./package/lib/lib/drivers_cc32xx/./nvs -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./nvs -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./nvs -fr=./package/lib/lib/drivers_cc32xx/./nvs
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.sem4: export C_DIR=
 package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.sem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
+
+ifeq (,$(MK_NOGENDEPS))
+-include package/lib/lib/drivers_cc32xx/PWM.oem4.dep
+package/lib/lib/drivers_cc32xx/PWM.oem4.dep: ;
+endif
+
+package/lib/lib/drivers_cc32xx/PWM.oem4: | .interfaces
+package/lib/lib/drivers_cc32xx/PWM.oem4: PWM.c lib/drivers_cc32xx.aem4.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clem4 $< ...
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/PWM.oem4: export C_DIR=
+package/lib/lib/drivers_cc32xx/PWM.oem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
+
+package/lib/lib/drivers_cc32xx/PWM.sem4: | .interfaces
+package/lib/lib/drivers_cc32xx/PWM.sem4: PWM.c lib/drivers_cc32xx.aem4.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clem4 -n $< ...
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/PWM.sem4: export C_DIR=
+package/lib/lib/drivers_cc32xx/PWM.sem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
 
 ifeq (,$(MK_NOGENDEPS))
 -include package/lib/lib/drivers_cc32xx/SD.oem4.dep
@@ -131,8 +218,8 @@ package/lib/lib/drivers_cc32xx/SD.oem4: SD.c lib/drivers_cc32xx.aem4.mak
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/SD.oem4: export C_DIR=
@@ -143,8 +230,8 @@ package/lib/lib/drivers_cc32xx/SD.sem4: SD.c lib/drivers_cc32xx.aem4.mak
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/SD.sem4: export C_DIR=
@@ -160,8 +247,8 @@ package/lib/lib/drivers_cc32xx/./sd/SDSPI.oem4: ./sd/SDSPI.c lib/drivers_cc32xx.
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./sd -fr=./package/lib/lib/drivers_cc32xx/./sd -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./sd -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./sd -fr=./package/lib/lib/drivers_cc32xx/./sd
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./sd -fr=./package/lib/lib/drivers_cc32xx/./sd -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./sd -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./sd -fr=./package/lib/lib/drivers_cc32xx/./sd
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./sd/SDSPI.oem4: export C_DIR=
@@ -172,8 +259,8 @@ package/lib/lib/drivers_cc32xx/./sd/SDSPI.sem4: ./sd/SDSPI.c lib/drivers_cc32xx.
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./sd -fr=./package/lib/lib/drivers_cc32xx/./sd -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./sd -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./sd -fr=./package/lib/lib/drivers_cc32xx/./sd
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./sd -fr=./package/lib/lib/drivers_cc32xx/./sd -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./sd -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./sd -fr=./package/lib/lib/drivers_cc32xx/./sd
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./sd/SDSPI.sem4: export C_DIR=
@@ -189,8 +276,8 @@ package/lib/lib/drivers_cc32xx/SDFatFS.oem4: SDFatFS.c lib/drivers_cc32xx.aem4.m
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/SDFatFS.oem4: export C_DIR=
@@ -201,12 +288,157 @@ package/lib/lib/drivers_cc32xx/SDFatFS.sem4: SDFatFS.c lib/drivers_cc32xx.aem4.m
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/SDFatFS.sem4: export C_DIR=
 package/lib/lib/drivers_cc32xx/SDFatFS.sem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
+
+ifeq (,$(MK_NOGENDEPS))
+-include package/lib/lib/drivers_cc32xx/SPI.oem4.dep
+package/lib/lib/drivers_cc32xx/SPI.oem4.dep: ;
+endif
+
+package/lib/lib/drivers_cc32xx/SPI.oem4: | .interfaces
+package/lib/lib/drivers_cc32xx/SPI.oem4: SPI.c lib/drivers_cc32xx.aem4.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clem4 $< ...
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/SPI.oem4: export C_DIR=
+package/lib/lib/drivers_cc32xx/SPI.oem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
+
+package/lib/lib/drivers_cc32xx/SPI.sem4: | .interfaces
+package/lib/lib/drivers_cc32xx/SPI.sem4: SPI.c lib/drivers_cc32xx.aem4.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clem4 -n $< ...
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/SPI.sem4: export C_DIR=
+package/lib/lib/drivers_cc32xx/SPI.sem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
+
+ifeq (,$(MK_NOGENDEPS))
+-include package/lib/lib/drivers_cc32xx/Timer.oem4.dep
+package/lib/lib/drivers_cc32xx/Timer.oem4.dep: ;
+endif
+
+package/lib/lib/drivers_cc32xx/Timer.oem4: | .interfaces
+package/lib/lib/drivers_cc32xx/Timer.oem4: Timer.c lib/drivers_cc32xx.aem4.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clem4 $< ...
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/Timer.oem4: export C_DIR=
+package/lib/lib/drivers_cc32xx/Timer.oem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
+
+package/lib/lib/drivers_cc32xx/Timer.sem4: | .interfaces
+package/lib/lib/drivers_cc32xx/Timer.sem4: Timer.c lib/drivers_cc32xx.aem4.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clem4 -n $< ...
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/Timer.sem4: export C_DIR=
+package/lib/lib/drivers_cc32xx/Timer.sem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
+
+ifeq (,$(MK_NOGENDEPS))
+-include package/lib/lib/drivers_cc32xx/UART.oem4.dep
+package/lib/lib/drivers_cc32xx/UART.oem4.dep: ;
+endif
+
+package/lib/lib/drivers_cc32xx/UART.oem4: | .interfaces
+package/lib/lib/drivers_cc32xx/UART.oem4: UART.c lib/drivers_cc32xx.aem4.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clem4 $< ...
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/UART.oem4: export C_DIR=
+package/lib/lib/drivers_cc32xx/UART.oem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
+
+package/lib/lib/drivers_cc32xx/UART.sem4: | .interfaces
+package/lib/lib/drivers_cc32xx/UART.sem4: UART.c lib/drivers_cc32xx.aem4.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clem4 -n $< ...
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/UART.sem4: export C_DIR=
+package/lib/lib/drivers_cc32xx/UART.sem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
+
+ifeq (,$(MK_NOGENDEPS))
+-include package/lib/lib/drivers_cc32xx/UART2.oem4.dep
+package/lib/lib/drivers_cc32xx/UART2.oem4.dep: ;
+endif
+
+package/lib/lib/drivers_cc32xx/UART2.oem4: | .interfaces
+package/lib/lib/drivers_cc32xx/UART2.oem4: UART2.c lib/drivers_cc32xx.aem4.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clem4 $< ...
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/UART2.oem4: export C_DIR=
+package/lib/lib/drivers_cc32xx/UART2.oem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
+
+package/lib/lib/drivers_cc32xx/UART2.sem4: | .interfaces
+package/lib/lib/drivers_cc32xx/UART2.sem4: UART2.c lib/drivers_cc32xx.aem4.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clem4 -n $< ...
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/UART2.sem4: export C_DIR=
+package/lib/lib/drivers_cc32xx/UART2.sem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
+
+ifeq (,$(MK_NOGENDEPS))
+-include package/lib/lib/drivers_cc32xx/Watchdog.oem4.dep
+package/lib/lib/drivers_cc32xx/Watchdog.oem4.dep: ;
+endif
+
+package/lib/lib/drivers_cc32xx/Watchdog.oem4: | .interfaces
+package/lib/lib/drivers_cc32xx/Watchdog.oem4: Watchdog.c lib/drivers_cc32xx.aem4.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clem4 $< ...
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/Watchdog.oem4: export C_DIR=
+package/lib/lib/drivers_cc32xx/Watchdog.oem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
+
+package/lib/lib/drivers_cc32xx/Watchdog.sem4: | .interfaces
+package/lib/lib/drivers_cc32xx/Watchdog.sem4: Watchdog.c lib/drivers_cc32xx.aem4.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clem4 -n $< ...
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/Watchdog.sem4: export C_DIR=
+package/lib/lib/drivers_cc32xx/Watchdog.sem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
 
 ifeq (,$(MK_NOGENDEPS))
 -include package/lib/lib/drivers_cc32xx/./utils/List.oem4.dep
@@ -218,8 +450,8 @@ package/lib/lib/drivers_cc32xx/./utils/List.oem4: ./utils/List.c lib/drivers_cc3
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./utils -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./utils -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./utils/List.oem4: export C_DIR=
@@ -230,8 +462,8 @@ package/lib/lib/drivers_cc32xx/./utils/List.sem4: ./utils/List.c lib/drivers_cc3
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./utils -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./utils -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./utils/List.sem4: export C_DIR=
@@ -247,8 +479,8 @@ package/lib/lib/drivers_cc32xx/./utils/RingBuf.oem4: ./utils/RingBuf.c lib/drive
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./utils -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./utils -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./utils/RingBuf.oem4: export C_DIR=
@@ -259,8 +491,8 @@ package/lib/lib/drivers_cc32xx/./utils/RingBuf.sem4: ./utils/RingBuf.c lib/drive
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./utils -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./utils -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./utils/RingBuf.sem4: export C_DIR=
@@ -276,8 +508,8 @@ package/lib/lib/drivers_cc32xx/./utils/Random.oem4: ./utils/Random.c lib/drivers
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./utils -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./utils -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./utils/Random.oem4: export C_DIR=
@@ -288,8 +520,8 @@ package/lib/lib/drivers_cc32xx/./utils/Random.sem4: ./utils/Random.c lib/drivers
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./utils -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./utils -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./utils/Random.sem4: export C_DIR=
@@ -305,8 +537,8 @@ package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.oem4: ./utils/StructRingBuf
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./utils -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./utils -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.oem4: export C_DIR=
@@ -317,8 +549,8 @@ package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.sem4: ./utils/StructRingBuf
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./utils -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./utils -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./utils -fr=./package/lib/lib/drivers_cc32xx/./utils
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.sem4: export C_DIR=
@@ -334,8 +566,8 @@ package/lib/lib/drivers_cc32xx/./apps/LED.oem4: ./apps/LED.c lib/drivers_cc32xx.
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./apps -fr=./package/lib/lib/drivers_cc32xx/./apps -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./apps -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./apps -fr=./package/lib/lib/drivers_cc32xx/./apps
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./apps -fr=./package/lib/lib/drivers_cc32xx/./apps -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./apps -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./apps -fr=./package/lib/lib/drivers_cc32xx/./apps
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./apps/LED.oem4: export C_DIR=
@@ -346,8 +578,8 @@ package/lib/lib/drivers_cc32xx/./apps/LED.sem4: ./apps/LED.c lib/drivers_cc32xx.
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./apps -fr=./package/lib/lib/drivers_cc32xx/./apps -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./apps -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./apps -fr=./package/lib/lib/drivers_cc32xx/./apps
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./apps -fr=./package/lib/lib/drivers_cc32xx/./apps -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./apps -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./apps -fr=./package/lib/lib/drivers_cc32xx/./apps
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./apps/LED.sem4: export C_DIR=
@@ -363,8 +595,8 @@ package/lib/lib/drivers_cc32xx/./apps/Button.oem4: ./apps/Button.c lib/drivers_c
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./apps -fr=./package/lib/lib/drivers_cc32xx/./apps -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./apps -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./apps -fr=./package/lib/lib/drivers_cc32xx/./apps
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./apps -fr=./package/lib/lib/drivers_cc32xx/./apps -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./apps -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./apps -fr=./package/lib/lib/drivers_cc32xx/./apps
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./apps/Button.oem4: export C_DIR=
@@ -375,41 +607,12 @@ package/lib/lib/drivers_cc32xx/./apps/Button.sem4: ./apps/Button.c lib/drivers_c
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./apps -fr=./package/lib/lib/drivers_cc32xx/./apps -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./apps -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./apps -fr=./package/lib/lib/drivers_cc32xx/./apps
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./apps -fr=./package/lib/lib/drivers_cc32xx/./apps -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./apps -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./apps -fr=./package/lib/lib/drivers_cc32xx/./apps
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./apps/Button.sem4: export C_DIR=
 package/lib/lib/drivers_cc32xx/./apps/Button.sem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
-
-ifeq (,$(MK_NOGENDEPS))
--include package/lib/lib/drivers_cc32xx/ADC.oem4.dep
-package/lib/lib/drivers_cc32xx/ADC.oem4.dep: ;
-endif
-
-package/lib/lib/drivers_cc32xx/ADC.oem4: | .interfaces
-package/lib/lib/drivers_cc32xx/ADC.oem4: ADC.c lib/drivers_cc32xx.aem4.mak
-	@$(RM) $@.dep
-	$(RM) $@
-	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
-	-@$(FIXDEP) $@.dep $@.dep
-	
-package/lib/lib/drivers_cc32xx/ADC.oem4: export C_DIR=
-package/lib/lib/drivers_cc32xx/ADC.oem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
-
-package/lib/lib/drivers_cc32xx/ADC.sem4: | .interfaces
-package/lib/lib/drivers_cc32xx/ADC.sem4: ADC.c lib/drivers_cc32xx.aem4.mak
-	@$(RM) $@.dep
-	$(RM) $@
-	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
-	-@$(FIXDEP) $@.dep $@.dep
-	
-package/lib/lib/drivers_cc32xx/ADC.sem4: export C_DIR=
-package/lib/lib/drivers_cc32xx/ADC.sem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
 
 ifeq (,$(MK_NOGENDEPS))
 -include package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.oem4.dep
@@ -421,8 +624,8 @@ package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.oem4: ./adc/ADCCC32XX.c lib/drive
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./adc -fr=./package/lib/lib/drivers_cc32xx/./adc -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./adc -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./adc -fr=./package/lib/lib/drivers_cc32xx/./adc
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./adc -fr=./package/lib/lib/drivers_cc32xx/./adc -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./adc -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./adc -fr=./package/lib/lib/drivers_cc32xx/./adc
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.oem4: export C_DIR=
@@ -433,8 +636,8 @@ package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.sem4: ./adc/ADCCC32XX.c lib/drive
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./adc -fr=./package/lib/lib/drivers_cc32xx/./adc -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./adc -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./adc -fr=./package/lib/lib/drivers_cc32xx/./adc
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./adc -fr=./package/lib/lib/drivers_cc32xx/./adc -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./adc -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./adc -fr=./package/lib/lib/drivers_cc32xx/./adc
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.sem4: export C_DIR=
@@ -450,8 +653,8 @@ package/lib/lib/drivers_cc32xx/Camera.oem4: Camera.c lib/drivers_cc32xx.aem4.mak
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/Camera.oem4: export C_DIR=
@@ -462,8 +665,8 @@ package/lib/lib/drivers_cc32xx/Camera.sem4: Camera.c lib/drivers_cc32xx.aem4.mak
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/Camera.sem4: export C_DIR=
@@ -479,8 +682,8 @@ package/lib/lib/drivers_cc32xx/./camera/CameraCC32XXDMA.oem4: ./camera/CameraCC3
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./camera -fr=./package/lib/lib/drivers_cc32xx/./camera -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./camera -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./camera -fr=./package/lib/lib/drivers_cc32xx/./camera
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./camera -fr=./package/lib/lib/drivers_cc32xx/./camera -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./camera -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./camera -fr=./package/lib/lib/drivers_cc32xx/./camera
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./camera/CameraCC32XXDMA.oem4: export C_DIR=
@@ -491,8 +694,8 @@ package/lib/lib/drivers_cc32xx/./camera/CameraCC32XXDMA.sem4: ./camera/CameraCC3
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./camera -fr=./package/lib/lib/drivers_cc32xx/./camera -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./camera -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./camera -fr=./package/lib/lib/drivers_cc32xx/./camera
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./camera -fr=./package/lib/lib/drivers_cc32xx/./camera -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./camera -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./camera -fr=./package/lib/lib/drivers_cc32xx/./camera
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./camera/CameraCC32XXDMA.sem4: export C_DIR=
@@ -508,8 +711,8 @@ package/lib/lib/drivers_cc32xx/Capture.oem4: Capture.c lib/drivers_cc32xx.aem4.m
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/Capture.oem4: export C_DIR=
@@ -520,8 +723,8 @@ package/lib/lib/drivers_cc32xx/Capture.sem4: Capture.c lib/drivers_cc32xx.aem4.m
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/Capture.sem4: export C_DIR=
@@ -537,8 +740,8 @@ package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.oem4: ./capture/CaptureCC
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./capture -fr=./package/lib/lib/drivers_cc32xx/./capture -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./capture -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./capture -fr=./package/lib/lib/drivers_cc32xx/./capture
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./capture -fr=./package/lib/lib/drivers_cc32xx/./capture -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./capture -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./capture -fr=./package/lib/lib/drivers_cc32xx/./capture
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.oem4: export C_DIR=
@@ -549,8 +752,8 @@ package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.sem4: ./capture/CaptureCC
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./capture -fr=./package/lib/lib/drivers_cc32xx/./capture -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./capture -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./capture -fr=./package/lib/lib/drivers_cc32xx/./capture
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./capture -fr=./package/lib/lib/drivers_cc32xx/./capture -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./capture -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./capture -fr=./package/lib/lib/drivers_cc32xx/./capture
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.sem4: export C_DIR=
@@ -566,8 +769,8 @@ package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.oem4: ./crypto/CryptoCC32XX
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./crypto -fr=./package/lib/lib/drivers_cc32xx/./crypto -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./crypto -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./crypto -fr=./package/lib/lib/drivers_cc32xx/./crypto
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./crypto -fr=./package/lib/lib/drivers_cc32xx/./crypto -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./crypto -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./crypto -fr=./package/lib/lib/drivers_cc32xx/./crypto
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.oem4: export C_DIR=
@@ -578,8 +781,8 @@ package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.sem4: ./crypto/CryptoCC32XX
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./crypto -fr=./package/lib/lib/drivers_cc32xx/./crypto -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./crypto -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./crypto -fr=./package/lib/lib/drivers_cc32xx/./crypto
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./crypto -fr=./package/lib/lib/drivers_cc32xx/./crypto -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./crypto -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./crypto -fr=./package/lib/lib/drivers_cc32xx/./crypto
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.sem4: export C_DIR=
@@ -595,8 +798,8 @@ package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.oem4: ./cryptouti
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./cryptoutils/utils -fr=./package/lib/lib/drivers_cc32xx/./cryptoutils/utils -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./cryptoutils/utils -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./cryptoutils/utils -fr=./package/lib/lib/drivers_cc32xx/./cryptoutils/utils
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./cryptoutils/utils -fr=./package/lib/lib/drivers_cc32xx/./cryptoutils/utils -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./cryptoutils/utils -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./cryptoutils/utils -fr=./package/lib/lib/drivers_cc32xx/./cryptoutils/utils
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.oem4: export C_DIR=
@@ -607,8 +810,8 @@ package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.sem4: ./cryptouti
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./cryptoutils/utils -fr=./package/lib/lib/drivers_cc32xx/./cryptoutils/utils -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./cryptoutils/utils -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./cryptoutils/utils -fr=./package/lib/lib/drivers_cc32xx/./cryptoutils/utils
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./cryptoutils/utils -fr=./package/lib/lib/drivers_cc32xx/./cryptoutils/utils -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./cryptoutils/utils -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./cryptoutils/utils -fr=./package/lib/lib/drivers_cc32xx/./cryptoutils/utils
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.sem4: export C_DIR=
@@ -624,8 +827,8 @@ package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.oem4: ./dma/UDMACC32XX.c lib/dri
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./dma -fr=./package/lib/lib/drivers_cc32xx/./dma -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./dma -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./dma -fr=./package/lib/lib/drivers_cc32xx/./dma
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./dma -fr=./package/lib/lib/drivers_cc32xx/./dma -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./dma -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./dma -fr=./package/lib/lib/drivers_cc32xx/./dma
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.oem4: export C_DIR=
@@ -636,8 +839,8 @@ package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.sem4: ./dma/UDMACC32XX.c lib/dri
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./dma -fr=./package/lib/lib/drivers_cc32xx/./dma -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./dma -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./dma -fr=./package/lib/lib/drivers_cc32xx/./dma
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./dma -fr=./package/lib/lib/drivers_cc32xx/./dma -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./dma -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./dma -fr=./package/lib/lib/drivers_cc32xx/./dma
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.sem4: export C_DIR=
@@ -653,8 +856,8 @@ package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.oem4: ./gpio/GPIOCC32XX.c lib/d
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./gpio -fr=./package/lib/lib/drivers_cc32xx/./gpio -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./gpio -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./gpio -fr=./package/lib/lib/drivers_cc32xx/./gpio
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./gpio -fr=./package/lib/lib/drivers_cc32xx/./gpio -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./gpio -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./gpio -fr=./package/lib/lib/drivers_cc32xx/./gpio
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.oem4: export C_DIR=
@@ -665,41 +868,12 @@ package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.sem4: ./gpio/GPIOCC32XX.c lib/d
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./gpio -fr=./package/lib/lib/drivers_cc32xx/./gpio -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./gpio -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./gpio -fr=./package/lib/lib/drivers_cc32xx/./gpio
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./gpio -fr=./package/lib/lib/drivers_cc32xx/./gpio -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./gpio -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./gpio -fr=./package/lib/lib/drivers_cc32xx/./gpio
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.sem4: export C_DIR=
 package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.sem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
-
-ifeq (,$(MK_NOGENDEPS))
--include package/lib/lib/drivers_cc32xx/I2C.oem4.dep
-package/lib/lib/drivers_cc32xx/I2C.oem4.dep: ;
-endif
-
-package/lib/lib/drivers_cc32xx/I2C.oem4: | .interfaces
-package/lib/lib/drivers_cc32xx/I2C.oem4: I2C.c lib/drivers_cc32xx.aem4.mak
-	@$(RM) $@.dep
-	$(RM) $@
-	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
-	-@$(FIXDEP) $@.dep $@.dep
-	
-package/lib/lib/drivers_cc32xx/I2C.oem4: export C_DIR=
-package/lib/lib/drivers_cc32xx/I2C.oem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
-
-package/lib/lib/drivers_cc32xx/I2C.sem4: | .interfaces
-package/lib/lib/drivers_cc32xx/I2C.sem4: I2C.c lib/drivers_cc32xx.aem4.mak
-	@$(RM) $@.dep
-	$(RM) $@
-	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
-	-@$(FIXDEP) $@.dep $@.dep
-	
-package/lib/lib/drivers_cc32xx/I2C.sem4: export C_DIR=
-package/lib/lib/drivers_cc32xx/I2C.sem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
 
 ifeq (,$(MK_NOGENDEPS))
 -include package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.oem4.dep
@@ -711,8 +885,8 @@ package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.oem4: ./i2c/I2CCC32XX.c lib/drive
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./i2c -fr=./package/lib/lib/drivers_cc32xx/./i2c -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./i2c -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./i2c -fr=./package/lib/lib/drivers_cc32xx/./i2c
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./i2c -fr=./package/lib/lib/drivers_cc32xx/./i2c -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./i2c -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./i2c -fr=./package/lib/lib/drivers_cc32xx/./i2c
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.oem4: export C_DIR=
@@ -723,8 +897,8 @@ package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.sem4: ./i2c/I2CCC32XX.c lib/drive
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./i2c -fr=./package/lib/lib/drivers_cc32xx/./i2c -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./i2c -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./i2c -fr=./package/lib/lib/drivers_cc32xx/./i2c
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./i2c -fr=./package/lib/lib/drivers_cc32xx/./i2c -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./i2c -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./i2c -fr=./package/lib/lib/drivers_cc32xx/./i2c
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.sem4: export C_DIR=
@@ -740,8 +914,8 @@ package/lib/lib/drivers_cc32xx/I2S.oem4: I2S.c lib/drivers_cc32xx.aem4.mak
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/I2S.oem4: export C_DIR=
@@ -752,8 +926,8 @@ package/lib/lib/drivers_cc32xx/I2S.sem4: I2S.c lib/drivers_cc32xx.aem4.mak
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/I2S.sem4: export C_DIR=
@@ -769,8 +943,8 @@ package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.oem4: ./i2s/I2SCC32XX.c lib/drive
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./i2s -fr=./package/lib/lib/drivers_cc32xx/./i2s -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./i2s -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./i2s -fr=./package/lib/lib/drivers_cc32xx/./i2s
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./i2s -fr=./package/lib/lib/drivers_cc32xx/./i2s -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./i2s -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./i2s -fr=./package/lib/lib/drivers_cc32xx/./i2s
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.oem4: export C_DIR=
@@ -781,12 +955,70 @@ package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.sem4: ./i2s/I2SCC32XX.c lib/drive
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./i2s -fr=./package/lib/lib/drivers_cc32xx/./i2s -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./i2s -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./i2s -fr=./package/lib/lib/drivers_cc32xx/./i2s
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./i2s -fr=./package/lib/lib/drivers_cc32xx/./i2s -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./i2s -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./i2s -fr=./package/lib/lib/drivers_cc32xx/./i2s
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.sem4: export C_DIR=
 package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.sem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
+
+ifeq (,$(MK_NOGENDEPS))
+-include package/lib/lib/drivers_cc32xx/ITM.oem4.dep
+package/lib/lib/drivers_cc32xx/ITM.oem4.dep: ;
+endif
+
+package/lib/lib/drivers_cc32xx/ITM.oem4: | .interfaces
+package/lib/lib/drivers_cc32xx/ITM.oem4: ITM.c lib/drivers_cc32xx.aem4.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clem4 $< ...
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/ITM.oem4: export C_DIR=
+package/lib/lib/drivers_cc32xx/ITM.oem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
+
+package/lib/lib/drivers_cc32xx/ITM.sem4: | .interfaces
+package/lib/lib/drivers_cc32xx/ITM.sem4: ITM.c lib/drivers_cc32xx.aem4.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clem4 -n $< ...
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/ITM.sem4: export C_DIR=
+package/lib/lib/drivers_cc32xx/ITM.sem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
+
+ifeq (,$(MK_NOGENDEPS))
+-include package/lib/lib/drivers_cc32xx/./itm/ITMCC32XX.oem4.dep
+package/lib/lib/drivers_cc32xx/./itm/ITMCC32XX.oem4.dep: ;
+endif
+
+package/lib/lib/drivers_cc32xx/./itm/ITMCC32XX.oem4: | .interfaces
+package/lib/lib/drivers_cc32xx/./itm/ITMCC32XX.oem4: ./itm/ITMCC32XX.c lib/drivers_cc32xx.aem4.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clem4 $< ...
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./itm -fr=./package/lib/lib/drivers_cc32xx/./itm -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./itm -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./itm -fr=./package/lib/lib/drivers_cc32xx/./itm
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/./itm/ITMCC32XX.oem4: export C_DIR=
+package/lib/lib/drivers_cc32xx/./itm/ITMCC32XX.oem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
+
+package/lib/lib/drivers_cc32xx/./itm/ITMCC32XX.sem4: | .interfaces
+package/lib/lib/drivers_cc32xx/./itm/ITMCC32XX.sem4: ./itm/ITMCC32XX.c lib/drivers_cc32xx.aem4.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clem4 -n $< ...
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./itm -fr=./package/lib/lib/drivers_cc32xx/./itm -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./itm -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./itm -fr=./package/lib/lib/drivers_cc32xx/./itm
+	-@$(FIXDEP) $@.dep $@.dep
+	
+package/lib/lib/drivers_cc32xx/./itm/ITMCC32XX.sem4: export C_DIR=
+package/lib/lib/drivers_cc32xx/./itm/ITMCC32XX.sem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
 
 ifeq (,$(MK_NOGENDEPS))
 -include package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.oem4.dep
@@ -798,8 +1030,8 @@ package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.oem4: ./power/PowerCC32XX.c l
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./power -fr=./package/lib/lib/drivers_cc32xx/./power -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./power -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./power -fr=./package/lib/lib/drivers_cc32xx/./power
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./power -fr=./package/lib/lib/drivers_cc32xx/./power -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./power -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./power -fr=./package/lib/lib/drivers_cc32xx/./power
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.oem4: export C_DIR=
@@ -810,8 +1042,8 @@ package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.sem4: ./power/PowerCC32XX.c l
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./power -fr=./package/lib/lib/drivers_cc32xx/./power -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./power -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./power -fr=./package/lib/lib/drivers_cc32xx/./power
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./power -fr=./package/lib/lib/drivers_cc32xx/./power -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./power -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./power -fr=./package/lib/lib/drivers_cc32xx/./power
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.sem4: export C_DIR=
@@ -827,41 +1059,12 @@ package/lib/lib/drivers_cc32xx/./power/PowerCC32XX_asm.oem4: ./power/PowerCC32XX
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) asmem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -qq --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3   $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fr=./package/lib/lib/drivers_cc32xx/./power -fa $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./power -s oem4 $< -C  -qq --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3   $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include 
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -qq --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1   $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fr=./package/lib/lib/drivers_cc32xx/./power -fa $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./power -s oem4 $< -C  -qq --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1   $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include 
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX_asm.oem4: export C_DIR=
 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX_asm.oem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
-
-ifeq (,$(MK_NOGENDEPS))
--include package/lib/lib/drivers_cc32xx/PWM.oem4.dep
-package/lib/lib/drivers_cc32xx/PWM.oem4.dep: ;
-endif
-
-package/lib/lib/drivers_cc32xx/PWM.oem4: | .interfaces
-package/lib/lib/drivers_cc32xx/PWM.oem4: PWM.c lib/drivers_cc32xx.aem4.mak
-	@$(RM) $@.dep
-	$(RM) $@
-	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
-	-@$(FIXDEP) $@.dep $@.dep
-	
-package/lib/lib/drivers_cc32xx/PWM.oem4: export C_DIR=
-package/lib/lib/drivers_cc32xx/PWM.oem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
-
-package/lib/lib/drivers_cc32xx/PWM.sem4: | .interfaces
-package/lib/lib/drivers_cc32xx/PWM.sem4: PWM.c lib/drivers_cc32xx.aem4.mak
-	@$(RM) $@.dep
-	$(RM) $@
-	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
-	-@$(FIXDEP) $@.dep $@.dep
-	
-package/lib/lib/drivers_cc32xx/PWM.sem4: export C_DIR=
-package/lib/lib/drivers_cc32xx/PWM.sem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
 
 ifeq (,$(MK_NOGENDEPS))
 -include package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.oem4.dep
@@ -873,8 +1076,8 @@ package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.oem4: ./pwm/PWMTimerCC32XX.c
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./pwm -fr=./package/lib/lib/drivers_cc32xx/./pwm -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./pwm -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./pwm -fr=./package/lib/lib/drivers_cc32xx/./pwm
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./pwm -fr=./package/lib/lib/drivers_cc32xx/./pwm -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./pwm -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./pwm -fr=./package/lib/lib/drivers_cc32xx/./pwm
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.oem4: export C_DIR=
@@ -885,8 +1088,8 @@ package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.sem4: ./pwm/PWMTimerCC32XX.c
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./pwm -fr=./package/lib/lib/drivers_cc32xx/./pwm -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./pwm -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./pwm -fr=./package/lib/lib/drivers_cc32xx/./pwm
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./pwm -fr=./package/lib/lib/drivers_cc32xx/./pwm -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./pwm -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./pwm -fr=./package/lib/lib/drivers_cc32xx/./pwm
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.sem4: export C_DIR=
@@ -902,8 +1105,8 @@ package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.oem4: ./sd/SDHostCC32XX.c lib/d
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./sd -fr=./package/lib/lib/drivers_cc32xx/./sd -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./sd -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./sd -fr=./package/lib/lib/drivers_cc32xx/./sd
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./sd -fr=./package/lib/lib/drivers_cc32xx/./sd -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./sd -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./sd -fr=./package/lib/lib/drivers_cc32xx/./sd
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.oem4: export C_DIR=
@@ -914,41 +1117,12 @@ package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.sem4: ./sd/SDHostCC32XX.c lib/d
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./sd -fr=./package/lib/lib/drivers_cc32xx/./sd -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./sd -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./sd -fr=./package/lib/lib/drivers_cc32xx/./sd
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./sd -fr=./package/lib/lib/drivers_cc32xx/./sd -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./sd -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./sd -fr=./package/lib/lib/drivers_cc32xx/./sd
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.sem4: export C_DIR=
 package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.sem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
-
-ifeq (,$(MK_NOGENDEPS))
--include package/lib/lib/drivers_cc32xx/SPI.oem4.dep
-package/lib/lib/drivers_cc32xx/SPI.oem4.dep: ;
-endif
-
-package/lib/lib/drivers_cc32xx/SPI.oem4: | .interfaces
-package/lib/lib/drivers_cc32xx/SPI.oem4: SPI.c lib/drivers_cc32xx.aem4.mak
-	@$(RM) $@.dep
-	$(RM) $@
-	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
-	-@$(FIXDEP) $@.dep $@.dep
-	
-package/lib/lib/drivers_cc32xx/SPI.oem4: export C_DIR=
-package/lib/lib/drivers_cc32xx/SPI.oem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
-
-package/lib/lib/drivers_cc32xx/SPI.sem4: | .interfaces
-package/lib/lib/drivers_cc32xx/SPI.sem4: SPI.c lib/drivers_cc32xx.aem4.mak
-	@$(RM) $@.dep
-	$(RM) $@
-	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
-	-@$(FIXDEP) $@.dep $@.dep
-	
-package/lib/lib/drivers_cc32xx/SPI.sem4: export C_DIR=
-package/lib/lib/drivers_cc32xx/SPI.sem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
 
 ifeq (,$(MK_NOGENDEPS))
 -include package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.oem4.dep
@@ -960,8 +1134,8 @@ package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.oem4: ./spi/SPICC32XXDMA.c lib
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./spi -fr=./package/lib/lib/drivers_cc32xx/./spi -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./spi -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./spi -fr=./package/lib/lib/drivers_cc32xx/./spi
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./spi -fr=./package/lib/lib/drivers_cc32xx/./spi -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./spi -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./spi -fr=./package/lib/lib/drivers_cc32xx/./spi
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.oem4: export C_DIR=
@@ -972,41 +1146,12 @@ package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.sem4: ./spi/SPICC32XXDMA.c lib
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./spi -fr=./package/lib/lib/drivers_cc32xx/./spi -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./spi -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./spi -fr=./package/lib/lib/drivers_cc32xx/./spi
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./spi -fr=./package/lib/lib/drivers_cc32xx/./spi -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./spi -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./spi -fr=./package/lib/lib/drivers_cc32xx/./spi
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.sem4: export C_DIR=
 package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.sem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
-
-ifeq (,$(MK_NOGENDEPS))
--include package/lib/lib/drivers_cc32xx/Timer.oem4.dep
-package/lib/lib/drivers_cc32xx/Timer.oem4.dep: ;
-endif
-
-package/lib/lib/drivers_cc32xx/Timer.oem4: | .interfaces
-package/lib/lib/drivers_cc32xx/Timer.oem4: Timer.c lib/drivers_cc32xx.aem4.mak
-	@$(RM) $@.dep
-	$(RM) $@
-	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
-	-@$(FIXDEP) $@.dep $@.dep
-	
-package/lib/lib/drivers_cc32xx/Timer.oem4: export C_DIR=
-package/lib/lib/drivers_cc32xx/Timer.oem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
-
-package/lib/lib/drivers_cc32xx/Timer.sem4: | .interfaces
-package/lib/lib/drivers_cc32xx/Timer.sem4: Timer.c lib/drivers_cc32xx.aem4.mak
-	@$(RM) $@.dep
-	$(RM) $@
-	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
-	-@$(FIXDEP) $@.dep $@.dep
-	
-package/lib/lib/drivers_cc32xx/Timer.sem4: export C_DIR=
-package/lib/lib/drivers_cc32xx/Timer.sem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
 
 ifeq (,$(MK_NOGENDEPS))
 -include package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.oem4.dep
@@ -1018,8 +1163,8 @@ package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.oem4: ./timer/TimerCC32XX.c l
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./timer -fr=./package/lib/lib/drivers_cc32xx/./timer -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./timer -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./timer -fr=./package/lib/lib/drivers_cc32xx/./timer
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./timer -fr=./package/lib/lib/drivers_cc32xx/./timer -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./timer -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./timer -fr=./package/lib/lib/drivers_cc32xx/./timer
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.oem4: export C_DIR=
@@ -1030,41 +1175,41 @@ package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.sem4: ./timer/TimerCC32XX.c l
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./timer -fr=./package/lib/lib/drivers_cc32xx/./timer -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./timer -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./timer -fr=./package/lib/lib/drivers_cc32xx/./timer
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./timer -fr=./package/lib/lib/drivers_cc32xx/./timer -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./timer -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./timer -fr=./package/lib/lib/drivers_cc32xx/./timer
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.sem4: export C_DIR=
 package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.sem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
 
 ifeq (,$(MK_NOGENDEPS))
--include package/lib/lib/drivers_cc32xx/UART.oem4.dep
-package/lib/lib/drivers_cc32xx/UART.oem4.dep: ;
+-include package/lib/lib/drivers_cc32xx/./uart2/UART2CC32XX.oem4.dep
+package/lib/lib/drivers_cc32xx/./uart2/UART2CC32XX.oem4.dep: ;
 endif
 
-package/lib/lib/drivers_cc32xx/UART.oem4: | .interfaces
-package/lib/lib/drivers_cc32xx/UART.oem4: UART.c lib/drivers_cc32xx.aem4.mak
+package/lib/lib/drivers_cc32xx/./uart2/UART2CC32XX.oem4: | .interfaces
+package/lib/lib/drivers_cc32xx/./uart2/UART2CC32XX.oem4: ./uart2/UART2CC32XX.c lib/drivers_cc32xx.aem4.mak
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./uart2 -fr=./package/lib/lib/drivers_cc32xx/./uart2 -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./uart2 -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./uart2 -fr=./package/lib/lib/drivers_cc32xx/./uart2
 	-@$(FIXDEP) $@.dep $@.dep
 	
-package/lib/lib/drivers_cc32xx/UART.oem4: export C_DIR=
-package/lib/lib/drivers_cc32xx/UART.oem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
+package/lib/lib/drivers_cc32xx/./uart2/UART2CC32XX.oem4: export C_DIR=
+package/lib/lib/drivers_cc32xx/./uart2/UART2CC32XX.oem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
 
-package/lib/lib/drivers_cc32xx/UART.sem4: | .interfaces
-package/lib/lib/drivers_cc32xx/UART.sem4: UART.c lib/drivers_cc32xx.aem4.mak
+package/lib/lib/drivers_cc32xx/./uart2/UART2CC32XX.sem4: | .interfaces
+package/lib/lib/drivers_cc32xx/./uart2/UART2CC32XX.sem4: ./uart2/UART2CC32XX.c lib/drivers_cc32xx.aem4.mak
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./uart2 -fr=./package/lib/lib/drivers_cc32xx/./uart2 -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./uart2 -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./uart2 -fr=./package/lib/lib/drivers_cc32xx/./uart2
 	-@$(FIXDEP) $@.dep $@.dep
 	
-package/lib/lib/drivers_cc32xx/UART.sem4: export C_DIR=
-package/lib/lib/drivers_cc32xx/UART.sem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
+package/lib/lib/drivers_cc32xx/./uart2/UART2CC32XX.sem4: export C_DIR=
+package/lib/lib/drivers_cc32xx/./uart2/UART2CC32XX.sem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
 
 ifeq (,$(MK_NOGENDEPS))
 -include package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.oem4.dep
@@ -1076,8 +1221,8 @@ package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.oem4: ./uart/UARTCC32XX.c lib/d
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./uart -fr=./package/lib/lib/drivers_cc32xx/./uart -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./uart -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./uart -fr=./package/lib/lib/drivers_cc32xx/./uart
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./uart -fr=./package/lib/lib/drivers_cc32xx/./uart -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./uart -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./uart -fr=./package/lib/lib/drivers_cc32xx/./uart
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.oem4: export C_DIR=
@@ -1088,8 +1233,8 @@ package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.sem4: ./uart/UARTCC32XX.c lib/d
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./uart -fr=./package/lib/lib/drivers_cc32xx/./uart -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./uart -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./uart -fr=./package/lib/lib/drivers_cc32xx/./uart
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./uart -fr=./package/lib/lib/drivers_cc32xx/./uart -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./uart -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./uart -fr=./package/lib/lib/drivers_cc32xx/./uart
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.sem4: export C_DIR=
@@ -1105,8 +1250,8 @@ package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.oem4: ./uart/UARTCC32XXDMA.c
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./uart -fr=./package/lib/lib/drivers_cc32xx/./uart -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./uart -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./uart -fr=./package/lib/lib/drivers_cc32xx/./uart
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./uart -fr=./package/lib/lib/drivers_cc32xx/./uart -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./uart -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./uart -fr=./package/lib/lib/drivers_cc32xx/./uart
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.oem4: export C_DIR=
@@ -1117,41 +1262,12 @@ package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.sem4: ./uart/UARTCC32XXDMA.c
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./uart -fr=./package/lib/lib/drivers_cc32xx/./uart -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./uart -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./uart -fr=./package/lib/lib/drivers_cc32xx/./uart
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./uart -fr=./package/lib/lib/drivers_cc32xx/./uart -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./uart -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./uart -fr=./package/lib/lib/drivers_cc32xx/./uart
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.sem4: export C_DIR=
 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.sem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
-
-ifeq (,$(MK_NOGENDEPS))
--include package/lib/lib/drivers_cc32xx/Watchdog.oem4.dep
-package/lib/lib/drivers_cc32xx/Watchdog.oem4.dep: ;
-endif
-
-package/lib/lib/drivers_cc32xx/Watchdog.oem4: | .interfaces
-package/lib/lib/drivers_cc32xx/Watchdog.oem4: Watchdog.c lib/drivers_cc32xx.aem4.mak
-	@$(RM) $@.dep
-	$(RM) $@
-	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
-	-@$(FIXDEP) $@.dep $@.dep
-	
-package/lib/lib/drivers_cc32xx/Watchdog.oem4: export C_DIR=
-package/lib/lib/drivers_cc32xx/Watchdog.oem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
-
-package/lib/lib/drivers_cc32xx/Watchdog.sem4: | .interfaces
-package/lib/lib/drivers_cc32xx/Watchdog.sem4: Watchdog.c lib/drivers_cc32xx.aem4.mak
-	@$(RM) $@.dep
-	$(RM) $@
-	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx -fr=./package/lib/lib/drivers_cc32xx
-	-@$(FIXDEP) $@.dep $@.dep
-	
-package/lib/lib/drivers_cc32xx/Watchdog.sem4: export C_DIR=
-package/lib/lib/drivers_cc32xx/Watchdog.sem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
 
 ifeq (,$(MK_NOGENDEPS))
 -include package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.oem4.dep
@@ -1163,8 +1279,8 @@ package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.oem4: ./watchdog/Watchd
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./watchdog -fr=./package/lib/lib/drivers_cc32xx/./watchdog -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./watchdog -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./watchdog -fr=./package/lib/lib/drivers_cc32xx/./watchdog
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./watchdog -fr=./package/lib/lib/drivers_cc32xx/./watchdog -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./watchdog -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./watchdog -fr=./package/lib/lib/drivers_cc32xx/./watchdog
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.oem4: export C_DIR=
@@ -1175,8 +1291,8 @@ package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.sem4: ./watchdog/Watchd
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./watchdog -fr=./package/lib/lib/drivers_cc32xx/./watchdog -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./watchdog -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_18_12_3 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./watchdog -fr=./package/lib/lib/drivers_cc32xx/./watchdog
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./watchdog -fr=./package/lib/lib/drivers_cc32xx/./watchdog -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/drivers_cc32xx/./watchdog -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g  -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_20_2_1 -O2  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/drivers_cc32xx/./watchdog -fr=./package/lib/lib/drivers_cc32xx/./watchdog
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.sem4: export C_DIR=
@@ -1184,19 +1300,26 @@ package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.sem4: PATH:=$(ti.target
 
 clean,em4 ::
 	-$(RM) package/lib/lib/drivers_cc32xx/package/package_ti.drivers.oem4
+	-$(RM) package/lib/lib/drivers_cc32xx/ADC.oem4
+	-$(RM) package/lib/lib/drivers_cc32xx/I2C.oem4
 	-$(RM) package/lib/lib/drivers_cc32xx/NVS.oem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./nvs/NVSRAM.oem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.oem4
+	-$(RM) package/lib/lib/drivers_cc32xx/PWM.oem4
 	-$(RM) package/lib/lib/drivers_cc32xx/SD.oem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./sd/SDSPI.oem4
 	-$(RM) package/lib/lib/drivers_cc32xx/SDFatFS.oem4
+	-$(RM) package/lib/lib/drivers_cc32xx/SPI.oem4
+	-$(RM) package/lib/lib/drivers_cc32xx/Timer.oem4
+	-$(RM) package/lib/lib/drivers_cc32xx/UART.oem4
+	-$(RM) package/lib/lib/drivers_cc32xx/UART2.oem4
+	-$(RM) package/lib/lib/drivers_cc32xx/Watchdog.oem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./utils/List.oem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./utils/RingBuf.oem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./utils/Random.oem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.oem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./apps/LED.oem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./apps/Button.oem4
-	-$(RM) package/lib/lib/drivers_cc32xx/ADC.oem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.oem4
 	-$(RM) package/lib/lib/drivers_cc32xx/Camera.oem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./camera/CameraCC32XXDMA.oem4
@@ -1206,38 +1329,42 @@ clean,em4 ::
 	-$(RM) package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.oem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.oem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.oem4
-	-$(RM) package/lib/lib/drivers_cc32xx/I2C.oem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.oem4
 	-$(RM) package/lib/lib/drivers_cc32xx/I2S.oem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.oem4
+	-$(RM) package/lib/lib/drivers_cc32xx/ITM.oem4
+	-$(RM) package/lib/lib/drivers_cc32xx/./itm/ITMCC32XX.oem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.oem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./power/PowerCC32XX_asm.oem4
-	-$(RM) package/lib/lib/drivers_cc32xx/PWM.oem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.oem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.oem4
-	-$(RM) package/lib/lib/drivers_cc32xx/SPI.oem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.oem4
-	-$(RM) package/lib/lib/drivers_cc32xx/Timer.oem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.oem4
-	-$(RM) package/lib/lib/drivers_cc32xx/UART.oem4
+	-$(RM) package/lib/lib/drivers_cc32xx/./uart2/UART2CC32XX.oem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.oem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.oem4
-	-$(RM) package/lib/lib/drivers_cc32xx/Watchdog.oem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.oem4
 	-$(RM) package/lib/lib/drivers_cc32xx/package/package_ti.drivers.sem4
+	-$(RM) package/lib/lib/drivers_cc32xx/ADC.sem4
+	-$(RM) package/lib/lib/drivers_cc32xx/I2C.sem4
 	-$(RM) package/lib/lib/drivers_cc32xx/NVS.sem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./nvs/NVSRAM.sem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.sem4
+	-$(RM) package/lib/lib/drivers_cc32xx/PWM.sem4
 	-$(RM) package/lib/lib/drivers_cc32xx/SD.sem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./sd/SDSPI.sem4
 	-$(RM) package/lib/lib/drivers_cc32xx/SDFatFS.sem4
+	-$(RM) package/lib/lib/drivers_cc32xx/SPI.sem4
+	-$(RM) package/lib/lib/drivers_cc32xx/Timer.sem4
+	-$(RM) package/lib/lib/drivers_cc32xx/UART.sem4
+	-$(RM) package/lib/lib/drivers_cc32xx/UART2.sem4
+	-$(RM) package/lib/lib/drivers_cc32xx/Watchdog.sem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./utils/List.sem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./utils/RingBuf.sem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./utils/Random.sem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.sem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./apps/LED.sem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./apps/Button.sem4
-	-$(RM) package/lib/lib/drivers_cc32xx/ADC.sem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.sem4
 	-$(RM) package/lib/lib/drivers_cc32xx/Camera.sem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./camera/CameraCC32XXDMA.sem4
@@ -1247,25 +1374,22 @@ clean,em4 ::
 	-$(RM) package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.sem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.sem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.sem4
-	-$(RM) package/lib/lib/drivers_cc32xx/I2C.sem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.sem4
 	-$(RM) package/lib/lib/drivers_cc32xx/I2S.sem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.sem4
+	-$(RM) package/lib/lib/drivers_cc32xx/ITM.sem4
+	-$(RM) package/lib/lib/drivers_cc32xx/./itm/ITMCC32XX.sem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.sem4
-	-$(RM) package/lib/lib/drivers_cc32xx/PWM.sem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.sem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.sem4
-	-$(RM) package/lib/lib/drivers_cc32xx/SPI.sem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.sem4
-	-$(RM) package/lib/lib/drivers_cc32xx/Timer.sem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.sem4
-	-$(RM) package/lib/lib/drivers_cc32xx/UART.sem4
+	-$(RM) package/lib/lib/drivers_cc32xx/./uart2/UART2CC32XX.sem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.sem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.sem4
-	-$(RM) package/lib/lib/drivers_cc32xx/Watchdog.sem4
 	-$(RM) package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.sem4
 
-lib/drivers_cc32xx.aem4: package/lib/lib/drivers_cc32xx/package/package_ti.drivers.oem4 package/lib/lib/drivers_cc32xx/NVS.oem4 package/lib/lib/drivers_cc32xx/./nvs/NVSRAM.oem4 package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.oem4 package/lib/lib/drivers_cc32xx/SD.oem4 package/lib/lib/drivers_cc32xx/./sd/SDSPI.oem4 package/lib/lib/drivers_cc32xx/SDFatFS.oem4 package/lib/lib/drivers_cc32xx/./utils/List.oem4 package/lib/lib/drivers_cc32xx/./utils/RingBuf.oem4 package/lib/lib/drivers_cc32xx/./utils/Random.oem4 package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.oem4 package/lib/lib/drivers_cc32xx/./apps/LED.oem4 package/lib/lib/drivers_cc32xx/./apps/Button.oem4 package/lib/lib/drivers_cc32xx/ADC.oem4 package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.oem4 package/lib/lib/drivers_cc32xx/Camera.oem4 package/lib/lib/drivers_cc32xx/./camera/CameraCC32XXDMA.oem4 package/lib/lib/drivers_cc32xx/Capture.oem4 package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.oem4 package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.oem4 package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.oem4 package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.oem4 package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.oem4 package/lib/lib/drivers_cc32xx/I2C.oem4 package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.oem4 package/lib/lib/drivers_cc32xx/I2S.oem4 package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.oem4 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.oem4 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX_asm.oem4 package/lib/lib/drivers_cc32xx/PWM.oem4 package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.oem4 package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.oem4 package/lib/lib/drivers_cc32xx/SPI.oem4 package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.oem4 package/lib/lib/drivers_cc32xx/Timer.oem4 package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.oem4 package/lib/lib/drivers_cc32xx/UART.oem4 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.oem4 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.oem4 package/lib/lib/drivers_cc32xx/Watchdog.oem4 package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.oem4 lib/drivers_cc32xx.aem4.mak
+lib/drivers_cc32xx.aem4: package/lib/lib/drivers_cc32xx/package/package_ti.drivers.oem4 package/lib/lib/drivers_cc32xx/ADC.oem4 package/lib/lib/drivers_cc32xx/I2C.oem4 package/lib/lib/drivers_cc32xx/NVS.oem4 package/lib/lib/drivers_cc32xx/./nvs/NVSRAM.oem4 package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.oem4 package/lib/lib/drivers_cc32xx/PWM.oem4 package/lib/lib/drivers_cc32xx/SD.oem4 package/lib/lib/drivers_cc32xx/./sd/SDSPI.oem4 package/lib/lib/drivers_cc32xx/SDFatFS.oem4 package/lib/lib/drivers_cc32xx/SPI.oem4 package/lib/lib/drivers_cc32xx/Timer.oem4 package/lib/lib/drivers_cc32xx/UART.oem4 package/lib/lib/drivers_cc32xx/UART2.oem4 package/lib/lib/drivers_cc32xx/Watchdog.oem4 package/lib/lib/drivers_cc32xx/./utils/List.oem4 package/lib/lib/drivers_cc32xx/./utils/RingBuf.oem4 package/lib/lib/drivers_cc32xx/./utils/Random.oem4 package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.oem4 package/lib/lib/drivers_cc32xx/./apps/LED.oem4 package/lib/lib/drivers_cc32xx/./apps/Button.oem4 package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.oem4 package/lib/lib/drivers_cc32xx/Camera.oem4 package/lib/lib/drivers_cc32xx/./camera/CameraCC32XXDMA.oem4 package/lib/lib/drivers_cc32xx/Capture.oem4 package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.oem4 package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.oem4 package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.oem4 package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.oem4 package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.oem4 package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.oem4 package/lib/lib/drivers_cc32xx/I2S.oem4 package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.oem4 package/lib/lib/drivers_cc32xx/ITM.oem4 package/lib/lib/drivers_cc32xx/./itm/ITMCC32XX.oem4 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.oem4 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX_asm.oem4 package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.oem4 package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.oem4 package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.oem4 package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.oem4 package/lib/lib/drivers_cc32xx/./uart2/UART2CC32XX.oem4 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.oem4 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.oem4 package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.oem4 lib/drivers_cc32xx.aem4.mak
 
 clean::
 	-$(RM) lib/drivers_cc32xx.aem4.mak

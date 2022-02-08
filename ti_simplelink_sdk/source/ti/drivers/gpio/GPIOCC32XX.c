@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019, Texas Instruments Incorporated
+ * Copyright (c) 2015-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -151,6 +151,10 @@ static const uint32_t powerResources[] = {
 #define NUM_PORTS            4
 #define NUM_PINS_PER_PORT    8
 #define PORT_MASK            0x3
+
+/* Defines used by PinConfigSet() to set GPIO pin in tristate mode */
+#define GPIOCC32XX_TRISTATE  PIN_TYPE_ANALOG
+#define GPIOCC32XX_DUMMY_STRENGTH     0x0
 
 /* Returns the GPIO port base address */
 #define getPortBase(port) (gpioBaseAddresses[(port) & PORT_MASK])
@@ -603,8 +607,8 @@ int_fast16_t GPIO_setConfig(uint_least8_t index, GPIO_PinConfig pinConfig)
     /* Make atomic update */
     key = HwiP_disable();
 
-    /* set the pin's pinType to GPIO */
-    MAP_PinModeSet(pin, PIN_MODE_0);
+    /* Configure GPIO pin as tristate */
+    MAP_PinConfigSet(pin, GPIOCC32XX_DUMMY_STRENGTH, GPIOCC32XX_TRISTATE);
 
     /* enable clocks for the GPIO port */
     Power_setDependency(getPowerResource(config->port));
@@ -629,13 +633,16 @@ int_fast16_t GPIO_setConfig(uint_least8_t index, GPIO_PinConfig pinConfig)
 
         /* Configure the GPIO pin */
         MAP_GPIODirModeSet(portBase, pinMask, direction);
-        MAP_PinConfigSet(pin, strength, pinType);
-
         /* Set output value */
         if (direction == GPIO_DIR_MODE_OUT) {
             MAP_GPIOPinWrite(portBase, pinMask,
                 ((pinConfig & GPIO_CFG_OUT_HIGH) ? 0xFF : 0));
         }
+
+        /* Configure pin output settings */
+        MAP_PinConfigSet(pin, strength, pinType);
+        /* Set the pin's pinType to GPIO and remove initial tristate setting */
+        MAP_PinModeSet(pin, PIN_MODE_0);
 
         /*
          *  Update pinConfig with the latest GPIO configuration and

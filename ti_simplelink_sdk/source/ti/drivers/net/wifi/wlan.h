@@ -114,6 +114,9 @@ typedef enum
 
 } SlWlanEventId_e;
 
+/* WLAN conn policy flags */
+#define SL_WLAN_CONN_POLICY_NON_PERSISTENT_FLAG (1<<0) // when issuing conn policy command, the settings will not be saved on the FS
+
 
 /* WLAN Disconnect Reason Codes */
 #define  SL_WLAN_DISCONNECT_UNSPECIFIED                                         (1)
@@ -205,6 +208,8 @@ typedef enum
 #define SL_WLAN_SEC_TYPE_P2P_PIN_DISPLAY                                             (8)
 #define SL_WLAN_SEC_TYPE_P2P_PIN_AUTO                                                (9) /* NOT Supported yet */
 #define SL_WLAN_SEC_TYPE_WEP_SHARED                                                  (10)
+#define SL_WLAN_SEC_TYPE_WPA2_PLUS                                                   (11) /* Support to WPA3\WPA2\WPA2+PMF (Protected Managmant Frame) networks */
+#define SL_WLAN_SEC_TYPE_WPA3                                                        (12) /* Support WPA3 only networks */
 #define SL_WLAN_SEC_TYPE_WPA_PMK                                                     (15)
 
 #define SL_TLS                                                                       (0x1)
@@ -313,6 +318,7 @@ typedef enum
 #define SL_WLAN_CFG_AP_ACCESS_LIST_ID                 (3)
 #define SL_WLAN_RX_FILTERS_ID                         (4)
 #define SL_WLAN_CONNECTION_INFO                       (5)
+#define SL_WLAN_STA_NETWORK_ASSISTED_ROAMING          (6)
 
 /* wlan AP Config set/get options */
 #define SL_WLAN_AP_OPT_SSID                           (0)
@@ -355,7 +361,10 @@ typedef enum
 #define SL_WLAN_GENERAL_PARAM_ANT_SELECTION_CONFIG        (40)
 #define SL_WLAN_GENERAL_PARAM_ANT_SELECTION_SET           (41)
 #define SL_WLAN_GENERAL_PARAM_ANT_SELECTION_GET           (42)
+#define SL_WLAN_GENERAL_PARAM_OPT_NO_PS_POLL_MODE         (43)
 #define SL_WLAN_GENERAL_PARAM_EXT_CONNECTION_INFO         (44)
+#define SL_WLAN_ROAMING_TRIGGERING_ENABLE                 (45)
+#define SL_WLAN_AP_TRANSITION_ENABLE                      (46)
 
 
 /* SmartConfig CIPHER options */
@@ -439,23 +448,30 @@ typedef enum
 /* Scan results security information */
 #define SL_WLAN_SCAN_RESULT_GROUP_CIPHER(SecurityInfo)                      (SecurityInfo & 0xF)   /* Possible values: NONE,SL_WLAN_CIPHER_BITMAP_TKIP,SL_WLAN_CIPHER_BITMAP_CCMP */
 #define SL_WLAN_SCAN_RESULT_UNICAST_CIPHER_BITMAP(SecurityInfo)             ((SecurityInfo & 0xF0) >> 4 ) /* Possible values: NONE,SL_WLAN_CIPHER_BITMAP_WEP40,SL_WLAN_CIPHER_BITMAP_WEP104,SL_WLAN_CIPHER_BITMAP_TKIP,SL_WLAN_CIPHER_BITMAP_CCMP*/
-#define SL_WLAN_SCAN_RESULT_HIDDEN_SSID(SecurityInfo)                       (SecurityInfo & 0x2000 ) >> 13 /* Possible values: TRUE/FALSE */    
-#define SL_WLAN_SCAN_RESULT_KEY_MGMT_SUITES_BITMAP(SecurityInfo)            (SecurityInfo & 0x1800 ) >> 11  /* Possible values: SL_WLAN_KEY_MGMT_SUITE_802_1_X, SL_WLAN_KEY_MGMT_SUITE_PSK */
-#define SL_WLAN_SCAN_RESULT_SEC_TYPE_BITMAP(SecurityInfo)                   (SecurityInfo & 0x700   ) >> 8  /* Possible values: SL_WLAN_SECURITY_TYPE_BITMAP_OPEN, SL_WLAN_SECURITY_TYPE_BITMAP_WEP, SL_WLAN_SECURITY_TYPE_BITMAP_WPA, SL_WLAN_SECURITY_TYPE_BITMAP_WPA2, 0x6 (mix mode) SL_WLAN_SECURITY_TYPE_BITMAP_WPA | SL_WLAN_SECURITY_TYPE_BITMAP_WPA2 */
+#define SL_WLAN_SCAN_RESULT_HIDDEN_SSID(SecurityInfo)                       ((SecurityInfo & 0x2000 ) >> 13) /* Possible values: TRUE/FALSE */    
+#define SL_WLAN_SCAN_RESULT_KEY_MGMT_SUITES_BITMAP(SecurityInfo)            ((SL_WLAN_SCAN_RESULT_SEC_TYPE_BITMAP(SecurityInfo) == 0 | SL_WLAN_SCAN_RESULT_SEC_TYPE_BITMAP(SecurityInfo) == 1) ? 0: (((SecurityInfo & 0x1800) >> 11) == 0 ? SL_WLAN_KEY_MGMT_SUITE_PSK256 : ((SecurityInfo & 0x1800) >> 11)))  /* Possible values: SL_WLAN_KEY_MGMT_SUITE_802_1_X, SL_WLAN_KEY_MGMT_SUITE_PSK, SL_WLAN_KEY_MGMT_SUITE_PSK256, SL_WLAN_KEY_MGMT_SUITE_PSK_SAE */
+#define SL_WLAN_SCAN_RESULT_SEC_TYPE_BITMAP(SecurityInfo)                   ((SecurityInfo & 0x700   ) >> 8)  /* Possible values: SL_WLAN_SECURITY_TYPE_BITMAP_OPEN, SL_WLAN_SECURITY_TYPE_BITMAP_WEP, SL_WLAN_SECURITY_TYPE_BITMAP_WPA, SL_WLAN_SECURITY_TYPE_BITMAP_WPA2, SL_WLAN_SECURITY_TYPE_BITMAP_WPA3, 0x6 (mix mode) SL_WLAN_SECURITY_TYPE_BITMAP_WPA | SL_WLAN_SECURITY_TYPE_BITMAP_WPA2 */
+#define SL_WLAN_SCAN_RESULT_PMF_ENABLE(SecurityInfo)                        ((SecurityInfo & 0x4000  ) >> 14)  /* Possible values: TRUE/FALSE */
+#define SL_WLAN_SCAN_RESULT_PMF_REQUIRED(SecurityInfo)                      ((SecurityInfo & 0x8000  ) >> 15)  /* Possible values: TRUE/FALSE */
 
-#define SL_WLAN_SECURITY_TYPE_BITMAP_OPEN             0x0
-#define SL_WLAN_SECURITY_TYPE_BITMAP_WEP              0x1
-#define SL_WLAN_SECURITY_TYPE_BITMAP_WPA              0x2
-#define SL_WLAN_SECURITY_TYPE_BITMAP_WPA2             0x4
+
+#define SL_WLAN_SECURITY_TYPE_BITMAP_OPEN                     0x0
+#define SL_WLAN_SECURITY_TYPE_BITMAP_WEP                      0x1
+#define SL_WLAN_SECURITY_TYPE_BITMAP_WPA                      0x2
+#define SL_WLAN_SECURITY_TYPE_BITMAP_WPA2                     0x4
+#define SL_WLAN_SECURITY_TYPE_BITMAP_WPA3                     0x5
+#define SL_WLAN_SECURITY_TYPE_BITMAP_MIX_WPA_WPA2             0x6
 
 #define SL_WLAN_CIPHER_BITMAP_WEP40                   0x1
 #define SL_WLAN_CIPHER_BITMAP_WEP104                  0x2
 #define SL_WLAN_CIPHER_BITMAP_TKIP                    0x4
 #define SL_WLAN_CIPHER_BITMAP_CCMP                    0x8
 
+
 #define SL_WLAN_KEY_MGMT_SUITE_802_1_X                1
 #define SL_WLAN_KEY_MGMT_SUITE_PSK                    2
-
+#define SL_WLAN_KEY_MGMT_SUITE_PSK_SAE                3
+#define SL_WLAN_KEY_MGMT_SUITE_PSK256                 4
 
 
 #define SL_WLAN_RX_FILTER_MAX_FILTERS                 (64)    /* Max number of filters is 64 filters */
@@ -569,7 +585,7 @@ typedef struct
     _u8     SsidLen;
     _u8     SsidName[32];
     _u8     Bssid[6];
-    _u8     Padding;
+    _u8     Channel;
 } SlWlanEventConnect_t;
 
 typedef struct
@@ -772,7 +788,7 @@ typedef struct
 {
     _u8 Mode;       /* ROLE_STA, ROLE_AP, ROLE_P2P */
     _u8 ConnStatus; /* SlWlanConnStatusFlags_e */
-    _u8 SecType;    /* Current connection security type - (0 in case of disconnect or AP mode) SL_WLAN_SEC_TYPE_OPEN, SL_WLAN_SEC_TYPE_WEP, SL_WLAN_SEC_TYPE_WPA_WPA2, SL_WLAN_SEC_TYPE_WPA_ENT, SL_WLAN_SEC_TYPE_WPS_PBC, SL_WLAN_SEC_TYPE_WPS_PIN */
+    _u8 SecType;    /* Current connection security type - (0 in case of disconnect or AP mode) SL_WLAN_SEC_TYPE_OPEN, SL_WLAN_SEC_TYPE_WEP, SL_WLAN_SEC_TYPE_WPA_WPA2, SL_WLAN_SEC_TYPE_WPA2_PLUS, SL_WLAN_SEC_TYPE_WPA3, SL_WLAN_SEC_TYPE_WPA_ENT, SL_WLAN_SEC_TYPE_WPS_PBC, SL_WLAN_SEC_TYPE_WPS_PIN */
     _u8 Reserved;
     SlWlanConnectionInfo_u ConnectionInfo;
 }SlWlanConnStatusParam_t;
@@ -887,6 +903,13 @@ typedef struct
     _u8 Reserved;
     _u32 Options;                                                                       /* Set to zero - not supported */
 }SlWlanCoexConfig_t;
+
+typedef struct
+{
+    _u8  Enable;          /* Enable no ps poll mode - 1, Disable 0 Read documentation in sl_WlanSet*/
+    _u8  Reserved;        /* Reserved for future use   */
+    _u8  Padding[2];      /* Padding */
+} SlWlanNoPSPollMode_t;
 
 typedef enum
 {
@@ -1184,6 +1207,14 @@ typedef struct
 
 } SlWlanRxFilterOperationCommandBuff_t;
 
+/* The supported operation: SL_WLAN_ROAMING_TRIGGERING_ENABLE, SL_WLAN_AP_TRANSITION_ENABLE */
+typedef struct
+{
+    _u8    Enable;          /* Enable App bit - 1, Disable 0 */
+    _i16   rssiThreshold;   /* rssi Threshold for SL_WLAN_ROAMING_TRIGGERING_ENABLE */
+    _u8    Reserved;        /* Reserved for future use       */
+} SlWlanNetworkAssistedRoaming_t;
+
 /* The supported operation: SL_WLAN_RX_FILTER_UPDATE_ARGS */
 typedef struct
 {
@@ -1232,7 +1263,9 @@ typedef struct
                                 - SL_WLAN_SEC_TYPE_OPEN
                                 - SL_WLAN_SEC_TYPE_WEP
                                 - SL_WLAN_SEC_TYPE_WEP_SHARED
-                                - SL_WLAN_SEC_TYPE_WPA_WPA2
+                                - SL_WLAN_SEC_TYPE_WPA_WPA2 
+                                - SL_WLAN_SEC_TYPE_WPA2_PLUS
+                                - SL_WLAN_SEC_TYPE_WPA3
                                 - SL_WLAN_SEC_TYPE_WPA_ENT
                                 - SL_WLAN_SEC_TYPE_WPS_PBC
                                 - SL_WLAN_SEC_TYPE_WPS_PIN
@@ -1245,8 +1278,9 @@ typedef struct
 
     \sa             sl_WlanDisconnect
     \note           Belongs to \ref ext_api
-    \warning        In this version only single enterprise mode could be used\n
-                    SL_WLAN_SEC_TYPE_WPA is a deprecated definition, the new definition is SL_WLAN_SEC_TYPE_WPA_WPA2
+    \warning        -In this version only single enterprise mode could be used\n
+                    -SL_WLAN_SEC_TYPE_WPA is a deprecated definition, the new definition is SL_WLAN_SEC_TYPE_WPA_WPA2
+                    -SL_WLAN_SEC_TYPE_WPA2_PLUS enable to connect to WPA2, WPA2+PMF and WPA3 only networks
     \par Example
     
     - Connect without security:
@@ -1298,6 +1332,8 @@ _i16 sl_WlanDisconnect(void);
                                 - SL_WLAN_SEC_TYPE_WEP
                                 - SL_WLAN_SEC_TYPE_WEP_SHARED
                                 - SL_WLAN_SEC_TYPE_WPA_WPA2
+                                - SL_WLAN_SEC_TYPE_WPA2_PLUS
+                                - SL_WLAN_SEC_TYPE_WPA3
                                 - SL_WLAN_SEC_TYPE_WPA_ENT
                                 - SL_WLAN_SEC_TYPE_WPS_PBC
                                 - SL_WLAN_SEC_TYPE_WPS_PIN
@@ -1316,10 +1352,11 @@ _i16 sl_WlanDisconnect(void);
                     Profiles are <b>Persistent</b>
     \sa             sl_WlanProfileGet , sl_WlanProfileDel
     \note           belongs to \ref ext_api
-    \warning        Only one Enterprise profile is supported.\n
-                    Please Note that in case of adding an existing profile (compared by pName,pMACAddr and security type)
-                    the old profile will be deleted and the same index will be returned.\n
-                    SL_WLAN_SEC_TYPE_WPA is a deprecated definition, the new definition is SL_WLAN_SEC_TYPE_WPA_WPA2
+    \warning        -Only one Enterprise profile is supported.\n
+                    -Please Note that in case of adding an existing profile (compared by pName,pMACAddr and security type)
+                     the old profile will be deleted and the same index will be returned.\n
+                    -SL_WLAN_SEC_TYPE_WPA is a deprecated definition, the new definition is SL_WLAN_SEC_TYPE_WPA_WPA2
+                    -SL_WLAN_SEC_TYPE_WPA2_PLUS enable to connect to WPA2, WPA2+PMF and WPA3 only networks
 
 */
 #if _SL_INCLUDE_FUNC(sl_WlanProfileAdd)
@@ -1344,6 +1381,8 @@ _i16 sl_WlanProfileAdd(const _i8*  pName,const  _i16 NameLen,const _u8 *pMacAddr
                        - SL_WLAN_SEC_TYPE_WEP
                        - SL_WLAN_SEC_TYPE_WEP_SHARED
                        - SL_WLAN_SEC_TYPE_WPA_WPA2
+                       - SL_WLAN_SEC_TYPE_WPA2_PLUS
+                       - SL_WLAN_SEC_TYPE_WPA3
                        - SL_WLAN_SEC_TYPE_WPA_ENT
                        - SL_WLAN_SEC_TYPE_WPS_PBC
                        - SL_WLAN_SEC_TYPE_WPS_PIN \n
@@ -1399,6 +1438,8 @@ _i16 sl_WlanProfileUpdate(const _u32  Index, const _i8*  pName,const  _i16 NameL
                                     - SL_WLAN_SEC_TYPE_WEP
                                     - SL_WLAN_SEC_TYPE_WEP_SHARED
                                     - SL_WLAN_SEC_TYPE_WPA_WPA2
+                                    - SL_WLAN_SEC_TYPE_WPA2_PLUS
+                                    - SL_WLAN_SEC_TYPE_WPA3
                                     - SL_WLAN_SEC_TYPE_WPA_ENT
                                     - SL_WLAN_SEC_TYPE_WPS_PBC
                                     - SL_WLAN_SEC_TYPE_WPS_PIN
@@ -1460,9 +1501,19 @@ _i16 sl_WlanProfileDel(const _i16 Index);
     \warning
     \par    Example
     
-      <b>SL_WLAN_POLICY_CONNECTION: </b><br> defines options available to connect the CC31xx device to the AP: 
-      The options below could be combined to a single action, if more than one action is required. 
-
+    <b>SL_WLAN_POLICY_CONNECTION: </b><br> defines options available to connect the CC31xx device to the AP: 
+    The options below could be combined to a single action, if more than one action is required. This API is persistent by default.
+    
+    If used with uint32_t flags as value, the following flags are supported for the sl_WlanPolicySet command
+    - <b>SL_WLAN_CONN_POLICY_NON_PERSISTENT_FLAG</b> - settings are not saved on the FS 
+    Flags usage example:
+    \code    
+        uint32_t flags = 0;
+        flags |= SL_WLAN_CONN_POLICY_NON_PERSISTENT_FLAG;
+        sl_WlanPolicySet(SL_WLAN_POLICY_CONNECTION,SL_WLAN_CONNECTION_POLICY(1,0,0,0),&flags,sizeof(flags));
+    \endcode
+  
+  
     - Auto Connect: If is set, the CC31xx device tries to automatically reconnect to one of its stored profiles,
       each time the connection fails or the device is rebooted. To set this option, use: 
     \code    
@@ -1687,7 +1738,7 @@ _i16 sl_WlanPolicyGet(const _u8 Type ,_u8 *pPolicy,_u8 *pVal,_u8 *pValLen);
     \return  Number of valid networks list items
     \sa
     \note       belongs to \ref ext_api
-    \warning    This command do not initiate any active scanning action
+    \warning    Triggers a one-shot scan if there are no scan results in the system, or if the scan results which exist are old (aging is defined as 20 seconds if the scan policy is disabled, or twice the scan interval if the policy is enabled). Will otherwise return results from last periodic scan.
     \par        Example
 
     - Fetching max 10 results:
@@ -1697,16 +1748,18 @@ _i16 sl_WlanPolicyGet(const _u8 Type ,_u8 *pPolicy,_u8 *pVal,_u8 *pValLen);
     _i16 resultsCount = sl_WlanGetNetworkList(0,10,&netEntries[0]);
     for(i=0; i< resultsCount; i++)
     {
-        printf("%d. ",i+1);
-        printf("SSID: %.32s        ",netEntries[i].Ssid);
-        printf("BSSID: %x:%x:%x:%x:%x:%x    ",netEntries[i].Bssid[0],netEntries[i].Bssid[1],netEntries[i].Bssid[2],netEntries[i].Bssid[3],netEntries[i].Bssid[4],netEntries[i].Bssid[5]);
-        printf("Channel: %d    ",netEntries[i].Channel);
-        printf("RSSI: %d    ",netEntries[i].Rssi);
-        printf("Security type: %d    ",SL_WLAN_SCAN_RESULT_SEC_TYPE_BITMAP(netEntries[i].SecurityInfo));
-        printf("Group Cipher: %d    ",SL_WLAN_SCAN_RESULT_GROUP_CIPHER(netEntries[i].SecurityInfo));
-        printf("Unicast Cipher bitmap: %d    ",SL_WLAN_SCAN_RESULT_UNICAST_CIPHER_BITMAP(netEntries[i].SecurityInfo));
-        printf("Key Mgmt suites bitmap: %d    ",SL_WLAN_SCAN_RESULT_KEY_MGMT_SUITES_BITMAP(netEntries[i].SecurityInfo));
-        printf("Hidden SSID: %d\r\n",SL_WLAN_SCAN_RESULT_HIDDEN_SSID(netEntries[i].SecurityInfo));
+        printf("%d. ", i + 1);
+        printf("SSID: %.32s        ", Entries[i].Ssid);
+        printf("BSSID: %x:%x:%x:%x:%x:%x    ", Entries[i].Bssid[0], Entries[i].Bssid[1], Entries[i].Bssid[2], Entries[i].Bssid[3], Entries[i].Bssid[4], Entries[i].Bssid[5]);
+        printf("Channel: %d    ", Entries[i].Channel);
+        printf("RSSI: %d    ", Entries[i].Rssi);
+        printf("Security type: %d    ", SL_WLAN_SCAN_RESULT_SEC_TYPE_BITMAP(Entries[i].SecurityInfo));
+        printf("Group Cipher: %d    ", SL_WLAN_SCAN_RESULT_GROUP_CIPHER(Entries[i].SecurityInfo));
+        printf("Unicast Cipher bitmap: %d    ", SL_WLAN_SCAN_RESULT_UNICAST_CIPHER_BITMAP(Entries[i].SecurityInfo));
+        printf("Key Mgmt suites bitmap: %d    ", SL_WLAN_SCAN_RESULT_KEY_MGMT_SUITES_BITMAP(Entries[i].SecurityInfo));
+        printf("Hidden SSID: %d    ", SL_WLAN_SCAN_RESULT_HIDDEN_SSID(Entries[i].SecurityInfo));
+        printf("PMF Enable: %d    ", SL_WLAN_SCAN_RESULT_PMF_ENABLE(Entries[i].SecurityInfo));
+        printf("PMF Required: %d\r\n", SL_WLAN_SCAN_RESULT_PMF_REQUIRED(Entries[i].SecurityInfo));
     }
     \endcode
 */
@@ -1845,7 +1898,7 @@ _i16 sl_WlanRxStatStop(void);
                                             - SL_WLAN_PROVISIONING_CMD_START_MODE_AP                          0: Start AP provisioning (AP role)
                                             - SL_WLAN_PROVISIONING_CMD_START_MODE_SC                          1: Start Smart Config provisioning (STA role)
                                             - SL_WLAN_PROVISIONING_CMD_START_MODE_APSC                        2: Start AP+Smart Config provisioning (AP role)
-                                            - SL_WLAN_PROVISIONING_CMD_START_MODE_APSC_EXTERNAL_CONFIGURATION 3: Start AP + Smart Config + WAC provisioning (AP role)
+                                            - SL_WLAN_PROVISIONING_CMD_START_MODE_APSC_EXTERNAL_CONFIGURATION 3: Start AP + Smart Config + external provisioning (AP role)
                                             - SL_WLAN_PROVISIONING_CMD_STOP                                   4: Stop provisioning
                                             - SL_WLAN_PROVISIONING_CMD_ABORT_EXTERNAL_CONFIGURATIONC          5:
     \param[in]  RequestedRoleAfterSuccess   The role that the SimpleLink will switch to in case of a successful provisioning.
@@ -1937,6 +1990,7 @@ _i16 sl_WlanSetMode(const _u8  Mode);
                           - <b>SL_WLAN_CFG_GENERAL_PARAM_ID</b>
                           - <b>SL_WLAN_CFG_P2P_PARAM_ID</b>
                           - <b>SL_WLAN_RX_FILTERS_ID</b>
+                          - <b>SL_WLAN_STA_NETWORK_ASSISTED_ROAMING</b>
 
     \param[in] ConfigOpt - configurations option
                           - <b>SL_WLAN_CFG_AP_ID</b>
@@ -2031,6 +2085,12 @@ _i16 sl_WlanSetMode(const _u8  Mode);
                                       Configure 5G scan parameters
                               - <b>SL_WLAN_GENERAL_PARAM_OPT_USER_COUNTRY_ATTRIB</b>
                                       Set user country region attributes
+                              - <b>SL_WLAN_GENERAL_PARAM_OPT_NO_PS_POLL_MODE</b>
+                                      Disable no PS_Poll mode (default) - station sends PS-Poll ctrl frame to receive buffered 
+                                                                          frames from the AP when unicast traffic is indicated in the beacon
+                                      Enable no PS_Poll mode - Stating transition from PS to Active whenever unicast traffic is indicated in 
+                                                               the beacon (this mode is for inter operability issues with access points that 
+                                                               doesn't fully support PS-Poll) 
 
                           - <b>SL_WLAN_CFG_P2P_PARAM_ID</b>
                               - <b>SL_WLAN_P2P_OPT_DEV_TYPE</b> \n
@@ -2060,6 +2120,21 @@ _i16 sl_WlanSetMode(const _u8  Mode);
                                       Save the filters as persistent. \n
                               - <b>SL_WLAN_RX_FILTER_UPDATE_ARGS</b> \n
                                       Update filter arguments. The buffer input is SlWlanRxFilterUpdateArgsCommandBuff_t\n
+
+                          - <b>SL_WLAN_STA_NETWORK_ASSISTED_ROAMING</b>
+                              - <b>SL_WLAN_ROAMING_TRIGGERING_ENABLE</b> \n
+                                      Configure roaming triggering mode for STA mode.
+                                      First parameter:. \n
+                                      0: Disabled \n
+                                      1: Enabled, Enabling this mode enables monitoring of the network\n
+                                      Second parameter:
+                                      rssiThreshold (-85..00 dbm, default -63dbm) \n
+                                      This options takes <b>SlWlanNetworkAssistedRoaming_t</b> buffer as parameter
+                              - <b>SL_WLAN_AP_TRANSITION_ENABLE</b> \n
+                                      Set roaming AP transition mode for STA mode. Options:. \n
+                                      0: Disabled \n
+                                      1: Enabled, Enabling this mode allows the serving AP to send a request for transition to another AP\n
+                                      This options takes <b>SlWlanNetworkAssistedRoaming_t</b> buffer as parameter
 
     \param[in] ConfigLen - configurations len
 
@@ -2240,6 +2315,16 @@ _i16 sl_WlanSetMode(const _u8  Mode);
     \endcode
     <br>
 
+	- SL_WLAN_GENERAL_PARAM_OPT_ENABLE_5G
+	\code
+	    _u8  Enabled5GStatus = 1;
+	    _u16 Option = SL_WLAN_GENERAL_PARAM_OPT_ENABLE_5G;
+	    _u16 OptionLen = sizeof(_u8);
+
+	    ret = sl_WlanSet(SL_WLAN_CFG_GENERAL_PARAM_ID, Option, OptionLen, (_u8 *)&Enabled5GStatus);
+	\endcode
+	<br>
+
     - SL_WLAN_GENERAL_PARAM_OPT_SCAN_PARAMS:
     \code
         SlWlanScanParamCommand_t ScanParamConfig;
@@ -2262,8 +2347,8 @@ _i16 sl_WlanSetMode(const _u8  Mode);
         //                          136, 140, 144, 149, 153, 157, 161, 165, 169, 184, 188, 192, 196 
         
         ScanParamConfig5G.ChannelsMask = 0x0000000F; // Select ChannelsMask for channels 36, 40, 44, 48 
-        ScanParamConfig5G.RssiThershold = -70;
-        sl_WlanSet(SL_WLAN_CFG_GENERAL_PARAM_ID, &Option, &OptionLen, (_u8 *)&ScanParamConfig5G);
+        ScanParamConfig5G.RssiThreshold = -70;
+        sl_WlanSet(SL_WLAN_CFG_GENERAL_PARAM_ID, Option, OptionLen, (_u8 *)&ScanParamConfig5G);
     \endcode
     <br>
 
@@ -2298,6 +2383,36 @@ _i16 sl_WlanSetMode(const _u8  Mode);
       //The configuration will take place after soft reset of the networking subsystem( sl_stop(),sl_star())
       SlWlanCoexConfig_t param;
       sl_WlanSet(SL_WLAN_CFG_GENERAL_PARAM_ID,SL_WLAN_GENERAL_PARAM_COEX_CONFIG,sizeof(SlWlanCoexConfig_t),&param);
+    \endcode
+    <br>
+    
+    - SL_WLAN_GENERAL_PARAM_OPT_NO_PS_POLL_MODE:
+    \code
+      //Disable no PS_Poll mode (default) - station sends PS-Poll ctrl frame to receive buffered frames from the AP when 
+                                            unicast traffic is indicated in the beacon
+      //Enable no PS_Poll mode - Stating transition from PS to Active whenever unicast traffic is indicated in the beacon
+                                 (this mode is for inter operability issues with access points that doesn't fully support 
+                                  PS-Poll) 
+      SlWlanNoPSPollMode_t NoPsPollMode;
+      NoPsPollMode.Enable = 1; // enable no PS-Poll mode (work without PS-Poll frames)      
+      sl_WlanSet(SL_WLAN_CFG_GENERAL_PARAM_ID, SL_WLAN_GENERAL_PARAM_OPT_NO_PS_POLL_MODE,sizeof(SlWlanNoPSPollMode_t),(_u8 *)& NoPsPollMode);
+    \endcode
+    <br>
+
+    - SL_WLAN_ROAMING_TRIGGERING_ENABLE:
+    \code
+        SlWlanNetworkAssistedRoaming_t roamingTriggeringEnable;
+        roamingTriggeringEnable.Enable = 1;
+        roamingTriggeringEnable.rssiThreshold = -63;
+        sl_WlanSet(SL_WLAN_STA_NETWORK_ASSISTED_ROAMING, SL_WLAN_ROAMING_TRIGGERING_ENABLE, sizeof(SlWlanNetworkAssistedRoaming_t ), roamingTriggeringEnable );
+    \endcode
+    <br>
+
+    - SL_WLAN_AP_TRANSITION_ENABLE:
+    \code
+        SlWlanNetworkAssistedRoaming_t roamingTransitionEnable;
+        roamingTransitionEnable.Enable = 1;
+        sl_WlanSet(SL_WLAN_STA_NETWORK_ASSISTED_ROAMING, SL_WLAN_AP_TRANSITION_ENABLE, sizeof(SlWlanNetworkAssistedRoaming_t ), apTransitionEnable );
     \endcode
     <br>
 */
@@ -2380,6 +2495,11 @@ _i16 sl_WlanSet(const _u16 ConfigId ,const _u16 ConfigOpt,const _u16 ConfigLen,c
                                       Get current country attributes (No way to set country attributes, See also country list in Appendix C)
                               - <b>SL_WLAN_GENERAL_PARAM_EXT_CONNECTION_INFO</b>
                                       Get Beacon Interval and DTIM Period.
+                              - <b>SL_WLAN_GENERAL_PARAM_OPT_NO_PS_POLL_MODE</b>
+                                      Get the mode of polling frames from the AP in power save
+                                      0 (default) - Using PS_Poll frames
+                                      1 - Not using PS_Poll frames
+                                      For more information read the sl_WlanSet for this option
                           - <b>SL_WLAN_CFG_P2P_PARAM_ID</b>
                               - <b>SL_WLAN_P2P_OPT_CHANNEL_N_REGS</b> \n
                                      Get P2P Channels. \n
@@ -2413,7 +2533,7 @@ _i16 sl_WlanSet(const _u16 ConfigId ,const _u16 ConfigOpt,const _u16 ConfigLen,c
     \warning
     \par    Examples
     
-    - SL_WLAN_GENERAL_PARAM_OPT_SCAN_PARAMS:
+        - SL_WLAN_GENERAL_PARAM_OPT_SCAN_PARAMS:
     \code
         SlWlanScanParamCommand_t ScanParamConfig;
         _u16 Option = SL_WLAN_GENERAL_PARAM_OPT_SCAN_PARAMS;
@@ -2421,6 +2541,16 @@ _i16 sl_WlanSet(const _u16 ConfigId ,const _u16 ConfigOpt,const _u16 ConfigLen,c
         sl_WlanGet(SL_WLAN_CFG_GENERAL_PARAM_ID ,&Option,&OptionLen,(_u8 *)&ScanParamConfig);
     \endcode
     <br>
+
+	    - SL_WLAN_GENERAL_PARAM_OPT_ENABLE_5G
+	\code
+	_u8  Enabled5GStatus;
+	_u16 Option = SL_WLAN_GENERAL_PARAM_OPT_ENABLE_5G;
+	_u16 OptionLen = sizeof(_u8);
+
+	ret = sl_WlanGet(SL_WLAN_CFG_GENERAL_PARAM_ID, &Option, &OptionLen, (_u8 *)&Enabled5GStatus);
+	\endcode
+	<br>
 
         - WLAN_GENERAL_PARAM_OPT_SCAN_PARAMS_5G:
     \code
@@ -2636,6 +2766,15 @@ _i16 sl_WlanSet(const _u16 ConfigId ,const _u16 ConfigOpt,const _u16 ConfigLen,c
          _u16   config_opt = SL_WLAN_GENERAL_PARAM_EXT_CONNECTION_INFO;
          _u16   Len = sizeof(SlWlanExtConnectionInfo_t);
          ret =  sl_WlanGet(SL_WLAN_CFG_GENERAL_PARAM_ID, &config_opt, &Len, (_u8* )&ExtConnectionInfo);
+      \endcode
+      <br>
+    - SL_WLAN_GENERAL_PARAM_OPT_NO_PS_POLL_MODE
+     \code
+         int8_t ret = 0;
+         SlWlanNoPSPollMode_t NoPsPollMode;
+         _u16   config_opt = SL_WLAN_GENERAL_PARAM_OPT_NO_PS_POLL_MODE;
+         _u16   Len = sizeof(SlWlanNoPSPollMode_t);
+         ret =  sl_WlanGet(SL_WLAN_CFG_GENERAL_PARAM_ID, &config_opt, &Len, (_u8* )&NoPsPollMode);
       \endcode
       <br>
 */

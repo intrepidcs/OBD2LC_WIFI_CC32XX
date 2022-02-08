@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2017, Texas Instruments Incorporated
+ * Copyright (c) 2016-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,6 +42,7 @@
 /* Driver lib includes */
 #include <ti/devices/cc32xx/inc/hw_types.h>
 #include <ti/devices/cc32xx/inc/hw_ints.h>
+#include <ti/devices/cc32xx/driverlib/cpu.h>
 #include <ti/devices/cc32xx/driverlib/interrupt.h>
 #include <ti/devices/cc32xx/driverlib/rom.h>
 #include <ti/devices/cc32xx/driverlib/rom_map.h>
@@ -224,6 +225,18 @@ void HwiP_dispatch(void)
 void HwiP_enableInterrupt(int interruptNum)
 {
     MAP_IntEnable((unsigned long)interruptNum);
+}
+
+/*
+ *  ======== HwiP_interruptsEnabled ========
+ */
+bool HwiP_interruptsEnabled(void)
+{
+    unsigned long priMask;
+
+    priMask = CPUprimask();
+
+    return (priMask == 0L);
 }
 
 /*

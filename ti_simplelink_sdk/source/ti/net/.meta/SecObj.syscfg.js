@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2019-2020 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,6 +30,14 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
+
+"use strict";
+
+let Common = system.getScript("/ti/utils/Common.js");
+
+/* Sysconfig string specifying the current device ID */
+let deviceId = system.deviceData.deviceId;
+let deviceFamily = Common.device2Family(system.deviceData);
 
 /*
  *  ======== onChange_dataInputMethod ========
@@ -88,64 +96,72 @@ let config_instance = [
     {
         name: "$name",
         displayName: "Name",
-        description: "Name for Secure Object",
+        description: "Secure Object Name",
         hidden: false,
         longDescription: `
 You will use this name whenever you need to refer to this secure object inside
-your application source code. For instance, the SlNetSock_secAttribSet()
+your application source code. For instance, the **SlNetSock_secAttribSet()**
 function takes this name as an argument.
 
-[More ...](/ns/ConfigDoc.html#ti_net_SecObj_$name)`,
+[More ...](/ns/configdocs/${deviceFamily}/ConfigDoc.html#ti_net_SecObj_$name)`,
         documentation: `
-This setting is equivalent to setting the objName argument in
-[SlNetIf_loadSecObj](html/group__SlNetIf.html#ga72f32689df9255833f05af282ae3639b).
+This setting is equivalent to setting the \`objName\` argument in
+[**SlNetIf_loadSecObj()**](/ns/html/group__SlNetIf.html#ga72f32689df9255833f05af282ae3639b).
 `
     },
     {
         name: "secObjType",
         displayName: "Type",
         default: "SLNETIF_SEC_OBJ_TYPE_CERTIFICATE",
-        description: "Specifies the security object type",
+        description: "Secure Object Type",
         options: [
             {
                 name: "SLNETIF_SEC_OBJ_TYPE_RSA_PRIVATE_KEY",
-                displayName: "RSA Private Key"
+                displayName: "RSA Private Key",
+                description: "RSA Private Key"
             },
             {
                 name: "SLNETIF_SEC_OBJ_TYPE_CERTIFICATE",
-                displayName: "Certificate"
+                displayName: "Certificate",
+                description: "Certificate"
             },
             {
                 name: "SLNETIF_SEC_OBJ_TYPE_DH_KEY",
-                displayName: "DH Key"
+                displayName: "DH Key",
+                description: "Diffie-Hellman Key"
             },
         ],
         longDescription: `
-Specifies the security object type
+Indicate the Secure Object type.
 
-[More ...](/ns/ConfigDoc.html#ti_net_SecObj_secObjType)`,
+[More ...](/ns/configdocs/${deviceFamily}/ConfigDoc.html#ti_net_SecObj_secObjType)`,
         documentation: `
-This setting is equivalent to setting the objType argument in
-[SlNetIf_loadSecObj](html/group__SlNetIf.html#ga72f32689df9255833f05af282ae3639b).
+This setting is equivalent to setting the \`objType\` argument in
+[**SlNetIf_loadSecObj()**](/ns/html/group__SlNetIf.html#ga72f32689df9255833f05af282ae3639b).
 `
     },
     {
         name: "dataInputMethod",
         displayName: "Data Input Method",
-        description: "Specify how to input the secure object into sysconfig",
+        description: "Method of adding the secure object",
         longDescription: `
-Specify how to load the secure object
+Specify how to add the secure object in SysConfig.
 
-__Reference to Secure Object Variables__ - Create variables containing the secure object and the
-secure object size in a *.c file compiled with your project.
+__Reference to Secure Object Variables__ - Create variables containing the Secure Object and the
+Secure Object size in a *.c file compiled with your project.
 
-__Secure Object Text__ - Provide the raw text describing the secure object`,
+__Secure Object Text__ - Provide the raw text describing the Secure Object
+
+[More ...](/ns/configdocs/${deviceFamily}/ConfigDoc.html#ti_net_SecObj_dataInputMethod)
+`,
         options: [
             {
-                name: "Reference to Secure Object Variable"
+                name: "Reference to Secure Object Variable",
+                description: "Secure Object variables in the application"
             },
             {
-                name: "Secure Object Text"
+                name: "Secure Object Text",
+                description: "Raw text string containing the Secure Object"
             }
             /*
              * The following menu item is commented out because syscfg does
@@ -166,12 +182,12 @@ __Secure Object Text__ - Provide the raw text describing the secure object`,
         default: "",
         description: "Secure Object Variable",
         longDescription: `
-Name of the uint8_t array containing the secure object text
+Name of the uint8_t array containing the Secure Object text
 
-[More ...](/ns/ConfigDoc.html#ti_net_SecObj_secObjVariable)`,
+[More ...](/ns/configdocs/${deviceFamily}/ConfigDoc.html#ti_net_SecObj_secObjVariable)`,
         documentation: `
-This setting is equivalent to setting the objBuff argument in
-[SlNetIf_loadSecObj](html/group__SlNetIf.html#ga72f32689df9255833f05af282ae3639b).
+This setting is equivalent to setting the \`objBuff\` argument in
+[**SlNetIf_loadSecObj()**](/ns/html/group__SlNetIf.html#ga72f32689df9255833f05af282ae3639b).
 `
     },
     {
@@ -182,10 +198,10 @@ This setting is equivalent to setting the objBuff argument in
         longDescription: `
 Name of the int16_t variable containing the secure object size
 
-[More ...](/ns/ConfigDoc.html#ti_net_SecObj_secObjVariableSize)`,
+[More ...](/ns/configdocs/${deviceFamily}/ConfigDoc.html#ti_net_SecObj_secObjVariableSize)`,
         documentation: `
-This setting is equivalent to setting the objBuffLen argument in
-[SlNetIf_loadSecObj](html/group__SlNetIf.html#ga72f32689df9255833f05af282ae3639b).
+This setting is equivalent to setting the \`objBuffLen\` argument in
+[**SlNetIf_loadSecObj()**](/ns/html/group__SlNetIf.html#ga72f32689df9255833f05af282ae3639b).
 `
     },
     {
@@ -207,16 +223,17 @@ This setting is equivalent to setting the objBuffLen argument in
         longDescription: `
 Paste the raw text of your secure object into this field.
 
-[More ...](/ns/ConfigDoc.html#ti_net_SecObj_secObjText)`,
+[More ...](/ns/configdocs/${deviceFamily}/ConfigDoc.html#ti_net_SecObj_secObjText)`,
         documentation: `
-This setting will generate the objBuff and objBuffLen arguments for
-[SlNetIf_loadSecObj](html/group__SlNetIf.html#ga72f32689df9255833f05af282ae3639b).
+This setting will generate the \`objBuff\` and \`objBuffLen\` arguments for
+[**SlNetIf_loadSecObj()**](/ns/html/group__SlNetIf.html#ga72f32689df9255833f05af282ae3639b).
 `
 
     },
     {
         name: "secObjFile",
-        displayName: "Secure Object File",
+// hide from docs
+//        displayName: "Secure Object File",
         default: "",
         hidden: true,
         fileFilter: "*.*",
@@ -232,6 +249,7 @@ This setting will generate the objBuff and objBuffLen arguments for
 let base = {
     displayName: "Secure Object",
     description: "Secure Object configuration",
+    defaultInstanceName: "CONFIG_SECOBJ_",
 //    longDescription: longDescription,
     config: config_instance,
     validate: validate

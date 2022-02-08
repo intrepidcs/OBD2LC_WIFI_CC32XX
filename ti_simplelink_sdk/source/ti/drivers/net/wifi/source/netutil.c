@@ -195,9 +195,9 @@ _i16 sl_NetUtilCmd(const _u16 Cmd, const _u8 *pAttrib,  const _u16 AttribLen,
     OutData.pOutputLen = pOutputLen;
 
     ObjIdx = _SlDrvProtectAsyncRespSetting((_u8*)&OutData, NETUTIL_CMD_ID, SL_MAX_SOCKETS);
-    if (MAX_CONCURRENT_ACTIONS == ObjIdx)
+    if (ObjIdx < 0)
     {
-        return SL_POOL_IS_EMPTY;
+        return ObjIdx;
     }
 
     /* send the command */

@@ -1,6 +1,6 @@
 %%{
 /*
- * Copyright (c) 2018-2019, Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2020, Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,6 +40,11 @@
     let instances = Crypto.$instances;
     if (instances.length == 0) return;
 
+    /* get Common /ti/drivers utility functions */
+    let Common = system.getScript("/ti/drivers/Common.js");
+
+    let declarations = Common.genBoardDeclarations(instances);
+
     /* CONFIG_XXXCOUNT string, derived from defaultInstanceName */
     let countDef = Crypto.defaultInstanceName + "COUNT";
 %%}
@@ -53,7 +58,6 @@
  *  ======== CryptoCC32XXObjects ========
  */
 #define `countDef` `instances.length`
-
 CryptoCC32XX_Object cryptoCC32XXObjects[`countDef`];
 
 /*
@@ -69,4 +73,5 @@ const CryptoCC32XX_Config CryptoCC32XX_config[`countDef`] = {
 % }
 };
 
+`declarations`
 const uint_least8_t CryptoCC32XX_count = `countDef`;

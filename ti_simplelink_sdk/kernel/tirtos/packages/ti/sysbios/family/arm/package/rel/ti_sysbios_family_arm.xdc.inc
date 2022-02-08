@@ -9,4 +9,5 @@ armSettings.xs
 Settings.xml
 MPU.xml
 MPU_link.xdt
+AsmMacros.h
 package/package.cfg.xdc.inc

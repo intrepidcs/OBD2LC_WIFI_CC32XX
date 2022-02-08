@@ -32,6 +32,22 @@
         <srcFile name="package/lib/lib/ccs/m4/httpserver_release/httpserver.oem4.dep" src="httpserver.c"/>
         <srcFile name="package/lib/lib/ccs/m4/httpserver_release/httpserver_send.oem4.dep" src="httpserver_send.c"/>
         <srcFile name="package/lib/lib/ccs/m4/httpserver_release/httpserver_sleep.oem4.dep" src="httpserver_sleep.c"/>
+        <srcFile name="lib/ticlang/m4/httpclient_debug.a.mak" src="package.bld"/>
+        <srcFile name="package/lib/lib/ticlang/m4/httpclient_debug/package/package_ti.net.http.om4.dep" src="package/package_ti.net.http.c"/>
+        <srcFile name="package/lib/lib/ticlang/m4/httpclient_debug/httpclient.om4.dep" src="httpclient.c"/>
+        <srcFile name="lib/ticlang/m4/httpserver_debug.a.mak" src="package.bld"/>
+        <srcFile name="package/lib/lib/ticlang/m4/httpserver_debug/package/package_ti.net.http.om4.dep" src="package/package_ti.net.http.c"/>
+        <srcFile name="package/lib/lib/ticlang/m4/httpserver_debug/httpserver.om4.dep" src="httpserver.c"/>
+        <srcFile name="package/lib/lib/ticlang/m4/httpserver_debug/httpserver_send.om4.dep" src="httpserver_send.c"/>
+        <srcFile name="package/lib/lib/ticlang/m4/httpserver_debug/httpserver_sleep.om4.dep" src="httpserver_sleep.c"/>
+        <srcFile name="lib/ticlang/m4/httpclient_release.a.mak" src="package.bld"/>
+        <srcFile name="package/lib/lib/ticlang/m4/httpclient_release/package/package_ti.net.http.om4.dep" src="package/package_ti.net.http.c"/>
+        <srcFile name="package/lib/lib/ticlang/m4/httpclient_release/httpclient.om4.dep" src="httpclient.c"/>
+        <srcFile name="lib/ticlang/m4/httpserver_release.a.mak" src="package.bld"/>
+        <srcFile name="package/lib/lib/ticlang/m4/httpserver_release/package/package_ti.net.http.om4.dep" src="package/package_ti.net.http.c"/>
+        <srcFile name="package/lib/lib/ticlang/m4/httpserver_release/httpserver.om4.dep" src="httpserver.c"/>
+        <srcFile name="package/lib/lib/ticlang/m4/httpserver_release/httpserver_send.om4.dep" src="httpserver_send.c"/>
+        <srcFile name="package/lib/lib/ticlang/m4/httpserver_release/httpserver_sleep.om4.dep" src="httpserver_sleep.c"/>
         <srcFile name="lib/gcc/m4/httpclient_debug.a.mak" src="package.bld"/>
         <srcFile name="package/lib/lib/gcc/m4/httpclient_debug/package/package_ti.net.http.om4g.dep" src="package/package_ti.net.http.c"/>
         <srcFile name="package/lib/lib/gcc/m4/httpclient_debug/httpclient.om4g.dep" src="httpclient.c"/>
@@ -68,12 +84,28 @@
     </makefiles>
     <targets>
         <target name="ti.targets.arm.elf.M4"
-            version="ti.targets.arm.elf.M4{1,0,18.12,3"
-            rawVersion="18.12.3"
+            version="ti.targets.arm.elf.M4{1,0,20.2,1"
+            rawVersion="20.2.1"
             platform="ti.platforms.tiva:TM4C1294NCPDT:1"
             isa="v7M4"
             suffix="em4"
-            rootDir="/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS"
+            rootDir="/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS"
+            os="undefined"
+            rts="ti.targets.arm.rtsarm">
+            <model endian="little"
+                codeModel="thumb2"
+                dataModel="undefined"/>
+        </target>
+        <target name="ti.targets.arm.clang.M4"
+            version="ti.targets.arm.clang.M4{1,0,1.0,0"
+            rawVersion="TI Arm Clang Compiler 1.0.0+STSTarget: arm-ti-none-eabi
+Thread model: posix
+InstalledDir: /opt/ti/cgtools-dragon/latest/bin
+"
+            platform="ti.platforms.tiva:TM4C1294NCPDT:1"
+            isa="v7M4"
+            suffix="m4"
+            rootDir="/opt/ti/cgtools-dragon/latest"
             os="undefined"
             rts="ti.targets.arm.rtsarm">
             <model endian="little"
@@ -81,12 +113,12 @@
                 dataModel="undefined"/>
         </target>
         <target name="gnu.targets.arm.M4"
-            version="gnu.targets.arm.M4{1,0,7.2,1"
-            rawVersion="7.2.1"
+            version="gnu.targets.arm.M4{1,0,9.2,1"
+            rawVersion="9.2.1"
             platform="ti.platforms.tiva:TM4C1294NCPDT"
             isa="v7M4"
             suffix="m4g"
-            rootDir="/opt/ti/ccs-latest/ccs/tools/compiler/gcc-arm-none-eabi-7-2017-q4-major"
+            rootDir="/opt/ti/ccs-latest/ccs/tools/compiler/gcc-arm-none-eabi-9-2019-q4-major"
             os="undefined"
             rts="gnu.targets.arm.rtsv7M">
             <model endian="little"
@@ -94,8 +126,8 @@
                 dataModel="undefined"/>
         </target>
         <target name="iar.targets.arm.M4"
-            version="iar.targets.arm.M4{1,0,8.32,2"
-            rawVersion="8.32.2.178"
+            version="iar.targets.arm.M4{1,0,8.50,1"
+            rawVersion="8.50.1.245"
             platform="ti.platforms.tiva:TM4C1294NCPDT:1"
             isa="v7M4"
             suffix="rm4"
@@ -124,6 +156,22 @@
         pname="lib/ccs/m4/httpserver_release.a"
         profile="release"
         target="ti.targets.arm.elf.M4"/>
+    <library name="lib/ticlang/m4/httpclient_debug"
+        pname="lib/ticlang/m4/httpclient_debug.a"
+        profile="debug"
+        target="ti.targets.arm.clang.M4"/>
+    <library name="lib/ticlang/m4/httpserver_debug"
+        pname="lib/ticlang/m4/httpserver_debug.a"
+        profile="debug"
+        target="ti.targets.arm.clang.M4"/>
+    <library name="lib/ticlang/m4/httpclient_release"
+        pname="lib/ticlang/m4/httpclient_release.a"
+        profile="release"
+        target="ti.targets.arm.clang.M4"/>
+    <library name="lib/ticlang/m4/httpserver_release"
+        pname="lib/ticlang/m4/httpserver_release.a"
+        profile="release"
+        target="ti.targets.arm.clang.M4"/>
     <library name="lib/gcc/m4/httpclient_debug"
         pname="lib/gcc/m4/httpclient_debug.a"
         profile="debug"
@@ -188,6 +236,10 @@
         <file name="httpserver_sleep.c"/>
         <file name="lib/ccs/m4/httpclient_release.a"/>
         <file name="lib/ccs/m4/httpserver_release.a"/>
+        <file name="lib/ticlang/m4/httpclient_debug.a"/>
+        <file name="lib/ticlang/m4/httpserver_debug.a"/>
+        <file name="lib/ticlang/m4/httpclient_release.a"/>
+        <file name="lib/ticlang/m4/httpserver_release.a"/>
         <file name="lib/gcc/m4/httpclient_debug.a"/>
         <file name="lib/gcc/m4/httpserver_debug.a"/>
         <file name="lib/gcc/m4/httpclient_release.a"/>

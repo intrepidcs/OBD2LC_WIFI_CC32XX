@@ -195,9 +195,9 @@ _i16 sl_Close(_i16 sd)
     {
         ObjIdx = _SlDrvProtectAsyncRespSetting((_u8*)&AsyncRsp, CLOSE_ID, (_u8)(sd  & SL_BSD_SOCKET_ID_MASK));
 
-        if (MAX_CONCURRENT_ACTIONS == ObjIdx)
+        if (ObjIdx < 0)
         {
-            return SL_POOL_IS_EMPTY;
+            return ObjIdx;
         }
     }
 
@@ -484,9 +484,9 @@ _i16 sl_Connect(_i16 sd, const SlSockAddr_t *addr, _i16 addrlen)
 
     ObjIdx = _SlDrvProtectAsyncRespSetting((_u8*)&AsyncRsp, CONNECT_ID, (_u8)(sd  & SL_BSD_SOCKET_ID_MASK));
 
-    if (MAX_CONCURRENT_ACTIONS == ObjIdx)
+    if (ObjIdx < 0)
     {
-        return SL_POOL_IS_EMPTY;
+        return ObjIdx;
     }
 
     /* send the command */
@@ -717,9 +717,9 @@ _i16 sl_Accept(_i16 sd, SlSockAddr_t *addr, SlSocklen_t *addrlen)
 
     ObjIdx = _SlDrvProtectAsyncRespSetting((_u8*)&AsyncRsp, ACCEPT_ID, (_u8)sd  & SL_BSD_SOCKET_ID_MASK);
 
-    if (MAX_CONCURRENT_ACTIONS == ObjIdx)
+    if (ObjIdx < 0)
     {
-        return SL_POOL_IS_EMPTY;
+        return ObjIdx;
     }
     
     /* send the command */
@@ -1294,21 +1294,24 @@ static _i8 _SlDrvGetNextTimeoutValue(void)
         }
     }
 
-    /* If a non-wait-forever index was found, calculate delta until closest event */
-    if(g_pCB->MultiSelectCB.SelectEntry[Found]->TimeStamp != SELECT_NO_TIMEOUT)
+    if(Found != -1)
     {
-        _i32 delta = (g_pCB->MultiSelectCB.SelectEntry[Found]->TimeStamp - time_now);
+        /* If a non-wait-forever index was found, calculate delta until closest event */
+        if(g_pCB->MultiSelectCB.SelectEntry[Found]->TimeStamp != SELECT_NO_TIMEOUT)
+        {
+            _i32 delta = (g_pCB->MultiSelectCB.SelectEntry[Found]->TimeStamp - time_now);
 
-        if(delta >= 0)
-        {
-            Msg.Cmd.tv_sec  = (delta / 1000);
-            Msg.Cmd.tv_usec = (((delta % 1000) * 1000) >> 10);
-        }
-        else
-        {
-            /* if delta time calculated is negative, call a non-blocking select */
-            Msg.Cmd.tv_sec  = 0;
-            Msg.Cmd.tv_usec = 0;
+            if(delta >= 0)
+            {
+                Msg.Cmd.tv_sec  = (delta / 1000);
+                Msg.Cmd.tv_usec = (((delta % 1000) * 1000) >> 10);
+            }
+            else
+            {
+                /* if delta time calculated is negative, call a non-blocking select */
+                Msg.Cmd.tv_sec  = 0;
+                Msg.Cmd.tv_usec = 0;
+            }
         }
     }
 
@@ -1562,17 +1565,15 @@ _i16 sl_Select(_i16 nfds, SlFdSet_t *readsds, SlFdSet_t *writesds, SlFdSet_t *ex
             Msg.Cmd.tv_sec = (_u16)timeout->tv_sec;
         }
 
-        /* this divides by 1024 to fit the result in a int16_t.
-         * Upon receiving, the NWP multiply this value by 1024.         */
-        timeout->tv_usec = (timeout->tv_usec >> 10);
-
-        if(0xffff <= timeout->tv_usec)
+        if(0xffff <= (timeout->tv_usec >> 10))
         {
             Msg.Cmd.tv_usec = 0xffff;
         }
         else
         {
-            Msg.Cmd.tv_usec = (_u16)timeout->tv_usec;
+            /* this divides by 1024 to fit the result in a int16_t.
+             * Upon receiving, the NWP multiply this value by 1024.         */
+            Msg.Cmd.tv_usec = (_u16)(timeout->tv_usec >> 10);
         }
     }
 
@@ -1580,9 +1581,9 @@ _i16 sl_Select(_i16 nfds, SlFdSet_t *readsds, SlFdSet_t *writesds, SlFdSet_t *ex
     {
         SelectParams.ObjIdx = _SlDrvProtectAsyncRespSetting((_u8*)&SelectParams.Response, SELECT_ID, SL_MAX_SOCKETS);
 
-        if(MAX_CONCURRENT_ACTIONS == SelectParams.ObjIdx)
+        if (SelectParams.ObjIdx < 0)
         {
-            return SL_POOL_IS_EMPTY;
+            return SelectParams.ObjIdx;
         }
 
         SL_DRV_OBJ_LOCK_FOREVER(&g_pCB->MultiSelectCB.SelectLockObj);
@@ -1882,9 +1883,9 @@ _i16 sl_Select(_i16 nfds, SlFdSet_t *readsds, SlFdSet_t *writesds, SlFdSet_t *ex
     /* Use Obj to issue the command, if not available try later */
     ObjIdx = _SlDrvProtectAsyncRespSetting((_u8*)&AsyncRsp, SELECT_ID, SL_MAX_SOCKETS);
 
-    if (MAX_CONCURRENT_ACTIONS == ObjIdx)
+    if (ObjIdx < 0)
     {
-        return SL_POOL_IS_EMPTY;
+        return ObjIdx;
     }
 
     /* send the command */
@@ -1996,9 +1997,9 @@ _i16 sl_StartTLS(_i16 sd)
 
     ObjIdx = _SlDrvProtectAsyncRespSetting((_u8*)&AsyncRsp, START_TLS_ID, (_u8)(sd  & SL_BSD_SOCKET_ID_MASK));
 
-    if (MAX_CONCURRENT_ACTIONS == ObjIdx)
+    if (ObjIdx < 0)
     {
-        return SL_POOL_IS_EMPTY;
+        return ObjIdx;
     }
 
     startTLS.event = (void *)_SlSocketHandleAsync_StartTLS;

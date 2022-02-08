@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2020 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -135,11 +135,15 @@ region accessible via SPI.
 * [__RAM__][3] allows you to configure in a CPU addressable internal RAM
 region.
 
-[2]: /tidrivers/syscfg/html/ConfigDoc.html#NVSSPI25X_Configuration_Options
-[3]: /tidrivers/syscfg/html/ConfigDoc.html#NVSRAM_Configuration_Options
+[2]: /drivers/syscfg/html/ConfigDoc.html#NVSSPI25X_Configuration_Options
+[3]: /drivers/syscfg/html/ConfigDoc.html#NVSRAM_Configuration_Options
 `;
 
-    /* Find and remove "Internal" from "nvsType". Make "External" default */
+    /*
+     * Find and remove "Internal" from "nvsType". Make "External" default.
+     * Find and remove "NVSCC32XX" from "nvsImplementation". Make "NVSSPI25X"
+     * the default.
+     */
     for (let i = 0; i < config.length; i++) {
         if (config[i].name === "nvsType") {
             for (let k = 0; k < config[i].options.length; k++) {
@@ -150,6 +154,15 @@ region.
                 }
             }
             base.config[i].longDescription = typeLongDescription;
+        }
+        if (config[i].name === "nvsImplementation") {
+            for (let k = 0; k < config[i].options.length; k++) {
+                if (config[i].options[k].name === "NVSCC32XX") {
+                    base.config[i].options.splice(k, 1);
+                    base.config[i].default = "NVSSPI25X";
+                    break;
+                }
+            }
         }
     }
 

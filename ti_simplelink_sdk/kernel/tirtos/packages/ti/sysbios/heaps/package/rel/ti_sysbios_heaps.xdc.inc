@@ -16,5 +16,6 @@ HeapMultiBuf.c
 HeapNull.c
 HeapTrack.c
 HeapCallback.c
+lib/debug/ti.sysbios.heaps.am4
 lib/debug/ti.sysbios.heaps.am4g
 lib/debug/ti.sysbios.heaps.arm4

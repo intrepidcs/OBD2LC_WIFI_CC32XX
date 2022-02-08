@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019, Texas Instruments Incorporated
+ * Copyright (c) 2015-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,8 +56,6 @@
 #include <stdbool.h>
 
 #include <ti/drivers/I2C.h>
-#include <ti/drivers/dpl/HwiP.h>
-#include <ti/drivers/dpl/SemaphoreP.h>
 #include <ti/drivers/Power.h>
 
 #ifdef __cplusplus
@@ -113,29 +111,6 @@ extern "C" {
 
 /** @}*/
 
-/* I2C function table pointer */
-extern const I2C_FxnTable I2CCC32XX_fxnTable;
-
-/*!
- *  @cond NODOC
- *  I2CCC32XX mode
- *
- *  This enum defines the state of the I2C driver's state machine.
- */
-typedef enum {
-    /*! I2C is idle, and not performing a transaction */
-    I2CCC32XX_IDLE_MODE = 0,
-    /*! I2C is currently performing a write operation */
-    I2CCC32XX_WRITE_MODE,
-    /*! I2C is currently performing a read operation */
-    I2CCC32XX_READ_MODE,
-    /*! I2C timeout has occurred */
-    I2CCC32XX_TIMEOUT,
-    /*! I2C error has occurred */
-    I2CCC32XX_ERROR = 0xFF
-} I2CCC32XX_Mode;
-/*! @endcond */
-
 /*!
  *  @brief  I2CCC32XX Hardware attributes
  *
@@ -173,54 +148,34 @@ typedef enum {
  *  @endcode
  */
 typedef struct {
-    /*! I2C Peripheral's base address */
-    unsigned int baseAddr;
-    /*! I2C Peripheral's interrupt vector */
-    unsigned int intNum;
-    /*! I2C Peripheral's interrupt priority */
-    unsigned int intPriority;
-    /*! I2C clock pin configuration */
+    I2C_BASE_HWATTRS
+
+    /*! SCL low clock timeout specified in I2C clocks */
+    uint32_t sclTimeout;
+    /* I2C clock pin configuration */
     uint16_t clkPin;
-    /*! I2C data pin configuration */
+    /* I2C data pin configuration */
     uint16_t dataPin;
 } I2CCC32XX_HWAttrsV1;
 
 /*!
- *  @cond NODOC
- *  I2CCC32XX Object.  Applications must not access any member variables of
- *  this structure!
+ *  @brief      I2CCC32XX Object.
+ *
+ *  The application must not access any member variables of this structure!
  */
 typedef struct {
-    SemaphoreP_Handle   mutex;            /* Grants exclusive access to I2C */
-    SemaphoreP_Handle   transferComplete; /* Signals I2C transfer completion */
+    I2C_BASE_OBJECT
 
-    HwiP_Handle         hwiHandle;
+    /* Burst counters */
+    uint16_t           burstCount;
+    bool               burstStarted;
 
-    I2C_TransferMode    transferMode;        /* Blocking or Callback mode */
-    I2C_CallbackFxn     transferCallbackFxn; /* Callback function pointer */
+    /* Enumerated bit rate */
+    I2C_BitRate        bitRate;
 
-    volatile I2CCC32XX_Mode mode;            /* Stores the I2C state */
-
-    I2C_Transaction    *currentTransaction; /* Pointer to current transaction */
-
-    uint8_t            *writeBufIdx;         /* Internal inc. writeBuf index */
-    size_t              totalWriteCountIdx;  /* Internal dec. writeCounter */
-    size_t              burstWriteCountIdx;  /* Internal dec. writeCounter */
-
-    uint8_t            *readBufIdx;          /* Internal inc. readBuf index */
-    size_t              totalReadCountIdx;   /* Internal dec. readCounter */
-    size_t              burstReadCountIdx;   /* Internal dec. readCounter */
-
-    /* I2C transaction pointers for I2C_MODE_CALLBACK */
-    I2C_Transaction    *headPtr;        /* Head ptr for queued transactions */
-    I2C_Transaction    *tailPtr;        /* Tail ptr for queued transactions */
-
-    bool                isOpen;         /* Flag to indicate module is open */
-
-    Power_NotifyObj     notifyObj;      /* For notification of wake from LPDS */
-    I2C_BitRate         bitRate;        /* I2C bus bit rate */
+    /* For notification of wake from LPDS */
+    Power_NotifyObj    notifyObj;
 } I2CCC32XX_Object;
-/*! @endcond */
 
 #ifdef __cplusplus
 }

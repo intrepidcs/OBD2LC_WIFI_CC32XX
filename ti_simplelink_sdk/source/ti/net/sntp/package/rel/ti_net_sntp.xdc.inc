@@ -8,6 +8,8 @@ lib/ccs/m4/sntp_debug.a
 package/package_ti.net.sntp.c
 sntp.c
 lib/ccs/m4/sntp_release.a
+lib/ticlang/m4/sntp_debug.a
+lib/ticlang/m4/sntp_release.a
 lib/gcc/m4/sntp_debug.a
 lib/gcc/m4/sntp_release.a
 lib/iar/m4/sntp_debug.a

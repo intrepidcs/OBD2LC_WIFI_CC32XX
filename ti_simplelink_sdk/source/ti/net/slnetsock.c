@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019, Texas Instruments Incorporated
+ * Copyright (c) 2017-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -127,7 +127,7 @@ static int32_t SlNetSock_getVirtualSdConf(int16_t virtualSdIndex, int16_t *realS
 
     if (false == SlNetSock_Initialized)
     {
-        return SLNETERR_RET_CODE_MUTEX_CREATION_FAILED;
+        return SLNETERR_RET_CODE_NO_INIT;
     }
 
     SLNETSOCK_LOCK();
@@ -189,7 +189,7 @@ static int32_t SlNetSock_AllocVirtualSocket(int16_t *virtualSdIndex, SlNetSock_V
 
     if (false == SlNetSock_Initialized)
     {
-        return SLNETERR_RET_CODE_MUTEX_CREATION_FAILED;
+        return SLNETERR_RET_CODE_NO_INIT;
     }
 
     SLNETSOCK_LOCK();
@@ -245,7 +245,7 @@ static int32_t SlNetSock_freeVirtualSocket(int16_t virtualSdIndex)
 
     if (false == SlNetSock_Initialized)
     {
-        return SLNETERR_RET_CODE_MUTEX_CREATION_FAILED;
+        return SLNETERR_RET_CODE_NO_INIT;
     }
 
     SLNETSOCK_LOCK();
@@ -669,78 +669,6 @@ int32_t SlNetSock_connect(int16_t sd, const SlNetSock_Addr_t *addr, SlNetSocklen
     /* Function exists in the interface of the socket descriptor, dispatch
        the Connect command                                                   */
     retVal = (netIf->ifConf)->sockConnect(realSd, sdContext, addr, addrlen, sdFlags);
-    SLNETSOCK_NORMALIZE_RET_VAL(retVal,SLNETSOCK_ERR_SOCKCONNECT_FAILED);
-
-    return retVal;
-}
-
-
-//*****************************************************************************
-//
-// SlNetSock_connectUrl - Initiate a connection on a socket by URL
-//
-//*****************************************************************************
-int32_t SlNetSock_connectUrl(int16_t sd, const char *url)
-{
-    uint32_t            addr[4];
-    uint16_t            ipAddrLen;
-    SlNetSock_AddrIn_t  localAddr; //address of the server to connect to
-    SlNetSocklen_t      localAddrSize;
-    int16_t             realSd;
-    uint8_t             sdFlags;
-    SlNetIf_t          *netIf;
-    void               *sdContext;
-    int32_t             retVal = SLNETERR_RET_CODE_OK;
-
-    /* Check if the sd input exists and return it                            */
-    retVal = SlNetSock_getVirtualSdConf(sd, &realSd, &sdFlags, &sdContext, &netIf);
-
-    /* Check if sd found or if the non mandatory function exists             */
-    if (SLNETERR_RET_CODE_OK != retVal)
-    {
-        return retVal;
-    }
-    if ( (NULL == (netIf->ifConf)->sockConnect) || (NULL == (netIf->ifConf)->utilGetHostByName) )
-    {
-        /* Non mandatory function doesn't exists, return error code          */
-        return SLNETERR_RET_CODE_DOESNT_SUPPORT_NON_MANDATORY_FXN;
-    }
-
-    /* Query DNS for IPv4 address.                                           */
-    retVal = (netIf->ifConf)->utilGetHostByName(netIf->ifContext, (char *)url, strlen(url), addr, &ipAddrLen, SLNETSOCK_AF_INET);
-    SLNETSOCK_NORMALIZE_RET_VAL(retVal,SLNETUTIL_ERR_UTILGETHOSTBYNAME_FAILED);
-    if(retVal < 0)
-    {
-        /* If call fails, try again for IPv6.                                */
-        retVal = (netIf->ifConf)->utilGetHostByName(netIf->ifContext, (char *)url, strlen(url), addr, &ipAddrLen, SLNETSOCK_AF_INET6);
-        SLNETSOCK_NORMALIZE_RET_VAL(retVal,SLNETUTIL_ERR_UTILGETHOSTBYNAME_FAILED);
-        if(retVal < 0)
-        {
-            /* if the request failed twice, return error code.               */
-            return retVal;
-        }
-        else
-        {
-            /* fill the answer fields with IPv6 parameters                   */
-            localAddr.sin_family = SLNETSOCK_AF_INET6;
-            localAddrSize = sizeof(SlNetSock_AddrIn6_t);
-        }
-    }
-    else
-    {
-        /* fill the answer fields with IPv4 parameters                       */
-        localAddr.sin_family = SLNETSOCK_AF_INET;
-        localAddrSize = sizeof(SlNetSock_AddrIn_t);
-
-        /* convert the IPv4 address from host byte order to network byte
-           order                                                             */
-        localAddr.sin_addr.s_addr = SlNetUtil_htonl(addr[0]);
-    }
-
-
-    /* Function exists in the interface of the socket descriptor, dispatch
-       the Connect command                                                   */
-    retVal = (netIf->ifConf)->sockConnect(realSd, sdContext, (const SlNetSock_Addr_t *)&localAddr, localAddrSize, sdFlags);
     SLNETSOCK_NORMALIZE_RET_VAL(retVal,SLNETSOCK_ERR_SOCKCONNECT_FAILED);
 
     return retVal;
@@ -1442,6 +1370,41 @@ int32_t SlNetSock_secAttribSet(SlNetSockSecAttrib_t *secAttrib, SlNetSockSecAttr
     {
         /* Function failed, return error code                                */
         return SLNETERR_RET_CODE_INVALID_INPUT;
+    }
+
+    /* Ensure the len was set correctly for the given attribName */
+    switch (attribName)
+    {
+        case SLNETSOCK_SEC_ATTRIB_PRIVATE_KEY:
+        case SLNETSOCK_SEC_ATTRIB_LOCAL_CERT:
+        case SLNETSOCK_SEC_ATTRIB_PEER_ROOT_CA:
+        case SLNETSOCK_SEC_ATTRIB_DH_KEY:
+        case SLNETSOCK_SEC_ATTRIB_DOMAIN_NAME:
+            if((strlen((char *)val) + 1) != len)
+            {
+                return SLNETERR_RET_CODE_INVALID_INPUT;
+            }
+            break;
+        case SLNETSOCK_SEC_ATTRIB_CIPHERS:
+        case SLNETSOCK_SEC_ATTRIB_ALPN:
+        case SLNETSOCK_SEC_ATTRIB_DISABLE_CERT_STORE:
+            if(sizeof(uint32_t) != len)
+            {
+                return SLNETERR_RET_CODE_INVALID_INPUT;
+            }
+            break;
+        case SLNETSOCK_SEC_ATTRIB_METHOD:
+            if(sizeof(uint8_t) != len)
+            {
+                return SLNETERR_RET_CODE_INVALID_INPUT;
+            }
+            break;
+        case SLNETSOCK_SEC_ATTRIB_EXT_CLIENT_CHLNG_RESP:
+            /* Format for this attrib is TBD */
+            break;
+        default:
+            /* Reject attribNames we don't recognize */
+            return SLNETERR_RET_CODE_INVALID_INPUT;
     }
 
     /* Allocate dynamic memory for security attribute handler                */

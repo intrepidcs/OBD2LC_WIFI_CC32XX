@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019, Texas Instruments Incorporated
+ * Copyright (c) 2017-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,6 +42,9 @@
 
 #include <ti/net/slnetif.h>
 #include <ti/net/slneterr.h>
+
+/* POSIX Header files */
+#include <semaphore.h>
 
 /*****************************************************************************/
 /* Macro declarations                                                        */
@@ -93,10 +96,15 @@
    the query                                                                 */
 #define IS_ALLOW_PARTIAL_MATCH_BIT_SET(queryBitmap) (0 != (queryBitmap & SLNETIF_QUERY_IF_ALLOW_PARTIAL_MATCH_BIT))
 
+/* Lock SlNetIfEventsList */
+#define SLNETIF_LOCK()                              (sem_wait(&EventsSem))
+
+/* Unlock SlNetIfEventsList */
+#define SLNETIF_UNLOCK()                            (sem_post(&EventsSem))
+
 /*****************************************************************************/
 /* Structure/Enum declarations                                               */
 /*****************************************************************************/
-
 
 /* Interface Node */
 typedef struct SlNetIf_Node_t
@@ -105,38 +113,55 @@ typedef struct SlNetIf_Node_t
     struct SlNetIf_Node_t *next;
 } SlNetIf_Node_t;
 
+/* Event handler Node.
+   The SlNetIfEventsListNode_t structure holds the events call back function
+   and pointer to the next node in the list.                                 */
+typedef struct SlNetIfEventsList_Node_t
+{
+    void *event;
+    struct SlNetIfEventsList_Node_t *next;
+}SlNetIfEventsList_Node_t;
+
 /*****************************************************************************/
 /* Global declarations                                                       */
 /*****************************************************************************/
 
+static bool SlNetIf_Initialized = false;
+
 static SlNetIf_Node_t * SlNetIf_listHead = NULL;
+static SlNetIfEventsList_Node_t * SlNetIfEvents_listHead = NULL;
+
+/* Semaphore to protect SlNetIfEventsList */
+static sem_t EventsSem;
 
 /*****************************************************************************/
 /* Function prototypes                                                       */
 /*****************************************************************************/
 
 static int32_t SlNetIf_configCheck(const SlNetIf_Config_t *ifConf);
+int32_t SlNetIf_callback(SlNetIfEventId_e status, uint16_t interface, void* pData);
 
 //*****************************************************************************
 //
 // SlNetIf_configCheck - Checks that all mandatory configuration exists
 //
 //*****************************************************************************
-
 static int32_t SlNetIf_configCheck(const SlNetIf_Config_t *ifConf)
 {
     /* Check if the mandatory configuration exists
        This configuration needs to be updated when new mandatory is added    */
     if ((NULL != ifConf) &&
-        (NULL != ifConf->sockCreate)   &&
-        (NULL != ifConf->sockClose)    &&
-        (NULL != ifConf->sockSelect)   &&
-        (NULL != ifConf->sockSetOpt)   &&
-        (NULL != ifConf->sockGetOpt)   &&
-        (NULL != ifConf->sockRecvFrom) &&
-        (NULL != ifConf->sockSendTo)   &&
-        (NULL != ifConf->ifGetIPAddr)  &&
-        (NULL != ifConf->ifGetConnectionStatus) )
+        (NULL != ifConf->sockCreate)            &&
+        (NULL != ifConf->sockClose)             &&
+        (NULL != ifConf->sockSelect)            &&
+        (NULL != ifConf->sockSetOpt)            &&
+        (NULL != ifConf->sockGetOpt)            &&
+        (NULL != ifConf->sockRecvFrom)          &&
+        (NULL != ifConf->sockSendTo)            &&
+        (NULL != ifConf->ifGetIPAddr)           &&
+        (NULL != ifConf->ifGetConnectionStatus) &&
+        (NULL != ifConf->ifCreateContext)       &&
+        (NULL != ifConf->ifDeleteContext))
     {
         /* All mandatory configuration exists - return success               */
         return SLNETERR_RET_CODE_OK;
@@ -156,9 +181,23 @@ static int32_t SlNetIf_configCheck(const SlNetIf_Config_t *ifConf)
 //*****************************************************************************
 int32_t SlNetIf_init(int32_t flags)
 {
+    int32_t retVal;
+
+    /* If the SlNetSock layer isn't initialized, initialize it               */
+    if (false == SlNetIf_Initialized)
+    {
+        retVal = sem_init(&EventsSem, 0, 1);
+        if (0 != retVal)
+        {
+            return SLNETERR_RET_CODE_MUTEX_CREATION_FAILED;
+        }
+        else
+        {
+            SlNetIf_Initialized = true;
+        }
+    }
     return SLNETERR_RET_CODE_OK;
 }
-
 
 //*****************************************************************************
 //
@@ -239,8 +278,13 @@ int32_t SlNetIf_add(uint16_t ifID, char *ifName, const SlNetIf_Config_t *ifConf,
                 free(ifNode);
                 return SLNETERR_RET_CODE_MALLOC_ERROR;
             }
-            /* Copy the input name into the allocated memory                 */
-            strncpy(allocName, ifName, strLen + 1);
+            /* Copy the input name into the allocated memory.
+             *
+             * Note, using strcpy (not strncpy) to work around gcc warning
+             *     https://gcc.gnu.org/bugzilla//show_bug.cgi?id=88059
+             * ... and we know ifName will fit in allocName.
+             */
+            strcpy(allocName, ifName);
         }
 
         /* Fill the allocated interface node with the input parameters       */
@@ -255,13 +299,8 @@ int32_t SlNetIf_add(uint16_t ifID, char *ifName, const SlNetIf_Config_t *ifConf,
         (ifNode->netIf).flags  = 0;
         SET_IF_PRIORITY(ifNode->netIf, priority);
         SET_IF_STATE_ENABLE(ifNode->netIf);
-
-        /* Check if CreateContext function exists                            */
-        if (NULL != ifConf->ifCreateContext)
-        {
-            /* Function exists, run it and fill the context                  */
-            retVal = ifConf->ifCreateContext(ifID, allocName, &((ifNode->netIf).ifContext));
-        }
+        /* Run it and fill the context, registers to interface events        */
+        retVal = ifConf->ifCreateContext(ifID, allocName, &((ifNode->netIf).ifContext), SlNetIf_callback);
 
         /* Check retVal before continuing                                    */
         if (SLNETERR_RET_CODE_OK == retVal)
@@ -303,6 +342,49 @@ int32_t SlNetIf_add(uint16_t ifID, char *ifName, const SlNetIf_Config_t *ifConf,
     return retVal;
 }
 
+//*****************************************************************************
+//
+// SlNetIf_remove - Remove interface from interface ID
+//
+//*****************************************************************************
+int32_t SlNetIf_remove(uint16_t ifID)
+{
+    SlNetIf_Node_t *prevNode   = NULL;
+    SlNetIf_Node_t *tempNode   = SlNetIf_listHead;
+
+    /* Check if ifID is a valid input - Only one bit is set (Pow of 2)       */
+    if (false == ONLY_ONE_BIT_IS_SET(ifID))
+    {
+        return SLNETERR_RET_CODE_INVALID_INPUT;
+    }
+    /* Run over the interface list until finding the required ifID or Until
+       reaching the end of the list                                          */
+    while (NULL != tempNode)
+    {
+        /* Check if the identifier of the interface is equal to the input    */
+        if ((tempNode->netIf).ifID == ifID)
+        {
+            if(prevNode)
+            {
+                prevNode->next = tempNode->next;
+            }
+            else
+            {
+                SlNetIf_listHead = tempNode->next;
+            }
+            free((tempNode->netIf).ifName);
+            /* Delete the context and free the allocate memory  */
+            (tempNode->netIf).ifConf->ifDeleteContext(ifID, &((tempNode->netIf).ifContext));
+            free(tempNode);
+            return SLNETERR_RET_CODE_OK;
+        }
+        prevNode = tempNode;
+        tempNode = tempNode->next;
+    }
+
+    /* Interface identifier was not found                                    */
+    return SLNETERR_RET_CODE_INVALID_INPUT;
+}
 
 //*****************************************************************************
 //
@@ -854,4 +936,109 @@ int32_t SlNetIf_loadSecObj(uint16_t objType, char *objName, int16_t objNameLen, 
     }
     /* Interface doesn't exists or invalid input, return error code          */
     return SLNETERR_RET_CODE_INVALID_INPUT;
+}
+
+//*****************************************************************************
+//
+// SlNetIf_registerEventHandler - Add node to If events list
+//
+//*****************************************************************************
+int32_t SlNetIf_registerEventHandler(SlNetIf_Event_t EventCallback)
+{
+    SlNetIfEventsList_Node_t* EventHandlerNode = NULL;
+
+    if (false == SlNetIf_Initialized)
+    {
+        return SLNETERR_BAD_INTERFACE;
+    }
+
+    SLNETIF_LOCK();
+
+    EventHandlerNode = malloc(sizeof(SlNetIfEventsList_Node_t));
+    if (EventHandlerNode == NULL)
+    {
+        SLNETIF_UNLOCK();
+        return SLNETERR_RET_CODE_MALLOC_ERROR;
+    }
+
+    EventHandlerNode->event = (void*)EventCallback;
+    EventHandlerNode->next = NULL;
+
+    if(SlNetIfEvents_listHead == NULL)
+    {
+        SlNetIfEvents_listHead = EventHandlerNode;
+    }
+    else
+    {
+        SlNetIfEventsList_Node_t* currentNode = SlNetIfEvents_listHead;
+        while(currentNode->next != NULL)
+        {
+            currentNode = currentNode->next;
+        }
+
+        currentNode->next = EventHandlerNode;
+    }
+
+    SLNETIF_UNLOCK();
+
+    return SLNETERR_RET_CODE_OK;
+}
+
+//*****************************************************************************
+//
+// SlNetIf_unregisterEventHandler - Remove node from If events list
+//
+//*****************************************************************************
+int32_t SlNetIf_unregisterEventHandler(SlNetIf_Event_t EventCallback)
+{
+    SlNetIfEventsList_Node_t* currentNode = SlNetIfEvents_listHead;
+    SlNetIfEventsList_Node_t* prevNode = NULL;
+
+    if (false == SlNetIf_Initialized)
+    {
+        return SLNETERR_BAD_INTERFACE;
+    }
+
+    SLNETIF_LOCK();
+
+    while(currentNode != NULL)
+    {
+        if(EventCallback == (SlNetIf_Event_t)currentNode->event)
+        {
+            if(prevNode == NULL)
+            {
+                SlNetIfEvents_listHead = currentNode->next;
+            }
+            else
+            {
+                prevNode->next = currentNode->next;
+            }
+            free(currentNode);
+            SLNETIF_UNLOCK();
+            return SLNETERR_RET_CODE_OK;
+        }
+        prevNode = currentNode;
+        currentNode = currentNode->next;
+    }
+
+    SLNETIF_UNLOCK();
+    return SLNETERR_RET_CODE_EVENT_LINK_NOT_FOUND;
+}
+
+//*****************************************************************************
+//
+// SlNetIf_callback - Call the SlNetIf callback functions
+//
+//*****************************************************************************
+int32_t SlNetIf_callback(SlNetIfEventId_e status, uint16_t interface, void* pData)
+{
+    SlNetIfEventsList_Node_t* eventList = SlNetIfEvents_listHead;
+
+    while (eventList != NULL)
+    {
+        ((SlNetIf_Event_t)(eventList->event))(status, interface, pData);
+        eventList = eventList->next;
+    }
+
+    return SLNETERR_RET_CODE_OK;
 }

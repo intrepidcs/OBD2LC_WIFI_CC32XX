@@ -40,6 +40,46 @@
 let Common     = system.getScript("/ti/drivers/Common.js");
 let logError   = Common.logError;
  
+
+/*
+ *  ======== getLibs ========
+ */
+function getLibs(mod)
+{
+    let GenLibs = system.getScript("/ti/utils/build/GenLibs.syscfg.js");
+    let rtos = system.modules["/ti/drivers/RTOS"];
+    var libs = [];
+    var deps = [];
+    
+    if(rtos != null)
+    {
+        if(rtos.$static.name == "NoRTOS")
+        {
+            libs.push("ti/drivers/net/wifi/" + GenLibs.getToolchainDir() + "/nortos/simplelink.a");  
+            deps.push("/ti/drivers");
+        }
+        else
+        {
+            libs.push("ti/drivers/net/wifi/slnetif/" + GenLibs.getToolchainDir() + "/Release/slnetifwifi.a");
+            libs.push("ti/drivers/net/wifi/" + GenLibs.getToolchainDir() + "/rtos/simplelink.a");            
+        }
+    }
+    else
+    {
+        libs.push("ti/drivers/net/wifi/slnetif/" + GenLibs.getToolchainDir() + "/Release/slnetifwifi.a");
+        libs.push("ti/drivers/net/wifi/" + GenLibs.getToolchainDir() + "/rtos/simplelink.a");
+    }
+    
+    /* create a GenLibs input argument */
+    var linkOpts = {
+        name: "/ti/drivers/net/wifi/SimpleLinkWifi",
+        deps: deps, 
+        libs: libs       
+    };  
+    
+    return (linkOpts);
+}  
+ 
 let config = [
     {
         name        : "startRole",
@@ -190,7 +230,7 @@ let config = [
         placeholder : "000.000.000.000",
         textType    : "ipv4_address",
         hidden      : true,
-        default     : "10.1.1.254",
+        default     : "10.1.1.200",
     },
 
     {
@@ -213,9 +253,11 @@ let config = [
         displayName : "Delete All Profiles",
         default     : false
     },
+];
+
+
    
 
-];
 
 /*
  *  ======== base ========
@@ -238,6 +280,7 @@ let base = {
         validate        : validate
     },
     templates : {
+        "/ti/utils/build/GenLibs.cmd.xdt"   : {modName: "/ti/drivers/net/wifi/SimpleLinkWifi", getLibs: getLibs},
         "/ti/drivers/net/wifi/Config.c.xdt" : "/ti/drivers/net/wifi/Config.c.xdt"
     }
 };    
@@ -463,23 +506,29 @@ function validate(inst, vo)
     if (parseInt(check) != parseInt(check_gateway)){
         logError(vo, inst, "defaultGateway", "IP address is out of range");
         }
-    if (inst.dhcpServer == true){
-        split = SplitIP(inst.startAddress);
-        start = parseInt(SL_IPV4_VAL(split[0],split[1],split[2],split[3]));
 
-        split = SplitIP(inst.lastAddress);
-        last = parseInt(SL_IPV4_VAL(split[0],split[1],split[2],split[3]));
+    if (inst.dhcpServer == true) {
+        if (inst.startRole == "AP") {
+            split = SplitIP(inst.startAddress);
+            start = parseInt(SL_IPV4_VAL(split[0],split[1],split[2],split[3]));
 
-        check_start = parseInt(mask) & parseInt(start);
-        check_last = parseInt(mask) & parseInt(last);
+            split = SplitIP(inst.lastAddress);
+            last = parseInt(SL_IPV4_VAL(split[0],split[1],split[2],split[3]));
 
-        if (parseInt(check) != parseInt(check_start)){
-            logError(vo, inst, "startAddress", "IP address is out of range");
-            }
-        if (parseInt(check) != parseInt(check_last)){
-            logError(vo, inst, "lastAddress", "IP address is out of range");
-            }
+            check = parseInt(ip);
+            check_start = parseInt(start);
+            check_last = parseInt(last);
+
+            if ((parseInt(check) >= parseInt(check_start)) && (parseInt(check) <= parseInt(check_last))) {
+                logError(vo, inst, "ipv4Address", "IP address is between the DHCP range");
+                }
+        }
+        else {
+        logError(vo, inst, "dhcpServer",
+                    "Station Mode and DHCP Server can't be selected together");
+        }
     }
+
 }
 
 exports = base;

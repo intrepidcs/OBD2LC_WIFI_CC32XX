@@ -15,5 +15,6 @@ LogSync.c
 QueueDescriptor.c
 ServiceMgr.c
 UIAPacket.c
+lib/release/ti.uia.runtime.am4
 lib/release/ti.uia.runtime.am4g
 lib/release/ti.uia.runtime.arm4

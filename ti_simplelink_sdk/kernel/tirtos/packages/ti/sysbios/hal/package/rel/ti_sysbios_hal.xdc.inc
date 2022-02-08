@@ -28,5 +28,6 @@ SecondsCallback.c
 SecondsClock.c
 Timer.c
 TimerNull.c
+lib/debug/ti.sysbios.hal.am4
 lib/debug/ti.sysbios.hal.am4g
 lib/debug/ti.sysbios.hal.arm4

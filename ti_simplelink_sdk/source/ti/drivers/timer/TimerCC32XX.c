@@ -383,7 +383,7 @@ void TimerCC32XX_hwiIntFunction(uintptr_t arg)
     }
 
     if (object-> mode != Timer_ONESHOT_BLOCKING) {
-        object->callBack(handle);
+        object->callBack(handle, Timer_STATUS_SUCCESS);
     }
 }
 

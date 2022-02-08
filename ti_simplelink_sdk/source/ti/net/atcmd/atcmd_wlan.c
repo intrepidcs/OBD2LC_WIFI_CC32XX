@@ -1575,7 +1575,44 @@ int32_t ATCmdWlan_setParse(char *buff, ATCmdWlan_Set_t *setParams)
                 break;
         }
     }
-    
+    else if (setParams->id == SL_WLAN_STA_NETWORK_ASSISTED_ROAMING)
+    {
+        if ((ret = StrMpl_getListVal(ATCmd_wlanNetworkAssistedRoaming,sizeof(ATCmd_wlanNetworkAssistedRoaming)/sizeof(StrMpl_List_t),&buff,&setParams->option,ATCMD_DELIM_ARG, sizeof(setParams->option))) < 0)
+        {
+            return ret;
+        }
+        switch (setParams->option)
+        {
+            case SL_WLAN_ROAMING_TRIGGERING_ENABLE:
+                setParams->len = sizeof(SlWlanNetworkAssistedRoaming_t);
+                setParams->value = malloc(setParams->len);
+                if (setParams->value == NULL)
+                {
+                    return -1;
+                }
+                if ((ret = StrMpl_getVal(&buff, &(((SlWlanNetworkAssistedRoaming_t *)(setParams->value))->Enable),ATCMD_DELIM_ARG,STRMPL_FLAG_PARAM_SIZE_8)) < 0)
+                {
+                    return ret;
+                }
+                if ((ret = StrMpl_getVal(&buff, &(((SlWlanNetworkAssistedRoaming_t *)(setParams->value))->rssiThreshold),ATCMD_DELIM_TRM,STRMPL_FLAG_PARAM_SIZE_16)) < 0)
+                {
+                    return ret;
+                }
+                break;
+            case SL_WLAN_AP_TRANSITION_ENABLE:
+                setParams->len = sizeof(SlWlanNetworkAssistedRoaming_t);
+                setParams->value = malloc(setParams->len);
+                if (setParams->value == NULL)
+                {
+                    return -1;
+                }
+                if ((ret = StrMpl_getVal(&buff, &(((SlWlanNetworkAssistedRoaming_t *)(setParams->value))->Enable),ATCMD_DELIM_TRM,STRMPL_FLAG_PARAM_SIZE_8)) < 0)
+                {
+                    return ret;
+                }
+                break;
+        }
+    }
     return 0;
 }
 

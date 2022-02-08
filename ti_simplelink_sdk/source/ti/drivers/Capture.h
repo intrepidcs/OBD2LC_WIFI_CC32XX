@@ -182,7 +182,7 @@ extern "C"
  * Capture_control() returns Capture_STATUS_UNDEFINEDCMD if the control code is
  * not recognized by the driver implementation.
  */
-#define Capture_STATUS_UNDEFINEDCMD    (-2)
+#define Capture_STATUS_UNDEFINEDCMD     (-2)
 
 /*!
  *  @brief      A handle that is returned from a Capture_open() call.
@@ -238,9 +238,11 @@ typedef enum {
  *  @param[in]  handle         Capture_Handle
  *
  *  @param[in]  interval       Interval of two triggering edges in
- *                         #Capture_PeriodUnits
+ *                             #Capture_PeriodUnits
+ *  @param[in]  status         Status of Capture interrupt
  */
-typedef void (*Capture_CallBackFxn)(Capture_Handle handle, uint32_t interval);
+typedef void (*Capture_CallBackFxn)(Capture_Handle handle, uint32_t interval,
+                                    int_fast16_t status);
 
 /*!
  *  @brief Capture Parameters

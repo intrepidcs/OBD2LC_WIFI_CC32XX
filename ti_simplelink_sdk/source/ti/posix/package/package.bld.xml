@@ -43,6 +43,17 @@
         <file name="ccs/sys/_internal.h"/>
         <file name="ccs/sys/time.h"/>
         <file name="ccs/sys/types.h"/>
+        <file name="ticlang/errno.h"/>
+        <file name="ticlang/mqueue.h"/>
+        <file name="ticlang/pthread.h"/>
+        <file name="ticlang/sched.h"/>
+        <file name="ticlang/semaphore.h"/>
+        <file name="ticlang/signal.h"/>
+        <file name="ticlang/time.h"/>
+        <file name="ticlang/unistd.h"/>
+        <file name="ticlang/sys/_internal.h"/>
+        <file name="ticlang/sys/time.h"/>
+        <file name="ticlang/sys/types.h"/>
         <file name="gcc/errno.h"/>
         <file name="gcc/mqueue.h"/>
         <file name="gcc/pthread.h"/>

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2019, Texas Instruments Incorporated
+ * Copyright (c) 2016-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,8 +40,8 @@
  *
  ******************************************************************************
  */
-#ifndef ti_drivers_adc_ADCMSP432__include
-#define ti_drivers_adc_ADCMSP432__include
+#ifndef ti_drivers_adc_ADCCC32XX__include
+#define ti_drivers_adc_ADCCC32XX__include
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -115,4 +115,4 @@ typedef struct {
 }
 #endif
 
-#endif /* ti_drivers_adc_ADCMSP432__include */
+#endif /* ti_drivers_adc_ADCCC32XX__include */

@@ -20,5 +20,6 @@ GateTest.c
 GateMutex.c
 GateMutexPri.c
 GateSpinlock.c
+lib/debug/ti.sysbios.gates.am4
 lib/debug/ti.sysbios.gates.am4g
 lib/debug/ti.sysbios.gates.arm4

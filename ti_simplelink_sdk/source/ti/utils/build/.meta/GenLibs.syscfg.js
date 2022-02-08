@@ -63,7 +63,6 @@
  *  dependencies these libraries have.  Specifically:
  *    {
  *      name: "/ti/ndk",       // name of this "library group"
- *      vers: "1.0.0.0"        // (optional) version of this library group
  *      libs: ["ti/...", ...], // array of physical library names provided
  *      deps: [                // array of lib groups required by libs above
  *        "/ti/drivers",
@@ -82,7 +81,7 @@
  *  of the "library group" declared in the object returned by another module's
  *  getLibs() function.  Because this name is likely to be referenced by
  *  separate products, it's important that, once a name is defined and
- *  avaliable in a shipping product, it should never be changed; otherwise,
+ *  available in a shipping product, it should never be changed; otherwise,
  *  it will break the any product that references the old name.  However, the
  *  number and names of the libraries specified in libs (and their
  *  dependencies) can freely change from release to release.
@@ -140,24 +139,29 @@
 
 /*
  *  ======== config ========
- *  Config options to "tune" the content of GenLibs.cmd.xdt template
+ *  Config options to "tune" the content of GenLibs.cmd.xdt template.
+ *
+ *  Note the 'displayName' fields below are commented out so they are
+ *  excluded from the generated documentation.  They are already hidden
+ *  from the UI (along with the entirety of GenLibs), so this only affects
+ *  the docs.
  */
 let config = [
     {
         name: "enableLibs",
-        displayName: "Generate Linker File with Libraries",
+        //displayName: "Generate Linker File with Libraries",
         hidden: true,
         default: false
     },
     {
         name: "asserts",
-        displayName: "Asserts",
+        //displayName: "Asserts",
         hidden: true,
         default: ""
     },
     {
         name: "toolchain",
-        displayName: "Toolchain",
+        //displayName: "Toolchain",
         hidden: true,
         default: "",
         options: [
@@ -172,6 +176,10 @@ let config = [
             {
                 name: "IAR",
                 displayName: "IAR"
+            },
+            {
+                name: "TICLANG",
+                displayName: "TICLANG"
             },
             {
                 name: "",
@@ -204,7 +212,7 @@ let tsortLib = system.getScript("tsort.syscfg.js");
  *  Each library group is specified by an object of the form:
  *     { name: "/ti/display",
  *       libs: ["/...", ...],
- *       deps: ["/ti/drivers:1.0.1.0", ...]
+ *       deps: ["/ti/drivers", ...]
  *     }
  *
  *  @param args - array of library groups and any user supplied "assertions"
@@ -239,18 +247,18 @@ function genList(args)
                     /^([a-zA-Z0-9/]+)\s*([<>#])\s*([a-zA-Z0-9/]+)$/);
                 if (tokens) {
                     switch (tokens[2]) {
-                    case '>':
-                        edges.push({start: tokens[1], end: tokens[3]});
-                        break;
-                    case '<':
-                        edges.push({start: tokens[3], end: tokens[1]});
-                        break;
-                    case '#':
-                        if (cuts[tokens[1]] == null) {
-                            cuts[tokens[1]] = {};
-                        }
-                        cuts[tokens[1]][tokens[3]] = true;
-                        break;
+                        case '>':
+                            edges.push({start: tokens[1], end: tokens[3]});
+                            break;
+                        case '<':
+                            edges.push({start: tokens[3], end: tokens[1]});
+                            break;
+                        case '#':
+                            if (cuts[tokens[1]] == null) {
+                                cuts[tokens[1]] = {};
+                            }
+                            cuts[tokens[1]][tokens[3]] = true;
+                            break;
                     }
                 }
             }
@@ -300,7 +308,7 @@ function genList(args)
         var start = group.name;
         var startAdded = false;
         for (j = 0; j < group.deps.length; j++) {
-            var end = group.deps[j].split(':')[0];
+            var end = group.deps[j];
             if ((start in cuts) && (end in cuts[start])) {
                 console.log("    cutting '" + start + "' -> '" + end + "'");
             }
@@ -336,17 +344,68 @@ function genList(args)
 }
 
 /*
+ *  ======== getDeviceIsa ========
+ *
+ *  Returns an ISA string based on the device identification.
+ *
+ *  If a device id is not explicitly passed, the current device id in the
+ *  system configuration's runtime environment is used.
+ */
+function getDeviceIsa(devId = null)
+{
+    if (devId == null) {
+        devId = system.deviceData.deviceId;
+    }
+
+    let isa = "";
+
+    switch (true) {
+        case /CC32/.test(devId):
+            isa = "m4";
+            break;
+        case /CC[12][36].0/.test(devId):
+            isa = "m3";
+            break;
+        case /CC[12][36].2/.test(devId):
+        case /MSP432/.test(devId):
+            isa = "m4f";
+            break;
+        default:
+            isa = devId;
+            //console.log("GenLibs.syscfg.js::getDeviceIsa() unsupported device!");
+            break;
+    }
+
+    return (isa);
+}
+
+/*
  *  ======== getToolchainDir ========
+ *  Returns the current toolchain in the system configuration. If one is not
+ *  specified, defaults to ccs toolchain.
+ *
+ *  The toolchain may be overwritten for debug purposes by setting the GenLibs
+ *  static module's toolchain' configuration.
+ *
+ *  Example of toolchain strings returned are:
+ *      ccs
+ *      ticlang
+ *      gcc
+ *      iar
  */
 function getToolchainDir()
 {
     let GenLibs = system.modules["/ti/utils/build/GenLibs"];
 
     let tcDir = ("compiler" in system) ? system.compiler : "ccs";
+
+    /* Static hidden configurable for debugging and testing */
     if (GenLibs && GenLibs.$static.toolchain != "") {
-        let tc2c = {TI: "ccs", GCC: "gcc", IAR: "iar"};
+        /* Create a mapping of config values to toolchain names */
+        let tc2c = {TI: "ccs", GCC: "gcc", IAR: "iar", TICLANG: "ticlang"};
         tcDir = tc2c[GenLibs.$static.toolchain];
     }
+
     return (tcDir);
 }
 
@@ -357,29 +416,7 @@ function getToolchainDir()
  */
 function libPath(namespace, library)
 {
-    let devId = system.deviceData.deviceId;
-    let isa = "";
-
-    switch (devId) {
-        case "MSP432E":
-        case "MSP432P401R":
-        case "MSP432P4111":
-            isa = "m4f";
-            break;
-
-        case "CC32XX":
-            isa = "m4";
-            break;
-
-        /* TODO: add more devices */
-
-        /* is there a good default? For now, just use devId so users
-         * see it's broken and report what devId isn't handled here
-         */
-        default:
-            isa = devId;
-            break;
-    }
+    let isa = getDeviceIsa();
 
     return(namespace + "/lib/" + getToolchainDir() + "/" + isa + "/" +
             library);
@@ -408,10 +445,11 @@ exports = {
 
     genList: genList,
 
+    getDeviceIsa   : getDeviceIsa,
     getToolchainDir: getToolchainDir,
     libPath: libPath,
 
     templates: {
-        "/local/support/GenLibs.cmd.xdt": {}
+        "/ti/utils/build/GenLibs.cmd.xdt": {}
     }
 };

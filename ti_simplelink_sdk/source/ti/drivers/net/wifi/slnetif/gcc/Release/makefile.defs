@@ -40,7 +40,8 @@ CFLAGS += -DDISABLE_DEBUGGER_RECONNECT
 CFLAGS += -DSL_PLATFORM_MULTI_THREADED
 
 CFILES = \
-    slnetifwifi.c
+    slnetifwifi.c \
+    slwificonn.c
 
 OBJCFILES = $(CFILES:.c=.obj)
 

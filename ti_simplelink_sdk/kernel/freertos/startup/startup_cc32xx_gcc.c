@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2017, Texas Instruments Incorporated
+ * Copyright (c) 2016-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,6 +44,8 @@
 #include <ti/devices/cc32xx/driverlib/rom_map.h>
 #include <ti/devices/cc32xx/driverlib/prcm.h>
 
+#include <FreeRTOSConfig.h>
+
 //*****************************************************************************
 //
 // Forward declaration of the default fault handlers.
@@ -75,10 +77,11 @@ extern int main(void);
 
 //*****************************************************************************
 //
-// linker variable that marks the top of stack.
+// linker variables that marks the top and bottom of stack.
 //
 //*****************************************************************************
 extern unsigned long _stack_end;
+extern void *__stack;
 
 //*****************************************************************************
 //
@@ -154,6 +157,25 @@ void localProgramStart(void)
     uint32_t * de;
     uint32_t count;
     uint32_t i;
+    uint32_t newBasePri;
+	
+    /* Disable interrupts */
+    __asm volatile (
+        "mov %0, %1 \n\t"
+        "msr basepri, %0 \n\t"
+        "isb \n\t"
+        "dsb \n\t"
+        :"=r" (newBasePri) : "i" (configMAX_SYSCALL_INTERRUPT_PRIORITY) : "memory"
+    );
+
+#if configENABLE_ISR_STACK_INIT
+    /* Initialize ISR stack to known value for Runtime Object View */
+    register uint32_t *top = (uint32_t *)&__stack;
+    register uint32_t *end = (uint32_t *)&newBasePri;
+    while (top < end) {
+        *top++ = (uint32_t)0xa5a5a5a5;
+    }
+#endif
 
     /* initiailize .bss to zero */
     bs = & __bss_start__;
@@ -192,10 +214,6 @@ void localProgramStart(void)
 
     /* Set vector table base */
     MAP_IntVTableBaseSet((unsigned long)&ramVectors[0]);
-
-    /* Enable Processor */
-    MAP_IntMasterEnable();
-    MAP_IntEnable(FAULT_SYSTICK);
 
     /* Call the application's entry point. */
     main();

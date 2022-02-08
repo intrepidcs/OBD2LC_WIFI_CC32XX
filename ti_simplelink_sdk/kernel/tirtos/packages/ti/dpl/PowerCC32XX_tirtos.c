@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019, Texas Instruments Incorporated
+ * Copyright (c) 2015-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,6 +44,7 @@
 #include <ti/devices/cc32xx/driverlib/rom.h>
 #include <ti/devices/cc32xx/driverlib/rom_map.h>
 
+#include <ti/drivers/ITM.h>
 #include <ti/drivers/Power.h>
 #include <ti/drivers/power/PowerCC32XX.h>
 
@@ -77,6 +78,7 @@ void PowerCC32XX_sleepPolicy()
     uint64_t deltaTime;
     uint64_t remain;
     uint64_t temp64;
+    uint64_t latency;
     uint32_t deltaTick;
     uint32_t workTick;
     uint32_t newTick;
@@ -108,7 +110,8 @@ void PowerCC32XX_sleepPolicy()
         deltaTime = (uint64_t)deltaTick * (uint64_t)Clock_tickPeriod;
 
         /* check if there is enough time to transition to/from LPDS */
-        if (deltaTime > PowerCC32XX_TOTALTIMELPDS) {
+        latency = Power_getTransitionLatency(PowerCC32XX_LPDS, Power_TOTAL);
+        if (deltaTime > latency) {
 
             /* decision is now made, going to transition to LPDS ... */
 
@@ -125,7 +128,7 @@ void PowerCC32XX_sleepPolicy()
             Clock_tickStop();
 
             /* compute the time interval for the LPDS wake timer */
-            deltaTime -= PowerCC32XX_TOTALTIMELPDS;
+            deltaTime -= latency;
 
             /* convert the interval in usec to units of RTC counts */
             remain = (deltaTime * 32768) / 1000000;
@@ -141,8 +144,14 @@ void PowerCC32XX_sleepPolicy()
             /* enable the RTC as an LPDS wake source */
             MAP_PRCMLPDSWakeupSourceEnable(PRCM_LPDS_TIMER);
 
+            /* Flush any remaining log messages in the ITM */
+            ITM_flush();
+
             /* now go to LPDS ... */
             Power_sleep(PowerCC32XX_LPDS);
+
+            /* Restore ITM settings */
+            ITM_restore();
 
             /* get the RTC count after wakeup */
             wakeRTC = getCountsRTC();
@@ -199,6 +208,15 @@ void PowerCC32XX_sleepPolicy()
         }
     }
 
+    /* sleep, but only if did not invoke a sleep state above */
+    if (!(slept)) {
+        /* Flush any remaining log messages in the ITM */
+        ITM_flush();
+        MAP_PRCMSleepEnter();
+        /* Restore ITM settings */
+        ITM_restore();
+    }
+
     /* re-enable interrupts */
     MAP_CPUcpsie();
 
@@ -207,11 +225,6 @@ void PowerCC32XX_sleepPolicy()
 
     /* restore Task scheduling */
     Task_restore(taskKey);
-
-    /* sleep, but only if did not invoke a sleep state above */
-    if (!(slept)) {
-        MAP_PRCMSleepEnter();
-    }
 }
 
 /*

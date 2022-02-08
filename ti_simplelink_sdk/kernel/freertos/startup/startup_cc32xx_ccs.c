@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2017, Texas Instruments Incorporated
+ * Copyright (c) 2016-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,6 +43,8 @@
 #include <ti/devices/cc32xx/driverlib/rom_map.h>
 #include <ti/devices/cc32xx/driverlib/prcm.h>
 
+#include <FreeRTOSConfig.h>
+
 //*****************************************************************************
 //
 // Forward declaration of the default fault handlers.
@@ -71,6 +73,7 @@ extern void xPortSysTickHandler(void);
 //
 //*****************************************************************************
 extern unsigned long __STACK_END;
+extern void *__stack;
 
 //*****************************************************************************
 // The vector table.  Note that the proper constructs must be placed on this to
@@ -116,6 +119,20 @@ void initVectors(void)
 {
     int i;
 
+    /* Disable interrupts */
+    _set_interrupt_priority(configMAX_SYSCALL_INTERRUPT_PRIORITY);
+    __asm( "    dsb" );
+    __asm( "    isb" );
+
+#if configENABLE_ISR_STACK_INIT
+    /* Initialize ISR stack to known value for Runtime Object View */
+    register uint32_t *top = (uint32_t *)&__stack;
+    register uint32_t *end = (uint32_t *)&i;
+    while (top < end) {
+        *top++ = (uint32_t)0xa5a5a5a5;
+    }
+#endif
+
     /* Copy from reset vector table into RAM vector table */
     memcpy(ramVectors, resetVectors, 16*4);
 
@@ -127,10 +144,6 @@ void initVectors(void)
 
     /* Set vector table base */
     MAP_IntVTableBaseSet((unsigned long)&ramVectors[0]);
-
-    /* Enable Processor */
-    MAP_IntMasterEnable();
-    MAP_IntEnable(FAULT_SYSTICK);
 }
 
 //*****************************************************************************

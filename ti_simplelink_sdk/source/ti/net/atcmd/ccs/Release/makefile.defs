@@ -27,7 +27,7 @@ IPATH += -I$(COM_TI_SIMPLELINK_MSP432_SDK_INSTALL_DIR)/source
 endif
 IPATH += -I$(STDINC)
 
-CFLAGS = -c -qq -pdsw225 -ms -g --endian=little -mv7M4 --float_support=vfplib --symdebug:dwarf $(IPATH)
+CFLAGS = -O2 -c -qq -pdsw225 -ms -g --endian=little -mv7M4 --float_support=vfplib --symdebug:dwarf $(IPATH)
 
 CFILES = \
     atcmd_defs.c \

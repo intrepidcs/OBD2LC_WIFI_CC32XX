@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2019, Texas Instruments Incorporated
+ * Copyright (c) 2016-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,6 +59,7 @@
 #include <ti/devices/cc32xx/inc/hw_ints.h>
 #include <ti/devices/cc32xx/inc/hw_mmchs.h>
 #include <ti/devices/cc32xx/inc/hw_udma.h>
+#include <ti/devices/cc32xx/inc/hw_apps_rcm.h>
 #include <ti/devices/cc32xx/driverlib/rom.h>
 #include <ti/devices/cc32xx/driverlib/rom_map.h>
 #include <ti/devices/cc32xx/driverlib/pin.h>
@@ -100,6 +101,21 @@
                               SDHOST_INT_BADA)
 
 #define SECTORSIZE           (512)
+
+/* PLL CLK DIV value to get divider of 8 */
+#define PLL_CLK_DIV8         (0x7)
+
+/* SD initialization stream bit */
+#define SD_INIT_STREAM       (0x2)
+
+/* SD initialization dummy cmd/arg */
+#define DUMMY                (0x00000000)
+
+/* SD initialization frequency of 80KHz */
+#define SD_INIT_FREQ_80KHZ   (80000)
+
+/* SD identification frequency of 400KHz */
+#define SD_ID_FREQ_400KHZ    (400000)
 
 /* Voltage window (VDD) used on this device (3.3-3.6 V) */
 #define VOLTAGEWINDOW        (0x00E00000)
@@ -202,6 +218,7 @@ void SDHostCC32XX_close(SD_Handle handle)
     }
     Power_unregisterNotify(&object->postNotify);
     Power_releaseDependency(object->powerMgrId);
+    Power_releaseConstraint(PowerCC32XX_DISALLOW_LPDS);
 
     /* Restore pin pads to their reset states */
     padRegister = (PinToPadGet((hwAttrs->dataPin) & 0x3f)<<2) + PAD_CONFIG_BASE;
@@ -243,15 +260,8 @@ uint_fast32_t SDHostCC32XX_getNumSectors(SD_Handle handle)
     SDHostCC32XX_Object          *object = handle->object;
     SDHostCC32XX_HWAttrsV1 const *hwAttrs = handle->hwAttrs;
 
-    Power_setConstraint(PowerCC32XX_DISALLOW_LPDS);
-    DebugP_log1("SDHost:(%p) SDHostCC32XX_getNumSectors set command"
-        " power constraint", hwAttrs->baseAddr);
-
     /* De-Select the card on the input drive(Stand-by state) */
     if (deSelectCard(handle) != SD_STATUS_SUCCESS) {
-        Power_releaseConstraint(PowerCC32XX_DISALLOW_LPDS);
-        DebugP_log1("SDHost:(%p) SDHostCC32XX_getNumSectors released command"
-            " power constraint", hwAttrs->baseAddr);
         return (0);
     }
 
@@ -287,10 +297,6 @@ uint_fast32_t SDHostCC32XX_getNumSectors(SD_Handle handle)
         sectors = 0;
     }
 
-    Power_releaseConstraint(PowerCC32XX_DISALLOW_LPDS);
-    DebugP_log1("SDHost:(%p) SDHostCC32XX_getNumSectors released command"
-        " power constraint", hwAttrs->baseAddr);
-
     return (sectors);
 }
 
@@ -311,15 +317,22 @@ int_fast16_t SDHostCC32XX_initialize(SD_Handle handle)
 {
     int_fast32_t                  result;
     uint_fast32_t                 resp[4];
+    uint8_t                       i;
     SDHostCC32XX_Object          *object = handle->object;
     SDHostCC32XX_HWAttrsV1 const *hwAttrs = handle->hwAttrs;
 
-    Power_setConstraint(PowerCC32XX_DISALLOW_LPDS);
-    DebugP_log1("SDHost:(%p) SDHostCC32XX_initialize set read/write"
-        " power constraint", hwAttrs->baseAddr);
-
-    /* Send go to IDLE command */
-    result = send_cmd(handle, CMD_GO_IDLE_STATE, NULLARG);
+    /*
+     * Send go to IDLE command. This may take multiple tries depending
+     * on the previous state of the SD card. Try up to 255 attempts.
+     */
+    for(i = 0; i < 255; i++)
+    {
+        result = send_cmd(handle, CMD_GO_IDLE_STATE, NULLARG);
+        if (result == SD_STATUS_SUCCESS)
+        {
+            break;
+        }
+    }
 
     if (result == SD_STATUS_SUCCESS) {
         /* Get interface operating condition for the card */
@@ -419,9 +432,16 @@ int_fast16_t SDHostCC32XX_initialize(SD_Handle handle)
         result = SD_STATUS_ERROR;
     }
 
-    Power_releaseConstraint(PowerCC32XX_DISALLOW_LPDS);
-    DebugP_log1("SDHost:(%p) SDHostCC32XX_initialize released read/write"
-        " power constraint", hwAttrs->baseAddr);
+    /*
+     * Reconfigure clock frequency after card initialization and
+     * identification process has been completed successfully at 400KHz.
+     */
+    if (result == SD_STATUS_SUCCESS)
+    {
+        /* Configure card clock */
+        MAP_SDHostSetExpClk(hwAttrs->baseAddr,
+            MAP_PRCMPeripheralClockGet(PRCM_SDHOST), hwAttrs->clkRate);
+    }
 
     return (result);
 }
@@ -485,6 +505,8 @@ SD_Handle SDHostCC32XX_open(SD_Handle handle, SD_Params *params)
 
     Power_registerNotify(&object->postNotify, PowerCC32XX_AWAKE_LPDS,
         postNotifyFxn, (uintptr_t)handle);
+
+    Power_setConstraint(PowerCC32XX_DISALLOW_LPDS);
 
     object->dmaHandle = UDMACC32XX_open();
     if (object->dmaHandle == NULL) {
@@ -554,8 +576,6 @@ int_fast16_t SDHostCC32XX_read(SD_Handle handle, void *buf,
     if (object->cardType == SD_SDSC) {
         sector = sector * SECTORSIZE;
     }
-
-    Power_setConstraint(PowerCC32XX_DISALLOW_LPDS);
 
     /* Set the block count */
     MAP_SDHostBlockCountSet(hwAttrs->baseAddr, secCount);
@@ -652,10 +672,6 @@ int_fast16_t SDHostCC32XX_read(SD_Handle handle, void *buf,
         result = SD_STATUS_ERROR;
     }
 
-    Power_releaseConstraint(PowerCC32XX_DISALLOW_LPDS);
-    DebugP_log1("SDHost:(%p) SDHostCC32XX_read released read power"
-        " constraint", hwAttrs->baseAddr);
-
     return (result);
 }
 
@@ -682,8 +698,6 @@ int_fast16_t SDHostCC32XX_write(SD_Handle handle, const void *buf,
     if(object->cardType == SD_SDSC) {
         sector = sector * SECTORSIZE;
     }
-
-    Power_setConstraint(PowerCC32XX_DISALLOW_LPDS);
 
     /* Set the block count */
     MAP_SDHostBlockCountSet(hwAttrs->baseAddr, secCount);
@@ -790,10 +804,6 @@ int_fast16_t SDHostCC32XX_write(SD_Handle handle, const void *buf,
     if (object->stat != SD_STATUS_SUCCESS) {
         result = SD_STATUS_ERROR;
     }
-
-    Power_releaseConstraint(PowerCC32XX_DISALLOW_LPDS);
-    DebugP_log1("SDHost:(%p) SDHostCC32XX_write released write power"
-        " constraint", hwAttrs->baseAddr);
 
     return (result);
 }
@@ -1012,6 +1022,7 @@ static void initHw(SD_Handle handle)
     SDHostCC32XX_HWAttrsV1 const *hwAttrs = handle->hwAttrs;
     uint32_t pin;
     uint32_t mode;
+    uint32_t clockcfg;
 
     /* Configure for SDHost Data */
     pin = PinConfigPin(hwAttrs->dataPin);
@@ -1037,9 +1048,34 @@ static void initHw(SD_Handle handle)
     MAP_SDHostIntDisable(hwAttrs->baseAddr, SDHOST_INT_CC | SDHOST_INT_TC |
         SDHOST_INT_DMAWR | SDHOST_INT_DMARD | SDHOST_INT_BRR | SDHOST_INT_BWR);
 
-    /* Configure card clock */
+    /* Store current clock configuration */
+    clockcfg = HWREG(ARCM_BASE + APPS_RCM_O_MMCHS_CLK_GEN);
+    /*
+     * Set PLL CLK DIV to 8 in order to get 80KHz clock freuqnecy. The
+     * requirement to wake up the card with the initialization stream
+     * is 80 clock cycles in 1ms.
+     */
+    HWREG(ARCM_BASE + APPS_RCM_O_MMCHS_CLK_GEN) |= PLL_CLK_DIV8;
+    /* Set clock frequency to 80KHz for initialization stream */
     MAP_SDHostSetExpClk(hwAttrs->baseAddr,
-        MAP_PRCMPeripheralClockGet(PRCM_SDHOST), hwAttrs->clkRate);
+            MAP_PRCMPeripheralClockGet(PRCM_SDHOST), SD_INIT_FREQ_80KHZ);
+    /* Enable SD initialization stream */
+    HWREG(hwAttrs->baseAddr + MMCHS_O_CON) |= SD_INIT_STREAM;
+    /* Dummy command to send out the 80 clock cycles */
+    send_cmd(handle, DUMMY, DUMMY);
+    /* End SD initialization stream */
+    HWREG(hwAttrs->baseAddr + MMCHS_O_CON) &= ~SD_INIT_STREAM;
+     /* Reset clock cfg to initial cfg */
+    HWREG(ARCM_BASE + APPS_RCM_O_MMCHS_CLK_GEN) = clockcfg;
+
+    /*
+     * Configure the card clock to 400KHz for the card initialization and
+     * idenitification process. This is done to ensure compatibility with
+     * older SD cards. Once this is complete, the card clock will be
+     * reconfigured to the set operating value.
+     */
+    MAP_SDHostSetExpClk(hwAttrs->baseAddr,
+        MAP_PRCMPeripheralClockGet(PRCM_SDHOST), SD_ID_FREQ_400KHZ);
 
     MAP_SDHostIntClear(hwAttrs->baseAddr, SDHOST_INT_CC | SDHOST_INT_TC |
         DATAERROR | CMDERROR | SDHOST_INT_DMAWR | SDHOST_INT_DMARD |

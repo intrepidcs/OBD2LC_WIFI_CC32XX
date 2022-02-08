@@ -174,7 +174,7 @@ void CaptureCC32XX_hwiIntFunction(uintptr_t arg)
     }
 
     /* Call the user callbackFxn */
-    object->callBack(handle, interval);
+    object->callBack(handle, interval, Capture_STATUS_SUCCESS);
 }
 
 /*

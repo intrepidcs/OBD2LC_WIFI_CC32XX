@@ -64,18 +64,51 @@ extern "C" {
 /* Macro declarations                                                        */
 /*****************************************************************************/
 
+/*****************************************************************************/
+/* Extern definition                                                         */
+/*****************************************************************************/
+
 /* prototype ifConf */
 extern SlNetIf_Config_t SlNetIfConfigWifi;
 
 
 /*****************************************************************************/
-/* Structure/Enum declarations                                               */
-/*****************************************************************************/
-
-
-/*****************************************************************************/
 /* Function prototypes                                                       */
 /*****************************************************************************/
+
+/*!
+
+    \brief Create and maintains a wifi connection to the local network
+
+    The slNetIfWifi_enabelIf function creates wifi connection by
+    provisioning process.\n
+    This function is called by the connection manager library layer to obtain connection.
+
+    \param[in] connContext      Allocate and store connection data if needed for
+                                using in other slnetwifi connection functions
+
+    \return                     Zero on success, or negative error code on failure.
+
+    \sa                         slNetIfWifi_createConnect
+    \note
+    \warning
+*/
+int32_t slNetIfWifi_connEnable(void *ifContext);
+
+/*!
+
+    \brief Gracefully close connection
+
+    The slNetIfWifi_disconnect function close wifi connection by.\n
+    This function is called by the connection manager library layer to obtain disconnect.
+
+    \return                   Zero on success, or negative error code on failure.
+
+    \sa                       slNetIfWifi_disconnect
+    \note
+    \warning
+*/
+int16_t slNetIfWifi_connDisable(void *ifContext);
 
 /*!
 
@@ -1072,6 +1105,35 @@ int32_t SlNetIfWifi_sockstartSec(int16_t sd, void *sdContext, SlNetSockSecAttrib
 */
 int32_t SlNetIfWifi_getHostByName(void *ifContext, char *name, const uint16_t nameLen, uint32_t *ipAddr, uint16_t *ipAddrLen, const uint8_t family);
 
+/*!
+    \brief Performs a ping
+
+    This functions is used to perform a ping request and check its response.
+
+    \param[in]  ifContext       Stores interface data if CreateContext function
+                                supported and implemented.
+                                Can be used in all SlNetIf_Config_t functions
+    \param[in]  addr            Specifies the destination
+                                addrs\n sockaddr:\n - code for the address
+                                format.\n - socket address,
+                                the length depends on the code
+                                format
+    \param[in]  addrLen         Contains the size of the structure pointed to by addr.
+    \param[in]  attempts        Specifies the number of ping request attempts.
+    \param[in]  timeout         Specifies the timeout to wait for a ping
+                                response
+    \param[in]  interval        Specifies the interval between subsequent ping
+                                attempts
+    \param[in]  packetSize      Ping packet size in bytes including ICMP header,
+                                therefore must be greater than 8
+    \param[in]  flags           Reserved
+
+    \return                    The number of successful packets, 0 on failure
+
+    \slnetutil_init_precondition
+*/
+uint32_t SlNetIfWifi_ping(void *ifContext, const SlNetSock_Addr_t *addr, SlNetSocklen_t addrLen, uint32_t attempts, uint16_t timeout,
+                          uint16_t interval, uint16_t packetSize, int16_t flags);
 
 /*!
     \brief Get IP Address of specific interface
@@ -1190,12 +1252,23 @@ int32_t SlNetIfWifi_loadSecObj(void *ifContext, uint16_t objType, char *objName,
 
 
 /*!
-    \brief Allocate and store interface data
+    \brief Allocate and store interface data.
+           Registers to interface event handlers.
 
     The SlNetIfWifi_CreateContext function stores interface related data.\n
 
-    \param[in] ifContext  Allocate and store interface data if needed.
-                          Can be used in all slnetwifi interface functions
+    \param[in] ifID      Specifies the interface which its configuration
+                         needs to be retrieved.\n
+                         The values of the interface identifier is
+                         defined with the prefix SLNETIF_ID_ which
+                         defined in slnetif.h
+
+    \param[in] ifName    Specifies the interface which its interface
+                         identifier needs to be retrieved.\n
+
+    \param[in] ifContext  Specifies the interface data if needed.
+
+    \param[in] ifCallback Specifies the interface callback function.
 
     \return               Zero on success, or negative error code on failure.
 
@@ -1210,7 +1283,36 @@ int32_t SlNetIfWifi_loadSecObj(void *ifContext, uint16_t objType, char *objName,
     \endcode
     <br>
 */
-int32_t SlNetIfWifi_CreateContext(uint16_t ifID, const char *ifName, void **ifContext);
+int32_t SlNetIfWifi_CreateContext (uint16_t ifID, const char *ifName, void **ifContext, SlNetIf_Event_t ifCallback);
+
+/*!
+    \brief Free allocations of interface data.
+           Remove registration of interface event handlers.
+
+
+    \param[in] ifID       Specifies the interface which its configuration
+                          needs to be remove.\n
+                          The values of the interface identifier is
+                          defined with the prefix SLNETIF_ID_ which
+                          defined in slnetif.h
+
+    \param[in] ifContext  Specifies the interface data which needs to be remove.
+
+
+    \return               Zero on success, or negative error code on failure.
+
+    \sa
+    \note
+    \warning
+    \par    Examples
+
+    \code
+        void *ifContext;
+        connection_status = SlNetIfWifi_CreateContext(&context);
+    \endcode
+    <br>
+*/
+int32_t SlNetIfWifi_DeleteContext (uint16_t ifID, void **ifContext);
 
 
 /*!

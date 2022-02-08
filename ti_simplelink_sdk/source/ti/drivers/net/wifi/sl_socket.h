@@ -108,6 +108,7 @@ extern "C" {
 #define SL_SO_KEEPALIVE                                       (9)  /* Connections are kept alive with periodic messages */
 #define SL_SO_LINGER                                          (13) /* Socket lingers on close pending remaining send/receive packets. */
 #define SL_SO_RCVTIMEO                                        (20) /* Enable receive timeout */
+#define SL_SO_SNDTIMEO                                        (21)  /* Enable send timeout */
 #define SL_SO_NONBLOCKING                                     (24) /* Enable . disable nonblocking mode  */
 #define SL_SO_SECMETHOD                                       (25) /* security metohd */
 #define SL_SO_SECURE_MASK                                     (26) /* security mask */
@@ -613,8 +614,7 @@ _i16 sl_Close(_i16 sd);
                                 determined by the socket's
                                 address\n
                                 sockaddr:\n - code for the
-                                address format. On this version
-                                only AF_INET is supported.\n -
+                                address format. \n -
                                 socket address, the length
                                 depends on the code format
     \param[out] addrlen         The addrlen argument is a value-result 
@@ -648,9 +648,7 @@ _i16 sl_Accept(_i16 sd, SlSockAddr_t *addr, SlSocklen_t *addrlen);
     \param[in] sd               Socket descriptor (handle)
     \param[in] addr             Specifies the destination 
                                 addrs\n sockaddr:\n - code for
-                                the address format. On this
-                                version only SL_AF_INET is
-                                supported.\n - socket address,
+                                the address format.\n - socket address,
                                 the length depends on the code
                                 format
     \param[in] addrlen          Contains the size of the structure pointed to by addr
@@ -708,8 +706,7 @@ _i16 sl_Listen(_i16 sd, _i16 backlog);
     \param[in] sd               Socket descriptor (handle)
     \param[in] addr             Specifies the destination addr\n
                                 sockaddr:\n - code for the
-                                address format. On this version
-                                only AF_INET is supported.\n -
+                                address format.\n -
                                 socket address, the length
                                 depends on the code format
    
@@ -844,6 +841,10 @@ _i16 sl_Select(_i16 nfds, SlFdSet_t *readsds, SlFdSet_t *writesds, SlFdSet_t *ex
                                                 Sets the timeout value that specifies the maximum amount of time an input function waits until it completes. \n
                                                 Default: No timeout \n
                                                 This options takes SlTimeval_t struct as parameter
+                                - <b>SL_SO_SNDTIMEO</b>  \n
+                                                 Sets the timeout value that specifies the maximum amount of time an output function waits until it completes. \n
+                                                 Default: No timeout \n
+                                                 This options takes SlTimeval_t struct as parameter
                                 - <b>SL_SO_RCVBUF</b>  \n
                                                 Sets tcp max recv window size. \n
                                                 This options takes SlSockWinsize_t struct as parameter
@@ -1005,6 +1006,15 @@ _i16 sl_Select(_i16 nfds, SlFdSet_t *readsds, SlFdSet_t *writesds, SlFdSet_t *ex
         timeVal.tv_sec =  1;             // Seconds
         timeVal.tv_usec = 0;             // Microseconds. 10000 microseconds resolution
         sl_SetSockOpt(SockID,SL_SOL_SOCKET,SL_SO_RCVTIMEO, (_u8 *)&timeVal, sizeof(timeVal));    // Enable receive timeout 
+    \endcode
+    <br>
+
+    - SL_SO_SNDTIMEO:
+    \code
+        struct SlTimeval_t timeVal;
+        timeVal.tv_sec =  20;             // Seconds
+        timeVal.tv_usec = 0;             // Microseconds. 10000 microseconds resolution
+        sl_SetSockOpt(SockID,SL_SOL_SOCKET,SL_SO_SNDTIMEO, (_u8 *)&timeVal, sizeof(timeVal));    // Enable send timeout
     \endcode
     <br>
 
@@ -1358,9 +1368,7 @@ _i16 sl_Recv(_i16 sd, void *buf, _i16 len, _i16 flags);
     \param[in]  from            Pointer to an address structure 
                                 indicating the source
                                 address.\n sockaddr:\n - code
-                                for the address format. On this
-                                version only AF_INET is
-                                supported.\n - socket address,
+                                for the address format.\n - socket address,
                                 the length depends on the code
                                 format
     \param[in]  fromlen         Source address structure
@@ -1471,9 +1479,7 @@ _i16 sl_Send(_i16 sd, const void *buf, _i16 len, _i16 flags);
     \param[in] to               Pointer to an address structure 
                                 indicating the destination
                                 address.\n sockaddr:\n - code
-                                for the address format. On this
-                                version only AF_INET is
-                                supported.\n - socket address,
+                                for the address format.\n - socket address,
                                 the length depends on the code
                                 format
     \param[in] tolen            Destination address structure size 

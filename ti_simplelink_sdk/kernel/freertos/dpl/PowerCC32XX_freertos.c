@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016, Texas Instruments Incorporated
+ * Copyright (c) 2015-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,6 +44,7 @@
 #include <ti/devices/cc32xx/driverlib/rom_map.h>
 #include <ti/devices/cc32xx/driverlib/systick.h>
 
+#include <ti/drivers/ITM.h>
 #include <ti/drivers/Power.h>
 #include <ti/drivers/power/PowerCC32XX.h>
 #include <ti/drivers/dpl/ClockP.h>
@@ -76,6 +77,7 @@ void PowerCC32XX_sleepPolicy()
     unsigned long long ullSleepTime;
     unsigned long long time;
     unsigned long long remain;
+    unsigned long long latency;
     eSleepModeStatus eSleepStatus;
 
     /*
@@ -127,9 +129,9 @@ void PowerCC32XX_sleepPolicy()
             time = idleTime * ClockP_getSystemTickPeriod();
 
             /* check if can go to LPDS */
-            if (time > Power_getTransitionLatency(PowerCC32XX_LPDS,
-                        Power_TOTAL)) {
-                remain = ((time - PowerCC32XX_TOTALTIMELPDS) * 32768) / 1000000;
+            latency = Power_getTransitionLatency(PowerCC32XX_LPDS, Power_TOTAL);
+            if (time > latency) {
+                remain = ((time - latency) * 32768) / 1000000;
 
                 /* set the LPDS wakeup time interval */
                 MAP_PRCMLPDSIntervalSet(remain);
@@ -137,8 +139,20 @@ void PowerCC32XX_sleepPolicy()
                 /* enable the wake source to be timer */
                 MAP_PRCMLPDSWakeupSourceEnable(PRCM_LPDS_TIMER);
 
-                /* go to LPDS mode */
+                /* disable interrupts during ITM flush and restore */
+                MAP_CPUcpsid();
+
+                /* Flush any remaining log messages in the ITM */
+                ITM_flush();
+
+                /* now go to LPDS ... */
                 Power_sleep(PowerCC32XX_LPDS);
+
+                /* Restore ITM settings */
+                ITM_restore();
+
+                /* re-enable interrupts */
+                MAP_CPUcpsie();
 
                 /* set 'returnFromSleep' to TRUE*/
                 returnFromSleep = TRUE;
@@ -194,7 +208,16 @@ void PowerCC32XX_sleepPolicy()
         vPortExitCritical();
     }
     else {
+
+        /* disable interrupts during ITM flush and restore */
+        MAP_CPUcpsid();
+        /* Flush any remaining log messages in the ITM */
+        ITM_flush();
         MAP_PRCMSleepEnter();
+        /* Restore ITM settings */
+        ITM_restore();
+        /* re-enable interrupts */
+        MAP_CPUcpsie();
     }
 #endif
 }

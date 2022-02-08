@@ -36,6 +36,7 @@
 /*****************************************************************************/
 
 #include <ti/drivers/net/wifi/slnetifwifi.h>
+#include <ti/drivers/net/wifi/slwificonn.h>
 
 /*****************************************************************************/
 /* Macro declarations                                                        */
@@ -57,6 +58,8 @@
 /* Global declarations                                                       */
 /*****************************************************************************/
 
+/* gCB is a pointer for callback function                                    */
+uint16_t        gIfID;
 /*!
     SlNetIfConfigWifi structure contains all the function callbacks that are expected to be filled by the relevant network stack interface
     Each interface has different capabilities, so not all the API's must be supported.
@@ -64,6 +67,8 @@
 */
 SlNetIf_Config_t SlNetIfConfigWifi = 
 {
+    slNetIfWifi_connEnable,          // Callback function connEnable in slnetif module
+    slNetIfWifi_connDisable,         // Callback function connDisable in slnetif module
     SlNetIfWifi_socket,              // Callback function sockCreate in slnetif module
     SlNetIfWifi_close,               // Callback function sockClose in slnetif module
     NULL,                            // Callback function sockShutdown in slnetif module
@@ -82,10 +87,12 @@ SlNetIf_Config_t SlNetIfConfigWifi =
     SlNetIfWifi_sendTo,              // Callback function sockSendTo in slnetif module
     SlNetIfWifi_sockstartSec,        // Callback function sockstartSec in slnetif module
     SlNetIfWifi_getHostByName,       // Callback function utilGetHostByName in slnetif module
+    SlNetIfWifi_ping,                // Callback function utilPing in slnetif module
     SlNetIfWifi_getIPAddr,           // Callback function ifGetIPAddr in slnetif module
     SlNetIfWifi_getConnectionStatus, // Callback function ifGetConnectionStatus in slnetif module
     SlNetIfWifi_loadSecObj,          // Callback function ifLoadSecObj in slnetif module
-    NULL                             // Callback function ifCreateContext in slnetif module
+    SlNetIfWifi_CreateContext,       // Callback function ifCreateContext in slnetif module
+    SlNetIfWifi_DeleteContext,       // Callback function ifDeleteContext in slnetif module
 };
 
 static const int16_t StartSecOptName[10] = 
@@ -117,6 +124,34 @@ static const int16_t socketType[8] =
 /*****************************************************************************/
 /* Function prototypes                                                       */
 /*****************************************************************************/
+
+//*****************************************************************************
+//
+// slNetIfWifi_createConnect - Create wifi connection
+//
+//*****************************************************************************
+int32_t slNetIfWifi_connEnable(void *ifContext)
+{
+    int retVal;
+
+    retVal = SlWifiConn_enable();
+
+    return retVal;
+}
+
+//*****************************************************************************
+//
+// slNetIfWifi_disconnect - Gracefully disconnect
+//
+//*****************************************************************************
+int16_t slNetIfWifi_connDisable(void *ifContext)
+{
+    int retVal;
+
+    retVal = SlWifiConn_disable();
+
+    return retVal;
+}
 
 //*****************************************************************************
 //
@@ -424,6 +459,53 @@ int32_t SlNetIfWifi_getHostByName(void *ifContext, char *name, const uint16_t na
      
 }
 
+//*****************************************************************************
+//
+// SlNetIfWifi_ping - perform a ping request and check its response
+//
+//*****************************************************************************
+uint32_t SlNetIfWifi_ping(void *ifContext, const SlNetSock_Addr_t *addr, SlNetSocklen_t addrLen, uint32_t attempts, uint16_t timeout, uint16_t interval, uint16_t packetSize, int16_t flags)
+{
+    int32_t  retVal;
+    SlNetAppPingReport_t report;
+    SlNetAppPingCommand_t pingCommand;
+
+    if(addr->sa_family == SLNETSOCK_AF_INET)
+    {
+        /* destination IP of gateway                */
+         pingCommand.Ip = ((SlNetSock_AddrIn_t*)addr)->sin_addr.s_addr;
+    }
+    else if(addr->sa_family  == SLNETSOCK_AF_INET6)
+    {
+        /* destination IP of gateway                */
+        *((SlNetSock_In6Addr_t*)&pingCommand.Ip) = ((SlNetSock_AddrIn6_t*)addr)->sin6_addr;
+    }
+
+    /* size of ping, in bytes                   */
+    pingCommand.PingSize = packetSize;
+
+    /* delay between pings, in milliseconds     */
+    pingCommand.PingIntervalTime = interval;
+
+    /* timeout for every ping in milliseconds   */
+    pingCommand.PingRequestTimeout = timeout;
+
+    /* max number of ping requests. 0 - forever */
+    pingCommand.TotalNumberOfAttempts = attempts;
+
+    /* report only when finished                */
+    pingCommand.Flags = 0;
+
+    /* Ping Gateway */
+    retVal = sl_NetAppPing( &pingCommand, addr->sa_family, &report, NULL );
+
+    if(retVal == 0)
+    {
+        return report.PacketsReceived;
+    }
+    else
+        return 0;
+}
 
 //*****************************************************************************
 //
@@ -436,7 +518,7 @@ int32_t matchModeByRole(SlNetIfAddressType_e addrType,
 {
     SlWlanConnStatusParam_t WlanConnectInfo;
     uint16_t Len;
-    int32_t retVal;
+    int32_t retVal = SLNETERR_RET_CODE_OK;
 
     switch(addrType)
     {
@@ -499,6 +581,16 @@ int32_t SlNetIfWifi_getIPAddr(void *ifContext, SlNetIfAddressType_e addrType, ui
     {
         retVal = sl_NetCfgGet(newAddrType, addrConfig, &ipAddrLen, (unsigned char *)ipAddr);
     }
+
+    /*
+    * If the type is IPv4 we need to reorder the address as the Simplelink CC32xx device
+    * returns the address in host order
+    */
+    if(SLNETIF_IPV4_ADDR == addrType)
+    {
+        *ipAddr = SlNetUtil_htonl(*ipAddr);
+    }
+
     return retVal;
 }
 
@@ -595,10 +687,28 @@ int32_t SlNetIfWifi_loadSecObj(void *ifContext, uint16_t objType, char *objName,
 
 //*****************************************************************************
 //
-// SlNetIfWifi_CreateContext - Allocate and store interface data
+// SlNetIfWifi_CreateContext - Allocates and stores interface data,
+//                             registers to wifi event handlers.
 //
 //*****************************************************************************
-int32_t SlNetIfWifi_CreateContext(uint16_t ifID, const char *ifName, void **context)
+int32_t SlNetIfWifi_CreateContext (uint16_t ifID, const char *ifName, void **ifContext, SlNetIf_Event_t ifCallback)
 {
-    return SLNETERR_RET_CODE_OK;
+    int32_t    retVal = 0;
+
+    gIfID = ifID;
+    retVal = SlWifiConn_registerNetIFCallback(ifCallback, ifID);
+
+    return (retVal);
 }
+
+//*****************************************************************************
+//
+// slNetIfWifi_UnregisterEvent - free allocations,
+//                               remove registration of wifi event handlers.
+//
+//*****************************************************************************
+int32_t SlNetIfWifi_DeleteContext (uint16_t ifID, void **ifContext)
+{
+    return (0);
+}
+

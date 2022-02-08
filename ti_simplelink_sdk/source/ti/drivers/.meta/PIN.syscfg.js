@@ -49,6 +49,8 @@ let Common = system.getScript("/ti/drivers/Common.js");
 /* compute /ti/drivers family name from device object */
 let family = Common.device2Family(system.deviceData, "PIN");
 
+let logError = Common.logError;
+
 let intPriority = Common.newIntPri()[0];
 intPriority.displayName = "Interrupt Priority";
 intPriority.name = "interruptPriority";
@@ -209,14 +211,11 @@ function updateConfigs(inst, ui)
  */
 function validate(inst, validation)
 {
-    /*
-    if (inst.mode == "Output") {
-        if (inst.irq != "Disabled") {
-            logError(validation, inst, "irq",
-                "Output mode PIN resources can't have interrupts enabled");
-        }
+    if (inst.$ownedBy && inst.$hardware) {
+        logError(validation, inst, "", "Can't use hardware on " + inst.$name
+            + " while its owned by " + system.getReference(inst.$ownedBy)
+            + ".");
     }
-    */
 
     Common.validateNames(inst, validation);
 }

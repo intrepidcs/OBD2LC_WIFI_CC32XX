@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, Texas Instruments Incorporated
+ * Copyright (c) 2016-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -165,7 +165,7 @@ void Display_doClearLines(Display_Handle handle, uint8_t fromLine, uint8_t toLin
  *  ======== Display_doPrintf ========
  */
 void Display_doPrintf(Display_Handle handle, uint8_t line, uint8_t column,
-                      char *fmt, ...)
+                      const char *fmt, ...)
 {
     if (NULL == handle)
     {
@@ -182,9 +182,10 @@ void Display_doPrintf(Display_Handle handle, uint8_t line, uint8_t column,
 }
 
 /*
- *  ======== Display_doControl ========
+ *  ======== Display_doVprintf ========
  */
-void  Display_doControl(Display_Handle handle, unsigned int cmd, void *arg)
+void  Display_doVprintf(Display_Handle handle, uint8_t line, uint8_t column,
+        const char *fmt, va_list va)
 {
     if (NULL == handle)
     {
@@ -192,7 +193,21 @@ void  Display_doControl(Display_Handle handle, unsigned int cmd, void *arg)
         return;
     }
 
-    handle->fxnTablePtr->controlFxn(handle, cmd, arg);
+    handle->fxnTablePtr->vprintfFxn(handle, line, column, fmt, va);
+}
+
+/*
+ *  ======== Display_doControl ========
+ */
+int Display_doControl(Display_Handle handle, unsigned int cmd, void *arg)
+{
+    if (NULL == handle)
+    {
+        DebugP_log0("Trying to use NULL-handle.");
+        return (DISPLAY_STATUS_ERROR);
+    }
+
+    return (handle->fxnTablePtr->controlFxn(handle, cmd, arg));
 }
 
 /*

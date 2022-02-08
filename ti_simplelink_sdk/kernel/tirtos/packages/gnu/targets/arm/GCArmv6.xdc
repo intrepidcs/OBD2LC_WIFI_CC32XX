@@ -79,7 +79,7 @@ metaonly module GCArmv6 inherits gnu.targets.arm.ITarget {
     };
 }
 /*
- *  @(#) gnu.targets.arm; 1, 0, 0,0; 8-9-2019 17:14:52; /db/ztree/library/trees/xdctargets/xdctargets-v00/src/ xlibrary
+ *  @(#) gnu.targets.arm; 1, 0, 0,; 6-12-2020 15:19:49; /db/ztree/library/trees/xdctargets/xdctargets-w18/src/ xlibrary
 
  */
 

@@ -14,6 +14,8 @@ source/json_engine.c
 source/parse_common.c
 source/utils.c
 lib/ccs/m4/json_release.a
+lib/ticlang/m4/json_debug.a
+lib/ticlang/m4/json_release.a
 lib/gcc/m4/json_debug.a
 lib/gcc/m4/json_release.a
 lib/iar/m4/json_debug.a

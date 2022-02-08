@@ -20,6 +20,7 @@ include $(CORESDK_INSTALL_DIR)/imports.mak
 #
 XDCARGS= \
     ti.targets.arm.elf.M4=\"$(CCS_ARMCOMPILER)\" \
+    ti.targets.arm.clang.M4=\"$(TICLANG_ARMCOMPILER)\" \
     gnu.targets.arm.M4=\"$(GCC_ARMCOMPILER)\" \
     iar.targets.arm.M4=\"$(IAR_ARMCOMPILER)\" \
     CC32XXWARE=$(CORESDK_INSTALL_DIR)

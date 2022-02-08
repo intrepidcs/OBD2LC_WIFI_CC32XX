@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2020 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,6 +45,7 @@ intPriority.name = "interruptPriority";
 intPriority.displayName = "Interrupt Priority";
 intPriority.description = "UART peripheral interrupt priority";
 
+let convertPinName = Common.cc32xxPackage2DevicePin;
 let logError = Common.logError;
 let logInfo  = Common.logInfo;
 
@@ -112,20 +113,20 @@ function _getPinResources(inst)
 
     if (inst.uart) {
         if (inst.uart.rxPin) {
-            rxPin = "P" + inst.uart.rxPin.$solution.packagePinName.padStart(2, "0");
+            rxPin = "P" + convertPinName(inst.uart.rxPin.$solution.packagePinName);
         }
         if (inst.uart.txPin) {
-            txPin = "P" + inst.uart.txPin.$solution.packagePinName.padStart(2, "0");
+            txPin = "P" + convertPinName(inst.uart.txPin.$solution.packagePinName);
         }
 
         pin = "\nTX: " + txPin + "\nRX: " + rxPin;
 
         if (inst.uart.ctsPin) {
-            ctsPin = "P" + inst.uart.ctsPin.$solution.packagePinName.padStart(2, "0");
+            ctsPin = "P" + convertPinName(inst.uart.ctsPin.$solution.packagePinName);
             pin += "\nCTS: " + ctsPin;
         }
         if (inst.uart.rtsPin) {
-            rtsPin = "P" + inst.uart.rtsPin.$solution.packagePinName.padStart(2, "0");
+            rtsPin = "P" + convertPinName(inst.uart.rtsPin.$solution.packagePinName);
             pin += "\nRTS: " + rtsPin;
         }
 
@@ -333,6 +334,10 @@ function validate(inst, validation, $super)
  */
 function extend(base)
 {
+    /* display which driver implementation can be used */
+    base = Common.addImplementationConfig(base, "UART", null,
+        [{name: "UARTCC32XX"}], null);
+    
     /* override base validate */
     devSpecific.validate = function (inst, validation) {
         return validate(inst, validation, base);

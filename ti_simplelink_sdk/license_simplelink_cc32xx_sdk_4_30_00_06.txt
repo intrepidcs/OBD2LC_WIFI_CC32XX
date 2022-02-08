@@ -73,7 +73,7 @@ b.	Governing Language.  This Agreement is written and executed in the English la
 14.		Entire Agreement.  This is the entire agreement between you and TI and this Agreement supersedes any prior agreement between the parties related to the subject matter of this Agreement.  Notwithstanding the foregoing, any signed and effective software license agreement relating to the subject matter hereof and stating expressly that such agreement shall control regardless of any subsequent click-wrap, shrink-wrap or web-wrap, shall supersede the terms of this Agreement.  No amendment or modification of this Agreement will be effective unless in writing and signed by a duly authorized representative of TI.  You hereby warrant and represent that you have obtained all authorizations and other applicable consents required empowering you to enter into this Agreement.
 
 
-SRAS_SimpleLink_CC32xx_SDK  3_20_xx_xx.docx  	Page 1 of 5
+SRAS_SimpleLink_CC32xx_SDK  4_30_xx_xx.docx  	Page 1 of 2
 	
 
 

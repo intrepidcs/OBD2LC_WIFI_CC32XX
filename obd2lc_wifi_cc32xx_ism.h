@@ -56,6 +56,12 @@ struct stCallBackPointers
     void* pUpdateBytesFromSignals;
     void* pUpdateBytesFromRawSignals;
 	void* pSendCommandToMainChip;
+	void* pTransmitMessageISO15765;
+	void* pReceiveMessageISO15765;
+    void* pSetEnableISO15765;
+    void* pISMLoggerCommand;
+    void* pISMGPSNMEA;
+    void* pISMSleepCtrlResponse;
 };
 
 // map - exposed methods
@@ -106,6 +112,10 @@ typedef void (*everyMessageCallback_t)(int, int, uint64_t, unsigned int, int, in
 
 typedef int (*beforeTxCallback_t)(void*);
 typedef void (*messageMgCallback_t)(void*);
+typedef void (*ismLoggerCmdCallback_t)(void*, void*);
+typedef void (*ismButtonCallback_t)(void*);
+typedef void (*ismSleepCtrlCallback_t)(void*);
+typedef void (*ismSleepNotifyCallback_t)(void*);
 
 extern initFunc_t ICSCoreMiniExtensionInit;
 extern msProcessFunc_t ICSCoreMiniExtensionProcessMs;
@@ -116,6 +126,10 @@ extern mainProcessFunc_t ICSCoreMiniExtensionMain;
 extern errorFrameCallback_t ICSCoreMiniExtensionErrorFrame;
 extern errorStateCallback_t ICSCoreMiniExtensionErrorState;
 extern everyMessageCallback_t ICSCoreMiniExtensionEveryMessage;
+extern ismLoggerCmdCallback_t ICSCoreMiniExtensionISMLoggerCB;
+extern ismButtonCallback_t ICSCoreMiniExtensionISMButtonCB;
+extern ismSleepCtrlCallback_t ICSCoreMiniExtensionISMSleepCtrlCB;
+extern ismSleepNotifyCallback_t ICSCoreMiniExtensionISMSleepNotifyCB;
 
 void CCIF_RegisterCallback(unsigned short dataType, unsigned short index, void* pFunction);
 
@@ -128,7 +142,10 @@ unsigned int RegisterMainFunc(mainProcessFunc_t f);
 unsigned int RegisterErrorFrameFunc(errorFrameCallback_t f);
 unsigned int RegisterErrorStateFunc(errorStateCallback_t f);
 unsigned int RegisterEveryMessageFunc(everyMessageCallback_t f);
-
+unsigned int RegisterISMLoggerCBFunc(ismLoggerCmdCallback_t f);
+unsigned int RegisterISMButtonCBFunc(ismButtonCallback_t f);
+unsigned int RegisterISMSleepCtrlCBFunc(ismSleepCtrlCallback_t f);
+unsigned int RegisterISMSleepNotifyCBFunc(ismSleepNotifyCallback_t f);
 
 // AES
 
@@ -158,5 +175,14 @@ int AES_Decrypt(void* data, const void* key, const void* iv, uint8_t keyLen, uin
     \return 0 on success, nonzero on failure
  */
 int AES_Encrypt(void* data, const void* key, const void* iv, uint8_t keyLen, uint16_t dataLen, uint8_t algo);
+
+// SPI
+
+/* Some SimpleLink functions use SPI and interfere with our SPI-to-MCHIP communication.
+ * Call SPIS_Pause() before to flush and pause our SPI Slave driver before proceeding.
+ * Call SPIS_Resume() when finished to resume SPI-to-MCHIP communication.
+ * One example that needs this workaround is MQTT_IF_Publish() */
+void SPIS_Pause(void);
+void SPIS_Resume(void);
 
 #endif /* OBD2PRO_WIFI_CC32XX_ISM_H_ */

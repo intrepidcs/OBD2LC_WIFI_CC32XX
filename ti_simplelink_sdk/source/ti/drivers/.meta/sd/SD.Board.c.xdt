@@ -1,6 +1,6 @@
 %%{
 /*
- * Copyright (c) 2019 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2019-2020 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,18 +57,41 @@
             fatIndex++;
         }
     }
+
+    /* get Common /ti/drivers utility functions */
+    let Common = system.getScript("/ti/drivers/Common.js");
+    let declarations = Common.genBoardDeclarations(instances);
+
+    let countDef = SD.defaultInstanceName + "COUNT";
+    let SDFatFSCount = SD.defaultInstanceName + "FATFS_COUNT";
+
+    /* Determine includes and count definitions needed */
+    let includes = [], defines = [];
+    includes.push("#include <ti/drivers/SD.h>");
+    includes.push("#include <ti/drivers/sd/SDSPI.h>");
+    defines.push("#define " + countDef + " " + instances.length);
+
+    if (fatIndex > 0) {
+        includes.push("#include <ti/drivers/SDFatFS.h>");
+        defines.push("#define " + SDFatFSCount + " " + fatIndex);
+    }
+
+    /* Form single string delimited with newlines */
+    defines = defines.join("\n");
+    includes = includes.join("\n");
 %%}
 /*
  *  =============================== SD ===============================
  */
-#include <ti/drivers/SD.h>
-#include <ti/drivers/sd/SDSPI.h>
+`includes`
+
+`defines`
+
 % if (fatIndex > 0) {
-#include <ti/drivers/SDFatFS.h>
 
-SDFatFS_Object sdfatfsObjects[`fatIndex`];
+SDFatFS_Object sdfatfsObjects[`SDFatFSCount`];
 
-const SDFatFS_Config SDFatFS_config[`fatIndex`] = {
+const SDFatFS_Config SDFatFS_config[`SDFatFSCount`] = {
 % for (let i = 0; i < fatIndex; i++) {
     % let inst = instances[i];
     /* `inst.$name` */
@@ -78,12 +101,12 @@ const SDFatFS_Config SDFatFS_config[`fatIndex`] = {
 % }
 };
 
-const uint_least8_t SDFatFS_count = `fatIndex`;
+const uint_least8_t SDFatFS_count = `SDFatFSCount`;
 % }
 
-SDSPI_Object sdspiObjects[`instances.length`];
+SDSPI_Object sdspiObjects[`countDef`];
 
-static const SDSPI_HWAttrs sdspiHWAttrs[`instances.length`] = {
+static const SDSPI_HWAttrs sdspiHWAttrs[`countDef`] = {
 % for (let i = 0; i < instances.length; i++) {
 %     let inst = instances[i];
     /* `inst.$name` */
@@ -99,7 +122,7 @@ static const SDSPI_HWAttrs sdspiHWAttrs[`instances.length`] = {
 % }
 };
 
-const SD_Config SD_config[`instances.length`] = {
+const SD_Config SD_config[`countDef`] = {
 % for (let i = 0; i < instances.length; i++) {
     % let inst = instances[i];
     /* `inst.$name` */
@@ -116,4 +139,5 @@ const SD_Config SD_config[`instances.length`] = {
 % }
 };
 
-const uint_least8_t SD_count = `instances.length`;
+`declarations`
+const uint_least8_t SD_count = `countDef`;

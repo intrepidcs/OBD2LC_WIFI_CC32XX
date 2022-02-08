@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2018, Texas Instruments Incorporated
+ * Copyright (c) 2014-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -411,6 +411,25 @@ var deviceTable = {
                         "iar.targets.arm.M4F" ]
         },
     },
+    "ti.catalog.arm.cortexm33": {
+        "CC2742": {
+            hwiDelegate : "ti.sysbios.family.arm.v8m.Hwi",
+            timerDelegate : "ti.sysbios.family.arm.v8m.Timer",
+            clockTimerDelegate : "ti.sysbios.family.arm.v8m.Timer",
+            timestampDelegate : "ti.sysbios.family.arm.v8m.TimestampProvider",
+            taskSupportDelegate : "ti.sysbios.family.arm.v8m.TaskSupport",
+            intrinsicsSupportDelegate : "ti.sysbios.family.arm.v8m.IntrinsicsSupport",
+            mmuModule : null,
+            cacheDelegate : null,
+            powerDelegate : "ti.sysbios.family.arm.v8m.Power",
+            secondsDelegate : null,
+            syscallDelegate : null,
+            coreDelegate : null,
+            bootModule : null,
+            clockTickPeriod : 1000,
+            targets : [ "ti.targets.arm.clang.M33F" ]
+        },
+    },
     "ti.catalog.arm.cortexr5": {
         "RM57D8XX": {
             hwiDelegate : "ti.sysbios.family.arm.v7r.vim.Hwi",
@@ -608,6 +627,11 @@ function deviceSupportCheck()
 {
     catalogName = Program.cpu.catalogName;
     var deviceName;
+
+    if (Program.build.target.name == "M33F") {
+        catalogName = "ti.catalog.arm.cortexm33";
+        return ("CC2742");
+    }
 
     /* look for exact match */
     for (deviceName in deviceTable[Program.cpu.catalogName]) {

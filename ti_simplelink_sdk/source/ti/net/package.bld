@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2019, Texas Instruments Incorporated
+ * Copyright (c) 2014-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,6 +40,7 @@ var Pkg = xdc.useModule('xdc.bld.PackageContents');
 Pkg.otherFiles = [
     "slneterr.h",
     "slnetif.h",
+    "slnetconn.h",
     "slnetsock.h",
     "slnetutils.h",
     "slnet.h",
@@ -51,8 +52,13 @@ Pkg.otherFiles = [
     "bsd/netinet/tcp.h",
     "bsd/arpa/inet.h",
     ".meta/ns.component.js",
+    ".meta/HTTPClient.syscfg.js",
+    ".meta/HTTPServer.syscfg.js",
+    ".meta/MQTT.syscfg.js",
+    ".meta/SNTP.syscfg.js",
     ".meta/SlNet.Config.c.xdt",
     ".meta/SlNet.syscfg.js",
+    ".meta/SlNetConn.syscfg.js",
     ".meta/SecObj.syscfg.js",
     ".meta/Config.c.xdt",
     "package.bld"
@@ -60,6 +66,7 @@ Pkg.otherFiles = [
 
 var srcs = [
     "slnetsock.c",
+    "slnetconn.c",
     "slnetutils.c",
     "slnetif.c",
     "bsd/netdb.c",

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019, Texas Instruments Incorporated
+ * Copyright (c) 2015-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -68,9 +68,12 @@
  *  @li I2S_Params_init(): @copybrief I2S_Params_init
  *  @li I2S_Transaction_init(): @copybrief I2S_Transaction_init
  *  @li I2S_setReadQueueHead(): @copybrief I2S_setReadQueueHead
+ *  @li I2S_setWriteQueueHead(): @copybrief I2S_setWriteQueueHead
  *  @li I2S_startClocks(): @copybrief I2S_startClocks
  *  @li I2S_startRead(): @copybrief I2S_startRead
+ *  @li I2S_startWrite(): @copybrief I2S_startWrite
  *  @li I2S_stopRead(): @copybrief I2S_stopRead
+ *  @li I2S_stopWrite(): @copybrief I2S_stopWrite
  *  @li I2S_stopClocks(): @copybrief I2S_stopClocks
  *  @li I2S_close(): @copybrief I2S_close
  *
@@ -98,7 +101,7 @@
  *  the buffer)
  *  - the number of completions of the transaction. This value is basically incremented by one
  *  every time the transaction is completed.
- *  .
+ *
  *  Please note that these two fields are valid only when the transaction has been completed.
  *  Consult examples to get more details on the transaction usage.
  *
@@ -147,7 +150,6 @@
  *  @anchor ti_drivers_I2S_Example_PlayAndStop_Code
  *  @code
  *  static I2S_Handle i2sHandle;
- *  static I2S_Config i2sConfig;
  *
  *  static uint16_t readBuf1[500]; // the data read will end up in this buffer
  *  static uint16_t readBuf2[500]; // the data read will end up in this buffer
@@ -250,12 +252,12 @@
  *      readStopped = (bool)false;
  *      writeStopped = (bool)false;
  *
- *      while(1) {
+ *      while (1) {
  *
  *          if(readStopped && writeStopped) {
  *              I2S_stopClocks(i2sHandle);
  *              I2S_close(i2sHandle);
- *              while(1);
+ *              while (1);
  *          }
  *      }
  *  }
@@ -274,7 +276,7 @@
  *  @anchor ti_drivers_I2S_Example_Streaming_Code
  *  @code
  *  static I2S_Handle i2sHandle;
- *  static I2S_Config i2sConfig;
+ *  static sem_t semDataReadyForTreatment;
  *
  *  // These buffers will successively be written, treated and sent out
  *  static uint16_t readBuf1[500];
@@ -336,7 +338,7 @@
  *          List_put(&treatmentList, (List_Elem*)transactionFinished);
  *
  *          // Start the treatment of the data
- *          Semaphore_post(dataReadyForTreatment);
+ *          sem_post(&semDataReadyForTreatment);
  *
  *          // We do not need to queue transaction here: writeCallbackFxn takes care of this :)
  *      }
@@ -347,33 +349,16 @@
  *      // Handle the I2S error
  *  }
  *
- *  void *myTreatmentThread(void *arg0){
- *
- *      int k;
- *
- *      while(1) {
- *          Semaphore_pend(dataReadyForTreatment, BIOS_WAIT_FOREVER);
- *
- *          if(lastAchievedReadTransaction != NULL) {
- *
- *              // Need a critical section to be sure to have corresponding bufPtr and bufSize
- *              uintptr_t key = HwiP_disable();
- *              uint16_t *buf = lastAchievedReadTransaction->bufPtr;
- *              uint16_t bufLength = lastAchievedReadTransaction->bufSize / sizeof(uint16_t);
- *              HwiP_restore(key);
- *
- *              // My dummy data treatment...
- *              for(k=0; k<bufLength; k++) {buf[k] --;}
- *              for(k=0; k<bufLength; k++) {buf[k] ++;}
- *          }
- *      }
- *  }
- *
  *  void *echoExampleThread(void *arg0)
  *  {
  *      I2S_Params i2sParams;
  *
  *      I2S_init();
+ *
+ *      int retc = sem_init(&semDataReadyForTreatment, 0, 0);
+ *      if (retc == -1) {
+ *          while (1);
+ *      }
  *
  *      // Initialize the treatmentList (this list is initially empty)
  *      List_clearList(&treatmentList);
@@ -433,7 +418,34 @@
  *      I2S_startWrite(i2sHandle);
  *      I2S_startRead(i2sHandle);
  *
- *      while(1);
+ *      while (1) {
+ *          uint8_t k = 0;
+ *          I2S_Transaction* lastAchievedReadTransaction = NULL;
+ *
+ *          retc = sem_wait(&semDataReadyForTreatment);
+ *          if (retc == -1) {
+ *              while (1);
+ *          }
+ *
+ *          lastAchievedReadTransaction = (I2S_Transaction*) List_head(&treatmentList);
+ *
+ *          if(lastAchievedReadTransaction != NULL) {
+ *
+ *              // Need a critical section to be sure to have corresponding bufPtr and bufSize
+ *              uintptr_t key = HwiP_disable();
+ *              uint16_t *buf = lastAchievedReadTransaction->bufPtr;
+ *              uint16_t bufLength = lastAchievedReadTransaction->bufSize / sizeof(uint16_t);
+ *              HwiP_restore(key);
+ *
+ *              // My dummy data treatment...
+ *              for(k=0; k<bufLength; k++) {
+ *                  buf[k]--;
+ *              }
+ *              for(k=0; k<bufLength; k++) {
+ *                  buf[k]++;
+ *              }
+ *          }
+ *      }
  *  }
  *  @endcode
  *
@@ -448,8 +460,6 @@
  *  @anchor ti_drivers_I2S_Example_RepeatMode_Code
  *  @code
  *  static I2S_Handle i2sHandle;
- *  static I2S_Config i2sConfig;
- *  static I2SCC26XX_Object i2sObject;
  *
  *  // This buffer will be continuously re-written
  *  static uint16_t readBuf[500];
@@ -532,7 +542,7 @@
  *      I2S_startWrite(i2sHandle);
  *      I2S_startRead(i2sHandle);
  *
- *      while(1){
+ *      while (1) {
  *
  *          if(writeFinished){
  *              writeFinished = (bool)false;
@@ -848,7 +858,7 @@ typedef struct {
     /*!< Number of SCK periods between the first WS edge and the MSB of the first audio channel data transferred during the phase.*/
 
     uint8_t               afterWordPadding;
-    /*!< Number of SCK periods between the first WS edge and the MSB of the first audio channel data transferred during the phase.*/
+    /*!< Number of SCK periods between the LSB of the an audio channel and the MSB of the next audio channel.*/
 
     uint8_t               bitsPerWord;
     /*!< Bits per sample (Word length): must be between 8 and 24 bits. */
@@ -933,7 +943,7 @@ typedef struct {
      *   All the data buffers used (both for input and output) must contain N*x bytes (with N an integer verifying N>0). */
 
     uint16_t              startUpDelay;
-    /*!< Time (in number of WS cycles) to wait before the first transfer. */
+    /*!< Number of WS periods to wait before the first transfer. */
 
     uint16_t              MCLKDivider;
     /*!< Select the frequency divider for MCLK signal. Final value of MCLK is 48MHz/MCLKDivider. Value must be selected between 2 and 1024. */
@@ -1017,8 +1027,8 @@ extern I2S_Handle I2S_open(uint_least8_t index, I2S_Params *params);
  *  Defaults values are:
  *  @code
  *  params.samplingFrequency    = 8000;
- *  params.isMemory24Bits       = I2S_MEMORY_LENGTH_16BITS;
- *  params.isMaster             = I2S_MASTER;
+ *  params.memorySlotLength     = I2S_MEMORY_LENGTH_16BITS;
+ *  params.moduleRole           = I2S_MASTER;
  *  params.trueI2sFormat        = (bool)true;
  *  params.invertWS             = (bool)true;
  *  params.isMSBFirst           = (bool)true;

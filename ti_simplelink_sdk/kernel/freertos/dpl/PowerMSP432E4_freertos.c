@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017, Texas Instruments Incorporated
+ * Copyright (c) 2017-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,9 @@
 
 #include <stdint.h>
 
+#include <ti/drivers/ITM.h>
 #include <ti/drivers/Power.h>
+#include <ti/devices/msp432e4/driverlib/cpu.h>
 
 #include <FreeRTOS.h>
 
@@ -50,7 +52,17 @@ void PowerMSP432E4_sleepPolicy()
 {
     /* invoke WFI only if CPU is not in debug mode */
     if (!(DHCSR & C_DEBUGGEN)) {
+        /* disable interrupts during ITM flush and restore */
+        CPUcpsid();
+        /* Flush any remaining log messages in the ITM */
+        ITM_flush();
+
         __asm(" wfi");
+
+        /* Restore ITM settings */
+        ITM_restore();
+        /* re-enable interrupts */
+        CPUcpsie();
     }
 }
 

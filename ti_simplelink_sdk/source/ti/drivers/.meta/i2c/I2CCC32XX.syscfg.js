@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2020 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,12 +44,27 @@ let intPriority = Common.newIntPri()[0];
 intPriority.displayName = "Interrupt Priority";
 intPriority.name = "interruptPriority";
 
+let convertPinName = Common.cc32xxPackage2DevicePin;
+
 /*
  *  ======== devSpecific ========
  *  Device-specific extensions to be added to base I2C configuration
  */
 let devSpecific = {
     config : [
+        {
+            name: "sclTimeout",
+            displayName: "SCL Timeout",
+            displayFormat: "hex",
+            default: 0x00,
+            description: "Sets the SCL low clock timeout",
+            longDescription:`
+An I2C slave can extend a I2C transaction by periodically pulling the
+clock low to create a slow bit transfer rate. The __SCL Timeout__ is used to
+force a timeout if an I2C slave holds the clock line low for longer than the
+timeout duration. A value less than 0x1 indicates the timeout is disabled.`
+        },
+
         intPriority
     ],
 
@@ -69,8 +84,8 @@ function _getPinResources(inst)
     let pin;
 
     if (inst.i2c) {
-        let sclPin = "P" + inst.i2c.sclPin.$solution.packagePinName.padStart(2, "0");
-        let sdaPin = "P" + inst.i2c.sdaPin.$solution.packagePinName.padStart(2, "0");
+        let sclPin = "P" + convertPinName(inst.i2c.sclPin.$solution.packagePinName);
+        let sdaPin = "P" + convertPinName(inst.i2c.sdaPin.$solution.packagePinName);
         pin = "\nSCL: " + sclPin + "\nSDA: " + sdaPin;
 
         if (inst.$hardware && inst.$hardware.displayName) {
@@ -90,6 +105,10 @@ function _getPinResources(inst)
  */
 function extend(base)
 {
+    /* display which driver implementation can be used */
+    base = Common.addImplementationConfig(base, "I2C", null,
+        [{name: "I2CCC32XX"}], null);
+    
     /* merge and overwrite base module attributes */
     let result = Object.assign({}, base, devSpecific);
 

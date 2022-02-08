@@ -1,4 +1,4 @@
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/slnetif/slnetifwifi.c"
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/slnetif/slnetifwifi.c"
 N/*
 N * Copyright (c) 2017, Texas Instruments Incorporated
 N * All rights reserved.
@@ -37,7 +37,7 @@ N/* Include files                                                             */
 N/*****************************************************************************/
 N
 N#include <ti/drivers/net/wifi/slnetifwifi.h>
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/slnetifwifi.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/slnetifwifi.h" 1
 N/*
 N * Copyright (c) 2017, Texas Instruments Incorporated
 N * All rights reserved.
@@ -75,7 +75,7 @@ N/*****************************************************************************/
 N/* Include files                                                             */
 N/*****************************************************************************/
 N#include <ti/drivers/net/wifi/simplelink.h>
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 1
 N/*
 N * simplelink.h - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -243,8 +243,8 @@ N
 N \subsection     porting_step5   Step 5 - Choose your memory management model
 N
 N The SimpleLink driver support two memory models:
-N     - Static (default)
-N     - Dynamic
+N     - Static 
+N     - Dynamic (default)
 N
 N To enable the dynamic memory, the following pre-processor define should be set: \n
 N #define SL_MEMORY_MGMT_DYNAMIC
@@ -319,7 +319,7 @@ N#define _volatile volatile
 N#define _const    const
 N
 N#include <ti/drivers/net/wifi/porting/user.h>
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/porting/user.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/porting/user.h" 1
 N/*
 N * user.h - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -369,7 +369,7 @@ N#endif
 N
 N  
 N#include <string.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/string.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/string.h" 1
 N/*****************************************************************************/
 N/* string.h                                                                  */
 N/*                                                                           */
@@ -410,39 +410,8 @@ N
 N#ifndef _STRING_H_
 N#define _STRING_H_
 N
-N#if defined(__TMS320C2000__)
-X#if 0L
-S#if defined(__TMS320C28XX_CLA__)
-S#error "Header file <string.h> not supported by CLA compiler"
-S#endif
-N#endif
-N
-N#pragma diag_push
-N#pragma CHECK_MISRA("-6.3") /* standard types required for standard headers */
-N#pragma CHECK_MISRA("-19.1") /* #includes required for implementation */
-N#pragma CHECK_MISRA("-20.1") /* standard headers must define standard names */
-N#pragma CHECK_MISRA("-20.2") /* standard headers must define standard names */
-N
-N#ifdef __cplusplus
-Sextern "C" {
-N#endif /* __cplusplus */
-N
-N#ifndef NULL
-N#define NULL 0
-N#endif
-N
-N#ifndef _SIZE_T_DECLARED
-N#define _SIZE_T_DECLARED
-N#ifdef __clang__
-Stypedef __SIZE_TYPE__ size_t;
-N#else
-Ntypedef __SIZE_T_TYPE__ size_t;
-Xtypedef unsigned size_t;
-N#endif
-N#endif
-N
 N#include <_ti_config.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/_ti_config.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/_ti_config.h" 1
 N/*****************************************************************************/
 N/* _ti_config.h                                                              */
 N/*                                                                           */
@@ -483,9 +452,54 @@ N
 N#ifndef __TI_CONFIG_H
 N#define __TI_CONFIG_H
 N
-N#pragma diag_push
-N#pragma CHECK_MISRA("-19.4")
-N#pragma CHECK_MISRA("-19.1")
+N/*Unsupported pragmas are omitted */
+N#ifdef __TI_COMPILER_VERSION__
+N# pragma diag_push
+N# pragma CHECK_MISRA("-19.7")
+N# pragma CHECK_MISRA("-19.4")
+N# pragma CHECK_MISRA("-19.1")
+N# pragma CHECK_MISRA("-19.15")
+N# define _TI_PROPRIETARY_PRAGMA(arg) _Pragma(arg)
+N# pragma diag_pop
+N#else
+S# define _TI_PROPRIETARY_PRAGMA(arg)
+N#endif
+N
+N_TI_PROPRIETARY_PRAGMA("diag_push")
+X_Pragma("diag_push")
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-19.4\")")
+X_Pragma("CHECK_MISRA(\"-19.4\")")
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-19.1\")")
+X_Pragma("CHECK_MISRA(\"-19.1\")")
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-19.6\")")
+X_Pragma("CHECK_MISRA(\"-19.6\")")
+N
+N/* Hide uses of the TI proprietary macros behind other macros.
+N    Implementations that don't implement these features should leave
+N    these macros undefined. */
+N#ifdef __TI_COMPILER_VERSION__
+N# ifdef __TI_STRICT_ANSI_MODE__
+N#  define __TI_PROPRIETARY_STRICT_ANSI_MACRO __TI_STRICT_ANSI_MODE__
+N# else
+S#  undef __TI_PROPRIETARY_STRICT_ANSI_MACRO
+N# endif
+N
+N# ifdef __TI_STRICT_FP_MODE__
+N#  define __TI_PROPRIETARY_STRICT_FP_MACRO __TI_STRICT_FP_MODE__
+N# else
+S#  undef __TI_PROPRIETARY_STRICT_FP_MACRO
+N# endif
+N
+N# ifdef __unsigned_chars__
+N#  define __TI_PROPRIETARY_UNSIGNED_CHARS__ __unsigned_chars__
+N# else
+S#  undef __TI_PROPRIETARY_UNSIGNED_CHARS__
+N# endif
+N#else
+S# undef __TI_PROPRIETARY_UNSIGNED_CHARS__
+S# undef __TI_PROPRIETARY_STRICT_ANSI_MACRO
+S# undef __TI_PROPRIETARY_STRICT_FP_MACRO
+N#endif
 N
 N/* Common definitions */
 N
@@ -545,9 +559,11 @@ N#else
 N# define _TI_NOEXCEPT_CPP14
 N#endif
 N
+N
+N
 N/* Target-specific definitions */
 N#include <linkage.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/linkage.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/linkage.h" 1
 N/*****************************************************************************/
 N/* linkage.h                                                                 */
 N/*                                                                           */
@@ -611,15 +627,55 @@ N
 N#pragma diag_pop
 N
 N#endif /* ifndef _LINKAGE */
-L 99 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/_ti_config.h" 2
+L 142 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/_ti_config.h" 2
 N
-N#pragma diag_pop
+N_TI_PROPRIETARY_PRAGMA("diag_pop")
+X_Pragma("diag_pop")
 N
 N#endif /* ifndef __TI_CONFIG_H */
-L 71 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/string.h" 2
+L 42 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/string.h" 2
 N
-N#pragma diag_push
-N#pragma CHECK_MISRA("-19.4") /* macros required for implementation */
+N#if defined(__TMS320C2000__)
+X#if 0L
+S#if defined(__TMS320C28XX_CLA__)
+S#error "Header file <string.h> not supported by CLA compiler"
+S#endif
+N#endif
+N
+N_TI_PROPRIETARY_PRAGMA("diag_push")
+X_Pragma("diag_push")
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-6.3\")") /* standard types required for standard headers */
+X_Pragma("CHECK_MISRA(\"-6.3\")")  
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-19.1\")") /* #includes required for implementation */
+X_Pragma("CHECK_MISRA(\"-19.1\")")  
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-20.1\")") /* standard headers must define standard names */
+X_Pragma("CHECK_MISRA(\"-20.1\")")  
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-20.2\")") /* standard headers must define standard names */
+X_Pragma("CHECK_MISRA(\"-20.2\")")  
+N
+N#ifdef __cplusplus
+Sextern "C" {
+N#endif /* __cplusplus */
+N
+N#ifndef NULL
+N#define NULL 0
+N#endif
+N
+N#ifndef _SIZE_T_DECLARED
+N#define _SIZE_T_DECLARED
+N#ifdef __clang__
+Stypedef __SIZE_TYPE__ size_t;
+N#else
+Ntypedef __SIZE_T_TYPE__ size_t;
+Xtypedef unsigned size_t;
+N#endif
+N#endif
+N
+N
+N_TI_PROPRIETARY_PRAGMA("diag_push")
+X_Pragma("diag_push")
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-19.4\")") /* macros required for implementation */
+X_Pragma("CHECK_MISRA(\"-19.4\")")  
 N
 N#if defined(_OPTIMIZE_FOR_SPACE) && (defined(__ARM_ARCH) || 		\
 N				     defined(__TMS320C2000__)  ||       \
@@ -630,7 +686,8 @@ N#else
 S#define _OPT_IDECL	_IDECL
 N#endif
 N
-N#pragma diag_pop
+N_TI_PROPRIETARY_PRAGMA("diag_pop")
+X_Pragma("diag_pop")
 N
 N_OPT_IDECL size_t  strlen(const char *string);
 X size_t  strlen(const char *string);
@@ -681,12 +738,19 @@ N
 N
 N_CODE_ACCESS void   *memmove(void *s1, const void *s2, size_t n);
 X void   *memmove(void *s1, const void *s2, size_t n);
-N#pragma diag_push
-N#pragma CHECK_MISRA("-16.4") /* false positives due to builtin declarations */
+N
+N_CODE_ACCESS void   *memccpy(void *dest, const void *src, int ch, size_t count);
+X void   *memccpy(void *dest, const void *src, int ch, size_t count);
+N
+N_TI_PROPRIETARY_PRAGMA("diag_push")
+X_Pragma("diag_push")
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-16.4\")") /* false positives due to builtin declarations */
+X_Pragma("CHECK_MISRA(\"-16.4\")")  
 N_CODE_ACCESS void   *memcpy(void * __restrict s1,
 X void   *memcpy(void * __restrict s1,
 N                            const void * __restrict s2, size_t n);
-N#pragma diag_pop
+N_TI_PROPRIETARY_PRAGMA("diag_pop")
+X_Pragma("diag_pop")
 N
 N_OPT_IDECL int     memcmp(const void *cs, const void *ct, size_t n);
 X int     memcmp(const void *cs, const void *ct, size_t n);
@@ -707,17 +771,17 @@ X#if 0L && !1L
 S
 S#ifndef __cplusplus
 S
-S#pragma diag_push
+S_TI_PROPRIETARY_PRAGMA("diag_push")
 S
 S/* keep macros as direct #defines and not function-like macros or function
 S   names surrounded by parentheses to support all original supported use cases
 S   including taking their address through the macros and prefixing with
 S   namespace macros */
-S#pragma CHECK_MISRA("-19.4")
+S_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-19.4\")")
 S#define far_memcpy __memcpy_ff
 S#define far_strcpy strcpy_ff
 S
-S#pragma diag_pop
+S_TI_PROPRIETARY_PRAGMA("diag_pop")
 S
 Ssize_t    far_strlen(const char *s);
 Schar     *strcpy_nf(char *s1, const char *s2);
@@ -769,8 +833,8 @@ S					defined(__TMS320C2000__)  ||    \
 S                                        defined(__MSP430__))))
 X#if (defined(_STRING_IMPLEMENTATION) ||					     !(defined(_OPTIMIZE_FOR_SPACE) && (defined(__ARM_ARCH) || 							defined(__TMS320C2000__)  ||                                            defined(__MSP430__))))
 S
-S#pragma diag_push
-S#pragma CHECK_MISRA("-19.4") /* macros required for implementation */
+S_TI_PROPRIETARY_PRAGMA("diag_push")
+S_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-19.4\")") /* macros required for implementation */
 S
 S#if (defined(_OPTIMIZE_FOR_SPACE) && (defined(__ARM_ARCH) || 		\
 S				      defined(__TMS320C2000__) ||       \
@@ -781,9 +845,9 @@ S#else
 S#define _OPT_IDEFN	_IDEFN
 S#endif
 S
-S#pragma diag_pop
+S_TI_PROPRIETARY_PRAGMA("diag_pop")
 S
-S#pragma diag_push /* functions */
+S_TI_PROPRIETARY_PRAGMA("diag_push") /* functions */
 S
 S/* MISRA exceptions to avoid changing inline versions of the functions that
 S   would be linked in instead of included inline at different mf levels */
@@ -791,24 +855,24 @@ S/* these functions are very well-tested, stable, and efficient; it would
 S   introduce a high risk to implement new, separate MISRA versions just for the
 S   inline headers */
 S
-S#pragma CHECK_MISRA("-5.7") /* keep names intact */
-S#pragma CHECK_MISRA("-6.1") /* false positive on use of char type */
-S#pragma CHECK_MISRA("-8.5") /* need to define inline functions */
-S#pragma CHECK_MISRA("-10.1") /* use implicit casts */
-S#pragma CHECK_MISRA("-10.3") /* need casts */
-S#pragma CHECK_MISRA("-11.5") /* casting away const required for standard impl */
-S#pragma CHECK_MISRA("-12.1") /* avoid changing expressions */
-S#pragma CHECK_MISRA("-12.2") /* avoid changing expressions */
-S#pragma CHECK_MISRA("-12.4") /* avoid changing expressions */
-S#pragma CHECK_MISRA("-12.5") /* avoid changing expressions */
-S#pragma CHECK_MISRA("-12.6") /* avoid changing expressions */
-S#pragma CHECK_MISRA("-12.13") /* ++/-- needed for reasonable implementation */
-S#pragma CHECK_MISRA("-13.1") /* avoid changing expressions */
-S#pragma CHECK_MISRA("-14.7") /* use multiple return points */
-S#pragma CHECK_MISRA("-14.8") /* use non-compound statements */
-S#pragma CHECK_MISRA("-14.9") /* use non-compound statements */
-S#pragma CHECK_MISRA("-17.4") /* pointer arithmetic needed for reasonable impl */
-S#pragma CHECK_MISRA("-17.6") /* false positive returning pointer-typed param */
+S_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-5.7\")") /* keep names intact */
+S_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-6.1\")") /* false positive on use of char type */
+S_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-8.5\")") /* need to define inline functions */
+S_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-10.1\")") /* use implicit casts */
+S_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-10.3\")") /* need casts */
+S_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-11.5\")") /* casting away const required for standard impl */
+S_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-12.1\")") /* avoid changing expressions */
+S_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-12.2\")") /* avoid changing expressions */
+S_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-12.4\")") /* avoid changing expressions */
+S_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-12.5\")") /* avoid changing expressions */
+S_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-12.6\")") /* avoid changing expressions */
+S_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-12.13\")") /* ++/-- needed for reasonable implementation */
+S_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-13.1\")") /* avoid changing expressions */
+S_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-14.7\")") /* use multiple return points */
+S_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-14.8\")") /* use non-compound statements */
+S_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-14.9\")") /* use non-compound statements */
+S_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-17.4\")") /* pointer arithmetic needed for reasonable impl */
+S_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-17.6\")") /* false positive returning pointer-typed param */
 S
 S#if defined(_INLINE) || defined(_STRLEN)
 S_OPT_IDEFN size_t strlen(const char *string)
@@ -995,7 +1059,7 @@ S     return mem;
 S}
 S#endif /* _INLINE || _MEMSET */
 S
-S#pragma diag_pop
+S_TI_PROPRIETARY_PRAGMA("diag_pop")
 S
 S#endif /* (_STRING_IMPLEMENTATION || !(_OPTIMIZE_FOR_SPACE && __ARM_ARCH)) */
 S
@@ -1008,7 +1072,7 @@ N/*----------------------------------------------------------------------------*
 N#if __has_include(<sys/cdefs.h>)
 X#if 1
 N#include <sys/cdefs.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/sys/cdefs.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/sys/cdefs.h" 1
 N/*-
 N * SPDX-License-Identifier: BSD-3-Clause
 N *
@@ -1049,10 +1113,14 @@ N
 N#ifndef	_SYS_CDEFS_H_
 N#define	_SYS_CDEFS_H_
 N
+N#include <_ti_config.h>
+N
 N#if defined(__TI_COMPILER_VERSION__)
 X#if 1L
-N#pragma diag_push
-N#pragma CHECK_MISRA("none")
+N_TI_PROPRIETARY_PRAGMA("diag_push")
+X_Pragma("diag_push")
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"none\")")
+X_Pragma("CHECK_MISRA(\"none\")")
 N#endif
 N
 N/*
@@ -1698,8 +1766,9 @@ N */
 N#define	__IDSTRING(name,string)	static const char name[] __unused = string
 N#endif
 N
-N#if defined(__TI_COMPILER_VERSION__) && defined(__TI_STRICT_ANSI_MODE__)
-X#if 1L && 1L
+N#if defined(__TI_COMPILER_VERSION__) && \
+N  defined(__TI_PROPRIETARY_STRICT_ANSI_MACRO)
+X#if 1L &&   1L
 N#define __extension__
 N#endif
 N
@@ -2021,11 +2090,12 @@ N#define	__guarded_by(x)		__lock_annotate(guarded_by(x))
 N#define	__pt_guarded_by(x)	__lock_annotate(pt_guarded_by(x))
 N
 N#ifdef __TI_COMPILER_VERSION__
-N#pragma diag_pop
+N_TI_PROPRIETARY_PRAGMA("diag_pop")
+X_Pragma("diag_pop")
 N#endif
 N
 N#endif /* !_SYS_CDEFS_H_ */
-L 431 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/string.h" 2
+L 435 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/string.h" 2
 N#endif
 N
 N/*----------------------------------------------------------------------------*/
@@ -2040,12 +2110,13 @@ S__END_DECLS
 N#endif
 N
 N
-N#pragma diag_pop
+N_TI_PROPRIETARY_PRAGMA("diag_pop")
+X_Pragma("diag_pop")
 N
 N#endif /* ! _STRING_H_ */
-L 50 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/porting/user.h" 2
+L 50 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/porting/user.h" 2
 N#include <ti/drivers/net/wifi/porting/cc_pal.h>
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/porting/cc_pal.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/porting/cc_pal.h" 1
 N/*
 N * cc_pal.h - CC32xx Host Driver Implementation
 N *
@@ -2096,9 +2167,9 @@ N#endif
 N
 N
 N#include <ti/drivers/dpl/ClockP.h>
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/dpl/ClockP.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/dpl/ClockP.h" 1
 N/*
-N * Copyright (c) 2016-2019, Texas Instruments Incorporated
+N * Copyright (c) 2016-2020, Texas Instruments Incorporated
 N * All rights reserved.
 N *
 N * Redistribution and use in source and binary forms, with or without
@@ -2157,7 +2228,7 @@ N#ifndef ti_dpl_ClockP__include
 N#define ti_dpl_ClockP__include
 N
 N#include <stdint.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/stdint.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/stdint.h" 1
 N/*****************************************************************************/
 N/* STDINT.H                                                                  */
 N/*                                                                           */
@@ -2197,8 +2268,17 @@ N/*****************************************************************************/
 N#ifndef _STDINT_H_
 N#define _STDINT_H_
 N
+N#include <_ti_config.h>
+N
+N_TI_PROPRIETARY_PRAGMA("diag_push")
+X_Pragma("diag_push")
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-19.1\")") /* no code before #include */
+X_Pragma("CHECK_MISRA(\"-19.1\")")  
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-19.7\")") /* prefer functions to macros */
+X_Pragma("CHECK_MISRA(\"-19.7\")")  
+N
 N#include <_stdint40.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/_stdint40.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/_stdint40.h" 1
 N/*****************************************************************************/
 N/* _STDINT40.H                                                               */
 N/*                                                                           */
@@ -2238,6 +2318,11 @@ N/*****************************************************************************/
 N#ifndef __STDINT40_H_
 N#define __STDINT40_H_
 N
+N_TI_PROPRIETARY_PRAGMA("diag_push")
+X_Pragma("diag_push")
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-19.7\")") /* prefer functions to macros */
+X_Pragma("CHECK_MISRA(\"-19.7\")")  
+N
 N#if defined(_TMS320C6X) && !defined(__C6X_MIGRATION__)
 X#if 0L && !0L
 S    typedef          __int40_t  int40_t;
@@ -2250,10 +2335,10 @@ S    typedef  int40_t  int_fast40_t;
 S    typedef uint40_t uint_fast40_t;
 N#endif
 N
-N/* 
+N/*
 N   According to footnotes in the 1999 C standard, "C++ implementations
 N   should define these macros only when __STDC_LIMIT_MACROS is defined
-N   before <stdint.h> is included." 
+N   before <stdint.h> is included."
 N*/
 N#if !defined(__cplusplus) || defined(__STDC_LIMIT_MACROS)
 X#if !0L || 0L
@@ -2277,12 +2362,16 @@ S    #define UINT40_C(value) ((uint_least40_t)(value))
 N#endif
 N
 N#endif /* !defined(__cplusplus) || defined(__STDC_LIMIT_MACROS) */
+N
+N_TI_PROPRIETARY_PRAGMA("diag_pop")
+X_Pragma("diag_pop")
+N
 N#endif /* __STDINT40_H_ */
-L 41 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/stdint.h" 2
-N#if __has_include(<sys/stdint.h>) 
-X#if 1 
+L 47 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/stdint.h" 2
+N#if __has_include(<sys/stdint.h>)
+X#if 1
 N#include <sys/stdint.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/sys/stdint.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/sys/stdint.h" 1
 N/*-
 N * SPDX-License-Identifier: BSD-2-Clause-FreeBSD
 N *
@@ -2316,9 +2405,11 @@ N
 N#ifndef _SYS_STDINT_H_
 N#define _SYS_STDINT_H_
 N
+N#include <_ti_config.h>
+N
 N#include <sys/cdefs.h>
 N#include <sys/_types.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/sys/_types.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/sys/_types.h" 1
 N/*-
 N * SPDX-License-Identifier: BSD-2-Clause-FreeBSD
 N *
@@ -2354,7 +2445,7 @@ N#define _SYS__TYPES_H_
 N
 N#include <sys/cdefs.h>
 N#include <machine/_types.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/machine/_types.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/machine/_types.h" 1
 N/*-
 N * SPDX-License-Identifier: BSD-4-Clause
 N *
@@ -2402,10 +2493,30 @@ N#ifndef _SYS_CDEFS_H_
 S#error this file needs sys/cdefs.h as a prerequisite
 N#endif
 N
+N#include <_ti_config.h>
+N
 N#ifdef __TI_COMPILER_VERSION__
-N#pragma diag_push
+N_TI_PROPRIETARY_PRAGMA("diag_push")
+X_Pragma("diag_push")
 N/* This file is required to use base types */
-N#pragma CHECK_MISRA("-6.3")
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-6.3\")")
+X_Pragma("CHECK_MISRA(\"-6.3\")")
+N#endif
+N
+N#ifdef __clang__
+S
+S/* Always use POSIX epoch for time_t */
+S#define __TI_TIME32_USES_POSIX_EPOCH
+S
+S/* Unless AEABI portability mode or user indicates __TI_TIME_USES_64 = 0, */
+S/* use 64bit time_t and redirect all time routines to 64bit variants.     */
+S#if !defined(_TIME_IMPLEMENTATION) && \
+S    !(defined(__TI_TIME_USES_64) && __TI_TIME_USES_64 == 0) && \
+S    !(defined(_AEABI_PORTABILITY_LEVEL) && _AEABI_PORTABILITY_LEVEL != 0)
+X#if !defined(_TIME_IMPLEMENTATION) &&     !(defined(__TI_TIME_USES_64) && __TI_TIME_USES_64 == 0) &&     !(defined(_AEABI_PORTABILITY_LEVEL) && _AEABI_PORTABILITY_LEVEL != 0)
+S#define __TI_TIME_USES_64 1
+S#endif
+S
 N#endif
 N
 N/*
@@ -2453,8 +2564,9 @@ Ntypedef	__int32_t	__register_t;
 Ntypedef	__int32_t	__segsz_t;		/* segment size (in pages) */
 Ntypedef	__uint32_t	__size_t;		/* sizeof() */
 Ntypedef	__int32_t	__ssize_t;		/* byte count or error */
-N#if (defined(__TI_TIME_USES_64) && __TI_TIME_USES_64)
-X#if (0L && __TI_TIME_USES_64)
+N#if defined(_TARGET_DEFAULTS_TO_TIME64) || \
+N    (defined(__TI_TIME_USES_64) && __TI_TIME_USES_64)
+X#if 0L ||     (0L && __TI_TIME_USES_64)
 Stypedef	__int64_t	__time_t;		/* time()... */
 N#else
 Ntypedef __uint32_t      __time_t;
@@ -2491,8 +2603,14 @@ N#else
 S#    define __WCHAR_MAX 0xffffffffu
 N#endif
 N#else
+S#include <machine/_limits.h>            /* get a definition of __UINT_MAX */
 S#define	__WCHAR_MAX	__UINT_MAX	/* max value for a wchar_t */
 N#endif
+N
+N/*
+N * POSIX target specific _off_t type definition
+N */
+Ntypedef long _off_t;
 N
 N/*
 N * Unusual type definitions.
@@ -2515,17 +2633,21 @@ N#endif
 N
 N#if defined(__TI_COMPILER_VERSION__)
 X#if 1L
-N#pragma diag_pop
+N_TI_PROPRIETARY_PRAGMA("diag_pop")
+X_Pragma("diag_pop")
 N#endif
 N
 N#endif /* !_MACHINE__TYPES_H_ */
-L 36 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/sys/_types.h" 2
+L 36 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/sys/_types.h" 2
 N
 N#if defined(__TI_COMPILER_VERSION__)
 X#if 1L
-N#pragma diag_push
+N#include <_ti_config.h>
+N_TI_PROPRIETARY_PRAGMA("diag_push")
+X_Pragma("diag_push")
 N/* This file is required to use types without size and signedness */
-N#pragma CHECK_MISRA("-6.3")
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-6.3\")")
+X_Pragma("CHECK_MISRA(\"-6.3\")")
 N#endif
 N
 N/*
@@ -2546,8 +2668,8 @@ Ntypedef	__uint16_t	__mode_t;	/* permissions */
 Ntypedef	int		__accmode_t;	/* access permissions */
 Ntypedef	int		__nl_item;
 Ntypedef	__uint64_t	__nlink_t;	/* link count */
-Ntypedef	__int64_t	__off_t;	/* file offset */
-Ntypedef	__int64_t	__off64_t;	/* file offset (alias) */
+Ntypedef	_off_t	        __off_t;	/* file offset (target-specific)  */
+Ntypedef	__int64_t	__off64_t;	/* file offset (always 64-bit)    */
 Ntypedef	__int32_t	__pid_t;	/* process [group] */
 Ntypedef	__int64_t	__rlim_t;	/* resource limit - intentionally */
 N					/* signed, because of legacy code */
@@ -2656,14 +2778,15 @@ N#define	__INO64
 N
 N#if defined(__TI_COMPILER_VERSION__)
 X#if 1L
-N#pragma diag_pop
+N_TI_PROPRIETARY_PRAGMA("diag_pop")
+X_Pragma("diag_pop")
 N#endif
 N
 N#endif /* !_SYS__TYPES_H_ */
-L 36 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/sys/stdint.h" 2
+L 38 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/sys/stdint.h" 2
 N
 N#include <machine/_stdint.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/machine/_stdint.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/machine/_stdint.h" 1
 N/*-
 N * SPDX-License-Identifier: BSD-2-Clause-NetBSD
 N *
@@ -2701,9 +2824,17 @@ N
 N#ifndef _MACHINE__STDINT_H_
 N#define	_MACHINE__STDINT_H_
 N
-N#pragma diag_push
+N#include <_ti_config.h>
+N
+N_TI_PROPRIETARY_PRAGMA("diag_push")
+X_Pragma("diag_push")
 N/* 19.4 is issued for macros that are defined in terms of other macros. */
-N#pragma CHECK_MISRA("-19.4")
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-19.4\")")
+X_Pragma("CHECK_MISRA(\"-19.4\")")
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-19.7\")")
+X_Pragma("CHECK_MISRA(\"-19.7\")")
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-19.13\")")
+X_Pragma("CHECK_MISRA(\"-19.13\")")
 N
 N#if !defined(__cplusplus) || defined(__STDC_CONSTANT_MACROS)
 X#if !0L || 0L
@@ -2829,12 +2960,13 @@ N#define	WINT_MAX	INT32_MAX
 N
 N#endif /* !defined(__cplusplus) || defined(__STDC_LIMIT_MACROS) */
 N
-N#pragma diag_pop
+N_TI_PROPRIETARY_PRAGMA("diag_pop")
+X_Pragma("diag_pop")
 N
 N#endif /* !_MACHINE__STDINT_H_ */
-L 38 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/sys/stdint.h" 2
+L 40 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/sys/stdint.h" 2
 N#include <sys/_stdint.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/sys/_stdint.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/sys/_stdint.h" 1
 N/*-
 N * SPDX-License-Identifier: BSD-2-Clause-FreeBSD
 N *
@@ -2933,7 +3065,7 @@ N#define	_UINTMAX_T_DECLARED
 N#endif
 N
 N#endif /* !_SYS__STDINT_H_ */
-L 39 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/sys/stdint.h" 2
+L 41 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/sys/stdint.h" 2
 N
 Ntypedef	__int_least8_t		int_least8_t;
 Ntypedef	__int_least16_t		int_least16_t;
@@ -2955,6 +3087,10 @@ Ntypedef	__uint_fast16_t		uint_fast16_t;
 Ntypedef	__uint_fast32_t		uint_fast32_t;
 Ntypedef	__uint_fast64_t		uint_fast64_t;
 N
+N_TI_PROPRIETARY_PRAGMA("diag_push")
+X_Pragma("diag_push")
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-10.1\")")
+X_Pragma("CHECK_MISRA(\"-10.1\")")
 N/* GNU and Darwin define this and people seem to think it's portable */
 N#if defined(UINTPTR_MAX) && defined(UINT64_MAX) && (UINTPTR_MAX == UINT64_MAX)
 X#if 1L && 1L && (0xffffffffU == 0xffffffffffffffffULL)
@@ -2962,13 +3098,18 @@ S#define	__WORDSIZE		64
 N#else
 N#define	__WORDSIZE		32
 N#endif
+N_TI_PROPRIETARY_PRAGMA("diag_pop")
+X_Pragma("diag_pop")
 N
-N#pragma diag_push
-N#pragma CHECK_MISRA("-19.4")
+N_TI_PROPRIETARY_PRAGMA("diag_push")
+X_Pragma("diag_push")
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-19.4\")")
+X_Pragma("CHECK_MISRA(\"-19.4\")")
 N/* Limits of wchar_t. */
 N#define	WCHAR_MIN	__WCHAR_MIN
 N#define	WCHAR_MAX	__WCHAR_MAX
-N#pragma diag_pop
+N_TI_PROPRIETARY_PRAGMA("diag_pop")
+X_Pragma("diag_pop")
 N
 N#if __EXT1_VISIBLE
 X#if 1
@@ -2979,7 +3120,7 @@ N#endif
 N#endif /* __EXT1_VISIBLE */
 N
 N#endif /* !_SYS_STDINT_H_ */
-L 43 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/stdint.h" 2
+L 49 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/stdint.h" 2
 N#else
 S/* 7.18.1.1 Exact-width integer types */
 S
@@ -3064,7 +3205,7 @@ S    typedef uint64_t uint_least64_t;
 S#else
 S/* sorry, [u]int_least64_t not implemented for C27X, CLA */
 S#endif
-S#elif defined(_TMS320C5XX) || defined(__TMS320C55X__) 
+S#elif defined(_TMS320C5XX) || defined(__TMS320C55X__)
 S/* sorry, [u]int_least64_t not implemented for C54x, C55x */
 S#endif
 S
@@ -3113,7 +3254,7 @@ S    typedef uint64_t uint_fast64_t;
 S#else
 S/* sorry, [u]int_fast64_t not implemented for C27X, CLA */
 S#endif
-S#elif defined(_TMS320C5XX) || defined(__TMS320C55X__) 
+S#elif defined(_TMS320C5XX) || defined(__TMS320C55X__)
 S/* sorry, [u]int_fast64_t not implemented for C54x, C55x */
 S#endif
 S
@@ -3161,10 +3302,10 @@ S    typedef unsigned long uintmax_t;
 S#endif
 S#endif
 S
-S/* 
+S/*
 S   According to footnotes in the 1999 C standard, "C++ implementations
 S   should define these macros only when __STDC_LIMIT_MACROS is defined
-S   before <stdint.h> is included." 
+S   before <stdint.h> is included."
 S*/
 S#if !defined(__cplusplus) || defined(__STDC_LIMIT_MACROS)
 S
@@ -3379,12 +3520,21 @@ S#elif defined(__C7000__)
 S    #define SIZE_MAX (UINT64_MAX)
 S#endif
 S
+S
 S#ifndef WCHAR_MAX
-S#if !defined(__TI_WCHAR_T_BITS__) || __TI_WCHAR_T_BITS__ == 16
-S#define WCHAR_MAX 0xffffu
-S#else 
-S#define WCHAR_MAX 0xffffffffu
-S#endif
+S# if defined(__TI_COMPILER_VERSION__)
+S#  if !defined(__TI_WCHAR_T_BITS__) || __TI_WCHAR_T_BITS__ == 16
+S#   define WCHAR_MAX 0xffffu
+S#  else
+S#   define WCHAR_MAX 0xffffffffu
+S#  endif
+S# elif defined(__clang__) && defined(__arm__)
+S#  if((__ARM_SIZEOF_WCHAR_T*8) == 16)
+S#   define WCHAR_MAX 0xffffu
+S#  else
+S#   define WCHAR_MAX 0xffffffffu
+S#  endif
+S# endif
 S#endif
 S
 S#ifndef WCHAR_MIN
@@ -3404,9 +3554,9 @@ S
 S/* 7.18.4.1 Macros for minimum-width integer constants */
 S
 S/*
-S   There is a defect report filed against the C99 standard concerning how 
+S   There is a defect report filed against the C99 standard concerning how
 S   the (U)INTN_C macros should be implemented.  Please refer to --
-S   http://wwwold.dkuug.dk/JTC1/SC22/WG14/www/docs/dr_209.htm 
+S   http://wwwold.dkuug.dk/JTC1/SC22/WG14/www/docs/dr_209.htm
 S   for more information.  These macros are implemented according to the
 S   suggestion given at this web site.
 S*/
@@ -3439,10 +3589,14 @@ S    #define UINTMAX_C(value) ((uintmax_t)(value))
 S
 S#endif /* !defined(__cplusplus) || defined(__STDC_LIMIT_MACROS) */
 N#endif
+N
+N_TI_PROPRIETARY_PRAGMA("diag_pop")
+X_Pragma("diag_pop")
+N
 N#endif /* _STDINT_H_ */
-L 61 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/dpl/ClockP.h" 2
+L 61 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/dpl/ClockP.h" 2
 N#include <stdbool.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/stdbool.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/stdbool.h" 1
 N/*
 N * Copyright (c) 2000 Jeroen Ruigrok van der Werven <asmodai@FreeBSD.org>
 N * All rights reserved.
@@ -3473,8 +3627,20 @@ N *
 N * $FreeBSD: release/10.0.0/include/stdbool.h 228878 2011-12-25 20:15:41Z ed $
 N */
 N
+N/* If this file is included in C99 mode, _Bool is a builtin, so no definition. */
+N/* If this is C89 mode and this file is included, _Bool is pre-defined in C89 */
+N/* relaxed mode by the EDG parser, so it needs to be defined in strict mode. */
 N#ifndef __bool_true_false_are_defined
 N#define	__bool_true_false_are_defined	1
+N
+N#include <_ti_config.h>
+N
+N_TI_PROPRIETARY_PRAGMA("diag_push")
+X_Pragma("diag_push")
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-19.4\")")
+X_Pragma("CHECK_MISRA(\"-19.4\")")
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-19.11\")")
+X_Pragma("CHECK_MISRA(\"-19.11\")")
 N
 N#ifndef __cplusplus
 N
@@ -3482,16 +3648,20 @@ N#define	false	0
 N#define	true	1
 N
 N#define	bool	_Bool
-N#if __TI_STRICT_ANSI_MODE__ && 199901L > __STDC_VERSION__
+N#if __TI_PROPRIETARY_STRICT_ANSI_MACRO && 199901L > __STDC_VERSION__
 X#if 0 && 199901L > 199409L
 Stypedef unsigned char _Bool;
 N#endif
 N
 N#endif /* !__cplusplus */
+N
+N_TI_PROPRIETARY_PRAGMA("diag_pop")
+X_Pragma("diag_pop")
+N
 N#endif /* __bool_true_false_are_defined */
-L 62 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/dpl/ClockP.h" 2
+L 62 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/dpl/ClockP.h" 2
 N#include <stddef.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/stddef.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/stddef.h" 1
 N/*****************************************************************************/
 N/* stddef.h                                                                  */
 N/*                                                                           */
@@ -3534,10 +3704,14 @@ N#define _STDDEF
 N
 N#include <_ti_config.h>
 N
-N#pragma diag_push
-N#pragma CHECK_MISRA("-19.7") /* macros required for implementation */
-N#pragma CHECK_MISRA("-20.1") /* standard headers must define standard names */
-N#pragma CHECK_MISRA("-20.2") /* standard headers must define standard names */
+N_TI_PROPRIETARY_PRAGMA("diag_push")
+X_Pragma("diag_push")
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-19.7\")") /* macros required for implementation */
+X_Pragma("CHECK_MISRA(\"-19.7\")")  
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-20.1\")") /* standard headers must define standard names */
+X_Pragma("CHECK_MISRA(\"-20.1\")")  
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-20.2\")") /* standard headers must define standard names */
+X_Pragma("CHECK_MISRA(\"-20.2\")")  
 N
 N#ifdef __cplusplus
 Sextern "C" {
@@ -3578,16 +3752,18 @@ N/* header expects the macro __DEFINED_max_align_t to be defined if it is to   *
 N/* use the definintion of max_align_t from stddef.h. Only define it if        */
 N/* compiling for C11 or we're in non strict ansi mode.                        */
 N/*----------------------------------------------------------------------------*/
-N#if defined(_TI_C11LIB) || __TI_STRICT_ANSI_MODE__ == 0
+N#if defined(_TI_C11LIB) || __TI_PROPRIETARY_STRICT_ANSI_MACRO == 0
 X#if 0L || 0 == 0
 N#ifndef __DEFINED_max_align_t
 N#define __DEFINED_max_align_t
 Ntypedef long double max_align_t;
 N#endif /*__DEFINED_max_align_t */
-N#endif /* defined(_TI_C11LIB) || __TI_STRICT_ANSI_MODE__ == 0 */
+N#endif /* defined(_TI_C11LIB) || __TI_PROPRIETARY_STRICT_ANSI_MACRO == 0 */
 N
-N#pragma diag_push
-N#pragma CHECK_MISRA("-19.10") /* need types as macro arguments */
+N_TI_PROPRIETARY_PRAGMA("diag_push")
+X_Pragma("diag_push")
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-19.10\")") /* need types as macro arguments */
+X_Pragma("CHECK_MISRA(\"-19.10\")")  
 N
 N#ifdef __TI_LLVM__
 S#  define offsetof(_type, _ident) __builtin_offsetof(_type, _ident)
@@ -3603,16 +3779,18 @@ X#    define offsetof(_type, _ident)     (__intaddr__( ((char *) &((_type *)0)->
 N#  endif /* __TMS320C55X__ */
 N#endif
 N
-N#pragma diag_pop
+N_TI_PROPRIETARY_PRAGMA("diag_pop")
+X_Pragma("diag_pop")
 N
 N#ifdef __cplusplus
 S} /* extern "C" */
 N#endif  /* __cplusplus */
 N
-N#pragma diag_pop
+N_TI_PROPRIETARY_PRAGMA("diag_pop")
+X_Pragma("diag_pop")
 N
 N#endif  /* _STDDEF */
-L 63 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/dpl/ClockP.h" 2
+L 63 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/dpl/ClockP.h" 2
 N
 N#ifdef __cplusplus
 Sextern "C" {
@@ -3623,9 +3801,10 @@ N *  @brief    Number of bytes greater than or equal to the size of any RTOS
 N *            ClockP object.
 N *
 N *  nortos:   32 (biggest of the HW-specific ClockP instance structs)
-N *  SysBIOS:  36
+N *  SysBIOS:  40
+N *  FreeRTOS: 68
 N */
-N#define ClockP_STRUCT_SIZE   (36)
+N#define ClockP_STRUCT_SIZE   (68)
 N
 N/*!
 N *  @brief    ClockP structure.
@@ -3636,7 +3815,7 @@ N */
 Ntypedef union ClockP_Struct {
 N    uint32_t dummy;  /*!< Align object */
 N    char     data[ClockP_STRUCT_SIZE];
-X    char     data[(36)];
+X    char     data[(68)];
 N} ClockP_Struct;
 N
 N/*!
@@ -3665,8 +3844,6 @@ N */
 Ntypedef  void *ClockP_Handle;
 N
 N#define ClockP_handle(x) ((ClockP_Handle)(x))
-N
-Nextern uint32_t ClockP_tickPeriod;
 N
 N/*!
 N *  @brief  Prototype for a ClockP function.
@@ -3723,7 +3900,7 @@ N *
 N *  @param  clockP  Pointer to a ClockP_Struct object that was passed to
 N *                  ClockP_construct().
 N *
-N *  @return
+N *  The clock object must be stopped before calling destruct.
 N */
 Nextern void ClockP_destruct(ClockP_Struct *clockP);
 N
@@ -3747,6 +3924,8 @@ N/*!
 N *  @brief  Function to delete a clock.
 N *
 N *  @param  handle  A ClockP_Handle returned from ::ClockP_create
+N *
+N *  The clock object must be stopped before calling delete.
 N */
 Nextern void ClockP_delete(ClockP_Handle handle);
 N
@@ -3834,6 +4013,29 @@ N
 N/*!
 N *  @brief  Function to start a clock.
 N *
+N *  @remark In some implementations, it may not always be possible to
+N *          to start a ClockP object with maximum timeout. This situation can
+N *          occur when a very fast tick period is used, and when ClockP_start()
+N *          is called (by another ISR, by a higher-priority SwiP, or within a
+N *          clock function) while ClockP is in-process of servicing its timeout
+N *          queue. In this case the timeout of the newly-started object may
+N *          occur in the near future rather than in the far future. For
+N *          one-shot objects there will be a single early timeout; for periodic
+N *          objects there will be an early timeout, but the next timeout will
+N *          occur correctly offset from the first timeout. This condition is
+N *          due to a ClockP tick count wrap, and only occurs when there is a
+N *          very fast ClockP tick period such that there are virtual ClockP
+N *          tick period increments between the last timer interrupt to the
+N *          invocation of ClockP_start(). For example, if the ClockP tick
+N *          period is 10 usec, and if the ClockP tick count is 0x10000005 when
+N *          the interrupt occurs, and if there are 3 intervening tick periods
+N *          (30 usec) before the call to ClockP_start() in a clock function,
+N *          then the future timeout will be computed as
+N *          0x10000005 + 3 + 0xFFFFFFFF = 0x10000007, only 2 ticks in the
+N *          future. In this case, the maximum timeout should be limited to
+N *          0xFFFFFFFD to achieve the maximum delay from the last timer
+N *          interrupt.
+N *
 N *  @param  handle  A ClockP_Handle returned from ::ClockP_create
 N */
 Nextern void ClockP_start(ClockP_Handle handle);
@@ -3877,13 +4079,13 @@ S}
 N#endif
 N
 N#endif /* ti_dpl_ClockP__include */
-L 51 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/porting/cc_pal.h" 2
+L 51 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/porting/cc_pal.h" 2
 N#if defined(SL_PLATFORM_MULTI_THREADED)
 X#if 1L
 N#if defined(__TI_COMPILER_VERSION__)
 X#if 1L
 N#include <ti/posix/ccs/pthread.h>
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/pthread.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/posix/ccs/pthread.h" 1
 N/*
 N * Copyright (c) 2015-2019 Texas Instruments Incorporated - http://www.ti.com
 N * All rights reserved.
@@ -3924,6 +4126,12 @@ N#ifndef ti_posix_ccs_pthread__include
 N#define ti_posix_ccs_pthread__include
 N
 N/* compiler vendor check */
+N/* short-term migration warning; ticlang users should migrate away */
+N#if defined(__clang__)
+X#if 0L
+S#warning ticlang users should migrate to the ti/posix/ticlang include path
+N#endif
+N
 N#if !defined(__TI_COMPILER_VERSION__) && !defined(__clang__)
 X#if !1L && !0L
 S#error Incompatible compiler: use this include path (.../ti/posix/ccs) only \
@@ -3940,9 +4148,9 @@ S#pragma clang system_header
 N#endif
 N
 N#include "sys/types.h"
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/sys/types.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/posix/ccs/sys/types.h" 1
 N/*
-N * Copyright (c) 2017-2019 Texas Instruments Incorporated - http://www.ti.com
+N * Copyright (c) 2017-2020 Texas Instruments Incorporated - http://www.ti.com
 N * All rights reserved.
 N *
 N * Redistribution and use in source and binary forms, with or without
@@ -3981,6 +4189,12 @@ N#ifndef ti_posix_ccs_sys_types__include
 N#define ti_posix_ccs_sys_types__include
 N
 N/* compiler vendor check */
+N/* short-term migration warning; ticlang users should migrate away */
+N#if defined(__clang__)
+X#if 0L
+S#warning ticlang users should migrate to the ti/posix/ticlang include path
+N#endif
+N
 N#if !defined(__TI_COMPILER_VERSION__) && !defined(__clang__)
 X#if !1L && !0L
 S#error Incompatible compiler: use this include path (.../ti/posix/ccs) only \
@@ -4000,10 +4214,982 @@ N
 N/*  TI ARM 18.1.0.LTS added sys/types.h but we intentionally do *not*
 N *  include it (effectively hiding it from source files). We were not
 N *  able to use it because of type collisions (off_t in file.h).
+N *
+N *  NB. As of TI ARM 20.2.0.LTS, include sys/types.h.
+N */
+N#if defined(__TMS470__)
+X#if 1L
+N
+N#if __TI_COMPILER_VERSION__ >= 20002000
+X#if 20002001 >= 20002000
+N/* use compiler definition of mode_t */
+N#include <../include/sys/types.h>
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/../include/sys/types.h" 1
+N/*-
+N * SPDX-License-Identifier: BSD-3-Clause
+N *
+N * Copyright (c) 1982, 1986, 1991, 1993, 1994
+N *	The Regents of the University of California.  All rights reserved.
+N * (c) UNIX System Laboratories, Inc.
+N * All or some portions of this file are derived from material licensed
+N * to the University of California by American Telephone and Telegraph
+N * Co. or Unix System Laboratories, Inc. and are reproduced herein with
+N * the permission of UNIX System Laboratories, Inc.
+N *
+N * Redistribution and use in source and binary forms, with or without
+N * modification, are permitted provided that the following conditions
+N * are met:
+N * 1. Redistributions of source code must retain the above copyright
+N *    notice, this list of conditions and the following disclaimer.
+N * 2. Redistributions in binary form must reproduce the above copyright
+N *    notice, this list of conditions and the following disclaimer in the
+N *    documentation and/or other materials provided with the distribution.
+N * 3. Neither the name of the University nor the names of its contributors
+N *    may be used to endorse or promote products derived from this software
+N *    without specific prior written permission.
+N *
+N * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+N * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+N * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+N * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+N * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+N * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+N * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+N * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+N * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+N * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+N * SUCH DAMAGE.
+N *
+N *	@(#)types.h	8.6 (Berkeley) 2/19/95
+N * $FreeBSD$
 N */
 N
+N#ifndef _SYS_TYPES_H_
+N#define	_SYS_TYPES_H_
+N
+N#include <sys/cdefs.h>
+N
+N/* Machine type dependent parameters. */
+N#include <machine/endian.h>
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/machine/endian.h" 1
+N/*-
+N * SPDX-License-Identifier: BSD-3-Clause
+N *
+N * Copyright (c) 2001 David E. O'Brien
+N *
+N * Redistribution and use in source and binary forms, with or without
+N * modification, are permitted provided that the following conditions
+N * are met:
+N * 1. Redistributions of source code must retain the above copyright
+N *    notice, this list of conditions and the following disclaimer.
+N * 2. Redistributions in binary form must reproduce the above copyright
+N *    notice, this list of conditions and the following disclaimer in the
+N *    documentation and/or other materials provided with the distribution.
+N * 3. Neither the name of the University nor the names of its contributors
+N *    may be used to endorse or promote products derived from this software
+N *    without specific prior written permission.
+N *
+N * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+N * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+N * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+N * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+N * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+N * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+N * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+N * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+N * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+N * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+N * SUCH DAMAGE.
+N *
+N *	@(#)endian.h	8.1 (Berkeley) 6/10/93
+N * $NetBSD: endian.h,v 1.7 1999/08/21 05:53:51 simonb Exp $
+N * $FreeBSD$
+N */
+N
+N#ifndef _ENDIAN_H_
+N#define	_ENDIAN_H_
+N
+N#include <sys/_types.h>
+N
+N/*
+N * Definitions for byte order, according to byte significance from low
+N * address to high.
+N */
+N#define _FREEBSD_LITTLE_ENDIAN  1234    /* LSB first: i386, vax */
+N#define _FREEBSD_BIG_ENDIAN     4321    /* MSB first: 68000, ibm, net */
+N
+N#ifdef __ARM_BIG_ENDIAN
+S#define _BYTE_ORDER	_FREEBSD_BIG_ENDIAN
+N#else
+N#define	_BYTE_ORDER	_FREEBSD_LITTLE_ENDIAN
+N#endif /* __ARM_BIG_ENDIAN */
+N
+N#if __BSD_VISIBLE
+X#if 1
+N#define LITTLE_ENDIAN   _FREEBSD_LITTLE_ENDIAN
+N#define BIG_ENDIAN      _FREEBSD_BIG_ENDIAN
+N#define BYTE_ORDER      _BYTE_ORDER
+N#endif
+N
+N#if _BYTE_ORDER == _FREEBSD_BIG_ENDIAN
+X#if 1234 == 4321
+S#define _QUAD_HIGHWORD 0
+S#define _QUAD_LOWWORD 1
+S#define __ntohl(x)	((__uint32_t)(x))
+S#define __ntohs(x)	((__uint16_t)(x))
+S#define __htonl(x)	((__uint32_t)(x))
+S#define __htons(x)	((__uint16_t)(x))
+N#else
+N#define _QUAD_HIGHWORD  1
+N#define _QUAD_LOWWORD 0
+N#define __ntohl(x)        (__bswap32(x))
+N#define __ntohs(x)        (__bswap16(x))
+N#define __htonl(x)        (__bswap32(x))
+N#define __htons(x)        (__bswap16(x))
+N#endif /* _BYTE_ORDER == _FREEBSD_BIG_ENDIAN */
+N
+N#if __has_builtin(__builtin_bswap64)
+X#if 1
+N#define __bswap64(x) __builtin_bswap64(x)
+N#else
+Sstatic __inline __uint64_t
+S__bswap64(__uint64_t _x)
+S{
+S	return ((_x >> 56) | ((_x >> 40) & 0xff00) | ((_x >> 24) & 0xff0000) |
+S	    ((_x >> 8) & 0xff000000) | ((_x << 8) & ((__uint64_t)0xff << 32)) |
+S	    ((_x << 24) & ((__uint64_t)0xff << 40)) |
+S	    ((_x << 40) & ((__uint64_t)0xff << 48)) | ((_x << 56)));
+S}
+N#endif /* __has_builtin(__builtin_bswap64) */
+N
+N#if __has_builtin(__builtin_bswap32)
+X#if 1
+N#define __bswap32(x) __builtin_bswap32(x)
+N#else
+Sstatic __inline __uint32_t
+S__bswap32_var(__uint32_t v)
+S{
+S	__uint32_t t1;
+S#if __TI_COMPILER_VERSION__
+S        t1 = v ^ __ror(v, 16);
+S        t1 &= 0xff00ffff;
+S        v = __ror(v,8);
+S        v = v ^ (t1 >> 8);
+S#else
+S	__asm __volatile("eor %1, %0, %0, ror #16\n"
+S	    		"bic %1, %1, #0x00ff0000\n"
+S			"mov %0, %0, ror #8\n"
+S			"eor %0, %0, %1, lsr #8\n"
+S			 : "+r" (v), "=r" (t1));
+S#endif
+S	return (v);
+S}
+S#ifdef __OPTIMIZE__
+S#define __bswap32_constant(x)	\
+S    ((((x) & 0xff000000U) >> 24) |	\
+S     (((x) & 0x00ff0000U) >>  8) |	\
+S     (((x) & 0x0000ff00U) <<  8) |	\
+S     (((x) & 0x000000ffU) << 24))
+X#define __bswap32_constant(x)	    ((((x) & 0xff000000U) >> 24) |	     (((x) & 0x00ff0000U) >>  8) |	     (((x) & 0x0000ff00U) <<  8) |	     (((x) & 0x000000ffU) << 24))
+S#define __bswap32(x)	\
+S    ((__uint32_t)(__builtin_constant_p(x) ? 	\
+S     __bswap32_constant(x) :			\
+S     __bswap32_var(x)))
+X#define __bswap32(x)	    ((__uint32_t)(__builtin_constant_p(x) ? 	     __bswap32_constant(x) :			     __bswap32_var(x)))
+S#else
+S#define __bswap32(x)	__bswap32_var(x)
+S#endif /* __OPTIMIZE__ */
+N#endif /* __has_builtin(__builtin_bswap32) */
+N
+N#if __has_builtin(__builtin_bswap16)
+X#if 1
+N#define __bswap16(x) __builtin_bswap16(x)
+N#else
+Sstatic __inline __uint16_t
+S__bswap16_var(__uint16_t v)
+S{
+S	__uint32_t ret = v & 0xffff;
+S#if __TI_COMPILER_VERSION__
+S        ret = __ror(ret, 8);
+S        ret = ret | (ret >> 16);
+S        ret = ret & ~(ret << 16);
+S#else
+S	__asm __volatile(
+S	    "mov    %0, %0, ror #8\n"
+S	    "orr    %0, %0, %0, lsr #16\n"
+S	    "bic    %0, %0, %0, lsl #16"
+S	    : "+r" (ret));
+S#endif
+S	return ((__uint16_t)ret);
+S}
+S#ifdef __OPTIMIZE__
+S#define __bswap16_constant(x)	\
+S    ((((x) & 0xff00) >> 8) |		\
+S     (((x) & 0x00ff) << 8))
+X#define __bswap16_constant(x)	    ((((x) & 0xff00) >> 8) |		     (((x) & 0x00ff) << 8))
+S#define __bswap16(x)	\
+S    ((__uint16_t)(__builtin_constant_p(x) ?	\
+S     __bswap16_constant(x) :			\
+S     __bswap16_var(x)))
+X#define __bswap16(x)	    ((__uint16_t)(__builtin_constant_p(x) ?	     __bswap16_constant(x) :			     __bswap16_var(x)))
+S#else
+S#define __bswap16(x)	__bswap16_var(x)
+S#endif /* __OPTIMIZE__ */
+N#endif /* __has_builtin(__builtin_bswap16) */
+N
+N#endif /* !_ENDIAN_H_ */
+L 47 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/../include/sys/types.h" 2
+N#include <sys/_types.h>
+N
+N#if !defined(__clang__) && !defined(__TI_COMPILER_VERSION__)
+X#if !0L && !1L
+S#include <sys/_pthreadtypes.h>
+N#endif
+N
+N#if __BSD_VISIBLE
+X#if 1
+Ntypedef	unsigned char	u_char;
+Ntypedef	unsigned short	u_short;
+Ntypedef	unsigned int	u_int;
+Ntypedef	unsigned long	u_long;
+N#ifndef _KERNEL
+Ntypedef	unsigned short	ushort;		/* Sys V compatibility */
+Ntypedef	unsigned int	uint;		/* Sys V compatibility */
+N#endif
+N#endif
+N
+N/*
+N * XXX POSIX sized integrals that should appear only in <sys/stdint.h>.
+N */
+N#include <sys/_stdint.h>
+N
+N#if !defined(__TI_COMPILER_VERSION__) ||  !defined(__TMS320C2000__)
+X#if !1L ||  !0L
+Ntypedef __uint8_t	u_int8_t;	/* unsigned integrals (deprecated) */
+N#endif
+Ntypedef __uint16_t	u_int16_t;
+Ntypedef __uint32_t	u_int32_t;
+Ntypedef __uint64_t	u_int64_t;
+N
+Ntypedef	__uint64_t	u_quad_t;	/* quads (deprecated) */
+Ntypedef	__int64_t	quad_t;
+Ntypedef	quad_t *	qaddr_t;
+N
+Ntypedef	char *		caddr_t;	/* core address */
+Ntypedef	const char *	c_caddr_t;	/* core address, pointer to const */
+N
+N#ifndef _BLKSIZE_T_DECLARED
+Ntypedef	__blksize_t	blksize_t;
+N#define	_BLKSIZE_T_DECLARED
+N#endif
+N
+Ntypedef	__cpuwhich_t	cpuwhich_t;
+Ntypedef	__cpulevel_t	cpulevel_t;
+Ntypedef	__cpusetid_t	cpusetid_t;
+N
+N#ifndef _BLKCNT_T_DECLARED
+Ntypedef	__blkcnt_t	blkcnt_t;
+N#define	_BLKCNT_T_DECLARED
+N#endif
+N
+N#ifndef _CLOCK_T_DECLARED
+Ntypedef	__clock_t	clock_t;
+N#define	_CLOCK_T_DECLARED
+N#endif
+N
+N#ifndef _CLOCKID_T_DECLARED
+Ntypedef	__clockid_t	clockid_t;
+N#define	_CLOCKID_T_DECLARED
+N#endif
+N
+Ntypedef	__critical_t	critical_t;	/* Critical section value */
+Ntypedef	__int64_t	daddr_t;	/* disk address */
+N
+N#ifndef _DEV_T_DECLARED
+Ntypedef	__dev_t		dev_t;		/* device number or struct cdev */
+N#define	_DEV_T_DECLARED
+N#endif
+N
+N#ifndef _FFLAGS_T_DECLARED
+Ntypedef	__fflags_t	fflags_t;	/* file flags */
+N#define	_FFLAGS_T_DECLARED
+N#endif
+N
+Ntypedef	__fixpt_t	fixpt_t;	/* fixed point number */
+N
+N#ifndef _FSBLKCNT_T_DECLARED		/* for statvfs() */
+Ntypedef	__fsblkcnt_t	fsblkcnt_t;
+Ntypedef	__fsfilcnt_t	fsfilcnt_t;
+N#define	_FSBLKCNT_T_DECLARED
+N#endif
+N
+N#ifndef _GID_T_DECLARED
+Ntypedef	__gid_t		gid_t;		/* group id */
+N#define	_GID_T_DECLARED
+N#endif
+N
+N#ifndef _IN_ADDR_T_DECLARED
+Ntypedef	__uint32_t	in_addr_t;	/* base type for internet address */
+N#define	_IN_ADDR_T_DECLARED
+N#endif
+N
+N#ifndef _IN_PORT_T_DECLARED
+Ntypedef	__uint16_t	in_port_t;
+N#define	_IN_PORT_T_DECLARED
+N#endif
+N
+N#ifndef _ID_T_DECLARED
+Ntypedef	__id_t		id_t;		/* can hold a uid_t or pid_t */
+N#define	_ID_T_DECLARED
+N#endif
+N
+N#ifndef _INO_T_DECLARED
+Ntypedef	__ino_t		ino_t;		/* inode number */
+N#define	_INO_T_DECLARED
+N#endif
+N
+N#ifndef _KEY_T_DECLARED
+Ntypedef	__key_t		key_t;		/* IPC key (for Sys V IPC) */
+N#define	_KEY_T_DECLARED
+N#endif
+N
+N#ifndef _LWPID_T_DECLARED
+Ntypedef	__lwpid_t	lwpid_t;	/* Thread ID (a.k.a. LWP) */
+N#define	_LWPID_T_DECLARED
+N#endif
+N
+N#ifndef _MODE_T_DECLARED
+Ntypedef	__mode_t	mode_t;		/* permissions */
+N#define	_MODE_T_DECLARED
+N#endif
+N
+N#ifndef _ACCMODE_T_DECLARED
+Ntypedef	__accmode_t	accmode_t;	/* access permissions */
+N#define	_ACCMODE_T_DECLARED
+N#endif
+N
+N#ifndef _NLINK_T_DECLARED
+Ntypedef	__nlink_t	nlink_t;	/* link count */
+N#define	_NLINK_T_DECLARED
+N#endif
+N
+N#ifndef _OFF_T_DECLARED
+Ntypedef	__off_t		off_t;		/* file offset */
+N#define	_OFF_T_DECLARED
+N#endif
+N
+N#ifndef _OFF64_T_DECLARED
+Ntypedef	__off64_t	off64_t;	/* file offset (alias) */
+N#define	_OFF64_T_DECLARED
+N#endif
+N
+N#ifndef _PID_T_DECLARED
+Ntypedef	__pid_t		pid_t;		/* process id */
+N#define	_PID_T_DECLARED
+N#endif
+N
+Ntypedef	__register_t	register_t;
+N
+N#ifndef _RLIM_T_DECLARED
+Ntypedef	__rlim_t	rlim_t;		/* resource limit */
+N#define	_RLIM_T_DECLARED
+N#endif
+N
+Ntypedef	__int64_t	sbintime_t;
+N
+Ntypedef	__segsz_t	segsz_t;	/* segment size (in pages) */
+N
+N#if !defined(_SIZE_T_DECLARED) && !defined(_SIZE_T)
+X#if !1L && !0L
+Stypedef	__size_t	size_t;
+S#define	_SIZE_T_DECLARED
+S#define _SIZE_T
+N#endif
+N
+N#ifndef _SSIZE_T_DECLARED
+Ntypedef	__ssize_t	ssize_t;
+N#define	_SSIZE_T_DECLARED
+N#endif
+N
+N#ifndef _SUSECONDS_T_DECLARED
+Ntypedef	__suseconds_t	suseconds_t;	/* microseconds (signed) */
+N#define	_SUSECONDS_T_DECLARED
+N#endif
+N
+N#ifndef _TIME_T_DECLARED
+Ntypedef	__time_t	time_t;
+N#define	_TIME_T_DECLARED
+N#endif
+N
+N#ifndef _TIMER_T_DECLARED
+Ntypedef	__timer_t	timer_t;
+N#define	_TIMER_T_DECLARED
+N#endif
+N
+N#ifndef _MQD_T_DECLARED
+Ntypedef	__mqd_t	mqd_t;
+N#define	_MQD_T_DECLARED
+N#endif
+N
+Ntypedef	__u_register_t	u_register_t;
+N
+N#ifndef _UID_T_DECLARED
+Ntypedef	__uid_t		uid_t;		/* user id */
+N#define	_UID_T_DECLARED
+N#endif
+N
+N#ifndef _USECONDS_T_DECLARED
+Ntypedef	__useconds_t	useconds_t;	/* microseconds (unsigned) */
+N#define	_USECONDS_T_DECLARED
+N#endif
+N
+N#ifndef _CAP_IOCTL_T_DECLARED
+N#define	_CAP_IOCTL_T_DECLARED
+Ntypedef	unsigned long	cap_ioctl_t;
+N#endif
+N
+N#ifndef _CAP_RIGHTS_T_DECLARED
+N#define	_CAP_RIGHTS_T_DECLARED
+Nstruct cap_rights;
+N
+Ntypedef	struct cap_rights	cap_rights_t;
+N#endif
+N
+Ntypedef	__vm_offset_t	vm_offset_t;
+Ntypedef	__int64_t	vm_ooffset_t;
+Ntypedef	__vm_paddr_t	vm_paddr_t;
+Ntypedef	__uint64_t	vm_pindex_t;
+Ntypedef	__vm_size_t	vm_size_t;
+N
+Ntypedef __rman_res_t    rman_res_t;
+N
+N#ifdef _KERNEL
+Stypedef	int		boolean_t;
+Stypedef	struct device	*device_t;
+Stypedef	__intfptr_t	intfptr_t;
+S
+S/*
+S * XXX this is fixed width for historical reasons.  It should have had type
+S * __int_fast32_t.  Fixed-width types should not be used unless binary
+S * compatibility is essential.  Least-width types should be used even less
+S * since they provide smaller benefits.
+S *
+S * XXX should be MD.
+S *
+S * XXX this is bogus in -current, but still used for spl*().
+S */
+Stypedef	__uint32_t	intrmask_t;	/* Interrupt mask (spl, xxx_imask...) */
+S
+Stypedef	__uintfptr_t	uintfptr_t;
+Stypedef	__uint64_t	uoff_t;
+Stypedef	char		vm_memattr_t;	/* memory attribute codes */
+Stypedef	struct vm_page	*vm_page_t;
+S
+S#if !defined(__bool_true_false_are_defined) && !defined(__cplusplus)
+S#define	__bool_true_false_are_defined	1
+S#define	false	0
+S#define	true	1
+S#if __STDC_VERSION__ < 199901L && __GNUC__ < 3 && !defined(__INTEL_COMPILER)
+Stypedef	int	_Bool;
+S#endif
+Stypedef	_Bool	bool;
+S#endif /* !__bool_true_false_are_defined && !__cplusplus */
+S
+S#define offsetof(type, field) __offsetof(type, field)
+S
+N#endif /* !_KERNEL */
+N
+N/*
+N * The following are all things that really shouldn't exist in this header,
+N * since its purpose is to provide typedefs, not miscellaneous doodads.
+N */
+N
+N#ifdef __POPCNT__
+S#define	__bitcount64(x)	__builtin_popcountll((__uint64_t)(x))
+S#define	__bitcount32(x)	__builtin_popcount((__uint32_t)(x))
+S#define	__bitcount16(x)	__builtin_popcount((__uint16_t)(x))
+S#define	__bitcountl(x)	__builtin_popcountl((unsigned long)(x))
+S#define	__bitcount(x)	__builtin_popcount((unsigned int)(x))
+N#else
+N/*
+N * Population count algorithm using SWAR approach
+N * - "SIMD Within A Register".
+N */
+Nstatic __inline __uint16_t
+N__bitcount16(__uint16_t _x)
+N{
+N
+N	_x = (_x & 0x5555) + ((_x & 0xaaaa) >> 1);
+N	_x = (_x & 0x3333) + ((_x & 0xcccc) >> 2);
+N	_x = (_x + (_x >> 4)) & 0x0f0f;
+N	_x = (_x + (_x >> 8)) & 0x00ff;
+N	return (_x);
+N}
+N
+Nstatic __inline __uint32_t
+N__bitcount32(__uint32_t _x)
+N{
+N
+N	_x = (_x & 0x55555555) + ((_x & 0xaaaaaaaa) >> 1);
+N	_x = (_x & 0x33333333) + ((_x & 0xcccccccc) >> 2);
+N	_x = (_x + (_x >> 4)) & 0x0f0f0f0f;
+N	_x = (_x + (_x >> 8));
+N	_x = (_x + (_x >> 16)) & 0x000000ff;
+N	return (_x);
+N}
+N
+N#ifdef __LP64__
+Sstatic __inline __uint64_t
+S__bitcount64(__uint64_t _x)
+S{
+S
+S	_x = (_x & 0x5555555555555555) + ((_x & 0xaaaaaaaaaaaaaaaa) >> 1);
+S	_x = (_x & 0x3333333333333333) + ((_x & 0xcccccccccccccccc) >> 2);
+S	_x = (_x + (_x >> 4)) & 0x0f0f0f0f0f0f0f0f;
+S	_x = (_x + (_x >> 8));
+S	_x = (_x + (_x >> 16));
+S	_x = (_x + (_x >> 32)) & 0x000000ff;
+S	return (_x);
+S}
+S
+S#define	__bitcountl(x)	__bitcount64((unsigned long)(x))
+N#else
+Nstatic __inline __uint64_t
+N__bitcount64(__uint64_t _x)
+N{
+N
+N	return (__bitcount32(_x >> 32) + __bitcount32(_x));
+N}
+N
+N#define	__bitcountl(x)	__bitcount32((unsigned long)(x))
+N#endif
+N#define	__bitcount(x)	__bitcount32((unsigned int)(x))
+N#endif
+N
+N#if __BSD_VISIBLE
+X#if 1
+N
+N#include <sys/select.h>
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/sys/select.h" 1
+N/*-
+N * SPDX-License-Identifier: BSD-3-Clause
+N *
+N * Copyright (c) 1992, 1993
+N *	The Regents of the University of California.  All rights reserved.
+N *
+N * Redistribution and use in source and binary forms, with or without
+N * modification, are permitted provided that the following conditions
+N * are met:
+N * 1. Redistributions of source code must retain the above copyright
+N *    notice, this list of conditions and the following disclaimer.
+N * 2. Redistributions in binary form must reproduce the above copyright
+N *    notice, this list of conditions and the following disclaimer in the
+N *    documentation and/or other materials provided with the distribution.
+N * 3. Neither the name of the University nor the names of its contributors
+N *    may be used to endorse or promote products derived from this software
+N *    without specific prior written permission.
+N *
+N * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+N * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+N * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+N * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+N * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+N * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+N * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+N * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+N * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+N * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+N * SUCH DAMAGE.
+N *
+N * $FreeBSD$
+N */
+N
+N#ifndef _SYS_SELECT_H_
+N#define	_SYS_SELECT_H_
+N
+N#include <sys/cdefs.h>
+N#include <sys/_types.h>
+N
+N#include <sys/_sigset.h>
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/sys/_sigset.h" 1
+N/*-
+N * SPDX-License-Identifier: BSD-3-Clause
+N *
+N * Copyright (c) 1982, 1986, 1989, 1991, 1993
+N *	The Regents of the University of California.  All rights reserved.
+N * (c) UNIX System Laboratories, Inc.
+N * All or some portions of this file are derived from material licensed
+N * to the University of California by American Telephone and Telegraph
+N * Co. or Unix System Laboratories, Inc. and are reproduced herein with
+N * the permission of UNIX System Laboratories, Inc.
+N *
+N * Redistribution and use in source and binary forms, with or without
+N * modification, are permitted provided that the following conditions
+N * are met:
+N * 1. Redistributions of source code must retain the above copyright
+N *    notice, this list of conditions and the following disclaimer.
+N * 2. Redistributions in binary form must reproduce the above copyright
+N *    notice, this list of conditions and the following disclaimer in the
+N *    documentation and/or other materials provided with the distribution.
+N * 3. Neither the name of the University nor the names of its contributors
+N *    may be used to endorse or promote products derived from this software
+N *    without specific prior written permission.
+N *
+N * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+N * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+N * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+N * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+N * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+N * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+N * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+N * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+N * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+N * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+N * SUCH DAMAGE.
+N *
+N *	@(#)signal.h	8.4 (Berkeley) 5/4/95
+N * $FreeBSD$
+N */
+N
+N#ifndef _SYS__SIGSET_H_
+N#define	_SYS__SIGSET_H_
+N
+N/*
+N * sigset_t macros.
+N */
+N#define	_SIG_WORDS	4
+N#define	_SIG_MAXSIG	128
+N#define	_SIG_IDX(sig)	((sig) - 1)
+N#define	_SIG_WORD(sig)	(_SIG_IDX(sig) >> 5)
+N#define	_SIG_BIT(sig)	(1 << (_SIG_IDX(sig) & 31))
+N#define	_SIG_VALID(sig)	((sig) <= _SIG_MAXSIG && (sig) > 0)
+N
+Ntypedef struct __sigset {
+N	__uint32_t __bits[_SIG_WORDS];
+X	__uint32_t __bits[4];
+N} __sigset_t;
+N
+N#if defined(_KERNEL) && defined(COMPAT_43)
+X#if 0L && 0L
+Stypedef unsigned int osigset_t;
+N#endif
+N
+N#endif /* !_SYS__SIGSET_H_ */
+L 41 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/sys/select.h" 2
+N#include <sys/_timeval.h>
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/sys/_timeval.h" 1
+N/*-
+N * SPDX-License-Identifier: BSD-2-Clause-FreeBSD
+N *
+N * Copyright (c) 2002 Mike Barcroft <mike@FreeBSD.org>
+N * All rights reserved.
+N *
+N * Redistribution and use in source and binary forms, with or without
+N * modification, are permitted provided that the following conditions
+N * are met:
+N * 1. Redistributions of source code must retain the above copyright
+N *    notice, this list of conditions and the following disclaimer.
+N * 2. Redistributions in binary form must reproduce the above copyright
+N *    notice, this list of conditions and the following disclaimer in the
+N *    documentation and/or other materials provided with the distribution.
+N *
+N * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+N * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+N * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+N * ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+N * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+N * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+N * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+N * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+N * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+N * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+N * SUCH DAMAGE.
+N *
+N * $FreeBSD$
+N */
+N
+N#ifndef _SYS__TIMEVAL_H_
+N#define _SYS__TIMEVAL_H_
+N
+N#include <sys/_types.h>
+N
+N#ifndef _SUSECONDS_T_DECLARED
+Stypedef	__suseconds_t	suseconds_t;
+S#define	_SUSECONDS_T_DECLARED
+N#endif
+N
+N#ifndef _TIME_T_DECLARED
+Stypedef	__time_t	time_t;
+S#define	_TIME_T_DECLARED
+N#endif
+N
+N/*
+N * Structure returned by gettimeofday(2) system call, and used in other calls.
+N */
+Nstruct timeval {
+N	time_t		tv_sec;		/* seconds */
+N	suseconds_t	tv_usec;	/* and microseconds */
+N};
+N
+N#endif /* !_SYS__TIMEVAL_H_ */
+L 42 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/sys/select.h" 2
+N#include <sys/timespec.h>
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/sys/timespec.h" 1
+N/*-
+N * SPDX-License-Identifier: BSD-3-Clause
+N *
+N * Copyright (c) 1982, 1986, 1993
+N *	The Regents of the University of California.  All rights reserved.
+N *
+N * Redistribution and use in source and binary forms, with or without
+N * modification, are permitted provided that the following conditions
+N * are met:
+N * 1. Redistributions of source code must retain the above copyright
+N *    notice, this list of conditions and the following disclaimer.
+N * 2. Redistributions in binary form must reproduce the above copyright
+N *    notice, this list of conditions and the following disclaimer in the
+N *    documentation and/or other materials provided with the distribution.
+N * 3. Neither the name of the University nor the names of its contributors
+N *    may be used to endorse or promote products derived from this software
+N *    without specific prior written permission.
+N *
+N * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+N * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+N * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+N * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+N * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+N * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+N * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+N * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+N * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+N * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+N * SUCH DAMAGE.
+N *
+N *	@(#)time.h	8.5 (Berkeley) 5/4/95
+N * from: FreeBSD: src/sys/sys/time.h,v 1.43 2000/03/20 14:09:05 phk Exp
+N *	$FreeBSD$
+N */
+N
+N#ifndef _SYS_TIMESPEC_H_
+N#define _SYS_TIMESPEC_H_
+N
+N#include <sys/cdefs.h>
+N#include <sys/_timespec.h>
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/sys/_timespec.h" 1
+N/*-
+N * SPDX-License-Identifier: BSD-3-Clause
+N *
+N * Copyright (c) 1982, 1986, 1993
+N *	The Regents of the University of California.  All rights reserved.
+N *
+N * Redistribution and use in source and binary forms, with or without
+N * modification, are permitted provided that the following conditions
+N * are met:
+N * 1. Redistributions of source code must retain the above copyright
+N *    notice, this list of conditions and the following disclaimer.
+N * 2. Redistributions in binary form must reproduce the above copyright
+N *    notice, this list of conditions and the following disclaimer in the
+N *    documentation and/or other materials provided with the distribution.
+N * 3. Neither the name of the University nor the names of its contributors
+N *    may be used to endorse or promote products derived from this software
+N *    without specific prior written permission.
+N *
+N * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+N * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+N * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+N * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+N * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+N * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+N * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+N * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+N * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+N * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+N * SUCH DAMAGE.
+N *
+N *	@(#)time.h	8.5 (Berkeley) 5/4/95
+N * from: FreeBSD: src/sys/sys/time.h,v 1.43 2000/03/20 14:09:05 phk Exp
+N *	$FreeBSD$
+N */
+N
+N#ifndef _SYS__TIMESPEC_H_
+N#define	_SYS__TIMESPEC_H_
+N
+N#include <sys/_types.h>
+N
+N#ifndef _TIME_T_DECLARED
+Stypedef	__time_t	time_t;
+S#define	_TIME_T_DECLARED
+N#endif
+N
+Nstruct timespec {
+N	time_t	tv_sec;		/* seconds */
+N	long	tv_nsec;	/* and nanoseconds */
+N};
+N
+N#endif /* !_SYS__TIMESPEC_H_ */
+L 41 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/sys/timespec.h" 2
+N
+N#if __BSD_VISIBLE
+X#if 1
+N#define	TIMEVAL_TO_TIMESPEC(tv, ts)					\
+N	do {								\
+N		(ts)->tv_sec = (tv)->tv_sec;				\
+N		(ts)->tv_nsec = (tv)->tv_usec * 1000;			\
+N	} while (0)
+X#define	TIMEVAL_TO_TIMESPEC(tv, ts)						do {										(ts)->tv_sec = (tv)->tv_sec;						(ts)->tv_nsec = (tv)->tv_usec * 1000;				} while (0)
+N#define	TIMESPEC_TO_TIMEVAL(tv, ts)					\
+N	do {								\
+N		(tv)->tv_sec = (ts)->tv_sec;				\
+N		(tv)->tv_usec = (ts)->tv_nsec / 1000;			\
+N	} while (0)
+X#define	TIMESPEC_TO_TIMEVAL(tv, ts)						do {										(tv)->tv_sec = (ts)->tv_sec;						(tv)->tv_usec = (ts)->tv_nsec / 1000;				} while (0)
+N
+N#endif /* __BSD_VISIBLE */
+N
+N/*
+N * Structure defined by POSIX.1b to be like a itimerval, but with
+N * timespecs. Used in the timer_*() system calls.
+N */
+Nstruct itimerspec {
+N	struct timespec  it_interval;
+N	struct timespec  it_value;
+N};
+N
+N#endif /* _SYS_TIMESPEC_H_ */
+L 43 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/sys/select.h" 2
+N
+Ntypedef	unsigned long	__fd_mask;
+N#if __BSD_VISIBLE
+X#if 1
+Ntypedef	__fd_mask	fd_mask;
+N#endif
+N
+N#ifndef _SIGSET_T_DECLARED
+N#define	_SIGSET_T_DECLARED
+Ntypedef	__sigset_t	sigset_t;
+N#endif
+N
+N/*
+N * Select uses bit masks of file descriptors in longs.  These macros
+N * manipulate such bit fields (the filesystem macros use chars).
+N * FD_SETSIZE may be defined by the user, but the default here should
+N * be enough for most uses.
+N */
+N#ifndef	FD_SETSIZE
+N#define	FD_SETSIZE	1024
+N#endif
+N
+N#define	_NFDBITS	(sizeof(__fd_mask) * 8)	/* bits per mask */
+N#if __BSD_VISIBLE
+X#if 1
+N#define	NFDBITS		_NFDBITS
+N#endif
+N
+N#ifndef _howmany
+N#define	_howmany(x, y)	(((x) + ((y) - 1)) / (y))
+N#endif
+N
+Ntypedef	struct fd_set {
+N	__fd_mask	__fds_bits[_howmany(FD_SETSIZE, _NFDBITS)];
+X	__fd_mask	__fds_bits[(((1024) + (((sizeof(__fd_mask) * 8)) - 1)) / ((sizeof(__fd_mask) * 8)))];
+N} fd_set;
+N#if __BSD_VISIBLE
+X#if 1
+N#define	fds_bits	__fds_bits
+N#endif
+N
+N#define	__fdset_mask(n)	((__fd_mask)1 << ((n) % _NFDBITS))
+N#define	FD_CLR(n, p)	((p)->__fds_bits[(n)/_NFDBITS] &= ~__fdset_mask(n))
+N#if __BSD_VISIBLE
+X#if 1
+N#define	FD_COPY(f, t)	(void)(*(t) = *(f))
+N#endif
+N#define	FD_ISSET(n, p)	(((p)->__fds_bits[(n)/_NFDBITS] & __fdset_mask(n)) != 0)
+N#define	FD_SET(n, p)	((p)->__fds_bits[(n)/_NFDBITS] |= __fdset_mask(n))
+N#define	FD_ZERO(p) do {					\
+N	fd_set *_p;					\
+N	__size_t _n;					\
+N							\
+N	_p = (p);					\
+N	_n = _howmany(FD_SETSIZE, _NFDBITS);		\
+N	while (_n > 0)					\
+N		_p->__fds_bits[--_n] = 0;		\
+N} while (0)
+X#define	FD_ZERO(p) do {						fd_set *_p;						__size_t _n;													_p = (p);						_n = _howmany(FD_SETSIZE, _NFDBITS);			while (_n > 0)							_p->__fds_bits[--_n] = 0;		} while (0)
+N
+N#ifndef _KERNEL
+N
+N__BEGIN_DECLS
+X
+Nint pselect(int, fd_set *__restrict, fd_set *__restrict, fd_set *__restrict,
+N	const struct timespec *__restrict, const sigset_t *__restrict);
+N#ifndef _SELECT_DECLARED
+N#define	_SELECT_DECLARED
+N/* XXX missing restrict type-qualifier */
+Nint	select(int, fd_set *, fd_set *, fd_set *, struct timeval *);
+N#endif
+N__END_DECLS
+X
+N#endif /* !_KERNEL */
+N
+N#endif /* _SYS_SELECT_H_ */
+L 373 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/../include/sys/types.h" 2
+N
+N#define	major(x)	((int)((dev_t)(x) >> 32))
+N#define	minor(x)	((int)(x))
+N#define	makedev(x, y)	(((dev_t)(x) << 32) | (unsigned)(y))
+N
+N/*
+N * These declarations belong elsewhere, but are repeated here and in
+N * <stdio.h> to give broken programs a better chance of working with
+N * 64-bit off_t's.
+N */
+N#ifndef _KERNEL
+N__BEGIN_DECLS
+X
+N#ifndef _FTRUNCATE_DECLARED
+N#define	_FTRUNCATE_DECLARED
+Nint	 ftruncate(int, off_t);
+N#endif
+N#ifndef _LSEEK_DECLARED
+N#define	_LSEEK_DECLARED
+Noff_t	 lseek(int, off_t, int);
+N#endif
+N#ifndef _MMAP_DECLARED
+N#define	_MMAP_DECLARED
+Nvoid *	 mmap(void *, size_t, int, int, int, off_t);
+N#endif
+N#ifndef _TRUNCATE_DECLARED
+N#define	_TRUNCATE_DECLARED
+Nint	 truncate(const char *, off_t);
+N#endif
+N__END_DECLS
+X
+N#endif /* !_KERNEL */
+N
+N#endif /* __BSD_VISIBLE */
+N
+N#endif /* !_SYS_TYPES_H_ */
+L 70 "/vagrant/Q3_SDK_01/sdk_root/source/ti/posix/ccs/sys/types.h" 2
+N#else
+S/* for older TIARM compilers, must define mode_t ourselves */
+Stypedef uint16_t mode_t;
+N#endif
+N
+N#elif defined(__TMS320C28X__)
+S
+S/* this machine is 16-bit integer */
+Stypedef unsigned int mode_t;
+S
+S#else
+S
+S/* assume all others define C11 types and are 32-bit integer */
+Stypedef uint16_t mode_t;
+S
+N#endif
+N
 N#include "_internal.h"
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/sys/_internal.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/posix/ccs/sys/_internal.h" 1
 N/*
 N * Copyright (c) 2017-2018 Texas Instruments Incorporated - http://www.ti.com
 N * All rights reserved.
@@ -4045,6 +5231,12 @@ N#ifndef ti_posix_ccs_sys__internal__include
 N#define ti_posix_ccs_sys__internal__include
 N
 N/* compiler vendor check */
+N/* short-term migration warning; ticlang users should migrate away */
+N#if defined(__clang__)
+X#if 0L
+S#warning ticlang users should migrate to the ti/posix/ticlang include path
+N#endif
+N
 N#if !defined(__TI_COMPILER_VERSION__) && !defined(__clang__)
 X#if !1L && !0L
 S#error Incompatible compiler: use this include path (.../ti/posix/ccs) only \
@@ -4155,7 +5347,7 @@ S}
 N#endif
 N
 N#endif /* ti_posix_ccs_sys__internal__include */
-L 60 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/sys/types.h" 2
+L 88 "/vagrant/Q3_SDK_01/sdk_root/source/ti/posix/ccs/sys/types.h" 2
 N
 N#ifdef __cplusplus
 Sextern "C" {
@@ -4166,45 +5358,53 @@ N *  define size_t as __SIZE_T_TYPE__ for all ISAs. We define ssize_t by
 N *  changing 'unsigned' to 'signed' for this one definition to ensure both
 N *  types have the same bit-width. Set declaration flag using same name
 N *  as GNU compiler, which defines both types.
+N *
+N *  NB. As of TI ARM 20.2.0.LTS, sys/types.h is included and it defines
+N *  ssize_t. Therefore, this definition must be guarded.
 N */
-N#ifdef __SIZE_T_TYPE__
-N#define unsigned signed
-Ntypedef __SIZE_T_TYPE__ ssize_t;
-Xtypedef signed ssize_t;
-N#undef unsigned
-N#define _SSIZE_T_DECLARED
-N#elif defined(__SIZE_TYPE__)
+N#ifndef _SSIZE_T_DECLARED
+S#ifdef __SIZE_T_TYPE__
+S#define unsigned signed
+Stypedef __SIZE_T_TYPE__ ssize_t;
+S#undef unsigned
+S#define _SSIZE_T_DECLARED
+S#elif defined(__SIZE_TYPE__)
 S#define unsigned signed
 Stypedef __SIZE_TYPE__ ssize_t;
 S#undef unsigned
 S#define _SSIZE_T_DECLARED
 S#else
 S#error __SIZE_T_TYPE__ not defined
+S#endif
 N#endif
 N
 N#ifndef _CLOCKID_T_DECLARED
-Ntypedef uint32_t clockid_t;
-N#define _CLOCKID_T_DECLARED
+Stypedef uint32_t clockid_t;
+S#define _CLOCKID_T_DECLARED
 N#endif
 N
 N#ifndef _USECONDS_T_DECLARED
-Ntypedef unsigned long useconds_t;
-N#define _USECONDS_T_DECLARED
+Stypedef unsigned long useconds_t;
+S#define _USECONDS_T_DECLARED
 N#endif
 N
 N#ifndef _TIMER_T_DECLARED
-Ntypedef unsigned long timer_t;
-N#define _TIMER_T_DECLARED
+Stypedef unsigned long timer_t;
+S#define _TIMER_T_DECLARED
 N#endif
 N
 N#ifndef _SUSECONDS_T_DECLARED
-Ntypedef long suseconds_t;
-N#define _SUSECONDS_T_DECLARED
+Stypedef long suseconds_t;
+S#define _SUSECONDS_T_DECLARED
 N#endif
 N
 N#ifndef _UID_T_DECLARED
-Ntypedef unsigned short uid_t;
-N#define _UID_T_DECLARED
+Stypedef unsigned short uid_t;
+S#define _UID_T_DECLARED
+N#endif
+N
+N#ifdef __cplusplus
+S}
 N#endif
 N
 N/*  TI compiler defines time_t in time.h (should be in sys/types.h).
@@ -4216,7 +5416,7 @@ S/* TI ARM CLang Compiler */
 S#include <../../include/c/time.h>
 N#else
 N#include <../include/time.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/../include/time.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/../include/time.h" 1
 N/*****************************************************************************/
 N/* time.h                                                                    */
 N/*                                                                           */
@@ -4259,7 +5459,7 @@ N#define _TIME_H_
 N
 N#include <_ti_config.h>
 N#include <abi_prefix.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/abi_prefix.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/abi_prefix.h" 1
 N/*****************************************************************************/
 N/* ABI_PREFIX.H                                                              */
 N/*                                                                           */
@@ -4329,7 +5529,7 @@ S#error "TARGET NOT DEFINED"
 N#endif
 N
 N#endif
-L 43 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/../include/time.h" 2
+L 43 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/../include/time.h" 2
 N#if __has_include(<sys/_types.h>)
 X#if 1
 N#include <sys/_types.h>
@@ -4354,13 +5554,13 @@ N/* Use sys/_types.h for clock_t and time_t if it exists */
 N#if __has_include(<sys/_types.h>)
 X#if 1
 N#ifndef _CLOCK_T_DECLARED
-Ntypedef __clock_t clock_t;
-N#define _CLOCK_T_DECLARED
+Stypedef __clock_t clock_t;
+S#define _CLOCK_T_DECLARED
 N#endif
 N
 N#ifndef _TIME_T_DECLARED
-Ntypedef __time_t  time_t;
-N#define _TIME_T_DECLARED
+Stypedef __time_t  time_t;
+S#define _TIME_T_DECLARED
 N#endif
 N
 Ntypedef __int64_t __time64_t;
@@ -4514,7 +5714,7 @@ S}
 N#endif /* _INLINE || _CTIME64_IMPLEMENTATION */
 N
 N/*-----------------------------------------------------------------------*/
-N/* The user may define __TI_TIME_USES_64=1 to redirects all time        */
+N/* The user may define __TI_TIME_USES_64=1 to redirect all time          */
 N/* functions to time64 functions.                                        */
 N/*-----------------------------------------------------------------------*/
 N#if defined(_TIME_IMPLEMENTATION) && defined(__TI_TIME_USES_64) && __TI_TIME_USES_64
@@ -4554,6 +5754,10 @@ N#ifdef __cplusplus
 S} /* extern "C" */
 N#endif /* __cplusplus */
 N
+N/*---------------------------------------------------------------------------*/
+N/* A header file conforming to ARM CLIB ABI (GENC-003539) should             */
+N/* define _AEABI_PORTABLE when _AEABI_PORTABILITY_LEVEL is defined.          */
+N/*---------------------------------------------------------------------------*/
 N#if defined(_AEABI_PORTABILITY_LEVEL) && _AEABI_PORTABILITY_LEVEL != 0 && \
 N   !defined(_AEABI_PORTABLE)
 X#if 0L && _AEABI_PORTABILITY_LEVEL != 0 &&    !0L
@@ -4578,7 +5782,7 @@ X#if (1L && 200809 >= 200809) || 0L
 N__BEGIN_DECLS
 X
 N#include <xlocale/_time.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/xlocale/_time.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/xlocale/_time.h" 1
 N/*-
 N * SPDX-License-Identifier: BSD-2-Clause-FreeBSD
 N *
@@ -4640,22 +5844,25 @@ S           struct tm * __restrict, locale_t);
 S
 S#endif /* _XLOCALE_LOCALE2_H */
 N#endif /* _XLOCALE_H_ */
-L 253 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/../include/time.h" 2
+L 257 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/../include/time.h" 2
 N__END_DECLS
 X
 N#endif
 N
 N#endif /* _TIME_H_ */
 N
-L 118 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/sys/types.h" 2
+L 155 "/vagrant/Q3_SDK_01/sdk_root/source/ti/posix/ccs/sys/types.h" 2
 N#endif
-N
 N
 N/*
 N *************************************************************************
 N *                      posix types
 N *************************************************************************
 N */
+N
+N#ifdef __cplusplus
+Sextern "C" {
+N#endif
 N
 N/*
 N *  ======== pthread_attr_t ========
@@ -4718,9 +5925,9 @@ S}
 N#endif
 N
 N#endif /* ti_posix_ccs_sys_types__include */
-L 54 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/pthread.h" 2
+L 59 "/vagrant/Q3_SDK_01/sdk_root/source/ti/posix/ccs/pthread.h" 2
 N#include "time.h"
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/time.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/posix/ccs/time.h" 1
 N/*
 N * Copyright (c) 2017-2019 Texas Instruments Incorporated - http://www.ti.com
 N * All rights reserved.
@@ -4761,6 +5968,12 @@ N#ifndef ti_posix_ccs_time__include
 N#define ti_posix_ccs_time__include
 N
 N/* compiler vendor check */
+N/* short-term migration warning; ticlang users should migrate away */
+N#if defined(__clang__)
+X#if 0L
+S#warning ticlang users should migrate to the ti/posix/ticlang include path
+N#endif
+N
 N#if !defined(__TI_COMPILER_VERSION__) && !defined(__clang__)
 X#if !1L && !0L
 S#error Incompatible compiler: use this include path (.../ti/posix/ccs) only \
@@ -4787,7 +6000,7 @@ N#include <../include/time.h>
 N#endif
 N
 N#include "signal.h"
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/signal.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/posix/ccs/signal.h" 1
 N/*
 N * Copyright (c) 2017-2019 Texas Instruments Incorporated - http://www.ti.com
 N * All rights reserved.
@@ -4828,6 +6041,12 @@ N#ifndef ti_posix_ccs_signal__include
 N#define ti_posix_ccs_signal__include
 N
 N/* compiler vendor check */
+N/* short-term migration warning; ticlang users should migrate away */
+N#if defined(__clang__)
+X#if 0L
+S#warning ticlang users should migrate to the ti/posix/ticlang include path
+N#endif
+N
 N#if !defined(__TI_COMPILER_VERSION__) && !defined(__clang__)
 X#if !1L && !0L
 S#error Incompatible compiler: use this include path (.../ti/posix/ccs) only \
@@ -4850,12 +6069,12 @@ S/* TI ARM CLang Compiler */
 S#include <../../include/c/signal.h>
 N#else
 N#include <../include/signal.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/../include/signal.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/../include/signal.h" 1
 N/*-
 N * Copyright (c) 1982, 1986, 1989, 1991, 1993
 N *	The Regents of the University of California.  All rights reserved.
 N * (c) UNIX System Laboratories, Inc.
-N * 
+N *
 N * Copyright (c) 2014-2014 Texas Instruments Incorporated
 N *
 N * All or some portions of this file are derived from material licensed
@@ -4890,11 +6109,22 @@ N *
 N *	@(#)signal.h	8.4 (Berkeley) 5/4/95
 N * $FreeBSD: release/10.0.0/sys/sys/signal.h 233519 2012-03-26 19:12:09Z rmh $
 N */
-N 
+N
 N#ifndef _SIGNAL_H
 N#define _SIGNAL_H
 N
 N#include <_ti_config.h>
+N
+N_TI_PROPRIETARY_PRAGMA("diag_push")
+X_Pragma("diag_push")
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-6.3\")")
+X_Pragma("CHECK_MISRA(\"-6.3\")")
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-16.3\")")
+X_Pragma("CHECK_MISRA(\"-16.3\")")
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-20.1\")")
+X_Pragma("CHECK_MISRA(\"-20.1\")")
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-20.2\")")
+X_Pragma("CHECK_MISRA(\"-20.2\")")
 N
 N#if defined(__cplusplus)
 X#if 0L
@@ -4937,8 +6167,11 @@ X#if 0L
 S}
 N#endif
 N
+N_TI_PROPRIETARY_PRAGMA("diag_pop")
+X_Pragma("diag_pop")
+N
 N#endif
-L 59 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/signal.h" 2
+L 64 "/vagrant/Q3_SDK_01/sdk_root/source/ti/posix/ccs/signal.h" 2
 N#endif
 N
 N#ifdef __cplusplus
@@ -5002,7 +6235,7 @@ S}
 N#endif
 N
 N#endif /* ti_posix_ccs_signal__include */
-L 63 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/time.h" 2
+L 68 "/vagrant/Q3_SDK_01/sdk_root/source/ti/posix/ccs/time.h" 2
 N#include "sys/types.h"
 N
 N#ifdef __cplusplus
@@ -5036,131 +6269,8 @@ N#define TIMER_ABSTIME 4
 N#endif
 N
 N#if defined(__TMS470__) && (__TI_COMPILER_VERSION__ >= 18001000)
-X#if 1L && (18012003 >= 18001000)
+X#if 1L && (20002001 >= 18001000)
 N#include <../include/sys/timespec.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/../include/sys/timespec.h" 1
-N/*-
-N * SPDX-License-Identifier: BSD-3-Clause
-N *
-N * Copyright (c) 1982, 1986, 1993
-N *	The Regents of the University of California.  All rights reserved.
-N *
-N * Redistribution and use in source and binary forms, with or without
-N * modification, are permitted provided that the following conditions
-N * are met:
-N * 1. Redistributions of source code must retain the above copyright
-N *    notice, this list of conditions and the following disclaimer.
-N * 2. Redistributions in binary form must reproduce the above copyright
-N *    notice, this list of conditions and the following disclaimer in the
-N *    documentation and/or other materials provided with the distribution.
-N * 3. Neither the name of the University nor the names of its contributors
-N *    may be used to endorse or promote products derived from this software
-N *    without specific prior written permission.
-N *
-N * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
-N * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-N * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-N * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
-N * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-N * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
-N * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-N * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-N * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
-N * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-N * SUCH DAMAGE.
-N *
-N *	@(#)time.h	8.5 (Berkeley) 5/4/95
-N * from: FreeBSD: src/sys/sys/time.h,v 1.43 2000/03/20 14:09:05 phk Exp
-N *	$FreeBSD$
-N */
-N
-N#ifndef _SYS_TIMESPEC_H_
-N#define _SYS_TIMESPEC_H_
-N
-N#include <sys/cdefs.h>
-N#include <sys/_timespec.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/sys/_timespec.h" 1
-N/*-
-N * SPDX-License-Identifier: BSD-3-Clause
-N *
-N * Copyright (c) 1982, 1986, 1993
-N *	The Regents of the University of California.  All rights reserved.
-N *
-N * Redistribution and use in source and binary forms, with or without
-N * modification, are permitted provided that the following conditions
-N * are met:
-N * 1. Redistributions of source code must retain the above copyright
-N *    notice, this list of conditions and the following disclaimer.
-N * 2. Redistributions in binary form must reproduce the above copyright
-N *    notice, this list of conditions and the following disclaimer in the
-N *    documentation and/or other materials provided with the distribution.
-N * 3. Neither the name of the University nor the names of its contributors
-N *    may be used to endorse or promote products derived from this software
-N *    without specific prior written permission.
-N *
-N * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
-N * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-N * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-N * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
-N * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-N * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
-N * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-N * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-N * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
-N * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-N * SUCH DAMAGE.
-N *
-N *	@(#)time.h	8.5 (Berkeley) 5/4/95
-N * from: FreeBSD: src/sys/sys/time.h,v 1.43 2000/03/20 14:09:05 phk Exp
-N *	$FreeBSD$
-N */
-N
-N#ifndef _SYS__TIMESPEC_H_
-N#define	_SYS__TIMESPEC_H_
-N
-N#include <sys/_types.h>
-N
-N#ifndef _TIME_T_DECLARED
-Stypedef	__time_t	time_t;
-S#define	_TIME_T_DECLARED
-N#endif
-N
-Nstruct timespec {
-N	time_t	tv_sec;		/* seconds */
-N	long	tv_nsec;	/* and nanoseconds */
-N};
-N
-N#endif /* !_SYS__TIMESPEC_H_ */
-L 41 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/../include/sys/timespec.h" 2
-N
-N#if __BSD_VISIBLE
-X#if 1
-N#define	TIMEVAL_TO_TIMESPEC(tv, ts)					\
-N	do {								\
-N		(ts)->tv_sec = (tv)->tv_sec;				\
-N		(ts)->tv_nsec = (tv)->tv_usec * 1000;			\
-N	} while (0)
-X#define	TIMEVAL_TO_TIMESPEC(tv, ts)						do {										(ts)->tv_sec = (tv)->tv_sec;						(ts)->tv_nsec = (tv)->tv_usec * 1000;				} while (0)
-N#define	TIMESPEC_TO_TIMEVAL(tv, ts)					\
-N	do {								\
-N		(tv)->tv_sec = (ts)->tv_sec;				\
-N		(tv)->tv_usec = (ts)->tv_nsec / 1000;			\
-N	} while (0)
-X#define	TIMESPEC_TO_TIMEVAL(tv, ts)						do {										(tv)->tv_sec = (ts)->tv_sec;						(tv)->tv_usec = (ts)->tv_nsec / 1000;				} while (0)
-N
-N#endif /* __BSD_VISIBLE */
-N
-N/*
-N * Structure defined by POSIX.1b to be like a itimerval, but with
-N * timespecs. Used in the timer_*() system calls.
-N */
-Nstruct itimerspec {
-N	struct timespec  it_interval;
-N	struct timespec  it_value;
-N};
-N
-N#endif /* _SYS_TIMESPEC_H_ */
-L 97 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/time.h" 2
 N#else
 Sstruct timespec {
 S    time_t  tv_sec;   /* Seconds */
@@ -5212,9 +6322,9 @@ S}
 N#endif
 N
 N#endif /* ti_posix_ccs_time__include */
-L 55 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/pthread.h" 2
+L 60 "/vagrant/Q3_SDK_01/sdk_root/source/ti/posix/ccs/pthread.h" 2
 N#include "sched.h"
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/sched.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/posix/ccs/sched.h" 1
 N/*
 N * Copyright (c) 2016-2019 Texas Instruments Incorporated - http://www.ti.com
 N * All rights reserved.
@@ -5255,6 +6365,12 @@ N#ifndef ti_posix_ccs_sched__include
 N#define ti_posix_ccs_sched__include
 N
 N/* compiler vendor check */
+N/* short-term migration warning; ticlang users should migrate away */
+N#if defined(__clang__)
+X#if 0L
+S#warning ticlang users should migrate to the ti/posix/ticlang include path
+N#endif
+N
 N#if !defined(__TI_COMPILER_VERSION__) && !defined(__clang__)
 X#if !1L && !0L
 S#error Incompatible compiler: use this include path (.../ti/posix/ccs) only \
@@ -5314,7 +6430,7 @@ S}
 N#endif
 N
 N#endif /* ti_posix_ccs_sched__include */
-L 56 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/pthread.h" 2
+L 61 "/vagrant/Q3_SDK_01/sdk_root/source/ti/posix/ccs/pthread.h" 2
 N
 N#ifdef __cplusplus
 Sextern "C" {
@@ -5557,9 +6673,9 @@ S}
 N#endif
 N
 N#endif /* ti_posix_ccs_pthread__include */
-L 54 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/porting/cc_pal.h" 2
+L 54 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/porting/cc_pal.h" 2
 N#include <ti/posix/ccs/semaphore.h>
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/semaphore.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/posix/ccs/semaphore.h" 1
 N/*
 N * Copyright (c) 2015-2019 Texas Instruments Incorporated - http://www.ti.com
 N * All rights reserved.
@@ -5600,6 +6716,12 @@ N#ifndef ti_posix_ccs_semaphore__include
 N#define ti_posix_ccs_semaphore__include
 N
 N/* compiler vendor check */
+N/* short-term migration warning; ticlang users should migrate away */
+N#if defined(__clang__)
+X#if 0L
+S#warning ticlang users should migrate to the ti/posix/ticlang include path
+N#endif
+N
 N#if !defined(__TI_COMPILER_VERSION__) && !defined(__clang__)
 X#if !1L && !0L
 S#error Incompatible compiler: use this include path (.../ti/posix/ccs) only \
@@ -5646,9 +6768,9 @@ S}
 N#endif
 N
 N#endif /* ti_posix_ccs_semaphore__include */
-L 55 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/porting/cc_pal.h" 2
+L 55 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/porting/cc_pal.h" 2
 N#include <ti/posix/ccs/unistd.h>
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/unistd.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/posix/ccs/unistd.h" 1
 N/*
 N * Copyright (c) 2015-2019 Texas Instruments Incorporated - http://www.ti.com
 N * All rights reserved.
@@ -5689,6 +6811,12 @@ N#ifndef ti_posix_ccs_unistd__include
 N#define ti_posix_ccs_unistd__include
 N
 N/* compiler vendor check */
+N/* short-term migration warning; ticlang users should migrate away */
+N#if defined(__clang__)
+X#if 0L
+S#warning ticlang users should migrate to the ti/posix/ticlang include path
+N#endif
+N
 N#if !defined(__TI_COMPILER_VERSION__) && !defined(__clang__)
 X#if !1L && !0L
 S#error Incompatible compiler: use this include path (.../ti/posix/ccs) only \
@@ -5716,17 +6844,21 @@ S}
 N#endif
 N
 N#endif /* ti_posix_ccs_unistd__include */
-L 56 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/porting/cc_pal.h" 2
+L 56 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/porting/cc_pal.h" 2
 N#elif defined(__IAR_SYSTEMS_ICC__)
 S#include <ti/posix/iar/pthread.h>
 S#include <ti/posix/iar/semaphore.h>
 S#include <ti/posix/iar/unistd.h>
+S#elif defined (__clang__)
+S#include <ti/posix/ticlang/pthread.h>
+S#include <ti/posix/ticlang/semaphore.h>
+S#include <ti/posix/ticlang/unistd.h>
 S#elif defined(__GNUC__)
 S#include <ti/posix/gcc/pthread.h>
 S#include <ti/posix/gcc/semaphore.h>
 S#include <ti/posix/gcc/unistd.h>
 S#else
-S#error "Unknown compiler, use __TI_COMPILER_VERSION__ __IAR_SYSTEMS_ICC__ or __GNUC__"
+S#error "Unknown compiler, use __TI_COMPILER_VERSION__, __IAR_SYSTEMS_ICC__ , __clang__ or __GNUC__"
 N#endif
 N#else //SL_PLATFORM_MULTI_THREADED
 S#include <ti/drivers/dpl/SemaphoreP.h>
@@ -6105,7 +7237,7 @@ N#endif // __cplusplus
 N
 N#endif
 N
-L 51 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/porting/user.h" 2
+L 51 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/porting/user.h" 2
 N
 Ntypedef signed int _SlFd_t;
 N
@@ -6152,7 +7284,7 @@ N#ifdef SL_MEMORY_MGMT_DYNAMIC
 N
 N
 N#include <stdlib.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/stdlib.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_20.2.1.LTS/include/stdlib.h" 1
 N/*****************************************************************************/
 N/* stdlib.h                                                                  */
 N/*                                                                           */
@@ -6190,8 +7322,12 @@ N/*  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.     */
 N/*                                                                           */
 N/*****************************************************************************/
 N
+N#ifndef __MISRA1915WORKAROUND__
+N
 N#ifndef _STDLIB_H_
 N#define _STDLIB_H_
+N
+N#include <_ti_config.h>
 N
 N#if defined(__TMS320C2000__)
 X#if 0L
@@ -6200,25 +7336,31 @@ S#error "Header file <stdlib.h> not supported by CLA compiler"
 S#endif
 N#endif
 N
-N#include <_ti_config.h>
 N
-N#pragma diag_push
-N#pragma CHECK_MISRA("-6.3") /* standard types required for standard headers */
-N#pragma CHECK_MISRA("-8.5") /* need to define inline function */
-N#pragma CHECK_MISRA("-19.1") /* #includes required for implementation */
-N#pragma CHECK_MISRA("-19.7") /* need function-like macros */
-N#pragma CHECK_MISRA("-20.1") /* standard headers must define standard names */
-N#pragma CHECK_MISRA("-20.2") /* standard headers must define standard names */
+N_TI_PROPRIETARY_PRAGMA("diag_push")
+X_Pragma("diag_push")
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-6.3\")") /* standard types required for standard headers */
+X_Pragma("CHECK_MISRA(\"-6.3\")")  
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-8.5\")") /* need to define inline function */
+X_Pragma("CHECK_MISRA(\"-8.5\")")  
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-19.1\")") /* #includes required for implementation */
+X_Pragma("CHECK_MISRA(\"-19.1\")")  
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-19.7\")") /* need function-like macros */
+X_Pragma("CHECK_MISRA(\"-19.7\")")  
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-20.1\")") /* standard headers must define standard names */
+X_Pragma("CHECK_MISRA(\"-20.1\")")  
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-20.2\")") /* standard headers must define standard names */
+X_Pragma("CHECK_MISRA(\"-20.2\")")  
 N
 N/*---------------------------------------------------------------------------*/
 N/* Attributes are only available in relaxed ANSI mode.                       */
 N/*---------------------------------------------------------------------------*/
 N#ifndef __ATTRIBUTE
-N#if __TI_STRICT_ANSI_MODE__
-X#if 0
-S#define __ATTRIBUTE(attr)
+N#if defined(__clang__) && !defined(__TI_PROPRIETARY_STRICT_ANSI_MACRO)
+X#if 0L && !1L
+S#define __ATTRIBUTE(attr) __attribute__(attr)
 N#else
-N#define __ATTRIBUTE(attr) __attribute__(attr)
+N#define __ATTRIBUTE(attr)
 N#endif
 N#endif
 N
@@ -6226,8 +7368,10 @@ N#ifdef __cplusplus
 Sextern "C" {
 N#endif /* !__cplusplus */
 N
-N#pragma diag_push
-N#pragma CHECK_MISRA("-5.7") /* keep names intact */
+N_TI_PROPRIETARY_PRAGMA("diag_push")
+X_Pragma("diag_push")
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-5.7\")") /* keep names intact */
+X_Pragma("CHECK_MISRA(\"-5.7\")")  
 N
 Ntypedef struct { int quot, rem; } div_t;
 N
@@ -6246,7 +7390,8 @@ N#define _LLONG_AVAILABLE 1
 Ntypedef struct { long long quot, rem; } lldiv_t;
 N#endif
 N
-N#pragma diag_pop
+N_TI_PROPRIETARY_PRAGMA("diag_pop")
+X_Pragma("diag_pop")
 N
 N#if defined(_AEABI_PORTABILITY_LEVEL) && _AEABI_PORTABILITY_LEVEL != 0
 X#if 0L && _AEABI_PORTABILITY_LEVEL != 0
@@ -6294,8 +7439,10 @@ N/*        requires that they exist as separate functions, so     */
 N/*        they are supplied in the library.  The prototype is    */
 N/*        here mainly for documentation.                         */
 N/*---------------------------------------------------------------*/
-N#pragma diag_push
-N#pragma CHECK_MISRA("-16.4") /* false positives due to builtin declarations */
+N_TI_PROPRIETARY_PRAGMA("diag_push")
+X_Pragma("diag_push")
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-16.4\")") /* false positives due to builtin declarations */
+X_Pragma("CHECK_MISRA(\"-16.4\")")  
 N    _CODE_ACCESS  int       abs(int _val); 
 X      int       abs(int _val); 
 N    _CODE_ACCESS  long      labs(long _val);
@@ -6305,7 +7452,8 @@ X#if 1L
 N    _CODE_ACCESS  long long llabs(long long _val);
 X      long long llabs(long long _val);
 N#endif
-N#pragma diag_pop
+N_TI_PROPRIETARY_PRAGMA("diag_pop")
+X_Pragma("diag_pop")
 N
 N    _CODE_ACCESS int       atoi(const char *_st);
 X     int       atoi(const char *_st);
@@ -6316,8 +7464,8 @@ X#if 1L
 N    _CODE_ACCESS long long atoll(const char *_st);
 X     long long atoll(const char *_st);
 N#endif
-N    _CODE_ACCESS int       ltoa(long val, char *buffer);
-X     int       ltoa(long val, char *buffer);
+N    _CODE_ACCESS char     *ltoa(long val, char * buffer, int radix);
+X     char     *ltoa(long val, char * buffer, int radix);
 N          _IDECL double    atof(const char *_st);
 X          extern  double    atof(const char *_st);
 N
@@ -6355,11 +7503,11 @@ N
 N    _CODE_ACCESS void  *calloc(size_t _num, size_t _size)
 X     void  *calloc(size_t _num, size_t _size)
 N               __ATTRIBUTE((malloc));
-X               __attribute__((malloc));
+X               ;
 N    _CODE_ACCESS void  *malloc(size_t _size)
 X     void  *malloc(size_t _size)
 N               __ATTRIBUTE((malloc));
-X               __attribute__((malloc));
+X               ;
 N    _CODE_ACCESS void  *realloc(void *_ptr, size_t _size);
 X     void  *realloc(void *_ptr, size_t _size);
 N    _CODE_ACCESS void   free(void *_ptr);
@@ -6367,13 +7515,13 @@ X     void   free(void *_ptr);
 N    _CODE_ACCESS void  *memalign(size_t _aln, size_t _size)
 X     void  *memalign(size_t _aln, size_t _size)
 N               __ATTRIBUTE((malloc));
-X               __attribute__((malloc));
-N#if defined(_TI_C11LIB) || __TI_STRICT_ANSI_MODE__ == 0
+X               ;
+N#if defined(_TI_C11LIB) || __TI_PROPRIETARY_STRICT_ANSI_MACRO == 0
 X#if 0L || 0 == 0
 N    _CODE_ACCESS void  *aligned_alloc(size_t _aln, size_t _size)
 X     void  *aligned_alloc(size_t _aln, size_t _size)
 N               __ATTRIBUTE((malloc));
-X               __attribute__((malloc));
+X               ;
 N#endif
 N
 N    _CODE_ACCESS void   __TI_heap_stats(void);
@@ -6403,13 +7551,13 @@ N                              __TI_compar_fn compar);
 N
 N    _TI_NORETURN _CODE_ACCESS void exit(int _status);
 X    __attribute__((noreturn))  void exit(int _status);
-N#if defined(_TI_C99LIB) || __TI_STRICT_ANSI_MODE__ == 0
+N#if defined(_TI_C99LIB) || __TI_PROPRIETARY_STRICT_ANSI_MACRO == 0
 X#if 0L || 0 == 0
 N    _TI_NORETURN _CODE_ACCESS void _Exit(int _status);
 X    __attribute__((noreturn))  void _Exit(int _status);
 N#endif
 N
-N#if defined(_TI_C11LIB) || __TI_STRICT_ANSI_MODE__ == 0
+N#if defined(_TI_C11LIB) || __TI_PROPRIETARY_STRICT_ANSI_MACRO == 0
 X#if 0L || 0 == 0
 N    _TI_NORETURN _CODE_ACCESS void quick_exit(int _status);
 X    __attribute__((noreturn))  void quick_exit(int _status);
@@ -6466,10 +7614,10 @@ S/*****************************************************************************/
 S/* If we leave these active when in relaxed ANSI mode, we get infinite       */
 S/* recursion due to changes in type matching.  See comment in                */
 S/* ansi/sys_predef.c line 4377 on why we specifically check the              */
-S/* __TI_STRICT_ANSI_MODE__ macro here and its relation to strict ANSI and    */
-S/* relaxed ANSI parser modes.                                                */
+S/* __TI_PROPRIETARY_STRICT_ANSI_MACRO macro here and its relation to strict  */
+S/* ANSI and relaxed ANSI parser modes.                                       */
 S/*****************************************************************************/
-S#if __TI_STRICT_ANSI_MODE__
+S#if __TI_PROPRIETARY_STRICT_ANSI_MACRO
 S    _CODE_ACCESS inline int atexit(void (*func)(void)) _TI_NOEXCEPT_CPP14
 S        {
 S            return atexit((__TI_atexit_fn)func);
@@ -6503,8 +7651,8 @@ N#if defined(__TMS320C2000__)
 X#if 0L
 S#include <stdlibf.h>     /* far versions of stdlib fns */
 S
-S#pragma diag_push
-S#pragma CHECK_MISRA("-19.4") /* Macros needed to retarget builtins */
+S_TI_PROPRIETARY_PRAGMA("diag_push")
+S_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-19.4\")") /* Macros needed to retarget builtins */
 S
 Sldiv_t __attribute__((builtin))
 S__euclidean_div_i32byu32(long numerator, unsigned long denominator);
@@ -6514,14 +7662,16 @@ S/*****************************************************************************/
 S/* These two structures are unsigned analogues of ldiv_t and lldiv_t.        */
 S/* They are used only by the fast integer division intrinsics                */
 S/*****************************************************************************/
-S#pragma diag_push
-S#pragma CHECK_MISRA("-5.7") /* Must have equivalent field names to ldiv_t and
+S_TI_PROPRIETARY_PRAGMA("diag_push")
+S_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-5.7\")") /* Must have equivalent field names to ldiv_t and
 S                               lldiv_t for usability */
 S
+Stypedef struct { long long quot; long rem; }                        __llldiv_t;
 Stypedef struct { unsigned long quot; unsigned long rem; }            __uldiv_t;
 Stypedef struct { unsigned long long quot; unsigned long long rem; } __ulldiv_t;
+Stypedef struct { unsigned long long quot; unsigned long rem; }      __ullldiv_t;
 S
-S#pragma diag_pop
+S_TI_PROPRIETARY_PRAGMA("diag_pop")
 S
 S/*****************************************************************************/
 S/* NOTE: The result of division between two unsigned values does not vary    */
@@ -6550,7 +7700,7 @@ S__modulo_div_i32byi32(long numerator, long denominator);
 S
 Sldiv_t __attribute__((builtin))
 S__traditional_div_i32byu32(long numerator, unsigned long denominator);
-S/* Declared above for all C200 targets */
+S/* Declared above for all C2000 targets */
 S/* ldiv_t __attribute__((builtin))
 S__euclidean_div_i32byu32(long numerator, unsigned long denominator); */
 Sldiv_t __attribute__((builtin))
@@ -6590,55 +7740,32 @@ S__traditional_div_u64byu64(unsigned long long numerator,
 S                           unsigned long long denominator);
 S
 S/* 64-bit by 32-bit */
-S/*
-Slldiv_t __attribute__((builtin))
-S__traditional_div_i64byi32(unsigned long long numerator, long denominator);
-Slldiv_t __attribute__((builtin))
-S__euclidean_div_i64byi32(unsigned long long numerator, long denominator);
-Slldiv_t __attribute__((builtin))
-S__modulo_div_i64byi32(unsigned long long numerator, long denominator);
+S__llldiv_t __attribute__((builtin))
+S__traditional_div_i64byi32(long long numerator, long denominator);
+S
+S__llldiv_t __attribute__((builtin))
+S__euclidean_div_i64byi32(long long numerator, long denominator);
+S
+S__llldiv_t __attribute__((builtin))
+S__modulo_div_i64byi32(long long numerator, long denominator);
 S
 Slldiv_t __attribute__((builtin))
-S__traditional_div_i64byu32(unsigned long long numerator,
-S                           unsigned long denominator);
-Slldiv_t __attribute__((builtin))
-S__euclidean_div_i64byu32(unsigned long long numerator,
-S                         unsigned long denominator);
-Slldiv_t __attribute__((builtin))
-S__modulo_div_i64byu32(unsigned long long numerator, unsigned long denominator);
+S__traditional_div_i64byu32(long long numerator, unsigned long denominator);
 S
-S__ulldiv_t __attribute__((builtin))
+S__llldiv_t __attribute__((builtin))
+S__euclidean_div_i64byu32(long long numerator, unsigned long denominator);
+S
+S__llldiv_t __attribute__((builtin))
+S__modulo_div_i64byu32(long long numerator, unsigned long denominator);
+S
+S__ullldiv_t __attribute__((builtin))
 S__traditional_div_u64byu32(unsigned long long numerator,
 S                           unsigned long denominator);
-S*/
-S#define __traditional_div_i64byi32(n, d) \
-S    __traditional_div_i64byi64((n), (long long)(d))
-X#define __traditional_div_i64byi32(n, d)     __traditional_div_i64byi64((n), (long long)(d))
-S#define __euclidean_div_i64byi32(n, d) \
-S    __euclidean_div_i64byi64((n), (long long)d)
-X#define __euclidean_div_i64byi32(n, d)     __euclidean_div_i64byi64((n), (long long)d)
-S#define __modulo_div_i64byi32(n, d) \
-S    __modulo_div_i64byi64((n), (long long)d)
-X#define __modulo_div_i64byi32(n, d)     __modulo_div_i64byi64((n), (long long)d)
-S
-S#define __traditional_div_i64byu32(n, d) \
-S    __traditional_div_i64byu64((n), (unsigned long long)d)
-X#define __traditional_div_i64byu32(n, d)     __traditional_div_i64byu64((n), (unsigned long long)d)
-S#define __euclidean_div_i64byu32(n, d) \
-S    __euclidean_div_i64byu64((n), (unsigned long long)d)
-X#define __euclidean_div_i64byu32(n, d)     __euclidean_div_i64byu64((n), (unsigned long long)d)
-S#define __modulo_div_i64byu32(n, d) \
-S    __modulo_div_i64byu64((n), (unsigned long long)d)
-X#define __modulo_div_i64byu32(n, d)     __modulo_div_i64byu64((n), (unsigned long long)d)
-S
-S#define __traditional_div_u64byu32(n, d) \
-S    __traditional_div_u64byu64((n), (unsigned long long)d)
-X#define __traditional_div_u64byu32(n, d)     __traditional_div_u64byu64((n), (unsigned long long)d)
 S
 S/* ldiv and lldiv implementations using intrinsics. They are implemented using
 S * inline functions so the address of the functions can be taken */
-S#pragma diag_push
-S#pragma CHECK_MISRA("-5.6") /* We use a preprocessor macro to optimize ldiv
+S_TI_PROPRIETARY_PRAGMA("diag_push")
+S_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-5.6\")") /* We use a preprocessor macro to optimize ldiv
 S                               and lldiv standard functions */
 S
 S#define ldiv __fast_ldiv
@@ -6655,15 +7782,16 @@ S{
 S   return __traditional_div_i64byi64(_numer, _denom);
 S}
 S
-S#pragma diag_pop
+S_TI_PROPRIETARY_PRAGMA("diag_pop")
 S
 S# endif /* defined(__TMS320C28XX_FAST_IDIV__) */
 S
-S#pragma diag_pop
+S_TI_PROPRIETARY_PRAGMA("diag_pop")
 S
 N#endif
 N
-N#pragma diag_pop
+N_TI_PROPRIETARY_PRAGMA("diag_pop")
+X_Pragma("diag_pop")
 N
 N#if defined(_AEABI_PORTABILITY_LEVEL) && _AEABI_PORTABILITY_LEVEL != 0 && \
 N   !defined(_AEABI_PORTABLE)
@@ -6673,9 +7801,13 @@ N#endif
 N
 N#endif  /* ! _STDLIB_H_ */
 N
-N#pragma diag_push
-N#pragma CHECK_MISRA("-19.15") /* FreeBSD library requires code outside of the
+N_TI_PROPRIETARY_PRAGMA("diag_push")
+X_Pragma("diag_push")
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-19.15\")") /* FreeBSD library requires code outside of the
+X_Pragma("CHECK_MISRA(\"-19.15\")") 
 N                                 include guard */
+N_TI_PROPRIETARY_PRAGMA("CHECK_MISRA(\"-19.1\")")
+X_Pragma("CHECK_MISRA(\"-19.1\")")
 N
 N/*----------------------------------------------------------------------------*/
 N/* If sys/cdefs.h is available, go ahead and include it. xlocale.h assumes    */
@@ -6697,8 +7829,17 @@ S#include <xlocale/_stdlib.h>
 S__END_DECLS
 N#endif
 N
+N/*----------------------------------------------------------------------------*/
+N/* The _TI_PROPRIETARY_PRAGMA macro exoands to a C99 _Pragma operator. */
+N/* The _Pragma statement is handled after the Pragma itself causing unexpected */
+N/* warnings due to the diagnostic state being popped. This is done to suppress */
+N/* unexpected 19.15 misra warnings.                                   */
+N/*----------------------------------------------------------------------------*/
+N#ifdef __TI_COMPILER_VERSION__
 N#pragma diag_pop
-L 97 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/porting/user.h" 2
+N#endif
+N#endif
+L 97 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/porting/user.h" 2
 N/*!
 N    \brief
 N    \sa
@@ -8123,7 +9264,7 @@ S}
 N#endif // __cplusplus
 N
 N#endif // __USER_H__
-L 244 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
+L 244 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
 N
 N#ifdef    __cplusplus
 Sextern "C"
@@ -8162,11 +9303,11 @@ N
 N/*****************************************************************************/
 N/* Macro declarations for Host Driver version                                */
 N/*****************************************************************************/
-N#define SL_DRIVER_VERSION   "3.0.1.55"
+N#define SL_DRIVER_VERSION   "3.0.1.68"
 N#define SL_MAJOR_VERSION_NUM    3L
 N#define SL_MINOR_VERSION_NUM    0L
 N#define SL_VERSION_NUM          1L
-N#define SL_SUB_VERSION_NUM      55L
+N#define SL_SUB_VERSION_NUM      68L
 N
 N/*****************************************************************************/
 N/* Macro declarations for predefined configurations                          */
@@ -8229,7 +9370,7 @@ N   objInclusion.h must be the last arrangement just before including the API he
 N   since it based on the other configurations to decide which object should be included
 N*/
 N#include "source/objInclusion.h"
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/source/objInclusion.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/source/objInclusion.h" 1
 N/*
 N * objInclusion.h - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -8268,7 +9409,7 @@ N*/
 N
 N
 N#include <ti/drivers/net/wifi/simplelink.h>
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 1
 N/*
 N * simplelink.h - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -8436,8 +9577,8 @@ N
 N \subsection     porting_step5   Step 5 - Choose your memory management model
 N
 N The SimpleLink driver support two memory models:
-N     - Static (default)
-N     - Dynamic
+N     - Static 
+N     - Dynamic (default)
 N
 N To enable the dynamic memory, the following pre-processor define should be set: \n
 N #define SL_MEMORY_MGMT_DYNAMIC
@@ -8550,11 +9691,11 @@ S
 S/*****************************************************************************/
 S/* Macro declarations for Host Driver version                                */
 S/*****************************************************************************/
-S#define SL_DRIVER_VERSION   "3.0.1.55"
+S#define SL_DRIVER_VERSION   "3.0.1.68"
 S#define SL_MAJOR_VERSION_NUM    3L
 S#define SL_MINOR_VERSION_NUM    0L
 S#define SL_VERSION_NUM          1L
-S#define SL_SUB_VERSION_NUM      55L
+S#define SL_SUB_VERSION_NUM      68L
 S
 S/*****************************************************************************/
 S/* Macro declarations for predefined configurations                          */
@@ -9464,7 +10605,7 @@ S#endif /* __cplusplus */
 S
 N#endif    /*  __SIMPLELINK_H__ */
 N
-L 39 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/source/objInclusion.h" 2
+L 39 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/source/objInclusion.h" 2
 N
 N
 N#ifndef OBJINCLUSION_H_
@@ -9790,9 +10931,9 @@ S}
 N#endif /* __cplusplus */
 N
 N#endif /*OBJINCLUSION_H_  */
-L 345 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
+L 345 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
 N#include "trace.h"
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/trace.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/trace.h" 1
 N/*
 N * trace.h - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -10028,9 +11169,9 @@ N
 N
 N#endif /*__SIMPLELINK_TRACE_H__*/
 N
-L 346 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
+L 346 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
 N#include "fs.h"
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/fs.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/fs.h" 1
 N/*
 N * fs.h - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -10941,9 +12082,9 @@ N#endif /*  __cplusplus */
 N
 N#endif /*  __FS_H__ */
 N
-L 347 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
+L 347 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
 N#include "sl_socket.h"
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/sl_socket.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/sl_socket.h" 1
 N/*
 N * sl_socket.h - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -11054,6 +12195,7 @@ N#define SL_SO_RCVBUF                                          (8)  /* Setting T
 N#define SL_SO_KEEPALIVE                                       (9)  /* Connections are kept alive with periodic messages */
 N#define SL_SO_LINGER                                          (13) /* Socket lingers on close pending remaining send/receive packets. */
 N#define SL_SO_RCVTIMEO                                        (20) /* Enable receive timeout */
+N#define SL_SO_SNDTIMEO                                        (21)  /* Enable send timeout */
 N#define SL_SO_NONBLOCKING                                     (24) /* Enable . disable nonblocking mode  */
 N#define SL_SO_SECMETHOD                                       (25) /* security metohd */
 N#define SL_SO_SECURE_MASK                                     (26) /* security mask */
@@ -11622,8 +12764,7 @@ N                                address returned addr is
 N                                determined by the socket's
 N                                address\n
 N                                sockaddr:\n - code for the
-N                                address format. On this version
-N                                only AF_INET is supported.\n -
+N                                address format. \n -
 N                                socket address, the length
 N                                depends on the code format
 N    \param[out] addrlen         The addrlen argument is a value-result 
@@ -11659,9 +12800,7 @@ N
 N    \param[in] sd               Socket descriptor (handle)
 N    \param[in] addr             Specifies the destination 
 N                                addrs\n sockaddr:\n - code for
-N                                the address format. On this
-N                                version only SL_AF_INET is
-N                                supported.\n - socket address,
+N                                the address format.\n - socket address,
 N                                the length depends on the code
 N                                format
 N    \param[in] addrlen          Contains the size of the structure pointed to by addr
@@ -11723,8 +12862,7 @@ N
 N    \param[in] sd               Socket descriptor (handle)
 N    \param[in] addr             Specifies the destination addr\n
 N                                sockaddr:\n - code for the
-N                                address format. On this version
-N                                only AF_INET is supported.\n -
+N                                address format.\n -
 N                                socket address, the length
 N                                depends on the code format
 N   
@@ -11863,6 +13001,10 @@ N                                - <b>SL_SO_RCVTIMEO</b>  \n
 N                                                Sets the timeout value that specifies the maximum amount of time an input function waits until it completes. \n
 N                                                Default: No timeout \n
 N                                                This options takes SlTimeval_t struct as parameter
+N                                - <b>SL_SO_SNDTIMEO</b>  \n
+N                                                 Sets the timeout value that specifies the maximum amount of time an output function waits until it completes. \n
+N                                                 Default: No timeout \n
+N                                                 This options takes SlTimeval_t struct as parameter
 N                                - <b>SL_SO_RCVBUF</b>  \n
 N                                                Sets tcp max recv window size. \n
 N                                                This options takes SlSockWinsize_t struct as parameter
@@ -12024,6 +13166,15 @@ N        struct SlTimeval_t timeVal;
 N        timeVal.tv_sec =  1;             // Seconds
 N        timeVal.tv_usec = 0;             // Microseconds. 10000 microseconds resolution
 N        sl_SetSockOpt(SockID,SL_SOL_SOCKET,SL_SO_RCVTIMEO, (_u8 *)&timeVal, sizeof(timeVal));    // Enable receive timeout 
+N    \endcode
+N    <br>
+N
+N    - SL_SO_SNDTIMEO:
+N    \code
+N        struct SlTimeval_t timeVal;
+N        timeVal.tv_sec =  20;             // Seconds
+N        timeVal.tv_usec = 0;             // Microseconds. 10000 microseconds resolution
+N        sl_SetSockOpt(SockID,SL_SOL_SOCKET,SL_SO_SNDTIMEO, (_u8 *)&timeVal, sizeof(timeVal));    // Enable send timeout
 N    \endcode
 N    <br>
 N
@@ -12383,9 +13534,7 @@ N                                supported.
 N    \param[in]  from            Pointer to an address structure 
 N                                indicating the source
 N                                address.\n sockaddr:\n - code
-N                                for the address format. On this
-N                                version only AF_INET is
-N                                supported.\n - socket address,
+N                                for the address format.\n - socket address,
 N                                the length depends on the code
 N                                format
 N    \param[in]  fromlen         Source address structure
@@ -12500,9 +13649,7 @@ N                                supported
 N    \param[in] to               Pointer to an address structure 
 N                                indicating the destination
 N                                address.\n sockaddr:\n - code
-N                                for the address format. On this
-N                                version only AF_INET is
-N                                supported.\n - socket address,
+N                                for the address format.\n - socket address,
 N                                the length depends on the code
 N                                format
 N    \param[in] tolen            Destination address structure size 
@@ -12657,9 +13804,9 @@ N
 N#endif /* __SOCKET_H__ */
 N
 N
-L 348 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
+L 348 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
 N#include "netapp.h"
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/netapp.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/netapp.h" 1
 N/*
 N * netapp.h - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -14227,9 +15374,9 @@ N#endif /*  __cplusplus */
 N
 N#endif    /*  __NETAPP_H__ */
 N
-L 349 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
+L 349 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
 N#include "wlan.h"
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/wlan.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/wlan.h" 1
 N/*
 N * wlan.h - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -14346,6 +15493,9 @@ N    SL_WLAN_EVENT_MAX
 N
 N} SlWlanEventId_e;
 N
+N/* WLAN conn policy flags */
+N#define SL_WLAN_CONN_POLICY_NON_PERSISTENT_FLAG (1<<0) // when issuing conn policy command, the settings will not be saved on the FS
+N
 N
 N/* WLAN Disconnect Reason Codes */
 N#define  SL_WLAN_DISCONNECT_UNSPECIFIED                                         (1)
@@ -14437,6 +15587,8 @@ N#define SL_WLAN_SEC_TYPE_P2P_PIN_KEYPAD                                        
 N#define SL_WLAN_SEC_TYPE_P2P_PIN_DISPLAY                                             (8)
 N#define SL_WLAN_SEC_TYPE_P2P_PIN_AUTO                                                (9) /* NOT Supported yet */
 N#define SL_WLAN_SEC_TYPE_WEP_SHARED                                                  (10)
+N#define SL_WLAN_SEC_TYPE_WPA2_PLUS                                                   (11) /* Support to WPA3\WPA2\WPA2+PMF (Protected Managmant Frame) networks */
+N#define SL_WLAN_SEC_TYPE_WPA3                                                        (12) /* Support WPA3 only networks */
 N#define SL_WLAN_SEC_TYPE_WPA_PMK                                                     (15)
 N
 N#define SL_TLS                                                                       (0x1)
@@ -14547,6 +15699,7 @@ N#define SL_WLAN_CFG_P2P_PARAM_ID                      (2)
 N#define SL_WLAN_CFG_AP_ACCESS_LIST_ID                 (3)
 N#define SL_WLAN_RX_FILTERS_ID                         (4)
 N#define SL_WLAN_CONNECTION_INFO                       (5)
+N#define SL_WLAN_STA_NETWORK_ASSISTED_ROAMING          (6)
 N
 N/* wlan AP Config set/get options */
 N#define SL_WLAN_AP_OPT_SSID                           (0)
@@ -14589,7 +15742,10 @@ N#define SL_WLAN_GENERAL_PARAM_COEX_CONFIG                 (39)
 N#define SL_WLAN_GENERAL_PARAM_ANT_SELECTION_CONFIG        (40)
 N#define SL_WLAN_GENERAL_PARAM_ANT_SELECTION_SET           (41)
 N#define SL_WLAN_GENERAL_PARAM_ANT_SELECTION_GET           (42)
+N#define SL_WLAN_GENERAL_PARAM_OPT_NO_PS_POLL_MODE         (43)
 N#define SL_WLAN_GENERAL_PARAM_EXT_CONNECTION_INFO         (44)
+N#define SL_WLAN_ROAMING_TRIGGERING_ENABLE                 (45)
+N#define SL_WLAN_AP_TRANSITION_ENABLE                      (46)
 N
 N
 N/* SmartConfig CIPHER options */
@@ -14674,23 +15830,30 @@ N
 N/* Scan results security information */
 N#define SL_WLAN_SCAN_RESULT_GROUP_CIPHER(SecurityInfo)                      (SecurityInfo & 0xF)   /* Possible values: NONE,SL_WLAN_CIPHER_BITMAP_TKIP,SL_WLAN_CIPHER_BITMAP_CCMP */
 N#define SL_WLAN_SCAN_RESULT_UNICAST_CIPHER_BITMAP(SecurityInfo)             ((SecurityInfo & 0xF0) >> 4 ) /* Possible values: NONE,SL_WLAN_CIPHER_BITMAP_WEP40,SL_WLAN_CIPHER_BITMAP_WEP104,SL_WLAN_CIPHER_BITMAP_TKIP,SL_WLAN_CIPHER_BITMAP_CCMP*/
-N#define SL_WLAN_SCAN_RESULT_HIDDEN_SSID(SecurityInfo)                       (SecurityInfo & 0x2000 ) >> 13 /* Possible values: TRUE/FALSE */    
-N#define SL_WLAN_SCAN_RESULT_KEY_MGMT_SUITES_BITMAP(SecurityInfo)            (SecurityInfo & 0x1800 ) >> 11  /* Possible values: SL_WLAN_KEY_MGMT_SUITE_802_1_X, SL_WLAN_KEY_MGMT_SUITE_PSK */
-N#define SL_WLAN_SCAN_RESULT_SEC_TYPE_BITMAP(SecurityInfo)                   (SecurityInfo & 0x700   ) >> 8  /* Possible values: SL_WLAN_SECURITY_TYPE_BITMAP_OPEN, SL_WLAN_SECURITY_TYPE_BITMAP_WEP, SL_WLAN_SECURITY_TYPE_BITMAP_WPA, SL_WLAN_SECURITY_TYPE_BITMAP_WPA2, 0x6 (mix mode) SL_WLAN_SECURITY_TYPE_BITMAP_WPA | SL_WLAN_SECURITY_TYPE_BITMAP_WPA2 */
+N#define SL_WLAN_SCAN_RESULT_HIDDEN_SSID(SecurityInfo)                       ((SecurityInfo & 0x2000 ) >> 13) /* Possible values: TRUE/FALSE */    
+N#define SL_WLAN_SCAN_RESULT_KEY_MGMT_SUITES_BITMAP(SecurityInfo)            ((SL_WLAN_SCAN_RESULT_SEC_TYPE_BITMAP(SecurityInfo) == 0 | SL_WLAN_SCAN_RESULT_SEC_TYPE_BITMAP(SecurityInfo) == 1) ? 0: (((SecurityInfo & 0x1800) >> 11) == 0 ? SL_WLAN_KEY_MGMT_SUITE_PSK256 : ((SecurityInfo & 0x1800) >> 11)))  /* Possible values: SL_WLAN_KEY_MGMT_SUITE_802_1_X, SL_WLAN_KEY_MGMT_SUITE_PSK, SL_WLAN_KEY_MGMT_SUITE_PSK256, SL_WLAN_KEY_MGMT_SUITE_PSK_SAE */
+N#define SL_WLAN_SCAN_RESULT_SEC_TYPE_BITMAP(SecurityInfo)                   ((SecurityInfo & 0x700   ) >> 8)  /* Possible values: SL_WLAN_SECURITY_TYPE_BITMAP_OPEN, SL_WLAN_SECURITY_TYPE_BITMAP_WEP, SL_WLAN_SECURITY_TYPE_BITMAP_WPA, SL_WLAN_SECURITY_TYPE_BITMAP_WPA2, SL_WLAN_SECURITY_TYPE_BITMAP_WPA3, 0x6 (mix mode) SL_WLAN_SECURITY_TYPE_BITMAP_WPA | SL_WLAN_SECURITY_TYPE_BITMAP_WPA2 */
+N#define SL_WLAN_SCAN_RESULT_PMF_ENABLE(SecurityInfo)                        ((SecurityInfo & 0x4000  ) >> 14)  /* Possible values: TRUE/FALSE */
+N#define SL_WLAN_SCAN_RESULT_PMF_REQUIRED(SecurityInfo)                      ((SecurityInfo & 0x8000  ) >> 15)  /* Possible values: TRUE/FALSE */
 N
-N#define SL_WLAN_SECURITY_TYPE_BITMAP_OPEN             0x0
-N#define SL_WLAN_SECURITY_TYPE_BITMAP_WEP              0x1
-N#define SL_WLAN_SECURITY_TYPE_BITMAP_WPA              0x2
-N#define SL_WLAN_SECURITY_TYPE_BITMAP_WPA2             0x4
+N
+N#define SL_WLAN_SECURITY_TYPE_BITMAP_OPEN                     0x0
+N#define SL_WLAN_SECURITY_TYPE_BITMAP_WEP                      0x1
+N#define SL_WLAN_SECURITY_TYPE_BITMAP_WPA                      0x2
+N#define SL_WLAN_SECURITY_TYPE_BITMAP_WPA2                     0x4
+N#define SL_WLAN_SECURITY_TYPE_BITMAP_WPA3                     0x5
+N#define SL_WLAN_SECURITY_TYPE_BITMAP_MIX_WPA_WPA2             0x6
 N
 N#define SL_WLAN_CIPHER_BITMAP_WEP40                   0x1
 N#define SL_WLAN_CIPHER_BITMAP_WEP104                  0x2
 N#define SL_WLAN_CIPHER_BITMAP_TKIP                    0x4
 N#define SL_WLAN_CIPHER_BITMAP_CCMP                    0x8
 N
+N
 N#define SL_WLAN_KEY_MGMT_SUITE_802_1_X                1
 N#define SL_WLAN_KEY_MGMT_SUITE_PSK                    2
-N
+N#define SL_WLAN_KEY_MGMT_SUITE_PSK_SAE                3
+N#define SL_WLAN_KEY_MGMT_SUITE_PSK256                 4
 N
 N
 N#define SL_WLAN_RX_FILTER_MAX_FILTERS                 (64)    /* Max number of filters is 64 filters */
@@ -14820,8 +15983,8 @@ N    _u8     SsidName[32];
 X    unsigned char     SsidName[32];
 N    _u8     Bssid[6];
 X    unsigned char     Bssid[6];
-N    _u8     Padding;
-X    unsigned char     Padding;
+N    _u8     Channel;
+X    unsigned char     Channel;
 N} SlWlanEventConnect_t;
 N
 Ntypedef struct
@@ -15113,7 +16276,7 @@ N    _u8 Mode;       /* ROLE_STA, ROLE_AP, ROLE_P2P */
 X    unsigned char Mode;        
 N    _u8 ConnStatus; /* SlWlanConnStatusFlags_e */
 X    unsigned char ConnStatus;  
-N    _u8 SecType;    /* Current connection security type - (0 in case of disconnect or AP mode) SL_WLAN_SEC_TYPE_OPEN, SL_WLAN_SEC_TYPE_WEP, SL_WLAN_SEC_TYPE_WPA_WPA2, SL_WLAN_SEC_TYPE_WPA_ENT, SL_WLAN_SEC_TYPE_WPS_PBC, SL_WLAN_SEC_TYPE_WPS_PIN */
+N    _u8 SecType;    /* Current connection security type - (0 in case of disconnect or AP mode) SL_WLAN_SEC_TYPE_OPEN, SL_WLAN_SEC_TYPE_WEP, SL_WLAN_SEC_TYPE_WPA_WPA2, SL_WLAN_SEC_TYPE_WPA2_PLUS, SL_WLAN_SEC_TYPE_WPA3, SL_WLAN_SEC_TYPE_WPA_ENT, SL_WLAN_SEC_TYPE_WPS_PBC, SL_WLAN_SEC_TYPE_WPS_PIN */
 X    unsigned char SecType;     
 N    _u8 Reserved;
 X    unsigned char Reserved;
@@ -15266,6 +16429,16 @@ X    unsigned char Reserved;
 N    _u32 Options;                                                                       /* Set to zero - not supported */
 X    unsigned long Options;                                                                        
 N}SlWlanCoexConfig_t;
+N
+Ntypedef struct
+N{
+N    _u8  Enable;          /* Enable no ps poll mode - 1, Disable 0 Read documentation in sl_WlanSet*/
+X    unsigned char  Enable;           
+N    _u8  Reserved;        /* Reserved for future use   */
+X    unsigned char  Reserved;         
+N    _u8  Padding[2];      /* Padding */
+X    unsigned char  Padding[2];       
+N} SlWlanNoPSPollMode_t;
 N
 Ntypedef enum
 N{
@@ -15616,6 +16789,17 @@ X    unsigned char Padding[4];
 N
 N} SlWlanRxFilterOperationCommandBuff_t;
 N
+N/* The supported operation: SL_WLAN_ROAMING_TRIGGERING_ENABLE, SL_WLAN_AP_TRANSITION_ENABLE */
+Ntypedef struct
+N{
+N    _u8    Enable;          /* Enable App bit - 1, Disable 0 */
+X    unsigned char    Enable;           
+N    _i16   rssiThreshold;   /* rssi Threshold for SL_WLAN_ROAMING_TRIGGERING_ENABLE */
+X    signed short   rssiThreshold;    
+N    _u8    Reserved;        /* Reserved for future use       */
+X    unsigned char    Reserved;         
+N} SlWlanNetworkAssistedRoaming_t;
+N
 N/* The supported operation: SL_WLAN_RX_FILTER_UPDATE_ARGS */
 Ntypedef struct
 N{
@@ -15667,7 +16851,9 @@ N                                security types options:
 N                                - SL_WLAN_SEC_TYPE_OPEN
 N                                - SL_WLAN_SEC_TYPE_WEP
 N                                - SL_WLAN_SEC_TYPE_WEP_SHARED
-N                                - SL_WLAN_SEC_TYPE_WPA_WPA2
+N                                - SL_WLAN_SEC_TYPE_WPA_WPA2 
+N                                - SL_WLAN_SEC_TYPE_WPA2_PLUS
+N                                - SL_WLAN_SEC_TYPE_WPA3
 N                                - SL_WLAN_SEC_TYPE_WPA_ENT
 N                                - SL_WLAN_SEC_TYPE_WPS_PBC
 N                                - SL_WLAN_SEC_TYPE_WPS_PIN
@@ -15680,8 +16866,9 @@ N
 N
 N    \sa             sl_WlanDisconnect
 N    \note           Belongs to \ref ext_api
-N    \warning        In this version only single enterprise mode could be used\n
-N                    SL_WLAN_SEC_TYPE_WPA is a deprecated definition, the new definition is SL_WLAN_SEC_TYPE_WPA_WPA2
+N    \warning        -In this version only single enterprise mode could be used\n
+N                    -SL_WLAN_SEC_TYPE_WPA is a deprecated definition, the new definition is SL_WLAN_SEC_TYPE_WPA_WPA2
+N                    -SL_WLAN_SEC_TYPE_WPA2_PLUS enable to connect to WPA2, WPA2+PMF and WPA3 only networks
 N    \par Example
 N    
 N    - Connect without security:
@@ -15737,6 +16924,8 @@ N                                - SL_WLAN_SEC_TYPE_OPEN
 N                                - SL_WLAN_SEC_TYPE_WEP
 N                                - SL_WLAN_SEC_TYPE_WEP_SHARED
 N                                - SL_WLAN_SEC_TYPE_WPA_WPA2
+N                                - SL_WLAN_SEC_TYPE_WPA2_PLUS
+N                                - SL_WLAN_SEC_TYPE_WPA3
 N                                - SL_WLAN_SEC_TYPE_WPA_ENT
 N                                - SL_WLAN_SEC_TYPE_WPS_PBC
 N                                - SL_WLAN_SEC_TYPE_WPS_PIN
@@ -15755,10 +16944,11 @@ N    \par Persistent
 N                    Profiles are <b>Persistent</b>
 N    \sa             sl_WlanProfileGet , sl_WlanProfileDel
 N    \note           belongs to \ref ext_api
-N    \warning        Only one Enterprise profile is supported.\n
-N                    Please Note that in case of adding an existing profile (compared by pName,pMACAddr and security type)
-N                    the old profile will be deleted and the same index will be returned.\n
-N                    SL_WLAN_SEC_TYPE_WPA is a deprecated definition, the new definition is SL_WLAN_SEC_TYPE_WPA_WPA2
+N    \warning        -Only one Enterprise profile is supported.\n
+N                    -Please Note that in case of adding an existing profile (compared by pName,pMACAddr and security type)
+N                     the old profile will be deleted and the same index will be returned.\n
+N                    -SL_WLAN_SEC_TYPE_WPA is a deprecated definition, the new definition is SL_WLAN_SEC_TYPE_WPA_WPA2
+N                    -SL_WLAN_SEC_TYPE_WPA2_PLUS enable to connect to WPA2, WPA2+PMF and WPA3 only networks
 N
 N*/
 N#if _SL_INCLUDE_FUNC(sl_WlanProfileAdd)
@@ -15785,6 +16975,8 @@ N                       - SL_WLAN_SEC_TYPE_OPEN
 N                       - SL_WLAN_SEC_TYPE_WEP
 N                       - SL_WLAN_SEC_TYPE_WEP_SHARED
 N                       - SL_WLAN_SEC_TYPE_WPA_WPA2
+N                       - SL_WLAN_SEC_TYPE_WPA2_PLUS
+N                       - SL_WLAN_SEC_TYPE_WPA3
 N                       - SL_WLAN_SEC_TYPE_WPA_ENT
 N                       - SL_WLAN_SEC_TYPE_WPS_PBC
 N                       - SL_WLAN_SEC_TYPE_WPS_PIN \n
@@ -15842,6 +17034,8 @@ N                                    - SL_WLAN_SEC_TYPE_OPEN
 N                                    - SL_WLAN_SEC_TYPE_WEP
 N                                    - SL_WLAN_SEC_TYPE_WEP_SHARED
 N                                    - SL_WLAN_SEC_TYPE_WPA_WPA2
+N                                    - SL_WLAN_SEC_TYPE_WPA2_PLUS
+N                                    - SL_WLAN_SEC_TYPE_WPA3
 N                                    - SL_WLAN_SEC_TYPE_WPA_ENT
 N                                    - SL_WLAN_SEC_TYPE_WPS_PBC
 N                                    - SL_WLAN_SEC_TYPE_WPS_PIN
@@ -15907,9 +17101,19 @@ N    \note           belongs to \ref ext_api
 N    \warning
 N    \par    Example
 N    
-N      <b>SL_WLAN_POLICY_CONNECTION: </b><br> defines options available to connect the CC31xx device to the AP: 
-N      The options below could be combined to a single action, if more than one action is required. 
-N
+N    <b>SL_WLAN_POLICY_CONNECTION: </b><br> defines options available to connect the CC31xx device to the AP: 
+N    The options below could be combined to a single action, if more than one action is required. This API is persistent by default.
+N    
+N    If used with uint32_t flags as value, the following flags are supported for the sl_WlanPolicySet command
+N    - <b>SL_WLAN_CONN_POLICY_NON_PERSISTENT_FLAG</b> - settings are not saved on the FS 
+N    Flags usage example:
+N    \code    
+N        uint32_t flags = 0;
+N        flags |= SL_WLAN_CONN_POLICY_NON_PERSISTENT_FLAG;
+N        sl_WlanPolicySet(SL_WLAN_POLICY_CONNECTION,SL_WLAN_CONNECTION_POLICY(1,0,0,0),&flags,sizeof(flags));
+N    \endcode
+N  
+N  
 N    - Auto Connect: If is set, the CC31xx device tries to automatically reconnect to one of its stored profiles,
 N      each time the connection fails or the device is rebooted. To set this option, use: 
 N    \code    
@@ -16138,7 +17342,7 @@ N
 N    \return  Number of valid networks list items
 N    \sa
 N    \note       belongs to \ref ext_api
-N    \warning    This command do not initiate any active scanning action
+N    \warning    Triggers a one-shot scan if there are no scan results in the system, or if the scan results which exist are old (aging is defined as 20 seconds if the scan policy is disabled, or twice the scan interval if the policy is enabled). Will otherwise return results from last periodic scan.
 N    \par        Example
 N
 N    - Fetching max 10 results:
@@ -16148,16 +17352,18 @@ N    _u8 i;
 N    _i16 resultsCount = sl_WlanGetNetworkList(0,10,&netEntries[0]);
 N    for(i=0; i< resultsCount; i++)
 N    {
-N        printf("%d. ",i+1);
-N        printf("SSID: %.32s        ",netEntries[i].Ssid);
-N        printf("BSSID: %x:%x:%x:%x:%x:%x    ",netEntries[i].Bssid[0],netEntries[i].Bssid[1],netEntries[i].Bssid[2],netEntries[i].Bssid[3],netEntries[i].Bssid[4],netEntries[i].Bssid[5]);
-N        printf("Channel: %d    ",netEntries[i].Channel);
-N        printf("RSSI: %d    ",netEntries[i].Rssi);
-N        printf("Security type: %d    ",SL_WLAN_SCAN_RESULT_SEC_TYPE_BITMAP(netEntries[i].SecurityInfo));
-N        printf("Group Cipher: %d    ",SL_WLAN_SCAN_RESULT_GROUP_CIPHER(netEntries[i].SecurityInfo));
-N        printf("Unicast Cipher bitmap: %d    ",SL_WLAN_SCAN_RESULT_UNICAST_CIPHER_BITMAP(netEntries[i].SecurityInfo));
-N        printf("Key Mgmt suites bitmap: %d    ",SL_WLAN_SCAN_RESULT_KEY_MGMT_SUITES_BITMAP(netEntries[i].SecurityInfo));
-N        printf("Hidden SSID: %d\r\n",SL_WLAN_SCAN_RESULT_HIDDEN_SSID(netEntries[i].SecurityInfo));
+N        printf("%d. ", i + 1);
+N        printf("SSID: %.32s        ", Entries[i].Ssid);
+N        printf("BSSID: %x:%x:%x:%x:%x:%x    ", Entries[i].Bssid[0], Entries[i].Bssid[1], Entries[i].Bssid[2], Entries[i].Bssid[3], Entries[i].Bssid[4], Entries[i].Bssid[5]);
+N        printf("Channel: %d    ", Entries[i].Channel);
+N        printf("RSSI: %d    ", Entries[i].Rssi);
+N        printf("Security type: %d    ", SL_WLAN_SCAN_RESULT_SEC_TYPE_BITMAP(Entries[i].SecurityInfo));
+N        printf("Group Cipher: %d    ", SL_WLAN_SCAN_RESULT_GROUP_CIPHER(Entries[i].SecurityInfo));
+N        printf("Unicast Cipher bitmap: %d    ", SL_WLAN_SCAN_RESULT_UNICAST_CIPHER_BITMAP(Entries[i].SecurityInfo));
+N        printf("Key Mgmt suites bitmap: %d    ", SL_WLAN_SCAN_RESULT_KEY_MGMT_SUITES_BITMAP(Entries[i].SecurityInfo));
+N        printf("Hidden SSID: %d    ", SL_WLAN_SCAN_RESULT_HIDDEN_SSID(Entries[i].SecurityInfo));
+N        printf("PMF Enable: %d    ", SL_WLAN_SCAN_RESULT_PMF_ENABLE(Entries[i].SecurityInfo));
+N        printf("PMF Required: %d\r\n", SL_WLAN_SCAN_RESULT_PMF_REQUIRED(Entries[i].SecurityInfo));
 N    }
 N    \endcode
 N*/
@@ -16306,7 +17512,7 @@ N    \param[in]  ProvisioningCmd
 N                                            - SL_WLAN_PROVISIONING_CMD_START_MODE_AP                          0: Start AP provisioning (AP role)
 N                                            - SL_WLAN_PROVISIONING_CMD_START_MODE_SC                          1: Start Smart Config provisioning (STA role)
 N                                            - SL_WLAN_PROVISIONING_CMD_START_MODE_APSC                        2: Start AP+Smart Config provisioning (AP role)
-N                                            - SL_WLAN_PROVISIONING_CMD_START_MODE_APSC_EXTERNAL_CONFIGURATION 3: Start AP + Smart Config + WAC provisioning (AP role)
+N                                            - SL_WLAN_PROVISIONING_CMD_START_MODE_APSC_EXTERNAL_CONFIGURATION 3: Start AP + Smart Config + external provisioning (AP role)
 N                                            - SL_WLAN_PROVISIONING_CMD_STOP                                   4: Stop provisioning
 N                                            - SL_WLAN_PROVISIONING_CMD_ABORT_EXTERNAL_CONFIGURATIONC          5:
 N    \param[in]  RequestedRoleAfterSuccess   The role that the SimpleLink will switch to in case of a successful provisioning.
@@ -16402,6 +17608,7 @@ N                          - <b>SL_WLAN_CFG_AP_ID</b>
 N                          - <b>SL_WLAN_CFG_GENERAL_PARAM_ID</b>
 N                          - <b>SL_WLAN_CFG_P2P_PARAM_ID</b>
 N                          - <b>SL_WLAN_RX_FILTERS_ID</b>
+N                          - <b>SL_WLAN_STA_NETWORK_ASSISTED_ROAMING</b>
 N
 N    \param[in] ConfigOpt - configurations option
 N                          - <b>SL_WLAN_CFG_AP_ID</b>
@@ -16496,6 +17703,12 @@ N                              - <b>SL_WLAN_GENERAL_PARAM_OPT_SCAN_PARAMS_5G</b>
 N                                      Configure 5G scan parameters
 N                              - <b>SL_WLAN_GENERAL_PARAM_OPT_USER_COUNTRY_ATTRIB</b>
 N                                      Set user country region attributes
+N                              - <b>SL_WLAN_GENERAL_PARAM_OPT_NO_PS_POLL_MODE</b>
+N                                      Disable no PS_Poll mode (default) - station sends PS-Poll ctrl frame to receive buffered 
+N                                                                          frames from the AP when unicast traffic is indicated in the beacon
+N                                      Enable no PS_Poll mode - Stating transition from PS to Active whenever unicast traffic is indicated in 
+N                                                               the beacon (this mode is for inter operability issues with access points that 
+N                                                               doesn't fully support PS-Poll) 
 N
 N                          - <b>SL_WLAN_CFG_P2P_PARAM_ID</b>
 N                              - <b>SL_WLAN_P2P_OPT_DEV_TYPE</b> \n
@@ -16525,6 +17738,21 @@ N                              - <b>SL_WLAN_RX_FILTER_STORE</b> \n
 N                                      Save the filters as persistent. \n
 N                              - <b>SL_WLAN_RX_FILTER_UPDATE_ARGS</b> \n
 N                                      Update filter arguments. The buffer input is SlWlanRxFilterUpdateArgsCommandBuff_t\n
+N
+N                          - <b>SL_WLAN_STA_NETWORK_ASSISTED_ROAMING</b>
+N                              - <b>SL_WLAN_ROAMING_TRIGGERING_ENABLE</b> \n
+N                                      Configure roaming triggering mode for STA mode.
+N                                      First parameter:. \n
+N                                      0: Disabled \n
+N                                      1: Enabled, Enabling this mode enables monitoring of the network\n
+N                                      Second parameter:
+N                                      rssiThreshold (-85..00 dbm, default -63dbm) \n
+N                                      This options takes <b>SlWlanNetworkAssistedRoaming_t</b> buffer as parameter
+N                              - <b>SL_WLAN_AP_TRANSITION_ENABLE</b> \n
+N                                      Set roaming AP transition mode for STA mode. Options:. \n
+N                                      0: Disabled \n
+N                                      1: Enabled, Enabling this mode allows the serving AP to send a request for transition to another AP\n
+N                                      This options takes <b>SlWlanNetworkAssistedRoaming_t</b> buffer as parameter
 N
 N    \param[in] ConfigLen - configurations len
 N
@@ -16705,6 +17933,16 @@ N        }
 N    \endcode
 N    <br>
 N
+N	- SL_WLAN_GENERAL_PARAM_OPT_ENABLE_5G
+N	\code
+N	    _u8  Enabled5GStatus = 1;
+N	    _u16 Option = SL_WLAN_GENERAL_PARAM_OPT_ENABLE_5G;
+N	    _u16 OptionLen = sizeof(_u8);
+N
+N	    ret = sl_WlanSet(SL_WLAN_CFG_GENERAL_PARAM_ID, Option, OptionLen, (_u8 *)&Enabled5GStatus);
+N	\endcode
+N	<br>
+N
 N    - SL_WLAN_GENERAL_PARAM_OPT_SCAN_PARAMS:
 N    \code
 N        SlWlanScanParamCommand_t ScanParamConfig;
@@ -16727,8 +17965,8 @@ N        // 5.0G channels bits order: 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 
 N        //                          136, 140, 144, 149, 153, 157, 161, 165, 169, 184, 188, 192, 196 
 N        
 N        ScanParamConfig5G.ChannelsMask = 0x0000000F; // Select ChannelsMask for channels 36, 40, 44, 48 
-N        ScanParamConfig5G.RssiThershold = -70;
-N        sl_WlanSet(SL_WLAN_CFG_GENERAL_PARAM_ID, &Option, &OptionLen, (_u8 *)&ScanParamConfig5G);
+N        ScanParamConfig5G.RssiThreshold = -70;
+N        sl_WlanSet(SL_WLAN_CFG_GENERAL_PARAM_ID, Option, OptionLen, (_u8 *)&ScanParamConfig5G);
 N    \endcode
 N    <br>
 N
@@ -16763,6 +18001,36 @@ N    \code
 N      //The configuration will take place after soft reset of the networking subsystem( sl_stop(),sl_star())
 N      SlWlanCoexConfig_t param;
 N      sl_WlanSet(SL_WLAN_CFG_GENERAL_PARAM_ID,SL_WLAN_GENERAL_PARAM_COEX_CONFIG,sizeof(SlWlanCoexConfig_t),&param);
+N    \endcode
+N    <br>
+N    
+N    - SL_WLAN_GENERAL_PARAM_OPT_NO_PS_POLL_MODE:
+N    \code
+N      //Disable no PS_Poll mode (default) - station sends PS-Poll ctrl frame to receive buffered frames from the AP when 
+N                                            unicast traffic is indicated in the beacon
+N      //Enable no PS_Poll mode - Stating transition from PS to Active whenever unicast traffic is indicated in the beacon
+N                                 (this mode is for inter operability issues with access points that doesn't fully support 
+N                                  PS-Poll) 
+N      SlWlanNoPSPollMode_t NoPsPollMode;
+N      NoPsPollMode.Enable = 1; // enable no PS-Poll mode (work without PS-Poll frames)      
+N      sl_WlanSet(SL_WLAN_CFG_GENERAL_PARAM_ID, SL_WLAN_GENERAL_PARAM_OPT_NO_PS_POLL_MODE,sizeof(SlWlanNoPSPollMode_t),(_u8 *)& NoPsPollMode);
+N    \endcode
+N    <br>
+N
+N    - SL_WLAN_ROAMING_TRIGGERING_ENABLE:
+N    \code
+N        SlWlanNetworkAssistedRoaming_t roamingTriggeringEnable;
+N        roamingTriggeringEnable.Enable = 1;
+N        roamingTriggeringEnable.rssiThreshold = -63;
+N        sl_WlanSet(SL_WLAN_STA_NETWORK_ASSISTED_ROAMING, SL_WLAN_ROAMING_TRIGGERING_ENABLE, sizeof(SlWlanNetworkAssistedRoaming_t ), roamingTriggeringEnable );
+N    \endcode
+N    <br>
+N
+N    - SL_WLAN_AP_TRANSITION_ENABLE:
+N    \code
+N        SlWlanNetworkAssistedRoaming_t roamingTransitionEnable;
+N        roamingTransitionEnable.Enable = 1;
+N        sl_WlanSet(SL_WLAN_STA_NETWORK_ASSISTED_ROAMING, SL_WLAN_AP_TRANSITION_ENABLE, sizeof(SlWlanNetworkAssistedRoaming_t ), apTransitionEnable );
 N    \endcode
 N    <br>
 N*/
@@ -16847,6 +18115,11 @@ N                              - <b>SL_WLAN_GENERAL_PARAM_OPT_COUNTRY_ATTRIB</b>
 N                                      Get current country attributes (No way to set country attributes, See also country list in Appendix C)
 N                              - <b>SL_WLAN_GENERAL_PARAM_EXT_CONNECTION_INFO</b>
 N                                      Get Beacon Interval and DTIM Period.
+N                              - <b>SL_WLAN_GENERAL_PARAM_OPT_NO_PS_POLL_MODE</b>
+N                                      Get the mode of polling frames from the AP in power save
+N                                      0 (default) - Using PS_Poll frames
+N                                      1 - Not using PS_Poll frames
+N                                      For more information read the sl_WlanSet for this option
 N                          - <b>SL_WLAN_CFG_P2P_PARAM_ID</b>
 N                              - <b>SL_WLAN_P2P_OPT_CHANNEL_N_REGS</b> \n
 N                                     Get P2P Channels. \n
@@ -16880,7 +18153,7 @@ N            In case the device was started as AP mode, but no SSID was set, the
 N    \warning
 N    \par    Examples
 N    
-N    - SL_WLAN_GENERAL_PARAM_OPT_SCAN_PARAMS:
+N        - SL_WLAN_GENERAL_PARAM_OPT_SCAN_PARAMS:
 N    \code
 N        SlWlanScanParamCommand_t ScanParamConfig;
 N        _u16 Option = SL_WLAN_GENERAL_PARAM_OPT_SCAN_PARAMS;
@@ -16888,6 +18161,16 @@ N        _u16 OptionLen = sizeof(SlWlanScanParamCommand_t);
 N        sl_WlanGet(SL_WLAN_CFG_GENERAL_PARAM_ID ,&Option,&OptionLen,(_u8 *)&ScanParamConfig);
 N    \endcode
 N    <br>
+N
+N	    - SL_WLAN_GENERAL_PARAM_OPT_ENABLE_5G
+N	\code
+N	_u8  Enabled5GStatus;
+N	_u16 Option = SL_WLAN_GENERAL_PARAM_OPT_ENABLE_5G;
+N	_u16 OptionLen = sizeof(_u8);
+N
+N	ret = sl_WlanGet(SL_WLAN_CFG_GENERAL_PARAM_ID, &Option, &OptionLen, (_u8 *)&Enabled5GStatus);
+N	\endcode
+N	<br>
 N
 N        - WLAN_GENERAL_PARAM_OPT_SCAN_PARAMS_5G:
 N    \code
@@ -17105,6 +18388,15 @@ N         _u16   Len = sizeof(SlWlanExtConnectionInfo_t);
 N         ret =  sl_WlanGet(SL_WLAN_CFG_GENERAL_PARAM_ID, &config_opt, &Len, (_u8* )&ExtConnectionInfo);
 N      \endcode
 N      <br>
+N    - SL_WLAN_GENERAL_PARAM_OPT_NO_PS_POLL_MODE
+N     \code
+N         int8_t ret = 0;
+N         SlWlanNoPSPollMode_t NoPsPollMode;
+N         _u16   config_opt = SL_WLAN_GENERAL_PARAM_OPT_NO_PS_POLL_MODE;
+N         _u16   Len = sizeof(SlWlanNoPSPollMode_t);
+N         ret =  sl_WlanGet(SL_WLAN_CFG_GENERAL_PARAM_ID, &config_opt, &Len, (_u8* )&NoPsPollMode);
+N      \endcode
+N      <br>
 N*/
 N
 N#if _SL_INCLUDE_FUNC(sl_WlanGet)
@@ -17162,9 +18454,9 @@ N#endif /*  __cplusplus */
 N
 N#endif    /*  __WLAN_H__ */
 N
-L 350 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
+L 350 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
 N#include "device.h"
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/device.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/device.h" 1
 N/*
 N * device.h - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -18177,9 +19469,9 @@ N
 N#endif  /*  __DEVICE_H__ */
 N
 N
-L 351 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
+L 351 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
 N#include "netcfg.h"
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/netcfg.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/netcfg.h" 1
 N/*
 N * netcfg.h - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -18912,9 +20204,9 @@ N#endif /*  __cplusplus */
 N
 N#endif    /*  __NETCFG_H__ */
 N
-L 352 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
+L 352 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
 N#include "netutil.h"
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/netutil.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/netutil.h" 1
 N/*
 N * netutil.h - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -19495,9 +20787,9 @@ N
 N#endif  /*  __NETUTIL_H__ */
 N
 N
-L 353 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
+L 353 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
 N#include "errors.h"
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/errors.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/errors.h" 1
 N/*
 N * errors.h - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -20031,6 +21323,7 @@ N#define SL_ERROR_FS_PROGRAMMING_ILLEGAL_FILE                            (-10275
 N#define SL_ERROR_FS_PROGRAMMING_NOT_STARTED                             (-10276L)
 N#define SL_ERROR_FS_IMAGE_EXTRACT_NO_FILE_SYSTEM                        (-10277L)
 N#define SL_ERROR_FS_WRONG_INPUT_SIZE                                    (-10278L)
+N#define SL_ERROR_FS_WRONG_INPUT_SIZE_INTERNAL_SHIFTED_16_LEFT           (-673579008L)
 N#define SL_ERROR_FS_BUNDLE_FILE_SHOULD_BE_CREATED_WITH_FAILSAFE         (-10279L)
 N#define SL_ERROR_FS_BUNDLE_NOT_CONTAIN_FILES                            (-10280L)
 N#define SL_ERROR_FS_BUNDLE_ALREADY_IN_STATE                             (-10281L)
@@ -20044,6 +21337,7 @@ N#define SL_ERROR_FS_FILE_HAS_NOT_BEEN_CLOSE_CORRECTLY                   (-10288
 N#define SL_ERROR_FS_WRONG_SIGNATURE_SECURITY_ALERT                      (-10289L)
 N#define SL_ERROR_FS_WRONG_SIGNATURE_OR_CERTIFIC_NAME_LENGTH             (-10290L)
 N#define SL_ERROR_FS_NOT_16_ALIGNED                                      (-10291L)
+N#define SL_ERROR_FS_NOT_16_ALIGNED_INTERNAL_SHIFTED_16_LEFT             (-674430976L)
 N#define SL_ERROR_FS_CERT_CHAIN_ERROR_SECURITY_ALERT                     (-10292L)
 N#define SL_ERROR_FS_FILE_NAME_EXIST                                     (-10293L)
 N#define SL_ERROR_FS_EXTENDED_BUF_ALREADY_ALLOC                          (-10294L)
@@ -20262,9 +21556,9 @@ S}
 N#endif /*  __cplusplus */
 N
 N#endif  /*  __ERROR_H__ */
-L 354 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
+L 354 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
 N#include "eventreg.h"
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/eventreg.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/eventreg.h" 1
 N/*
 N * eventreg.h - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -20423,9 +21717,9 @@ N#endif /* __cplusplus */
 N
 N
 N#endif /* EVENTREG_H_ */
-L 355 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
+L 355 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
 N#include "wlanconfig.h"
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/wlanconfig.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/wlanconfig.h" 1
 N/*
 N * wlan.c - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -20510,7 +21804,7 @@ X    unsigned char          const ProvisioningStop;
 N    _u8          const DeleteAllProfile;
 X    unsigned char          const DeleteAllProfile;
 N}SlWifiCC32XXConfig_t;
-L 356 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
+L 356 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
 N/*!
 N    \cond DOXYGEN_IGNORE
 N*/
@@ -20976,7 +22270,7 @@ N#define SL_SPAWN_FLAG_FROM_CMD_PROCESS       (0x3)
 N
 N#ifdef SL_PLATFORM_MULTI_THREADED
 N    #include "source/spawn.h"
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/source/spawn.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/source/spawn.h" 1
 N/*
 N * spawn.h - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -21040,7 +22334,7 @@ S}
 N#endif /* __cplusplus */
 N
 N#endif
-L 819 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
+L 819 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
 N#else
 S    #include "source/nonos.h"
 N#endif
@@ -21437,11 +22731,11 @@ N#endif /* __cplusplus */
 N
 N#endif    /*  __SIMPLELINK_H__ */
 N
-L 38 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/slnetifwifi.h" 2
+L 38 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/slnetifwifi.h" 2
 N#include <ti/net/slnetsock.h>
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/net/slnetsock.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/net/slnetsock.h" 1
 N/*
-N * Copyright (c) 2017-2019, Texas Instruments Incorporated
+N * Copyright (c) 2017-2020, Texas Instruments Incorporated
 N * All rights reserved.
 N *
 N * Redistribution and use in source and binary forms, with or without
@@ -21500,6 +22794,7 @@ N     -# \ref SlNetSock  - Controls standard client/server sockets options and c
 N     -# \ref SlNetIf    - Controls standard stack/interface options and capabilities
 N     -# \ref SlNetUtils - Provides sockets related commands and configuration
 N     -# \ref SlNetErr   - Provide BSD and proprietary errors
+N     -# \ref SlNetConn  - Managing and monitoring network connections
 N
 NIn addition, SlNetSock provides a standard BSD API, built atop the
 NSlNet* APIs.  The BSD headers are placed in ti/net/bsd directory,
@@ -21543,8 +22838,12 @@ N  - \ref SlNetIf_Config_t.sockRecvFrom          "sockRecvFrom"
 N  - \ref SlNetIf_Config_t.sockSendTo            "sockSendTo"
 N  - \ref SlNetIf_Config_t.ifGetIPAddr           "ifGetIPAddr"
 N  - \ref SlNetIf_Config_t.ifGetConnectionStatus "ifGetConnectionStatus"
+N  - \ref SlNetIf_Config_t.ifCreateContext       "ifCreateContext"
+N  - \ref SlNetIf_Config_t.ifDeleteContext       "ifDeleteContext"
 N
 N - The non-mandatory API's set:
+N  - \ref SlNetIf_Config_t.connEnable            "connEnable"
+N  - \ref SlNetIf_Config_t.connDisable           "connDisable"
 N  - \ref SlNetIf_Config_t.sockShutdown          "sockShutdown"
 N  - \ref SlNetIf_Config_t.sockAccept            "sockAccept"
 N  - \ref SlNetIf_Config_t.sockBind              "sockBind"
@@ -21556,8 +22855,8 @@ N  - \ref SlNetIf_Config_t.sockRecv              "sockRecv"
 N  - \ref SlNetIf_Config_t.sockSend              "sockSend"
 N  - \ref SlNetIf_Config_t.sockstartSec          "sockstartSec"
 N  - \ref SlNetIf_Config_t.utilGetHostByName     "utilGetHostByName"
+N  - \ref SlNetIf_Config_t.utilPing              "utilPing"
 N  - \ref SlNetIf_Config_t.ifLoadSecObj          "ifLoadSecOjb"
-N  - \ref SlNetIf_Config_t.ifCreateContext       "ifCreateContext"
 N
 N
 N  \note The list of API's and more data can be found in ::SlNetIf_Config_t structure in SlNetIf module \n \n
@@ -21574,6 +22873,8 @@ N
 N \code
 N SlNetIfConfig SlNetIfConfigWiFi =
 N {
+N    slNetIfWifi_connEnable,          // Callback function connEnable in slnetif module
+N    slNetIfWifi_connDisable,         // Callback function connDisable in slnetif module
 N    SlNetIfWifi_socket,              // Callback function sockCreate in slnetif module
 N    SlNetIfWifi_close,               // Callback function sockClose in slnetif module
 N    NULL,                            // Callback function sockShutdown in slnetif module
@@ -21592,10 +22893,12 @@ N    SlNetIfWifi_send,                // Callback function sockSend in slnetif m
 N    SlNetIfWifi_sendTo,              // Callback function sockSendTo in slnetif module
 N    SlNetIfWifi_sockstartSec,        // Callback function sockstartSec in slnetif module
 N    SlNetIfWifi_getHostByName,       // Callback function utilGetHostByName in slnetif module
+N    SlNetIfWifi_ping,                // Callback function utilPing in slnetif module
 N    SlNetIfWifi_getIPAddr,           // Callback function ifGetIPAddr in slnetif module
 N    SlNetIfWifi_getConnectionStatus, // Callback function ifGetConnectionStatus in slnetif module
 N    SlNetIfWifi_loadSecObj,          // Callback function ifLoadSecObj in slnetif module
-N    NULL                             // Callback function ifCreateContext in slnetif module
+N    SlNetIfWifi_CreateContext,       // Callback function ifCreateContext in slnetif module
+N    SlNetIfWifi_DeleteContext,       // Callback function ifDeleteContext in slnetif module
 N };
 N \endcode
 N
@@ -21604,8 +22907,6 @@ N and are set to NULL:
 N - sockShutdown
 N - sockGetPeerName
 N - sockGetLocalName
-N - utilGetHostByName
-N - ifCreateContext
 N
 N \subsection    porting_step3   Step 3 - Adding the interface to your application/service
 N
@@ -21634,7 +22935,7 @@ N#define __SL_NET_SOCK_H__
 N
 N#include <stdint.h>
 N#include <sys/time.h>
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/sys/time.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/posix/ccs/sys/time.h" 1
 N/*
 N * Copyright (c) 2017-2019 Texas Instruments Incorporated - http://www.ti.com
 N * All rights reserved.
@@ -21675,6 +22976,12 @@ N#ifndef ti_posix_ccs_sys_time__include
 N#define ti_posix_ccs_sys_time__include
 N
 N/* compiler vendor check */
+N/* short-term migration warning; ticlang users should migrate away */
+N#if defined(__clang__)
+X#if 0L
+S#warning ticlang users should migrate to the ti/posix/ticlang include path
+N#endif
+N
 N#if !defined(__TI_COMPILER_VERSION__) && !defined(__clang__)
 X#if !1L && !0L
 S#error Incompatible compiler: use this include path (.../ti/posix/ccs) only \
@@ -21689,7 +22996,7 @@ S#pragma clang system_header
 N#endif
 N
 N#if !defined(__TMS470__) || (__TI_COMPILER_VERSION__ < 18001000)
-X#if !1L || (18012003 < 18001000)
+X#if !1L || (20002001 < 18001000)
 S#include <stdint.h>
 S#include <stddef.h>
 S
@@ -21718,66 +23025,10 @@ S#endif
 S
 N#else
 N#include <../include/sys/_timeval.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/../include/sys/_timeval.h" 1
-N/*-
-N * SPDX-License-Identifier: BSD-2-Clause-FreeBSD
-N *
-N * Copyright (c) 2002 Mike Barcroft <mike@FreeBSD.org>
-N * All rights reserved.
-N *
-N * Redistribution and use in source and binary forms, with or without
-N * modification, are permitted provided that the following conditions
-N * are met:
-N * 1. Redistributions of source code must retain the above copyright
-N *    notice, this list of conditions and the following disclaimer.
-N * 2. Redistributions in binary form must reproduce the above copyright
-N *    notice, this list of conditions and the following disclaimer in the
-N *    documentation and/or other materials provided with the distribution.
-N *
-N * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
-N * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-N * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-N * ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
-N * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-N * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
-N * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-N * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-N * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
-N * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-N * SUCH DAMAGE.
-N *
-N * $FreeBSD$
-N */
-N
-N#ifndef _SYS__TIMEVAL_H_
-N#define _SYS__TIMEVAL_H_
-N
-N#include <sys/_types.h>
-N
-N#ifndef _SUSECONDS_T_DECLARED
-Stypedef	__suseconds_t	suseconds_t;
-S#define	_SUSECONDS_T_DECLARED
-N#endif
-N
-N#ifndef _TIME_T_DECLARED
-Stypedef	__time_t	time_t;
-S#define	_TIME_T_DECLARED
-N#endif
-N
-N/*
-N * Structure returned by gettimeofday(2) system call, and used in other calls.
-N */
-Nstruct timeval {
-N	time_t		tv_sec;		/* seconds */
-N	suseconds_t	tv_usec;	/* and microseconds */
-N};
-N
-N#endif /* !_SYS__TIMEVAL_H_ */
-L 80 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/sys/time.h" 2
 N#endif
 N
 N#endif /* ti_posix_ccs_sys_time__include */
-L 195 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/net/slnetsock.h" 2
+L 202 "/vagrant/Q3_SDK_01/sdk_root/source/ti/net/slnetsock.h" 2
 N
 N#ifdef    __cplusplus
 Sextern "C" {
@@ -21825,9 +23076,14 @@ N#define SLNETSOCK_SOCK_MAC_WITH_NO_CCA                                      (6)
 N#define SLNETSOCK_SOCK_BRIDGE                                               (7)
 N#define SLNETSOCK_SOCK_ROUTER                                               (8)
 N
-N/* Define some BSD protocol constants.  */
+N/*
+N * Define some BSD protocol constants. Note, these values should match the BSD
+N * defined values, e.g. IPPROTO_ICMP
+N */
+N#define SLNETSOCK_PROTO_ICMP                                                (1)   /**< ICMP Raw Socket                 */
 N#define SLNETSOCK_PROTO_TCP                                                 (6)   /**< TCP Raw Socket                  */
 N#define SLNETSOCK_PROTO_UDP                                                 (17)  /**< UDP Raw Socket                  */
+N#define SLNETSOCK_PROTO_ICMPV6                                              (58)  /**< ICMPV6 Raw Socket               */
 N#define SLNETSOCK_PROTO_RAW                                                 (255) /**< Raw Socket                      */
 N#define SLNETSOCK_PROTO_SECURE                                              (100) /**< Secured Socket Layer (SSL,TLS)  */
 N
@@ -21847,7 +23103,9 @@ N/* possible values for the option parameter in slNetSock_setOpt / slNetSock_get
 N
 N/* socket level options (SLNETSOCK_LVL_SOCKET) */
 N#define SLNETSOCK_OPSOCK_RCV_BUF                                            (8)   /**< Setting TCP receive buffer size (window size) - This options takes SlNetSock_Winsize_t struct as parameter                 */
+N#define SLNETSOCK_OPSOCK_SND_BUF                                            (202) /**< Sets or gets the maximum socket send buffer in bytes. - This option takes an int as a parameter                            */
 N#define SLNETSOCK_OPSOCK_RCV_TIMEO                                          (20)  /**< Enable receive timeout - This options takes SlNetSock_Timeval_t struct as parameter                                        */
+N#define SLNETSOCK_OPSOCK_SND_TIMEO                                          (21)  /**< Enable send timeout - This options takes SlNetSock_Timeval_t struct as parameter                                           */
 N#define SLNETSOCK_OPSOCK_KEEPALIVE                                          (9)   /**< Connections are kept alive with periodic messages - This options takes SlNetSock_Keepalive_t struct as parameter           */
 N#define SLNETSOCK_OPSOCK_KEEPALIVE_TIME                                     (37)  /**< keepalive time out - This options takes <b>uint32_t</b> as parameter                                                       */
 N#define SLNETSOCK_OPSOCK_LINGER                                             (13)  /**< Socket lingers on close pending remaining send/receive packets - This options takes SlNetSock_linger_t struct as parameter */
@@ -21856,6 +23114,8 @@ N#define SLNETSOCK_OPSOCK_NON_IP_BOUNDARY                                    (39
 N#define SLNETSOCK_OPSOCK_ERROR                                              (58)  /**< Socket level error code                                                                                                    */
 N#define SLNETSOCK_OPSOCK_SLNETSOCKSD                                        (59)  /**< Used by the BSD layer in order to retrieve the slnetsock sd                                                                */
 N#define SLNETSOCK_OPSOCK_BROADCAST                                          (200) /**< Enable/disable broadcast signals - This option takes SlNetSock_Broadcast_t struct as parameters                            */
+N#define SLNETSOCK_OPSOCK_REUSEADDR                                          (201) /**< Enable/disable allowing reuse of local addresses for bind calls - This option takes an int as a parameter                  */
+N#define SLNETSOCK_OPSOCK_REUSEPORT                                          (203) /**< Enable/disable multiple sockets to be bound to an identical socket address. - This option takes an int as a parameter      */
 N
 N/* IP level options (SLNETSOCK_LVL_IP) */
 N#define SLNETSOCK_OPIP_MULTICAST_TTL                                        (61)  /**< Specify the TTL value to use for outgoing multicast packet. - This options takes <b>uint8_t</b> as parameter                                                      */
@@ -22019,6 +23279,8 @@ N/*****************************************************************************/
 N
 N/*!
 N    \brief Internet address
+N    
+N    Used to store an IPv4 address in network byte order.
 N*/
 Ntypedef struct SlNetSock_InAddr_t
 N{
@@ -22045,6 +23307,8 @@ N} SlNetSock_InAddr_t;
 N
 N/*!
 N    \brief IpV6 or Ipv6 EUI64
+N    
+N    Used to store an IPv6 address in network byte order.
 N*/
 Ntypedef struct SlNetSock_In6Addr_t
 N{
@@ -22212,8 +23476,9 @@ N    uint32_t l_linger;                   /**< linger time in seconds; default =
 N} SlNetSock_linger_t;
 N
 N/*!
-N    \brief      The @c SlNetSock_Timeval_t structure is used in
-N                #SLNETSOCK_OPSOCK_RCV_TIMEO socket level option
+N    \brief      The @c SlNetSock_Timeval_t structure is used in the
+N                #SLNETSOCK_OPSOCK_RCV_TIMEO and #SLNETSOCK_OPSOCK_SND_TIMEO
+N                socket level options
 N
 N    \remarks    Note that @c SlNetSock_Timeval_t is intentionally defined
 N                to be equivalent to the POSIX-defined <tt>struct
@@ -22240,11 +23505,11 @@ N    \brief SlNetSock IPv6 address, Internet style
 N*/
 Ntypedef struct SlNetSock_AddrIn6_t
 N{
-N    uint16_t            sin6_family;     /**< SLNETSOCK_AF_INET6             */
-N    uint16_t            sin6_port;       /**< Transport layer port.          */
-N    uint32_t            sin6_flowinfo;   /**< IPv6 flow information.         */
-N    SlNetSock_In6Addr_t sin6_addr;       /**< IPv6 address.                  */
-N    uint32_t            sin6_scope_id;   /**< set of interfaces for a scope. */
+N    uint16_t            sin6_family;     /**< SLNETSOCK_AF_INET6                         */
+N    uint16_t            sin6_port;       /**< Transport layer port (network byte order). */
+N    uint32_t            sin6_flowinfo;   /**< IPv6 flow information.                     */
+N    SlNetSock_In6Addr_t sin6_addr;       /**< IPv6 address (network byte order).         */
+N    uint32_t            sin6_scope_id;   /**< set of interfaces for a scope.             */
 N} SlNetSock_AddrIn6_t;
 N
 N/*!
@@ -22252,10 +23517,10 @@ N    \brief SlNetSock IPv4 address, Internet style
 N*/
 Ntypedef struct SlNetSock_AddrIn_t
 N{
-N    uint16_t           sin_family;       /**< Internet Protocol (AF_INET). */
-N    uint16_t           sin_port;         /**< Address port (16 bits).      */
-N    SlNetSock_InAddr_t sin_addr;         /**< Internet address (32 bits).  */
-N    int8_t             sin_zero[8];      /**< Not used.                    */
+N    uint16_t           sin_family;       /**< Internet Protocol (AF_INET).                     */
+N    uint16_t           sin_port;         /**< Address port (network byte order).               */
+N    SlNetSock_InAddr_t sin_addr;         /**< Internet address (32 bits, network byte order).  */
+N    int8_t             sin_zero[8];      /**< Not used.                                        */
 N} SlNetSock_AddrIn_t;
 N
 N/* ss_family + pad must be large enough to hold max of
@@ -22452,17 +23717,18 @@ N    It extracts the first connection request on the queue of pending
 N    connections, creates a new connected socket, and returns a new file
 N    descriptor referring to that socket.
 N
-N    The newly created socket is not in the listening state. The
-N    original socket sd is unaffected by this call.
+N    Therefore, the newly created socket that is returned is in the connected state. The
+N    state of the original socket sd is unaffected by this call.
 N
 N    The argument sd is a socket that has been created with
 N    SlNetSock_create(), bound to a local address with
 N    SlNetSock_bind(), and is listening for connections after a
 N    SlNetSock_listen().
 N
-N    The argument \c addr is a pointer to a sockaddr structure. This
-N    structure is filled in with the address of the peer socket, as
-N    known to the communications layer.
+N    The argument \c addr is a pointer to a socket address structure. This
+N    structure is filled in with the family, address, and port of the peer socket, as
+N    known to the communications layer. The address and port are written in
+N    network byte order.
 N
 N    The exact format of the address returned \c addr is determined by the socket's address family.
 N
@@ -22471,19 +23737,18 @@ N    the size of the structure pointed to by addr, on return it will
 N    contain the actual length (in bytes) of the address returned.
 N
 N    \param[in]  sd              Socket descriptor (handle)
-N    \param[out] addr            The argument addr is a pointer
-N                                to a sockaddr structure. This
-N                                structure is filled in with the
-N                                address of the peer socket, as
-N                                known to the communications
-N                                layer. The exact format of the
-N                                address returned addr is
-N                                determined by the socket's
-N                                address\n
-N                                sockaddr:\n - code for the
-N                                address format.\n -
-N                                socket address, the length
-N                                depends on the code format
+N    \param[out] addr            Pointer to a protocol specific
+N                                socket address struct. Upon return, the
+N                                struct will be filled in with the family,
+N                                address and port information of the peer
+N                                socket, as known to the communications
+N                                layer (the address and port are stored in
+N                                network byte order).
+N                                The struct's type and
+N                                address format are
+N                                dependent on the protocol:
+N                                \n IPv4: SlNetSock_AddrIn_t
+N                                \n IPv6: SlNetSock_AddrIn6_t
 N    \param[out] addrlen         The addrlen argument is a value-result
 N                                argument: it should initially contain the
 N                                size of the structure pointed to by addr
@@ -22495,6 +23760,8 @@ N                                #SLNETERR_BSD_ENOMEM may be return in case ther
 N
 N    \slnetsock_init_precondition
 N
+N    \sa                         SlNetSock_AddrIn_t
+N    \sa                         SlNetSock_AddrIn6_t
 N    \sa                         SlNetSock_create()
 N    \sa                         SlNetSock_bind()
 N    \sa                         SlNetSock_listen()
@@ -22505,8 +23772,8 @@ N
 N/*!
 N    \brief Assign a name to a socket
 N
-N    This SlNetSock_bind function gives the socket the local address
-N    addr.  addr is addrlen bytes long.
+N    This SlNetSock_bind function assigns the address specified by \c addr to the
+N    socket referred to by \c sd. \c addr is addrlen bytes long.
 N
 N    Traditionally, this is called when a socket is created with
 N    socket, it exists in a name space (address family) but has no name
@@ -22516,17 +23783,25 @@ N    It is necessary to assign a local address before a #SLNETSOCK_SOCK_STREAM
 N    socket may receive connections.
 N
 N    \param[in] sd               Socket descriptor (handle)
-N    \param[in] addr             Specifies the destination
-N                                addrs\n sockaddr:\n - code for
-N                                the address format.\n - socket address,
-N                                the length depends on the code
-N                                format
+N    \param[in] addr             Pointer to a protocol specific
+N                                socket address struct, which
+N                                specifies the address that the socket specified
+N                                by sd should be bound to.
+N                                The struct's type and
+N                                address format are
+N                                dependent on the protocol:
+N                                \n IPv4: SlNetSock_AddrIn_t
+N                                \n IPv6: SlNetSock_AddrIn6_t\n
+N                                The IP address and port information should be
+N                                stored into the struct in network byte order.
 N    \param[in] addrlen          Contains the size of the structure pointed to by addr
 N
 N    \return                     Zero on success, or negative error code on failure
 N
 N    \slnetsock_init_precondition
 N
+N    \sa                         SlNetSock_AddrIn_t
+N    \sa                         SlNetSock_AddrIn6_t
 N    \sa                         SlNetSock_create()
 N    \sa                         SlNetSock_accept()
 N    \sa                         SlNetSock_listen()
@@ -22553,6 +23828,10 @@ N                type #SLNETSOCK_SOCK_STREAM.
 N
 N    \remark     The \c backlog parameter defines the maximum length the queue of
 N                pending connections may grow to.
+N
+N    \note       A \c backlog value of 0 \b may or \b may \b not allow
+N                connections. This is determined by the interface's underlying
+N                socket implementation.
 N
 N    \sa                         SlNetSock_create()
 N    \sa                         SlNetSock_accept()
@@ -22582,11 +23861,17 @@ N    The other socket is specified by address, which is an address in
 N    the communications space of the socket.
 N
 N    \param[in] sd               Socket descriptor (handle)
-N    \param[in] addr             Specifies the destination addr\n
-N                                sockaddr:\n - code for the
-N                                address format.\n -
-N                                socket address, the length
-N                                depends on the code format
+N    \param[in] addr             Pointer to a protocol specific
+N                                socket address struct, which
+N                                specifies the destination address and port
+N                                to connect to.
+N                                The struct's type and
+N                                address format are
+N                                dependent on the protocol:
+N                                \n IPv4: SlNetSock_AddrIn_t
+N                                \n IPv6: SlNetSock_AddrIn6_t\n
+N                                The IP address and port information should be
+N                                stored into the struct in network byte order.
 N    \param[in] addrlen          Contains the size of the structure pointed
 N                                to by addr
 N
@@ -22597,6 +23882,8 @@ N                                #SLNETERR_POOL_IS_EMPTY may be returned in case
 N
 N    \slnetsock_init_precondition
 N
+N    \sa                         SlNetSock_AddrIn_t
+N    \sa                         SlNetSock_AddrIn6_t
 N    \sa                         SlNetSock_create()
 N*/
 Nint32_t SlNetSock_connect(int16_t sd, const SlNetSock_Addr_t *addr, SlNetSocklen_t addrlen);
@@ -22604,17 +23891,21 @@ N
 N/*!
 N    \brief Return address info about the remote side of the connection
 N
-N    Returns a struct SlNetSock_AddrIn_t
-N    filled with information about the peer device that is connected
-N    on the other side of the socket descriptor.
+N    Fills in the supplied socket address struct 
+N    with the address and port information of the specified socket's peer.
 N
 N    \param[in]  sd              Socket descriptor (handle)
-N    \param[out] addr            returns the struct addr\n
-N                                SlNetSockAddrIn filled with information
-N                                about the peer device:\n - code for the
-N                                address format.\n -
-N                                socket address, the length
-N                                depends on the code format
+N    \param[out] addr            Pointer to a protocol
+N                                specific socket address struct. Upon return,
+N                                the struct will be filled in with the family,
+N                                address, and port information
+N                                of the specified socket's peer (the address and port
+N                                are stored in network byte order).
+N                                The struct's type and
+N                                and address format are
+N                                dependent on the protocol:
+N                                \n IPv4: SlNetSock_AddrIn_t
+N                                \n IPv6: SlNetSock_AddrIn6_t
 N    \param[out] addrlen         Contains the size of the structure pointed
 N                                to by addr
 N
@@ -22622,6 +23913,8 @@ N    \return                     Zero on success, or negative error code on fail
 N
 N    \slnetsock_init_precondition
 N
+N    \sa                         SlNetSock_AddrIn_t
+N    \sa                         SlNetSock_AddrIn6_t
 N    \sa                         SlNetSock_accept()
 N    \sa                         SlNetSock_connect()
 N*/
@@ -22634,19 +23927,17 @@ N
 N    Returns the local address info of the socket descriptor.
 N
 N    \param[in]  sd              Socket descriptor (handle)
-N    \param[out] addr            The argument addr is a pointer
-N                                to a SlNetSock_Addr_t structure. This
-N                                structure is filled in with the
-N                                address of the peer socket, as
-N                                known to the communications
-N                                layer. The exact format of the
-N                                address returned addr is
-N                                determined by the socket's
-N                                address\n
-N                                SlNetSock_Addr_t:\n - code for the
-N                                address format.\n -
-N                                socket address, the length
-N                                depends on the code format
+N    \param[out] addr            Pointer to a protocol
+N                                specific socket address struct. Upon return,
+N                                the struct will be filled in with the family,
+N                                address, and port information
+N                                of the specified socket (the address and port
+N                                are stored in network byte order).
+N                                The struct's type and
+N                                address format are
+N                                dependent on the protocol:
+N                                \n IPv4: SlNetSock_AddrIn_t
+N                                \n IPv6: SlNetSock_AddrIn6_t
 N    \param[out] addrlen         The addrlen argument is a value-result
 N                                argument: it should initially contain the
 N                                size of the structure pointed to by addr
@@ -22659,6 +23950,8 @@ N    \remark     If the provided buffer is too small the returned address
 N                will be truncated and \c addrlen will contain the
 N                actual size of the socket address.
 N
+N    \sa         SlNetSock_AddrIn_t
+N    \sa         SlNetSock_AddrIn6_t
 N    \sa         SlNetSock_create()
 N    \sa         SlNetSock_bind()
 N*/
@@ -23130,15 +24423,22 @@ N                                Range: 1-16000 bytes
 N    \param[in]  flags           Specifies the type of message
 N                                reception. On this version, this parameter is not
 N                                supported
-N    \param[in]  from            Pointer to an address structure
-N                                indicating the source
-N                                address.\n sockaddr:\n - code
-N                                for the address format.\n - socket address,
-N                                the length depends on the code
-N                                format
-N    \param[in]  fromlen         Source address structure
-N                                size. This parameter MUST be set to the size of the structure pointed to by addr.
-N
+N    \param[out] from            (optional) Pointer to a protocol specific
+N                                socket address struct. If non-NULL, upon return,
+N                                the struct will be filled in with the address
+N                                information of the sending socket (the address
+N                                and port are stored in network byte order).
+N                                The struct's type and
+N                                address format are
+N                                dependent on the protocol:
+N                                \n IPv4: SlNetSock_AddrIn_t
+N                                \n IPv6: SlNetSock_AddrIn6_t
+N    \param[in]  fromlen         (optional) If from is non-NULL, this argument is required
+N                                and is a value-result argument. Before the call,
+N                                it should be initialized to the size of the
+N                                buffer associated with from. Upon return,
+N                                fromlen is updated to contain the actual size of
+N                                the source address struct pointed to by from.
 N
 N    \return                     Return the number of bytes received,
 N                                or a negative value if an error occurred.\n
@@ -23202,13 +24502,20 @@ N    \param[in] len              message size in bytes.
 N    \param[in] flags            Specifies the type of message
 N                                transmission. On this version, this parameter is not
 N                                supported
-N    \param[in] to               Pointer to an address structure
-N                                indicating the destination
-N                                address.\n sockaddr:\n - code
-N                                for the address format.\n - socket address,
-N                                the length depends on the code
-N                                format
-N    \param[in] tolen            Destination address structure size
+N
+N    \param[in] to               Pointer to a protocol specific
+N                                socket address struct, which
+N                                specifies the destination address and port
+N                                to send to.
+N                                The struct's type and
+N                                address format are
+N                                dependent on the protocol:
+N                                \n IPv4: SlNetSock_AddrIn_t
+N                                \n IPv6: SlNetSock_AddrIn6_t\n
+N                                The IP address and port information should be
+N                                stored into the struct in network byte order.
+N    \param[in] tolen            Contains the size of the structure pointed
+N                                to by the to parameter
 N
 N    \return                     Return the number of bytes sent,
 N                                or a negative value if an error occurred.\n
@@ -23446,11 +24753,11 @@ S}
 N#endif /* __cplusplus */
 N
 N#endif /* __NET_SOCK_H__ */
-L 39 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/slnetifwifi.h" 2
+L 39 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/slnetifwifi.h" 2
 N#include <ti/net/slnetif.h>
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/net/slnetif.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/net/slnetif.h" 1
 N/*
-N * Copyright (c) 2017-2019, Texas Instruments Incorporated
+N * Copyright (c) 2017-2020, Texas Instruments Incorporated
 N * All rights reserved.
 N *
 N * Redistribution and use in source and binary forms, with or without
@@ -23560,6 +24867,16 @@ N    SLNETIF_IPV6_ADDR_LOCAL  = 1,
 N    SLNETIF_IPV6_ADDR_GLOBAL = 2
 N} SlNetIfAddressType_e;
 N
+N/*!
+N    \brief Events type enum to be used in event handler function
+N*/
+Ntypedef enum
+N{
+N    SLNETIF_DISCONNECT = 0,
+N    SLNETIF_MAC_CONNECT = 1,
+N    SLNETIF_IP_AQUIRED = 2
+N} SlNetIfEventId_e;
+N
 N/* Address config return values that can be retrieved in get ip address function */
 N#define SLNETIF_ADDR_CFG_UNKNOWN   (0)
 N#define SLNETIF_ADDR_CFG_DHCP      (1)
@@ -23599,6 +24916,12 @@ N/* Structure/Enum declarations                                               */
 N/*****************************************************************************/
 N
 N/*!
+N    \brief Interface call back function prototype.
+N           This function is called when an event occurs.
+N*/
+Ntypedef int32_t (*SlNetIf_Event_t)(SlNetIfEventId_e status, uint16_t ifID , void* pData);
+N
+N/*!
 N    \brief SlNetIf_Config_t structure contains all the function callbacks that are expected to be filled by the relevant network stack interface \n
 N           Each interface has different capabilities, so not all the API's must be supported therefore an API's can be defined as:
 N           - <b>Mandatory API's</b>     - must be supported by the interface in order to be part of SlNetSock layer
@@ -23610,6 +24933,10 @@ N    \sa SlNetIf_Config_t
 N*/
 Ntypedef struct SlNetIf_Config_t
 N{
+N    /* connection related API's */
+N    int32_t (*connEnable)        (void *ifContext);                                                                                  /*!< \b Optional API (required only when using SlNetConn) \n The actual implementation of the interface for ::SlNetConn_start  */
+N    int16_t (*connDisable)       (void *ifContext);                                                                                  /*!< \b Optional API (required only when using SlNetConn) \n The actual implementation of the interface for ::SlNetConn_stop  */
+N
 N    /* socket related API's */
 N    int16_t (*sockCreate)        (void *ifContext, int16_t domain, int16_t type, int16_t protocol, void **sdContext);                /*!< \b Mandatory API \n The actual implementation of the interface for ::SlNetSock_create           */
 N    int32_t (*sockClose)         (int16_t sd, void *sdContext);                                                                      /*!< \b Mandatory API \n The actual implementation of the interface for ::SlNetSock_close            */
@@ -23631,13 +24958,14 @@ N    int32_t (*sockstartSec)      (int16_t sd, void *sdContext, SlNetSockSecAttr
 N
 N    /* util related API's */
 N    int32_t (*utilGetHostByName) (void *ifContext, char *name, const uint16_t nameLen, uint32_t *ipAddr, uint16_t *ipAddrLen, const uint8_t family);  /*!< \b Non-Mandatory API \n The actual implementation of the interface for ::SlNetUtil_getHostByName */
+N    uint32_t (*utilPing)         (void *ifContext, const SlNetSock_Addr_t *addr, SlNetSocklen_t addrLen, uint32_t attempts, uint16_t timeout, uint16_t interval, uint16_t packetSize, int16_t flags);  /*!< \b Non-Mandatory API (required when using SlNetConn) \n The actual implementation of the interface for ::SlNetUtil_ping */
 N
 N    /* if related API's */
 N    int32_t (*ifGetIPAddr)           (void *ifContext, SlNetIfAddressType_e addrType, uint16_t *addrConfig, uint32_t *ipAddr);                      /*!< \b Mandatory API \n The actual implementation of the interface for ::SlNetIf_getIPAddr           */
 N    int32_t (*ifGetConnectionStatus) (void *ifContext);                                                                                             /*!< \b Mandatory API \n The actual implementation of the interface for ::SlNetIf_getConnectionStatus */
 N    int32_t (*ifLoadSecObj)          (void *ifContext, uint16_t objType, char *objName, int16_t objNameLen, uint8_t *objBuff, int16_t objBuffLen);  /*!< \b Non-Mandatory API \n The actual implementation of the interface for ::SlNetIf_loadSecObj      */
-N    int32_t (*ifCreateContext)       (uint16_t ifID, const char *ifName, void **ifContext);                                                         /*!< \b Non-Mandatory API \n The actual implementation of the interface for ::SlNetIf_add             */
-N
+N    int32_t (*ifCreateContext)       (uint16_t ifID, const char *ifName, void **ifContext, SlNetIf_Event_t ifCallback);                             /*!< \b Mandatory API \n The actual implementation of the interface for ::SlNetIf_add   */
+N    int32_t (*ifDeleteContext)       (uint16_t ifID, void **ifContext);                                                                             /*!< \b Mandatory API  */
 N} SlNetIf_Config_t;
 N
 N
@@ -23947,7 +25275,7 @@ N
 N/*!
 N    \brief Get IP Address of specific interface
 N
-N    The SlNetIf_getIPAddr function retrieve the IP address of a specific
+N    The SlNetIf_getIPAddr function retrieves the IP address of a specific
 N    interface according to the Address Type, IPv4, IPv6 LOCAL
 N    or IPv6 GLOBAL.
 N
@@ -23967,7 +25295,7 @@ N                                          - #SLNETIF_ADDR_CFG_DHCP_LLA
 N                                          - #SLNETIF_ADDR_CFG_STATIC
 N                                          - #SLNETIF_ADDR_CFG_STATELESS
 N                                          - #SLNETIF_ADDR_CFG_STATEFUL
-N    \param[out] ipAddr        IP Address according to the Address Type
+N    \param[out] ipAddr        IP Address according to the Address Type (network byte order)
 N
 N    \return                   Zero on success, or negative error code on failure
 N
@@ -24068,6 +25396,25 @@ N*/
 Nint32_t SlNetIf_loadSecObj(uint16_t objType, char *objName, int16_t objNameLen, uint8_t *objBuff, int16_t objBuffLen, uint32_t ifBitmap);
 N
 N/*!
+N    \brief Register node to If events list
+N
+N    SlNetIf_registerEventHandler() adds node to If events list.
+N    Allows libraries and applications to get information by call back from their interface.
+N
+N    \param[in] EventCallback          function call back (pointer)
+N*/
+Nint32_t SlNetIf_registerEventHandler(SlNetIf_Event_t EventCallback);
+N
+N/*!
+N    \brief Unegister node to If events list
+N
+N    SlNetIf_registerEventHandler() removes node from If events list.
+N
+N    \param[in] EventCallback          function call back (pointer)
+N*/
+Nint32_t SlNetIf_unregisterEventHandler(SlNetIf_Event_t EventCallback);
+N
+N/*!
 N
 N Close the Doxygen group.
 N @}
@@ -24079,11 +25426,11 @@ S}
 N#endif /* __cplusplus */
 N
 N#endif /* __SL_NET_IF_H__ */
-L 40 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/slnetifwifi.h" 2
+L 40 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/slnetifwifi.h" 2
 N#include <ti/net/slneterr.h>
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/net/slneterr.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/net/slneterr.h" 1
 N/*
-N * Copyright (c) 2017-2019, Texas Instruments Incorporated
+N * Copyright (c) 2017-2020, Texas Instruments Incorporated
 N * All rights reserved.
 N *
 N * Redistribution and use in source and binary forms, with or without
@@ -24161,6 +25508,7 @@ N#define SLNETERR_BSD_ENOMEM                                             (-12L) 
 N#define SLNETERR_BSD_EACCES                                             (-13L)   /**< Permission denied                                                       */
 N#define SLNETERR_BSD_EFAULT                                             (-14L)   /**< Bad address                                                             */
 N#define SLNETERR_BSD_ECLOSE                                             (-15L)   /**< close socket operation failed to transmit all queued packets            */
+N#define SLNETERR_BSD_ENODEV                                             (-19L)   /**< No such device                                                          */
 N#define SLNETERR_BSD_EALREADY_ENABLED                                   (-21L)   /**< Transceiver - Transceiver already ON. there could be only one           */
 N#define SLNETERR_BSD_EINVAL                                             (-22L)   /**< Invalid argument                                                        */
 N#define SLNETERR_BSD_EAUTO_CONNECT_OR_CONNECTING                        (-69L)   /**< Transceiver - During connection, connected or auto mode started         */
@@ -24191,6 +25539,8 @@ N#define SLNETERR_BSD_ECONNREFUSED                                       (-111L)
 N#define SLNETERR_BSD_EHOSTDOWN                                          (-112L)  /**< Host is down                                                            */
 N#define SLNETERR_BSD_EHOSTUNREACH                                       (-113L)  /**< No route to host                                                        */
 N#define SLNETERR_BSD_EALREADY                                           (-114L)  /**< Non blocking connect in progress, try again                             */
+N#define SLNETERR_BSD_EDOM                                               (-115L)  /**< Mathematics argument out of domain of function.                         */
+N#define SLNETERR_BSD_ENOSPC                                             (-116L)  /**< No space left on device.                                                */
 N
 N/* ssl tls security start with -300 offset */
 N#define SLNETERR_ESEC_CLOSE_NOTIFY                                      (-300L)  /**< ssl/tls alerts */
@@ -24716,6 +26066,9 @@ N
 N/* Unsupported scenario, option or feature */
 N#define SLNETERR_RET_CODE_UNSUPPORTED                                   (-2026L)
 N
+N/* An SlNetSock module has not been initialized */
+N#define SLNETERR_RET_CODE_NO_INIT                                       (-2027L)
+N
 N
 N/* sock related API's from SlNetIf_Config_t failed */
 N#define SLNETSOCK_ERR_SOCKCREATE_FAILED                                 (-3000L)
@@ -24780,11 +26133,11 @@ S}
 N#endif /*  __cplusplus */
 N
 N#endif  /*  __SL_NET_ERR_H__ */
-L 41 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/slnetifwifi.h" 2
+L 41 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/slnetifwifi.h" 2
 N#include <ti/net/slnetutils.h>
-L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/net/slnetutils.h" 1
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/net/slnetutils.h" 1
 N/*
-N * Copyright (c) 2017-2019, Texas Instruments Incorporated
+N * Copyright (c) 2017-2020, Texas Instruments Incorporated
 N * All rights reserved.
 N *
 N * Redistribution and use in source and binary forms, with or without
@@ -24824,7 +26177,7 @@ N#define __SL_NET_UTILS_H__
 N
 N#include <stddef.h>
 N
-N#include "slnetsock.h"
+N#include <ti/net/slnetsock.h>
 N
 N#ifdef    __cplusplus
 Sextern "C" {
@@ -25199,6 +26552,43 @@ N*/
 Nint32_t SlNetUtil_inetPton(int16_t addrFamily, const char *strAddr, void *binaryAddr);
 N
 N/*!
+N    \brief Performs a ping
+N
+N    This functions is used to perform a ping request and check its response.
+N
+N    \remarks    SlNetUtil_ping() may not support pinging some addresses
+N                (e.g. loopback), and in those cases, this API will return 0.
+N
+N    \param[in]  addr            Pointer to an address structure indicating the
+N                                destination address
+N    \param[in]  addrLen         Destination address structure size
+N    \param[in]  attempts        Specifies the number of ping request attempts.
+N    \param[in]  timeout         Specifies the timeout to wait for a ping
+N                                response
+N    \param[in]  interval        Specifies the interval between subsequent ping
+N                                attempts
+N    \param[in]  packetSize      Ping packet size in bytes including ICMP header,
+N                                therefore must be greater than 8
+N    \param[in]  ifBitmap        Specifies the interface in which the ping will
+N                                be performed according to priority. Value 0 is
+N                                used in order to choose automatic interfaces
+N                                selection according to the priority interface
+N                                list. Value can be a combination of interfaces
+N                                by OR'ing multiple interfaces bit identifiers
+N                                (SLNETIF_ID_ defined in slnetif.h)
+N                                Note: interface identifier bit must be
+N                                configured prior to this using SlNetIf_add().
+N    \param[in]  flags           Reserved
+N
+N    \return                    The number of successful packets, 0 on failure
+N
+N    \slnetutil_init_precondition
+N*/
+Nuint32_t SlNetUtil_ping(const SlNetSock_Addr_t *addr, SlNetSocklen_t addrLen,
+N        uint32_t attempts, uint16_t timeout, uint16_t interval,
+N        uint16_t packetSize, uint32_t ifBitmap, int16_t flags);
+N
+N/*!
 N
 N Close the Doxygen group.
 N @}
@@ -25211,7 +26601,7 @@ S}
 N#endif /* __cplusplus */
 N
 N#endif /* __SL_NET_UTILS_H__ */
-L 42 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/slnetifwifi.h" 2
+L 42 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/slnetifwifi.h" 2
 N
 N#ifndef __SLNETWIFI_SOCKET_H__
 N#define __SLNETWIFI_SOCKET_H__
@@ -25237,18 +26627,51 @@ N/*****************************************************************************/
 N/* Macro declarations                                                        */
 N/*****************************************************************************/
 N
+N/*****************************************************************************/
+N/* Extern definition                                                         */
+N/*****************************************************************************/
+N
 N/* prototype ifConf */
 Nextern SlNetIf_Config_t SlNetIfConfigWifi;
 N
 N
 N/*****************************************************************************/
-N/* Structure/Enum declarations                                               */
-N/*****************************************************************************/
-N
-N
-N/*****************************************************************************/
 N/* Function prototypes                                                       */
 N/*****************************************************************************/
+N
+N/*!
+N
+N    \brief Create and maintains a wifi connection to the local network
+N
+N    The slNetIfWifi_enabelIf function creates wifi connection by
+N    provisioning process.\n
+N    This function is called by the connection manager library layer to obtain connection.
+N
+N    \param[in] connContext      Allocate and store connection data if needed for
+N                                using in other slnetwifi connection functions
+N
+N    \return                     Zero on success, or negative error code on failure.
+N
+N    \sa                         slNetIfWifi_createConnect
+N    \note
+N    \warning
+N*/
+Nint32_t slNetIfWifi_connEnable(void *ifContext);
+N
+N/*!
+N
+N    \brief Gracefully close connection
+N
+N    The slNetIfWifi_disconnect function close wifi connection by.\n
+N    This function is called by the connection manager library layer to obtain disconnect.
+N
+N    \return                   Zero on success, or negative error code on failure.
+N
+N    \sa                       slNetIfWifi_disconnect
+N    \note
+N    \warning
+N*/
+Nint16_t slNetIfWifi_connDisable(void *ifContext);
 N
 N/*!
 N
@@ -26245,6 +27668,35 @@ N    \endcode
 N*/
 Nint32_t SlNetIfWifi_getHostByName(void *ifContext, char *name, const uint16_t nameLen, uint32_t *ipAddr, uint16_t *ipAddrLen, const uint8_t family);
 N
+N/*!
+N    \brief Performs a ping
+N
+N    This functions is used to perform a ping request and check its response.
+N
+N    \param[in]  ifContext       Stores interface data if CreateContext function
+N                                supported and implemented.
+N                                Can be used in all SlNetIf_Config_t functions
+N    \param[in]  addr            Specifies the destination
+N                                addrs\n sockaddr:\n - code for the address
+N                                format.\n - socket address,
+N                                the length depends on the code
+N                                format
+N    \param[in]  addrLen         Contains the size of the structure pointed to by addr.
+N    \param[in]  attempts        Specifies the number of ping request attempts.
+N    \param[in]  timeout         Specifies the timeout to wait for a ping
+N                                response
+N    \param[in]  interval        Specifies the interval between subsequent ping
+N                                attempts
+N    \param[in]  packetSize      Ping packet size in bytes including ICMP header,
+N                                therefore must be greater than 8
+N    \param[in]  flags           Reserved
+N
+N    \return                    The number of successful packets, 0 on failure
+N
+N    \slnetutil_init_precondition
+N*/
+Nuint32_t SlNetIfWifi_ping(void *ifContext, const SlNetSock_Addr_t *addr, SlNetSocklen_t addrLen, uint32_t attempts, uint16_t timeout,
+N                          uint16_t interval, uint16_t packetSize, int16_t flags);
 N
 N/*!
 N    \brief Get IP Address of specific interface
@@ -26363,12 +27815,23 @@ Nint32_t SlNetIfWifi_loadSecObj(void *ifContext, uint16_t objType, char *objName
 N
 N
 N/*!
-N    \brief Allocate and store interface data
+N    \brief Allocate and store interface data.
+N           Registers to interface event handlers.
 N
 N    The SlNetIfWifi_CreateContext function stores interface related data.\n
 N
-N    \param[in] ifContext  Allocate and store interface data if needed.
-N                          Can be used in all slnetwifi interface functions
+N    \param[in] ifID      Specifies the interface which its configuration
+N                         needs to be retrieved.\n
+N                         The values of the interface identifier is
+N                         defined with the prefix SLNETIF_ID_ which
+N                         defined in slnetif.h
+N
+N    \param[in] ifName    Specifies the interface which its interface
+N                         identifier needs to be retrieved.\n
+N
+N    \param[in] ifContext  Specifies the interface data if needed.
+N
+N    \param[in] ifCallback Specifies the interface callback function.
 N
 N    \return               Zero on success, or negative error code on failure.
 N
@@ -26383,7 +27846,36 @@ N        connection_status = SlNetIfWifi_CreateContext(&context);
 N    \endcode
 N    <br>
 N*/
-Nint32_t SlNetIfWifi_CreateContext(uint16_t ifID, const char *ifName, void **ifContext);
+Nint32_t SlNetIfWifi_CreateContext (uint16_t ifID, const char *ifName, void **ifContext, SlNetIf_Event_t ifCallback);
+N
+N/*!
+N    \brief Free allocations of interface data.
+N           Remove registration of interface event handlers.
+N
+N
+N    \param[in] ifID       Specifies the interface which its configuration
+N                          needs to be remove.\n
+N                          The values of the interface identifier is
+N                          defined with the prefix SLNETIF_ID_ which
+N                          defined in slnetif.h
+N
+N    \param[in] ifContext  Specifies the interface data which needs to be remove.
+N
+N
+N    \return               Zero on success, or negative error code on failure.
+N
+N    \sa
+N    \note
+N    \warning
+N    \par    Examples
+N
+N    \code
+N        void *ifContext;
+N        connection_status = SlNetIfWifi_CreateContext(&context);
+N    \endcode
+N    <br>
+N*/
+Nint32_t SlNetIfWifi_DeleteContext (uint16_t ifID, void **ifContext);
 N
 N
 N/*!
@@ -26401,7 +27893,467 @@ N
 N#endif /* __SOCKET_H__ */
 N
 N
-L 39 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/slnetif/slnetifwifi.c" 2
+L 39 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/slnetif/slnetifwifi.c" 2
+N#include <ti/drivers/net/wifi/slwificonn.h>
+L 1 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/slwificonn.h" 1
+N/*
+N * Copyright (c) 2020, Texas Instruments Incorporated
+N * All rights reserved.
+N *
+N * Redistribution and use in source and binary forms, with or without
+N * modification, are permitted provided that the following conditions
+N * are met:
+N *
+N * *  Redistributions of source code must retain the above copyright
+N *    notice, this list of conditions and the following disclaimer.
+N *
+N * *  Redistributions in binary form must reproduce the above copyright
+N *    notice, this list of conditions and the following disclaimer in the
+N *    documentation and/or other materials provided with the distribution.
+N *
+N * *  Neither the name of Texas Instruments Incorporated nor the names of
+N *    its contributors may be used to endorse or promote products derived
+N *    from this software without specific prior written permission.
+N *
+N * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+N * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+N * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+N * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+N * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+N * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+N * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+N * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+N * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+N * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+N * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+N */
+N
+N#ifndef SLWIFICONN_H_
+N#define SLWIFICONN_H_
+N
+N#include <stdint.h>
+N#include <ti/drivers/net/wifi/simplelink.h>
+N#include <ti/net/slnetif.h>
+N
+N#define SLWIFICONN_DEBUG_ENABLE     (1)
+N
+N/* Additional command (on top Simplelink provisioning commands for
+N * supporting provisioning with EXTERNAL CONFIGURATION without internal configuration
+N * (e.g. for WAC only support)
+N */
+N#define SL_WLAN_PROVISIONING_CMD_START_MODE_EXTERNAL_CONFIGURATION   10
+N
+N
+N/****************************************************************************
+N                      TYPE DEFINITION (structs and enum)
+N****************************************************************************/
+N/* Wifi APP Events -
+N * IMPORTANT NOTE: Do no use blocking operations or long processing in the event callback context.
+N *                 Trigger other tasks to process the events
+N */
+Ntypedef enum
+N{
+N    /* Indication when WIFI RF is POWERED UP -
+N     * this should mainly informational (user display) purposes
+N     */
+N    WifiConnEvent_POWERED_UP,
+N
+N    /* Indication when WIFI RF is POWERED DOWN (per user request or when going idle due to
+N     * scan/connections failure -
+N     * this should mainly informational (user display) purposes
+N     */
+N    WifiConnEvent_POWERED_DOWN,
+N
+N    /* Indication when PROVISIONING process starts  -
+N     * this should mainly informational (user display) purposes
+N     * Provisioning is only enabled using SlWifiConn_enableProvisioning.
+N     */
+N    WifiConnEvent_PROVISIONING_STARTED,
+N
+N    /* Indication when PROVISIONING process starts  -
+N     * this should mainly informational (user display) purposes.
+N     * Provisioning is only enabled using SlWifiConn_enableProvisioning.
+N     */
+N    WifiConnEvent_PROVISIONING_STOPPED,
+N
+N    /* Indication when Provisioning with External Configuration (e.g. WAC) is ready to start -
+N     * this should trigger the external provisioning task.
+N     * External Provisioning is only enabled using SlWifiConn_enableProvisioning with
+N     * SL_WLAN_PROVISIONING_CMD_START_MODE_APSC_EXTERNAL_CONFIGURATION or
+N     * SL_WLAN_PROVISIONING_CMD_START_EXTERNAL_CONFIGURATION
+N     */
+N    WifiConnEvent_EXTERNAL_PROVISIONING_START_REQ,
+N
+N    /* Indication when Provisioning with External Configuration (e.g. WAC) needs to be stopped -
+N     * this should stop the external provisioning task.
+N     * External Provisioning is only enabled using SlWifiConn_enableProvisioning with
+N     * SL_WLAN_PROVISIONING_CMD_START_MODE_APSC_EXTERNAL_CONFIGURATION or
+N     * SL_WLAN_PROVISIONING_CMD_START_EXTERNAL_CONFIGURATION
+N     */
+N    WifiConnEvent_EXTERNAL_PROVISIONING_STOP_REQ,
+N
+N    /* Indication when external Cloud Confirmation is ready to be started -
+N     * this should trigger the external confirmation task.
+N     * Cloud Confirmation is only enabled using SlWifiConn_enableProvisioning with
+N     * flag == SL_WLAN_PROVISIONING_CMD_FLAG_EXTERNAL_CONFIRMATION
+N     */
+N    WifiConnEvent_CLOUD_CONFIRMATION_START_REQ,
+N
+N    /* Indication when external Cloud Confirmation needs to be stopped -
+N     * this should stop the external confirmation task.
+N     * External Provisioning is only enabled using SlWifiConn_enableProvisioning with
+N     * Cloud Confirmation is only enabled using SlWifiConn_enableProvisioning with
+N     * flag == SL_WLAN_PROVISIONING_CMD_FLAG_EXTERNAL_CONFIRMATION
+N     */
+N    WifiConnEvent_CLOUD_CONFIRMATION_STOP_REQ,
+N} WifiConnEventId_e;
+N
+N/* Wifi APP Events */
+Ntypedef enum
+N{
+N    WifiProvStatus_SUCCEED,
+N    WifiProvStatus_FAILED,
+N    WifiProvStatus_STOPPED,
+N} WifiConnProvStatus_e;
+N
+N/* Wifi Provisioning Modes of operation */
+Ntypedef enum
+N{
+N    WifiProvMode_OFF,       // Disable Provisioning (default, update using SlWifiConn_enableProvisioning)
+N    WifiProvMode_ONE_SHOT,  // Enable one cycle of provisioning (disable it upon completion)
+N    WifiProvMode_ON,        // Enable Provisioning whenever connection can't be established
+N} WifiConnProvMode_e;
+N
+N/* SlWifiConn_enableProvisioning flags */
+N#define SLWIFICONN_PROV_FLAG_EXTERNAL_CONFIRMATION          1
+N#define SLWIFICONN_PROV_FLAG_FORCE_PROVISIONING             2
+N
+N/* SlWifiConn_addProfile flags */
+N#define SLWIFICONN_PROFILE_FLAG_NON_PERSISTENT      1
+N
+Ntypedef union {
+N    uint8_t              provisioningCmd;   // upon WifiConnEvent_PROVISIONING_STARTED
+N    WifiConnProvStatus_e status;            // upon WifiConnEvent_PROVISIONING_STOPPED
+N} WifiConnEventData_u;
+N
+Ntypedef void (*SlWifiConn_AppEventCB_f)(WifiConnEventId_e eventId , WifiConnEventData_u *pData);
+N
+N
+N/*
+N * Wifi Conn User Settings - parameters can retrieved/updated using the
+N * SlWifiConn_getConfiguration / SlWifiConn_setConfiguration API
+N */
+Ntypedef struct
+N{
+N    /* Time to wait for AP connection (WAIT_FOR_CONN).
+N     * Upon expiration, the device will enter provisioning or go to IDLE.
+N     *  Default: 3 [seconds]
+N     *  Note: if static profile is set (i.e. NON_PERSISTENT profile), the connect timeout
+N     *        will be used first to try the static profile, and upon expiration - the timeout
+N     *        will be used again while trying to connect with stored profiles */
+N    uint16_t            connectTimeout;
+N
+N    /* Time to wait for IP acquisition (WAIT_FOR_IP)
+N     *  Default: 6 [seconds] */
+N    uint16_t            ipTimeout;
+N
+N    /* Time to wait for AP re-connection (WAIT_FOR_CONN)
+N     * This considers an AP reset and waits till the AP is back on
+N     * Upon expiration, the device will enter provisioning or go to IDLE.
+N     *  Default: 60 [seconds] */
+N    uint16_t            reconnectTimeout;
+N
+N    /* Time to wait for provsioning complete (PROVISIONING)
+N     * It assumes slow user response
+N     *  Default: 300 [seconds] -> 5 minutes
+N     *  Limitation: must be >= 30 seconds */
+N    uint16_t            provisioningTimeout;
+N
+N    /* The IDLE interval is applied when connection can't be established
+N     * (provisioned AP is not found). The device will stop scanning and go to
+N     * low power mode. When the configured duration expires, the device will be enabled
+N     * and go through the connection steps again and back to IDLE in case of failure.
+N     * The next two value defines the low and high boundaries for a telescopic series
+N     * with ratio of 2. For example using the defaults the idle intervals will be (in sec):
+N     *  20, 40, 80, 120, 120....
+N     *  Default: Min=20 [seconds] -> Max=120 [second] */
+N    uint16_t            idleMinInterval;
+N    uint16_t            idleMaxInterval;
+N
+N    /* Provisioning AP settings (if needed). The following parameters, defines
+N     * The SSID and Security parameters of the soft AP used during the provisioning.
+N     * Both the SSID and Password should provided as strings.
+N     * NULL SSID should be used to keep the existing SSID name.
+N     * Factory default SSID is based on device MAC address (3 least significant
+N     * bytes of the MAC address): "mysimplelink-xx:yy:zz".
+N     * Note that the "Simplelink Starter Pro" example application only supports
+N     * the default SSID.
+N     * Only SL_WLAN_SEC_TYPE_OPEN or SL_WLAN_SEC_TYPE_WPA_WPA2 are allowed as
+N     * security methods.
+N     * If SL_WLAN_SEC_TYPE_OPEN is used for security type, the ApPassword is not
+N     * relevant.
+N     * Note: these setting will override any previous AP configurations.
+N     *  Default: ApSSID = NULL ("mysimplelink-<macaddr>")
+N     *           ApSecType = SL_WLAN_SEC_TYPE_OPEN
+N     *           ApPassword = <n/a> */
+N    char                *provisioningAP_ssid;
+N    uint8_t              provisioningAP_secType;
+N    char                *provisioningAP_password;
+N
+N    /* Provisioning SC settings (if needed). If public Key is required for security,
+N     * the the ScKey should point to 16 chars string (e.g. "1234567890123456").
+N     * Note: these setting will override any previous AP configurations.
+N     *  Default: NULL [no key] */
+N    char                *provisioningSC_key;
+N
+N} WifiConnSettings_t;
+N
+N
+N
+N/*!
+N    Debug print callback function prototype.
+N    This function can be used by the application to register
+N    a printng method. This will enable the module's log.
+N
+N    \sa SlNetConn_RegisterDebugCallback()
+N */
+Ntypedef void (*SlWifiConn_Debug_f)(const char *  _format, ...);
+N
+N/*****************************************************************************/
+N/* Function prototypes                                                       */
+N/*****************************************************************************/
+N
+N/*!
+N
+N    \brief Initialize the SlWifiConn resource and trigger the NWP in \n
+N           station role.
+N
+N    Called by the application (before or after the interface is added) - \n
+N    perform software (context and OS resources) initialization.
+N
+N    \param[in] NetIfCB    This is the callback for the SlNetIf events
+N
+N    \return               0 upon success or a negative error code
+N
+N    \note                 To be called before any other SlWifiConn API
+N
+N    \sa                   SlWifiConn_deinit()
+N
+N*/
+Nint    SlWifiConn_init(SlWifiConn_AppEventCB_f fWifiAppCB);
+N
+N
+N/*!
+N
+N    \brief De-init module and Free all allocated resources (include the SM task)
+N
+N    Called by the application when Wi-Fi is disabled (no active connection request).
+N    Once processed, no other SlWifiConn API (other than SlWifiConn_init()) can be called.
+N
+N    \param[in] None
+N
+N    \return               0 upon success or a negative error code
+N
+N    \note                 To be called when Wi-Fi is disabled
+N
+N    \sa                   SlWifiConn_init()
+N
+N*/
+Nint SlWifiConn_deinit();
+N
+N/*!
+N
+N    \brief An external request to set the WLAN Role
+N
+N    \param[in] role         the requested role
+N
+N    \return                 0 upon success or a negative error code
+N
+N    \note                   can be called only when there is no active enable request
+N                            or during external provisioning
+N*/
+Nint SlWifiConn_setRole(SlWlanMode_e role);
+N
+N/*!
+N
+N    \brief An external request to reset the Network Processor
+N
+N    \param[in] none
+N
+N    \return                 Active WLAN role upon success or a negative error code
+N
+N    \note                   can be called only when there is no active enable request
+N                            (i.e. in OFF state)
+N*/
+Nint SlWifiConn_reset();
+N
+N/*!
+N
+N    \brief Set Module Settings
+N
+N    Called by netIfWifi when connection to AP is not needed.
+N    Note: Timeout parameters have huge impact on the system. Please do not update
+N          them unless it necessary.
+N          Provisioning timeout cannot be less then 30 seconds
+N
+N    \param[in] pWifiConnSettings    pointer to SlWifiConn configuration structure
+N
+N    \return                 0 upon success or a negative error code
+N*/
+Nint    SlWifiConn_setConfiguration(WifiConnSettings_t *pWifiConnSettings);
+N
+N/*!
+N
+N    \brief Retrieve Module Settings
+N
+N    \param[in] pWifiConnSettings    pointer to SlWifiConn configuration structure
+N
+N    \return                 0 upon success or a negative error code
+N*/
+Nint    SlWifiConn_getConfiguration(WifiConnSettings_t *pWifiConnSettings);
+N
+N/*!
+N
+N    \brief Add a User or External Provisioning Profile
+N
+N    Called in case of a fixed profile or when external provisioning method detects\n
+N    a new profile.
+N
+N    \param[in]      pSsid       SSID of the Access Point
+N    \param[in]      SSID        SSID Length
+N    \param[in]      pMacAddr    6 bytes for MAC address
+N    \param[in]      pSecParams  Security parameters (use NULL key for SL_WLAN_SEC_TYPE_OPEN)\n
+N                                Security types options:
+N                                - SL_WLAN_SEC_TYPE_OPEN
+N                                - SL_WLAN_SEC_TYPE_WEP
+N                                - SL_WLAN_SEC_TYPE_WEP_SHARED
+N                                - SL_WLAN_SEC_TYPE_WPA_WPA2
+N                                - SL_WLAN_SEC_TYPE_WPA2_PLUS
+N                                - SL_WLAN_SEC_TYPE_WPA3
+N                                - SL_WLAN_SEC_TYPE_WPA_ENT
+N                                - SL_WLAN_SEC_TYPE_WPS_PBC
+N                                - SL_WLAN_SEC_TYPE_WPS_PIN
+N                                - SL_WLAN_SEC_TYPE_WPA_PMK - insert preprocessed PMK as key
+N
+N    \param[in]      pSecExtParams  Enterprise parameters - identity, identity length,
+N                                   Anonymous, Anonymous length, CertIndex (not supported,
+N                                   certificates need to be placed in a specific file ID),
+N                                   EapMethod.\n Use NULL in case Enterprise parameters is not in use
+N
+N    \param[in]      Priority    Profile priority. Lowest priority: 0, Highest priority: 15.
+N    \param[in]      flags       SLWIFICONN_PROFILE_FLAG_NON_PERSISTENT - do not store the profile
+N                                                (use sl_WlanConnect ather than sl_WlanProfileAdd)
+N
+N    \return                 0 upon success or a negative error code
+N*/
+Nint SlWifiConn_addProfile(const char *pSsid, uint16_t ssidLen, const _u8 *pMacAddr,
+Xint SlWifiConn_addProfile(const char *pSsid, uint16_t ssidLen, const unsigned char *pMacAddr,
+N                          SlWlanSecParams_t  *pSecParams, SlWlanSecParamsExt_t* pSecExtParams,
+N                          int prio, uint32_t flags);
+N
+N
+N/*!
+N
+N    \brief An Indication of completion of an external cloud provisioning or
+N    external configuration processing (this will trigger a provisioning stop)
+N
+N    \return                 0 upon success or a negative error code
+N*/
+Nint SlWifiConn_externalProvsioningCompleted(void);
+N
+N/*!
+N
+N    \brief Add a User or External Provisioning Profile
+N
+N    Called in case of a fixed profile or when external provisioning method detects\n
+N    a new profile.
+N
+N    \param[in] mode             Provisioning mode: OFF, ON or single shot (see WifiConnProvMode_e)
+N    \param[in] command          The provisioning command to use, one of:
+N                                     SL_WLAN_PROVISIONING_CMD_START_MODE_APSC,
+N                                     SL_WLAN_PROVISIONING_CMD_START_MODE_AP,
+N                                     SL_WLAN_PROVISIONING_CMD_START_MODE_SC,
+N                                     SL_WLAN_PROVISIONING_CMD_START_MODE_APSC_EXTERNAL_CONFIGURATION
+N    \param[in] flags            Provisioning optional flags (bit mask of the following):
+N                                    SLWIFICONN_PROV_FLAG_EXTERNAL_CONFIRMATION - enable external confirmation
+N                                    SLWIFICONN_PROV_FLAG_FORCE_PROVISIONING - delete all profiles
+N
+N    \return                     0 upon success or a negative error code
+N*/
+Nint    SlWifiConn_enableProvisioning(WifiConnProvMode_e mode, uint8_t command,
+N                                     uint32_t flags);
+N
+N
+N/*!
+N
+N    \brief Register an Application Event Callback
+N
+N    Provide Wi-Fi specific notifications that are not received through SlNetIf,
+N    e.g. whenever provisioning is started or stopped
+N
+N    \param[in] none
+N
+N    \return                 0 upon success or a negative error code
+N*/
+Nint    SlWifiConn_registerNetIFCallback(SlNetIf_Event_t fNetIfCB, uint16_t ifId);
+N
+N/*!
+N
+N    \brief Interface Enable Trigger
+N
+N    Called by netIfWifi to trigger the connection state machine upon the \n
+N           first connection request.
+N
+N
+N    \param[in] none
+N
+N    \return                 0 upon success or a negative error code
+N*/
+Nint    SlWifiConn_enable(void);
+N
+N/*!
+N
+N    \brief Interface Disable Trigger
+N
+N    Called by netIfWifi when connection to AP is not needed.
+N
+N    \param[in] none
+N
+N    \return                 0 upon success or a negative error code
+N*/
+Nint    SlWifiConn_disable(void);
+N
+N/*!
+N    \brief SlWifiConn_Task callback - Wifi Connection thread, handles all
+N    Wifi SM events.
+N
+N    This is the main thread context of the SlWifiConn, it will be used to process
+N    events and to invoke application's callbacks.
+N
+N    \param[in] pvParameters      Task parameters (should be kept null).
+N
+N    The thread (that uses this function) needs to be created by the
+N    application before SlWifiConn_enable is called.
+N*/
+Nvoid *SlWifiConn_process(void* pvParameters);
+N
+N
+N#if SLWIFICONN_DEBUG_ENABLE
+X#if (1)
+N/*!
+N    \brief register debug print handler
+N
+N    This function can be used by the application to register
+N    a debug printing method. This will enable the module's log.
+N
+N    \param[in] fDebugPrint      Application level debug method.
+N*/
+Nvoid SlWifiConn_registerDebugCallback(SlWifiConn_Debug_f fDebugPrint);
+N#endif
+N
+N
+N#endif /* SLWIFICONN_H_ */
+L 40 "/vagrant/Q3_SDK_01/sdk_root/source/ti/drivers/net/wifi/slnetif/slnetifwifi.c" 2
 N
 N/*****************************************************************************/
 N/* Macro declarations                                                        */
@@ -26423,6 +28375,8 @@ N/*****************************************************************************/
 N/* Global declarations                                                       */
 N/*****************************************************************************/
 N
+N/* gCB is a pointer for callback function                                    */
+Nuint16_t        gIfID;
 N/*!
 N    SlNetIfConfigWifi structure contains all the function callbacks that are expected to be filled by the relevant network stack interface
 N    Each interface has different capabilities, so not all the API's must be supported.
@@ -26430,6 +28384,8 @@ N    Interface that is not supporting a non-mandatory API are set to NULL
 N*/
 NSlNetIf_Config_t SlNetIfConfigWifi = 
 N{
+N    slNetIfWifi_connEnable,          // Callback function connEnable in slnetif module
+N    slNetIfWifi_connDisable,         // Callback function connDisable in slnetif module
 N    SlNetIfWifi_socket,              // Callback function sockCreate in slnetif module
 N    SlNetIfWifi_close,               // Callback function sockClose in slnetif module
 N    NULL,                            // Callback function sockShutdown in slnetif module
@@ -26451,11 +28407,12 @@ N    SlNetIfWifi_send,                // Callback function sockSend in slnetif m
 N    SlNetIfWifi_sendTo,              // Callback function sockSendTo in slnetif module
 N    SlNetIfWifi_sockstartSec,        // Callback function sockstartSec in slnetif module
 N    SlNetIfWifi_getHostByName,       // Callback function utilGetHostByName in slnetif module
+N    SlNetIfWifi_ping,                // Callback function utilPing in slnetif module
 N    SlNetIfWifi_getIPAddr,           // Callback function ifGetIPAddr in slnetif module
 N    SlNetIfWifi_getConnectionStatus, // Callback function ifGetConnectionStatus in slnetif module
 N    SlNetIfWifi_loadSecObj,          // Callback function ifLoadSecObj in slnetif module
-N    NULL                             // Callback function ifCreateContext in slnetif module
-X    0                             
+N    SlNetIfWifi_CreateContext,       // Callback function ifCreateContext in slnetif module
+N    SlNetIfWifi_DeleteContext,       // Callback function ifDeleteContext in slnetif module
 N};
 N
 Nstatic const int16_t StartSecOptName[10] = 
@@ -26505,6 +28462,34 @@ N
 N/*****************************************************************************/
 N/* Function prototypes                                                       */
 N/*****************************************************************************/
+N
+N//*****************************************************************************
+N//
+N// slNetIfWifi_createConnect - Create wifi connection
+N//
+N//*****************************************************************************
+Nint32_t slNetIfWifi_connEnable(void *ifContext)
+N{
+N    int retVal;
+N
+N    retVal = SlWifiConn_enable();
+N
+N    return retVal;
+N}
+N
+N//*****************************************************************************
+N//
+N// slNetIfWifi_disconnect - Gracefully disconnect
+N//
+N//*****************************************************************************
+Nint16_t slNetIfWifi_connDisable(void *ifContext)
+N{
+N    int retVal;
+N
+N    retVal = SlWifiConn_disable();
+N
+N    return retVal;
+N}
 N
 N//*****************************************************************************
 N//
@@ -26831,6 +28816,56 @@ N    return retVal;
 N     
 N}
 N
+N//*****************************************************************************
+N//
+N// SlNetIfWifi_ping - perform a ping request and check its response
+N//
+N//*****************************************************************************
+Nuint32_t SlNetIfWifi_ping(void *ifContext, const SlNetSock_Addr_t *addr, SlNetSocklen_t addrLen, uint32_t attempts, uint16_t timeout, uint16_t interval, uint16_t packetSize, int16_t flags)
+N{
+N    int32_t  retVal;
+N    SlNetAppPingReport_t report;
+N    SlNetAppPingCommand_t pingCommand;
+N
+N    if(addr->sa_family == SLNETSOCK_AF_INET)
+X    if(addr->sa_family == (2))
+N    {
+N        /* destination IP of gateway                */
+N         pingCommand.Ip = ((SlNetSock_AddrIn_t*)addr)->sin_addr.s_addr;
+N    }
+N    else if(addr->sa_family  == SLNETSOCK_AF_INET6)
+X    else if(addr->sa_family  == (3))
+N    {
+N        /* destination IP of gateway                */
+N        *((SlNetSock_In6Addr_t*)&pingCommand.Ip) = ((SlNetSock_AddrIn6_t*)addr)->sin6_addr;
+N    }
+N
+N    /* size of ping, in bytes                   */
+N    pingCommand.PingSize = packetSize;
+N
+N    /* delay between pings, in milliseconds     */
+N    pingCommand.PingIntervalTime = interval;
+N
+N    /* timeout for every ping in milliseconds   */
+N    pingCommand.PingRequestTimeout = timeout;
+N
+N    /* max number of ping requests. 0 - forever */
+N    pingCommand.TotalNumberOfAttempts = attempts;
+N
+N    /* report only when finished                */
+N    pingCommand.Flags = 0;
+N
+N    /* Ping Gateway */
+N    retVal = sl_NetAppPing( &pingCommand, addr->sa_family, &report, NULL );
+X    retVal = sl_NetAppPing( &pingCommand, addr->sa_family, &report, 0 );
+N
+N    if(retVal == 0)
+N    {
+N        return report.PacketsReceived;
+N    }
+N    else
+N        return 0;
+N}
 N
 N//*****************************************************************************
 N//
@@ -26843,7 +28878,8 @@ N                        uint16_t   *ipAddrLen        )
 N{
 N    SlWlanConnStatusParam_t WlanConnectInfo;
 N    uint16_t Len;
-N    int32_t retVal;
+N    int32_t retVal = SLNETERR_RET_CODE_OK;
+X    int32_t retVal = (0L);
 N
 N    switch(addrType)
 N    {
@@ -26914,6 +28950,16 @@ X    if(retVal == (0L))
 N    {
 N        retVal = sl_NetCfgGet(newAddrType, addrConfig, &ipAddrLen, (unsigned char *)ipAddr);
 N    }
+N
+N    /*
+N    * If the type is IPv4 we need to reorder the address as the Simplelink CC32xx device
+N    * returns the address in host order
+N    */
+N    if(SLNETIF_IPV4_ADDR == addrType)
+N    {
+N        *ipAddr = SlNetUtil_htonl(*ipAddr);
+N    }
+N
 N    return retVal;
 N}
 N
@@ -27025,11 +29071,28 @@ N
 N
 N//*****************************************************************************
 N//
-N// SlNetIfWifi_CreateContext - Allocate and store interface data
+N// SlNetIfWifi_CreateContext - Allocates and stores interface data,
+N//                             registers to wifi event handlers.
 N//
 N//*****************************************************************************
-Nint32_t SlNetIfWifi_CreateContext(uint16_t ifID, const char *ifName, void **context)
+Nint32_t SlNetIfWifi_CreateContext (uint16_t ifID, const char *ifName, void **ifContext, SlNetIf_Event_t ifCallback)
 N{
-N    return SLNETERR_RET_CODE_OK;
-X    return (0L);
+N    int32_t    retVal = 0;
+N
+N    gIfID = ifID;
+N    retVal = SlWifiConn_registerNetIFCallback(ifCallback, ifID);
+N
+N    return (retVal);
 N}
+N
+N//*****************************************************************************
+N//
+N// slNetIfWifi_UnregisterEvent - free allocations,
+N//                               remove registration of wifi event handlers.
+N//
+N//*****************************************************************************
+Nint32_t SlNetIfWifi_DeleteContext (uint16_t ifID, void **ifContext)
+N{
+N    return (0);
+N}
+N

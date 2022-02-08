@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2020 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,13 @@
  */
 
 exports = {
+    /* function to configure device-specific implementation */
+    addImplementationConfig: addImplementationConfig,
+
     boardName: boardName,  /* get /ti/boards name */
+
+    /* CC32XX specific function to convert package pin to device pin */
+    cc32xxPackage2DevicePin : cc32xxPackage2DevicePin,
 
     device2Family: device2Family,  /* get /ti/drivers device family name */
     device2DeviceFamily: device2DeviceFamily, /* get driverlib DeviceFamily_xxx name */
@@ -46,8 +52,10 @@ exports = {
     getConfigs: getConfigs,        /* get all of a module's config params */
 
     getName: getName,              /* get C name for instance */
+    getSymbolicName: getSymbolicName,
     getPort: getPort,              /* get pin port name: Px_y */
     getInstanceIndex: getInstanceIndex, /* returns mod.$instances array index of inst */
+    getLibSuffix: getLibSuffix, /* returns library file suffixes specific to drivers tree */
     isCName: isCName,              /* validate name is C identifier */
     genAliases: genAliases,        /* generate list of instance name aliases */
     pinToName: pinToName,          /* convert pin number to pin name */
@@ -80,6 +88,7 @@ exports = {
 
     autoForceModules: autoForceModules,
     genBoardHeader: genBoardHeader,
+    genBoardDeclarations : genBoardDeclarations,
     genResourceComment: genResourceComment,
     findSignalTypes : findSignalTypes,
 
@@ -118,6 +127,93 @@ let deferred = {
     logWarning: function (inst, field, msg) {this.warn.push({inst: inst, field: field, msg: msg});},
     logInfo:    function (inst, field, msg) {this.info.push({inst: inst, field: field, msg: msg});}
 };
+
+/*!
+ *  ======== addImplementationConfig ========
+ *  Displays device-specific driver impelementation. This function is intended
+ *  to be called in the extend function of the <driver><device>.syscfg.js file.
+ *
+ *  @param[in] base: The base exports object needing to be modified
+ *  @param[in] driver: A string formatted how the driver name is intended to
+ *  be displayed in the UI
+ *  @param[in] defaultOption: The default driver implementation. If there is
+ *  only one implementation, this param can be passed in as null since the
+ *  information will be extracted from the options param
+ *  @param[in] options: an array in the format of {name: "driverImplementation"}
+ *  for each available implementation. Separate each implementation with a comma
+ *  @param[in] longDescription: String with a driver-specific description that
+ *  will to be added to the base long description. The value of this param is
+ *  null if no extra description is desired.
+ *  @return The modified base exports object
+ */
+function addImplementationConfig(base, driver, defaultOption=null, options,
+    longDescription=null)
+{
+    if ((options.length > 1) && (defaultOption == null)) {
+        throw new Error("Common.js, addImplementationConfig(): Invalid params" +
+            " passed in!");
+    }
+
+    let description = "Displays " + driver + " delegates available for the " +
+        system.deviceData.deviceId + " device.";
+
+    let implementationCountDescription = `
+Since there is only one delegate, it is a read-only value that cannot be changed.
+`;
+
+    let readOnly = false;
+    if (options.length == 1) {
+        readOnly = true;
+
+        /* If there's only one option, set that option to be the default */
+        defaultOption = options[0].name;
+    }
+    else if (options.length > 1) {
+        implementationCountDescription = `
+Since there is more than one delegate for this module, this option allows you to
+choose which driver you would like to use.
+`;
+    }
+
+    let baseDescription = description + "\n\n" + implementationCountDescription +
+`Please refer to the [__TI-Drivers implementation matrix__][0] for all
+available drivers and documentation.
+
+[0]: /drivers/doxygen/html/index.html#drivers
+`;
+
+    /* Add driver-specific description onto the base description */
+    if (longDescription != null) {
+        baseDescription = baseDescription.concat(longDescription);
+    }
+
+    let config = [{
+        name: driver.toLowerCase() + "Implementation",
+        displayName: driver + " Implementation",
+        default: defaultOption,
+        options: options,
+        readOnly: readOnly,
+        description: description,
+        longDescription : baseDescription
+    }];
+
+    /* Determine if base contains a module static */
+    if (base.moduleStatic && base.moduleStatic.config) {
+        base.moduleStatic.config = config.concat(base.moduleStatic.config);
+    }
+    else {
+        let globalName = base.displayName.toLowerCase() + "Global";
+        let globalDisplayName = base.displayName + " Global";
+
+        base.moduleStatic = {
+            name: globalName,
+            displayName: globalDisplayName,
+            config: config
+        };
+    }
+
+    return (base);
+}
 
 /*
  *  ======== init ========
@@ -194,6 +290,28 @@ function boardName()
 }
 
 /*!
+ *  ======== cc32xxPackage2DevicePin ========
+ *  Converts a CC32XX package pin number to the device pin number
+ *
+ *  @param packagePinName  The packagePinName returned to a $solution
+ *
+ *  @returns String  The device pin number as an integer.
+ */
+function cc32xxPackage2DevicePin(packagePinName)
+{
+    let pin = "";
+    let key = String(packagePinName);
+    let devicePins = system.deviceData.devicePins;
+
+    if (devicePins[key]) {
+        pin = devicePins[key].controlRegisterOffset;
+        pin = pin.padStart(2, "0");
+    }
+
+    return (pin);
+}
+
+/*!
  *  ======== device2Family ========
  *  Map a pimux device object to a TI-driver device family string
  *
@@ -211,19 +329,29 @@ function device2Family(device, mod)
     let DEV2FAMILY = [
         {prefix: "CC13.2",   family: "CC26X2"},
         {prefix: "CC26.2",   family: "CC26X2"},
+        {prefix: "CC13.1",   family: "CC26X1"},
+        {prefix: "CC26.1",   family: "CC26X1"},
         {prefix: "CC13",     family: "CC26XX"},
         {prefix: "CC26",     family: "CC26XX"},
         {prefix: "CC32",     family: "CC32XX"},
-        {prefix: "MSP432E",  family: "MSP432E4"},
-        {prefix: "MSP432",   family: "MSP432"}
+        {prefix: "MSP432E",  family: "MSP432E4"}
     ];
 
-    /* Agama (CC26X2) specific module delegates */
+    /* Agama Classic (CC26X2 and CC26X2F6) specific module delegates */
     let cc26x2Mods = {
-        "ECDH" : 1,
-        "ECDSA" : 1,
-        "ECJPAKE" : 1,
-        "SHA2" : 1
+        "ECDH" :        "CC26X2",
+        "ECDSA" :       "CC26X2",
+        "ECJPAKE" :     "CC26X2",
+        "SHA2" :        "CC26X2",
+        "Temperature" : "CC26X2"
+    };
+
+    /* Agama Lite (CC26X1) specific module delegates */
+    let cc26x1Mods = {
+        "ECDH" :        "CC26X1",
+        "ECDSA" :       "CC26X1",
+        "SHA2" :        "CC26X1",
+        "Temperature" : "CC26X2"
     };
 
     /* deviceId is the directory name within the pinmux/deviceData */
@@ -235,8 +363,16 @@ function device2Family(device, mod)
         if (deviceId.match(d2f.prefix)) {
             /* trap Agama specific mods */
             if (d2f.family == "CC26X2") {
-                if (cc26x2Mods[mod] == 1) {
-                    return ("CC26X2");
+                if (mod in cc26x2Mods) {
+                    return (cc26x2Mods[mod]);
+                }
+                else {
+                    return ("CC26XX");
+                }
+            }
+            else if (d2f.family == "CC26X1") {
+                if (mod in cc26x1Mods) {
+                    return (cc26x1Mods[mod]);
                 }
                 else {
                     return ("CC26XX");
@@ -312,6 +448,49 @@ function getInstanceIndex(inst)
     }
     return (-1);
 }
+
+/*
+ *  ======== getLibSuffix ========
+ *  Returns the filename extension (suffix) appended to library names
+ *
+ *  This function assumes valid inputs
+ *
+ *  The drivers repository currently does not follow the SimpleLink
+ *  library naming convention. When updated to do so, calls to this
+ *  function may be replaced by:
+ *      /ti/utils/build/.meta/GenLibs.syscfg.js::libPath()
+ *
+ *  @param isa  -  The isa string. For example "m3" or "m4", "m4f"
+ *
+ *  @param toolchain  -  The toolchain string. For example "ticlang" or "gcc"
+ */
+function getLibSuffix(isa, toolchain)
+{
+    let tc2ext = {
+        ccs: {
+            prefix: "ae",
+            suffix: ""
+        },
+        gcc: {
+            prefix: "a",
+            suffix: "g"
+        },
+        iar: {
+            prefix: "ar",
+            suffix: ""
+        },
+        ticlang: {
+            prefix: "a",
+            suffix: ""
+        }
+    };
+
+    let suffix = tc2ext[toolchain].prefix + isa + tc2ext[toolchain].suffix;
+    suffix = "." + suffix;
+
+    return (suffix);
+}
+
 
 /*
  *  ======== getConfigs ========
@@ -469,6 +648,20 @@ function getConfigs(modName)
 function getName(inst, index)
 {
     return (inst.$name);
+}
+
+/*
+ *  ======== getSymbolicName ========
+ *  Compute private name for an instance.
+ *
+ *  This name is used exclusively inside of the ti_drivers_config.c
+ *  source file.
+ *
+ *  The name returned _may_ not be a C identifier.
+ */
+function getSymbolicName(inst)
+{
+    return (inst.$name + "_CONST");
 }
 
 /*
@@ -1105,16 +1298,25 @@ function setDefaults(inst, signal, type)
 
     /* apply any settings to the instance */
     for (let cfg in settings) {
-        try {
-            inst[cfg] = settings[cfg];
+        /* ensure cfg is in inst */
+        if (inst.$uiState[cfg] != null) {
+            /* assign it as specified by the HW (unless cfg is readonly) */
+            if (!inst.$uiState[cfg].readOnly) {
+                inst[cfg] = settings[cfg];
+            }
         }
-        catch (x) {
-            let msg = "signal '" + signal.name
-                + "' of component " + comp.name
-                + " specified an unknown setting (" + cfg + ") for "
-                + inst.$name;
-            console.log("error: " + msg);
-            throw new Error(msg);
+        else {
+            /* if comp references a bogus cfg setting throw "bad board file" */
+            let cname = comp.name;
+            let parents = comp.$parents;
+            for (; parents.length > 0; parents = parents[0]) {
+                cname = parents[0].name + "." + cname;
+            }
+            let msg = "invalid board data: signal '" + signal.name
+                + "' of component '" + cname + "' "
+                + "specified an unknown setting (" + cfg + " = " + settings[cfg]
+                + ") for " + inst.$name;
+            throw new Error(msg); /* needed to detect bogus board data */
         }
     }
 }
@@ -1202,7 +1404,8 @@ function addNameConfig(config, modName, prefix)
 {
     let baseName = modName.split('/').pop();                 // GPIO
     let fullName = modName.replace(/\//g, '_').substring(1); // ti_drivers_GPIO
-    let docsDir =  modName.split('/').slice(0, -1).join(""); // tidrivers
+    //let docsDir =  modName.split('/').slice(0, -1).join(""); // drivers
+    let docsDir = "drivers"; // Since this function is drivers specific
 
     let nameCfg = {
         name: "$name",
@@ -1217,12 +1420,16 @@ function addNameConfig(config, modName, prefix)
          */
         longDescription: "This name is declared in the generated ti_drivers_config.h"
                    + " file so applications can reference this instance"
-                   + " symbolically.  It can be set to any globally unique"
-                   + " name that is also a valid C/C++ identifier."
-                   + "\n[More ...](/" + docsDir
-                   + "/syscfg/html/ConfigDoc.html#"
-                   + fullName + "_$name \""
-                   + baseName + " Name reference documentation\")",
+                   + " symbolically. Additionally, this name is used to declare"
+                   + " an 'extern const' which allows libraries to define symbolic"
+                   + " names for required driver configurations _without_ needing to"
+                   + " rebuild library source files. The 'const' identifier is"
+                   + " declared as the same name with a ___CONST__ suffix. The name can"
+                   + " be set to any globally unique name that is also"
+                   + " a valid C/C++ identifier.\n"
+                   + "[More ...](/" + docsDir + "/syscfg/html/ConfigDoc.html#"
+                   + fullName + "_$name \"" + baseName
+                   + " Name reference documentation\")",
 
         documentation: "\n\n"
                    + "The SysConfig tooling ensures that _all_ names defined"
@@ -1232,7 +1439,8 @@ function addNameConfig(config, modName, prefix)
                    + " numeric id.  If you provide a name, it's checked"
                    + " against all other instance names in the configuration"
                    + " and, if another instance has the same name, an error is"
-                   + " triggered."
+                   + " triggered. The additional 'const' declaration is assumed"
+                   + " to also be globally unique."
                    + "\n\n"
                    + "Note: since not all names are added to ti_drivers_config.h,"
                    + " it's possible that some names will not be allowed even"
@@ -1286,12 +1494,12 @@ function autoForceModules(kwargs)
 /*
  *  ======== genBoardHeader ========
  *  Common Board.h.xdt function to generate standard module header
- *  including instance #defines
+ *  including instance externs.
  *
  *  instances = array of module instances
  *  mod       = module object
  */
-function genBoardHeader(instances, mod)
+function genBoardHeader(instances, mod, includeBanner=true)
 {
     let padding = Array(80).join(' ');
     let maxLineLength = 30;
@@ -1324,7 +1532,15 @@ function genBoardHeader(instances, mod)
             }
         }
 
-        line = "#define " + inst.$name;
+        line = "extern const uint_least8_t ";
+        lines.push(line);
+
+        /* Is this line length greater than the previous max */
+        if (line.length > maxLineLength) {
+            maxLineLength = line.length;
+        }
+
+        line = "#define " + inst.$name ;
         lines.push(line);
 
         /* Is this line length greater than the previous max */
@@ -1333,25 +1549,77 @@ function genBoardHeader(instances, mod)
         }
     }
 
+    /* Add configuration count define */
+    let displayName = instances[0].$module.displayName;
+    line = "#define CONFIG_TI_DRIVERS_" + displayName.toUpperCase() + "_COUNT";
+    lines.push(line);
+
+    /* Is this line length greater than the previous max */
+    if (line.length > maxLineLength) {
+        maxLineLength = line.length;
+    }
+
     /*
      * No comment was included in this original implementation. Not sure
      * what wizardry is going on here.
      */
     maxLineLength = ((maxLineLength + 3) & 0xfffc) + 4;
 
-    /* Modulate lines based on max line length, append instance number */
+    /*
+     * Modulate lines based on max line length and append instance number.
+     * Occurs for all lines except the last one (config count define) as
+     * it is formatted differently.
+     */
     let instanceNum = 0;
-    for (let i = 0; i < lines.length; i++) {
+    let lastLine = lines.length - 1;
+    for (let i = 0; i < lastLine; i++) {
+        let inst = instances[instanceNum];
 
         /* If this instance has a comment, assume 1 comment per instance */
         if (pinResources[instanceNum] && pinResources[instanceNum] != null) {
             i++;
         }
+
+        /* Pad and add symbolic name. ie `extern const uint8_t CONFIG_INDEX` */
+        lines[i] += padding.substring(0, maxLineLength - lines[i].length);
+        lines[i++] += getSymbolicName(inst) + ";";
+
+        /* Pad and add instance number to config define. ie `#define CONFIG_ADC_0 0` */
         lines[i] += padding.substring(0, maxLineLength - lines[i].length);
         lines[i] += instanceNum++;
     }
 
-    return ((banner.concat(lines)).join("\n"));
+    /* Pad and add the number of instances to the config count define */
+    lines[lastLine] += padding.substring(0, maxLineLength - lines[lastLine].length);
+    lines[lastLine] += instanceNum;
+
+    if (includeBanner === true) {
+        lines = banner.concat(lines);
+    }
+
+    return ((lines).join("\n"));
+}
+
+/*
+ *  ======== genBoardDeclarations ========
+ *  Common Board.c.xdt function to generate instance declarations
+ *
+ *  instances = array of module instances
+ */
+function genBoardDeclarations(instances)
+{
+    let lines = [];
+
+    /* Construct each line */
+    for (let i = 0; i < instances.length; i++) {
+        let inst = instances[i];
+
+        let line = "const uint_least8_t " + getSymbolicName(inst) + " = "
+            + inst.$name + ";";
+        lines.push(line);
+    }
+
+    return ((lines).join("\n"));
 }
 
 /*
